@@ -27,6 +27,8 @@ Please send an email to **"antr-easyapis@microsoft.com"** requesting early acces
     4. Navigate to API Connections in Azure Portal. 
     5. Delete API Connection.
 
+![Azure Connectors Extension](docs/resources/extension.gif)
+
 ### 'azure-connectors' NPM Package
 
 
