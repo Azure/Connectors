@@ -350,7 +350,4 @@ MigrationBackup/
 .ionide/
 
 .vscode
-**/.gitignore
-**/package-lock.json
-**/proxies.json
 **/sample.dat
