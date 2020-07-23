@@ -1,14 +1,88 @@
+# Azure Connectors Early Access
 
-# Contributing
+**Please email your feedback/questions/suggestions @ "antr-easyapis@microsoft.com"**
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+### Pre-Requisites
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+Please send an email to **"antr-easyapis@microsoft.com"** requesting early access along with your Azure SubscriptionId. 
+    
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+### IMPORTANT
+-  The feature is only enabled in "westcentralus". Create the resource group that holds the API connections in "westcentralus".
+-  Be extremely careful to not leak the API Connection secrets.
+    - Try use test accounts where possible. 
+
+
+### Azure Connectors VSCode Extension
+-  Install Azure Connectors VSCode extension by downloading vsix from [here](https://azureconnectors.blob.core.windows.net/vscode/vscode-azureConnectors-0.1.0-alpha.vsix?sp=r&st=2020-07-22T00:33:37Z&se=2020-11-01T08:33:37Z&spr=https&sv=2019-12-12&sr=b&sig=cceKbkCIGKrpQoX3T48zjsw5FM24CuZEvk60RV4aA6s%3D)
+
+    -  See [instructions](https://code.visualstudio.com/docs/editor/extension-gallery#_install-from-a-vsix) to install vsix for vscode.
+
+-  Supported Features:
+    1. Create API Connections for all the logic apps supported [Connectors](https://docs.microsoft.com/en-us/connectors/connector-reference/connector-reference-logicapps-connectors).
+    2. Authorize API Connection
+        1. OAuth consent flows for connectors like dropbox, twitter, office365 etc
+        2. Specify secrets for connectors like azure storage. 
+    3. Generate connection string(secret) to clipboard. Used to invoke API COnnections.
+    4. Navigate to API Connections in Azure Portal. 
+    5. Delete API Connection.
+
+### 'azure-connectors' NPM Package
+
+
+    npm install azure-connectors
+
+
+Currently supports over 40 widely used connectors. 
+
+The generated package is isomorphic. That is it can be used for both browser client and/or node server solutions.
+
+Example for Node (TypeScript)
+```typescript
+import { TwitterConnector } from 'azure-connectors'; 
+.......
+.......
+
+// Assuming you have via vscode extension
+//     Created twitter connection.
+//     Authorized the connection.
+//     Acquired the connection secret string.
+// Installed the azure-connectors npm package.
+
+const twitter: TwitterConnector = new TwitterConnector("<ConnectionString>");
+
+const homeTimeline = await twitter.homeTimeline();
+console.log(homeTimelineResponse[0].TweetText);
+
+```
+
+Example for Browser (JavaScript)
+```javascript
+import { TwitterConnector } from 'azure-connectors'; 
+.......
+.......
+
+// Assuming you have via vscode extension
+//     Created twitter connection.
+//     Authorized the connection.
+//     Acquired the connection secret string.
+// Installed the azure-connectors npm package.
+
+const twitter = new TwitterConnector("<ConnectionString>");
+
+twitter.homeTimeline()
+.then(homeTimeline => {
+    console.log(homeTimelineResponse[0].TweetText);
+})
+.catch(error => {
+    console.log(error);
+});
+```
+
+### Samples
+
+Check out the [**samples**](https://github.com/Azure/Azure-Connectors/tree/private-preview) folder on how to leverage azure-connectors npm package in Azure Functions. 
+
+
+
+
