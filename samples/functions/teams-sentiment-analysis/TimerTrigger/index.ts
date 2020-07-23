@@ -4,7 +4,9 @@ import { MultiLanguageInput, SentimentResult } from "azure-connectors/dist/src/c
 import { GetMessagesFromChannelResponse } from "azure-connectors/dist/src/teams/Responses"
 import { ClientSendMessage } from "azure-connectors/dist/src/outlook/Models"
 
-
+// This example uses Microsoft Teams, Cognitive Services Text Analytics, Dropbox, and Outlook Connectors
+// to detect the sentiment of messages being sent in a teams channel and send email notifications when 
+// the conversation becomes too positive or negative.
 const timerTrigger: AzureFunction = async function (context: Context, myTimer: any): Promise<void> {
 
     // Construct the connector objects we need, using the connection string provided by the Azure Connectors VSCode extension
@@ -47,25 +49,35 @@ const timerTrigger: AzureFunction = async function (context: Context, myTimer: a
 };
 
 const getFullChatHistory = async function (teamsConnector: MicrosoftTeamsConnector, groupId: string, channelId: string): Promise<string> {
+    // Get the full chat history from the teams channel
     const teamsMessages: GetMessagesFromChannelResponse = await teamsConnector.getMessagesFromChannel(groupId, channelId)
+    // Add all the messages together
     let fullChatHistory = ""
     teamsMessages.value.forEach((message) => {
         const text: string = (<any>message).body.content
+        // This is a simple format. You could add more interesting information like 
+        // timestamps and authors via message.body.author, message.body.date
         fullChatHistory += ` ${text} `
     })
     return Promise.resolve(fullChatHistory)
 }
 
 const getStoredMessages = async function (dropboxConnector: DropboxConnector): Promise<string> {
+    // Get the text stored in the "log" file in dropbox. The log file is just a text file
     const getFileContentResponse = await dropboxConnector.getFileContent("azure-connectors-proof-of-concept.txt", true)
+    // Unescape the string, because the dropbox connector has a quirk where it adds quotation marks around the retreived content
     const currentFileContent = getFileContentResponse._response.bodyAsText.replace(/\"/g, "")
     return Promise.resolve(currentFileContent)
 }
 
-const getNewMessages = async function (teamsConnector: MicrosoftTeamsConnector, dropboxConnector: DropboxConnector, groupId: string, channelId: string): Promise<string> {
-    const allMessages: string = await getFullChatHistory(teamsConnector, groupId, channelId)
+const getNewMessages = async function (teamsConnector: MicrosoftTeamsConnector, dropboxConnector: DropboxConnector, teamId: string, channelId: string): Promise<string> {
+    // Get the full chat history from the teams channel
+    const allMessages: string = await getFullChatHistory(teamsConnector, teamId, channelId)
+    // Get the text stored in the dropbox log file
     const storedMessages: string = await getStoredMessages(dropboxConnector)
+    // Get new messages by finding the difference between the two strings
     const newMessages: string = allMessages.replace(storedMessages, "")
+    // Update the log file in dropbox with the full chat history
     await dropboxConnector.updateFile(allMessages, "azure-connectors-proof-of-concept.txt")
     return newMessages;
 }
