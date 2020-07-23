@@ -35,8 +35,6 @@ Please send an email to **"antr-easyapis@microsoft.com"** requesting early acces
 
 Currently supports over 40 widely used connectors. 
 
-The generated package is isomorphic. That is it can be used for both browser client and/or node server solutions.
-
 Example for Node (TypeScript)
 ```typescript
 import { TwitterConnector } from 'azure-connectors'; 
