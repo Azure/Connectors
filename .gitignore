@@ -353,7 +353,4 @@ MigrationBackup/
 **/.gitignore
 **/package-lock.json
 **/proxies.json
-**/tsconfig.json
-**/.funcignore
 **/sample.dat
-**/host.json
