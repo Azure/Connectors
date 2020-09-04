@@ -14,7 +14,7 @@ Please send an email to **"antr-easyapis@microsoft.com"** requesting early acces
 
 
 ### Azure API Connections VSCode Extension
--  Install Azure Connectors VSCode extension by downloading vsix from [here](https://azureconnectors.blob.core.windows.net/vscode/vscode-azureAPIConnections-0.0.2-alpha.vsix?sp=r&st=2020-09-04T17:38:13Z&se=2021-10-02T01:38:13Z&spr=https&sv=2019-12-12&sr=b&sig=08HDjMB52qKY0GV5GepwhJwyNLy9X7gNeP7KA%2Fn0QWM%3D)
+-  Install Azure Connectors VSCode extension by downloading vsix from [here](https://azureconnectors.blob.core.windows.net/vscode/vscode-azureAPIConnections-0.0.3-alpha.vsix?sp=r&st=2020-09-04T18:45:53Z&se=2021-07-05T02:45:53Z&spr=https&sv=2019-12-12&sr=b&sig=GdYTlqBqL73UN9LOTwZuqUCRh20FcJ9cf5HdCY587No%3D)
 
     -  See [instructions](https://code.visualstudio.com/docs/editor/extension-gallery#_install-from-a-vsix) to install vsix for vscode.
 
