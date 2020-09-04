@@ -16,5 +16,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/HttpTrigger/index.js"
+  "scriptFile": "../dist/TwitterSentimentScore/index.js"
 }
