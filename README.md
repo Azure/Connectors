@@ -1,4 +1,5 @@
-# Azure Connectors Early Access
+# Azure Connectors Private Preview 
+
 
 **Please email your feedback/questions/suggestions @ "antr-easyapis@microsoft.com"**
 
