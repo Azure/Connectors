@@ -1,0 +1,555 @@
+{
+  "basePath": "/apim/azureadip",
+  "consumes": [],
+  "definitions": {
+    "Get_History": {
+      "description": "Get History Data",
+      "properties": {
+        "@@odata.context": {
+          "type": "string"
+        },
+        "value": {
+          "items": {
+            "properties": {
+              "activity": {
+                "properties": {
+                  "detail": {},
+                  "eventTypes": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "riskEventTypes": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              },
+              "id": {
+                "type": "string"
+              },
+              "initiatedBy": {},
+              "isDeleted": {
+                "type": "boolean"
+              },
+              "isProcessing": {
+                "type": "boolean"
+              },
+              "riskDetail": {
+                "type": "string"
+              },
+              "riskLastUpdatedDateTime": {
+                "type": "string"
+              },
+              "riskLevel": {
+                "type": "string"
+              },
+              "riskState": {
+                "type": "string"
+              },
+              "userDisplayName": {
+                "type": "string"
+              },
+              "userId": {
+                "type": "string"
+              },
+              "userPrincipalName": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "isDeleted",
+              "isProcessing",
+              "riskLevel",
+              "riskState",
+              "riskDetail",
+              "riskLastUpdatedDateTime",
+              "userDisplayName",
+              "userPrincipalName",
+              "userId",
+              "initiatedBy",
+              "activity"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "Get_Risk_User_Result": {
+      "description": "Get risk user result",
+      "properties": {
+        "@@odata.context": {
+          "type": "string"
+        },
+        "id": {
+          "description": "Unique ID of the user at risk",
+          "type": "string"
+        },
+        "isDeleted": {
+          "description": "Indicates whether the user is deleted. Possible values are: true, false",
+          "type": "boolean"
+        },
+        "isProcessing": {
+          "description": "Indicates whether a user's risky state is being processed by the backend",
+          "type": "boolean"
+        },
+        "riskDetail": {
+          "description": "Details of the detected risk",
+          "type": "string"
+        },
+        "riskLastUpdatedDateTime": {
+          "description": "The date and time that the risky user was last updated.",
+          "type": "string"
+        },
+        "riskLevel": {
+          "description": "Level of the detected risky user",
+          "type": "string"
+        },
+        "riskState": {
+          "description": "The date and time that the risky user was last updated",
+          "type": "string"
+        },
+        "userDisplayName": {
+          "description": "Risky user display name",
+          "type": "string"
+        },
+        "userPrincipalName": {
+          "description": "Risky user principal name",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Get_riskDetection": {
+      "description": "This API provides programmatic access to all risk detections in your Azure AD environment",
+      "properties": {
+        "@@odata.type": {
+          "type": "string"
+        },
+        "activity": {
+          "description": "Indicates the activity type the detected risk is linked to",
+          "type": "string"
+        },
+        "activityDateTime": {
+          "description": "Date and time that the risky activity occurred",
+          "type": "string"
+        },
+        "additionalInfo": {
+          "description": "Additional information associated with the risk detection in JSON format.",
+          "type": "string"
+        },
+        "correlationId": {
+          "description": "Correlation ID of the sign-in associated with the risk detection. This property is null if the risk detection is not associated with a sign-in",
+          "type": "string"
+        },
+        "detectedDateTime": {
+          "description": "Date and time that the risk was detected",
+          "type": "string"
+        },
+        "detectionTimingType": {
+          "description": "Date and time that the risk was detected",
+          "type": "string"
+        },
+        "id": {
+          "description": "Unique ID of the risk detection. Inherited from entity",
+          "type": "string"
+        },
+        "ipAddress": {
+          "description": "Provides the IP address of the client from where the risk occurred.",
+          "type": "string"
+        },
+        "lastUpdatedDateTime": {
+          "description": "Date and time that the risk detection was last updated",
+          "type": "string"
+        },
+        "location": {
+          "description": "Location of the sign-in",
+          "properties": {
+            "@@odata.type": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "requestId": {
+          "description": "Request ID of the sign-in associated with the risk detection. This property is null if the risk detection is not associated with a sign-in",
+          "type": "string"
+        },
+        "riskDetail": {
+          "description": "Details of the detected risk",
+          "type": "string"
+        },
+        "riskEventType": {
+          "description": "The type of risk event detected",
+          "type": "string"
+        },
+        "riskLevel": {
+          "description": "Level of the detected risk",
+          "type": "string"
+        },
+        "riskState": {
+          "description": "The state of a detected risky user or sign-in",
+          "type": "string"
+        },
+        "source": {
+          "description": "Source of the risk detection",
+          "type": "string"
+        },
+        "tokenIssuerType": {
+          "description": "Indicates the type of token issuer for the detected sign-in risk",
+          "type": "string"
+        },
+        "userDisplayName": {
+          "description": "The user principal name (UPN) of the user",
+          "type": "string"
+        },
+        "userId": {
+          "description": "Unique ID of the user",
+          "type": "string"
+        },
+        "userPrincipalName": {
+          "description": "The user principal name (UPN) of the user.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Get_risk_history": {
+      "description": "Represents the risk history of an Azure AD user as determined by Azure AD Identity Protection",
+      "properties": {
+        "@@odata.type": {
+          "type": "string"
+        },
+        "activity": {
+          "description": "The activity related to user risk level change",
+          "properties": {
+            "@@odata.type": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "id": {
+          "description": "Inherited from entity",
+          "type": "string"
+        },
+        "initiatedBy": {
+          "description": "The id of actor that does the operation",
+          "type": "string"
+        },
+        "isDeleted": {
+          "description": "Inherited from riskyUser",
+          "type": "string"
+        },
+        "isProcessing": {
+          "description": "Inherited from riskyUser",
+          "type": "string"
+        },
+        "riskDetail": {
+          "description": "Inherited from riskyUser",
+          "type": "string"
+        },
+        "riskLastUpdatedDateTime": {
+          "description": "Inherited from riskyUser",
+          "type": "string"
+        },
+        "riskLevel": {
+          "description": "Inherited from riskyUser",
+          "type": "string"
+        },
+        "riskState": {
+          "description": "Inherited from riskyUser",
+          "type": "string"
+        },
+        "userDisplayName": {
+          "description": "Inherited from riskyUser",
+          "type": "string"
+        },
+        "userId": {
+          "description": "The id of the user",
+          "type": "string"
+        },
+        "userPrincipalName": {
+          "description": "Risky user principal name",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/azureadip"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "email": "azuresentinel@microsoft.com",
+      "name": "Microsoft",
+      "url": "https://azure.microsoft.com/"
+    },
+    "description": "Identity Protection is a tool that allows organizations to discover, investigate, and remediate identity-based risks in their environment.",
+    "title": "Azure AD Identity Protection",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    },
+    "x-ms-deployment-version": "1.0.0"
+  },
+  "parameters": {},
+  "paths": {
+    "/{connectionId}/beta/riskDetections/{Id}": {
+      "get": {
+        "deprecated": false,
+        "description": "Get riskDetections ",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azureadip/#get-risk-detections"
+        },
+        "operationId": "riskDetections",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "User Id or user Principal Name",
+            "in": "path",
+            "name": "Id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Get risk detections",
+            "x-ms-url-encoding": "single"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "201",
+            "schema": {
+              "$ref": "#/definitions/Get_riskDetection"
+            }
+          }
+        },
+        "summary": "Get risk detections",
+        "x-ms-no-generic-test": true
+      }
+    },
+    "/{connectionId}/beta/riskyUsers/confirmCompromised": {
+      "post": {
+        "description": "Confirm a risky user as compromised",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azureadip/#confirm-a-risky-user-as-compromised"
+        },
+        "operationId": "ConfirmRiskUser",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "userIds": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK"
+          }
+        },
+        "summary": "Confirm a risky user as compromised",
+        "x-ms-summary": "confirmCompromised user"
+      }
+    },
+    "/{connectionId}/beta/riskyUsers/dismiss": {
+      "post": {
+        "description": "Dismiss a risky user",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azureadip/#dismiss-a-risky-user"
+        },
+        "operationId": "DismissRiskUser",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "userIds": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK"
+          }
+        },
+        "summary": "Dismiss a risky user",
+        "x-ms-summary": "Dismiss a risky user"
+      }
+    },
+    "/{connectionId}/beta/riskyUsers/{Id}": {
+      "get": {
+        "deprecated": false,
+        "description": "Get a specific risky user and its properties",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azureadip/#get-risky-user"
+        },
+        "operationId": "GetRiskUser",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "User Id or user Principal name",
+            "in": "path",
+            "name": "Id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Get Risk User",
+            "x-ms-url-encoding": "single"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "201",
+            "schema": {
+              "$ref": "#/definitions/Get_Risk_User_Result"
+            }
+          }
+        },
+        "summary": "Get risky user",
+        "x-ms-no-generic-test": true
+      }
+    },
+    "/{connectionId}/beta/riskyUsers/{Id}/history": {
+      "get": {
+        "description": "Get the risk history",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azureadip/#get-the-risk-history-of-a-risky-user"
+        },
+        "operationId": "GetRiskUserHistory",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "User Id or user Principal Name",
+            "in": "path",
+            "name": "Id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Get history risk for user "
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "201",
+            "schema": {
+              "$ref": "#/definitions/Get_risk_history"
+            }
+          }
+        },
+        "summary": "Get the risk history of a risky user",
+        "x-ms-summary": "History user Data"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "responses": {},
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "oauth2_auth": [
+        "Directory.ReadWrite.All",
+        "Group.ReadWrite.All",
+        "User.ReadWrite.All",
+        "offline_access",
+        "IdentityRiskEvent.Read.All",
+        "IdentityRiskEvent.ReadWrite.All",
+        "IdentityRiskyUser.Read.All",
+        "IdentityRiskyUser.ReadWrite.All"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "oauth2_auth": {
+      "authorizationUrl": "https://login.windows.net/common/oauth2/authorize",
+      "flow": "accessCode",
+      "scopes": {
+        "Directory.ReadWrite.All": "Directory.ReadWrite.All",
+        "Group.ReadWrite.All": "Group.ReadWrite.All",
+        "IdentityRiskEvent.Read.All": "IdentityRiskEvent.Read.All",
+        "IdentityRiskEvent.ReadWrite.All": "IdentityRiskEvent.ReadWrite.All",
+        "IdentityRiskyUser.Read.All": "IdentityRiskyUser.Read.All",
+        "IdentityRiskyUser.ReadWrite.All": "IdentityRiskyUser.ReadWrite.All",
+        "User.ReadWrite.All": "User.ReadWrite.All",
+        "offline_access": "offline_access"
+      },
+      "tokenUrl": "https://login.windows.net/common/oauth2/authorize",
+      "type": "oauth2"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [],
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://www.microsoft.com"
+    },
+    {
+      "propertyName": "Privacy policy",
+      "propertyValue": "https://privacy.microsoft.com/en-us/privacystatement"
+    },
+    {
+      "propertyName": "Categories",
+      "propertyValue": "Website"
+    }
+  ]
+}

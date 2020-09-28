@@ -1,0 +1,284 @@
+{
+  "basePath": "/apim/translatorv2",
+  "definitions": {
+    "Language": {
+      "description": "Language Model for Microsoft Translator translatable languages",
+      "properties": {
+        "Code": {
+          "description": "Gets or sets the language code.",
+          "type": "string",
+          "x-ms-summary": "Language Code"
+        },
+        "Name": {
+          "description": "Gets or sets the language name.",
+          "type": "string",
+          "x-ms-summary": "Language Name"
+        }
+      },
+      "type": "object"
+    },
+    "TextBody": {
+      "description": "Body containing text to translate or detect",
+      "properties": {
+        "Text": {
+          "description": "Text to translate or detect",
+          "type": "string",
+          "x-ms-summary": "Text",
+          "x-ms-visibility": "important"
+        }
+      },
+      "required": [
+        "Text"
+      ],
+      "type": "object",
+      "x-ms-test-value": {
+        "Text": "Hola"
+      }
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/translatorv2"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Microsoft Translator lets you translate text across multiple languages.",
+    "title": "Microsoft Translator V2",
+    "version": "2.0",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    }
+  },
+  "paths": {
+    "/{connectionId}/Detect": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "deprecated": false,
+        "description": "Detects the source language of the given text.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/translatorv2/#detect-language"
+        },
+        "operationId": "Detect",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TextBody"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Language"
+            }
+          },
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Detect language",
+        "tags": [
+          "MicrosoftTranslator"
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/Languages": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Retrieves all languages that Microsoft Translator supports for translation, transliteration or dictionary scopes",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/translatorv2/#get-languages"
+        },
+        "operationId": "Languages",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": "translation",
+            "description": "The scope of supported languages: translation, transliteration or dictionary",
+            "in": "query",
+            "name": "scope",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Scope",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/Language"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Get languages",
+        "tags": [
+          "MicrosoftTranslator"
+        ],
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/Translate": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "deprecated": false,
+        "description": "Translates text to a specified language using Microsoft Translator.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/translatorv2/#translate-text"
+        },
+        "operationId": "Translate",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The target language code (example: 'fr').",
+            "in": "query",
+            "name": "to",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "Languages",
+              "value-path": "Code",
+              "value-title": "Name"
+            },
+            "x-ms-summary": "Target Language",
+            "x-ms-test-value": "en"
+          },
+          {
+            "description": "The source language (if not provided, Microsoft Translator will try to auto-detect) (example: en).",
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "Languages",
+              "value-path": "Code",
+              "value-title": "Name"
+            },
+            "x-ms-summary": "Source Language",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The translation category (default: 'general').",
+            "in": "query",
+            "name": "category",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Category",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The text type (default: 'plain').",
+            "enum": [
+              "plain",
+              "html"
+            ],
+            "in": "query",
+            "name": "textType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Text Type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TextBody"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string",
+              "x-ms-summary": "Translated Text"
+            }
+          },
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Translate text",
+        "tags": [
+          "MicrosoftTranslator"
+        ],
+        "x-ms-visibility": "important"
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-capabilities": {
+    "testConnection": {
+      "operationId": "Languages",
+      "parameters": {
+        "scope": "translation"
+      }
+    }
+  },
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://www.microsoft.com/translator/"
+    }
+  ]
+}

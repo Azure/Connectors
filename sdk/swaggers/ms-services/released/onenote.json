@@ -1,0 +1,1716 @@
+{
+  "basePath": "/apim/onenote",
+  "definitions": {
+    "CreateSectionInNotebookResponse": {
+      "properties": {
+        "@odata.context": {
+          "description": "The OData context.",
+          "type": "string",
+          "x-ms-summary": "OData context",
+          "x-ms-visibility": "advanced"
+        },
+        "createdBy": {
+          "description": "This section created by name.",
+          "type": "string",
+          "x-ms-summary": "Created by name",
+          "x-ms-visibility": "advanced"
+        },
+        "createdTime": {
+          "description": "This section created time.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Created time",
+          "x-ms-visibility": "advanced"
+        },
+        "id": {
+          "type": "string",
+          "x-ms-summary": "Create section in notebook object id",
+          "x-ms-visibility": "advanced"
+        },
+        "isDefault": {
+          "description": "A flag to indication if this is the default section.",
+          "type": "boolean",
+          "x-ms-summary": "Default section flag",
+          "x-ms-visibility": "advanced"
+        },
+        "lastModifiedBy": {
+          "description": "Last modified by name.",
+          "type": "string",
+          "x-ms-summary": "Last Modified By",
+          "x-ms-visibility": "advanced"
+        },
+        "lastModifiedTime": {
+          "description": "The time this section was last modified.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Last Modified Time",
+          "x-ms-visibility": "advanced"
+        },
+        "links": {
+          "description": "OneNote client links.",
+          "properties": {
+            "oneNoteClientUrl": {
+              "description": "The link to open in the OneNote desktop client.",
+              "properties": {
+                "href": {
+                  "description": "OneNote desktop client href.",
+                  "type": "string",
+                  "x-ms-summary": "Desktop client href",
+                  "x-ms-visibility": "advanced"
+                }
+              },
+              "type": "object",
+              "x-ms-summary": "OneNote Client Url",
+              "x-ms-visibility": "advanced"
+            },
+            "oneNoteWebUrl": {
+              "description": "The link to open in the OneNote web client.",
+              "properties": {
+                "href": {
+                  "description": "OneNote web client href.",
+                  "type": "string",
+                  "x-ms-summary": "Web client href",
+                  "x-ms-visibility": "advanced"
+                }
+              },
+              "type": "object",
+              "x-ms-summary": "OneNote Web Url",
+              "x-ms-visibility": "advanced"
+            }
+          },
+          "type": "object",
+          "x-ms-summary": "OneNote client links",
+          "x-ms-visibility": "advanced"
+        },
+        "name": {
+          "description": "The name of the section.",
+          "type": "string",
+          "x-ms-summary": "Section Name",
+          "x-ms-visibility": "advanced"
+        },
+        "pagesUrl": {
+          "description": "The url of the pages.",
+          "type": "string",
+          "x-ms-summary": "The pages Url",
+          "x-ms-visibility": "advanced"
+        },
+        "self": {
+          "description": "The url to create section in notebook group.",
+          "type": "string",
+          "x-ms-summary": "Url to create section in notebook",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "CreateSectionRequest": {
+      "properties": {
+        "name": {
+          "description": "The name of the new section.",
+          "type": "string",
+          "x-ms-summary": "Name of the new section",
+          "x-ms-visibility": "important"
+        }
+      },
+      "type": "object"
+    },
+    "GetPageResponse": {
+      "properties": {
+        "@odata.context": {
+          "description": "The OData context.",
+          "type": "string",
+          "x-ms-summary": "OData context",
+          "x-ms-visibility": "advanced"
+        },
+        "value": {
+          "description": "This page response value.",
+          "items": {
+            "properties": {
+              "contentUrl": {
+                "description": "Content url for this page.",
+                "type": "string",
+                "x-ms-summary": "Content URL property value",
+                "x-ms-visibility": "advanced"
+              },
+              "createdByAppId": {
+                "description": "Created by app id.",
+                "type": "string",
+                "x-ms-summary": "Created by appId",
+                "x-ms-visibility": "advanced"
+              },
+              "createdTime": {
+                "description": "The created time of the page.",
+                "format": "date-time",
+                "type": "string",
+                "x-ms-summary": "The created time of the page",
+                "x-ms-visibility": "advanced"
+              },
+              "id": {
+                "type": "string",
+                "x-ms-summary": "Id",
+                "x-ms-visibility": "advanced"
+              },
+              "lastModifiedTime": {
+                "description": "The last modified time of the page.",
+                "format": "date-time",
+                "type": "string",
+                "x-ms-summary": "Last modified time of the page",
+                "x-ms-visibility": "advanced"
+              },
+              "links": {
+                "description": "The collection of links to access this content.",
+                "properties": {
+                  "oneNoteClientUrl": {
+                    "description": "The OneNote desktop client url.",
+                    "properties": {
+                      "href": {
+                        "description": "OneNote desktop client href.",
+                        "type": "string",
+                        "x-ms-summary": "The link to open in the OneNote desktop client",
+                        "x-ms-visibility": "advanced"
+                      }
+                    },
+                    "type": "object",
+                    "x-ms-summary": "OneNote desktop client url",
+                    "x-ms-visibility": "advanced"
+                  },
+                  "oneNoteWebUrl": {
+                    "description": "OneNote web client url.",
+                    "properties": {
+                      "href": {
+                        "description": "OneNote web client href.",
+                        "type": "string",
+                        "x-ms-summary": "The link to open in OneNote web client",
+                        "x-ms-visibility": "advanced"
+                      }
+                    },
+                    "type": "object",
+                    "x-ms-summary": "OneNote web client url",
+                    "x-ms-visibility": "advanced"
+                  }
+                },
+                "type": "object",
+                "x-ms-summary": "Collection of links for this content",
+                "x-ms-visibility": "advanced"
+              },
+              "parentSection": {
+                "description": "Get page response parent section.",
+                "properties": {
+                  "id": {
+                    "description": "Page response parent section id.",
+                    "type": "string",
+                    "x-ms-summary": "Parent section id",
+                    "x-ms-visibility": "advanced"
+                  },
+                  "name": {
+                    "description": "The parent section name.",
+                    "type": "string",
+                    "x-ms-summary": "Parent section name",
+                    "x-ms-visibility": "advanced"
+                  },
+                  "self": {
+                    "description": "The url to this parent section.",
+                    "type": "string",
+                    "x-ms-summary": "Parent section url",
+                    "x-ms-visibility": "advanced"
+                  }
+                },
+                "type": "object",
+                "x-ms-summary": "Parent section",
+                "x-ms-visibility": "advanced"
+              },
+              "parentSection@odata.context": {
+                "description": "The parent section OData context.",
+                "type": "string",
+                "x-ms-summary": "Parent section OData context",
+                "x-ms-visibility": "advanced"
+              },
+              "self": {
+                "description": "The url to this page object.",
+                "type": "string",
+                "x-ms-summary": "This page object url",
+                "x-ms-visibility": "advanced"
+              },
+              "title": {
+                "description": "The page title.",
+                "type": "string",
+                "x-ms-summary": "The page title",
+                "x-ms-visibility": "advanced"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "Get page response object value",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "GetPagesInSectionResponse": {
+      "properties": {
+        "@odata.context": {
+          "description": "The OData context.",
+          "type": "string",
+          "x-ms-summary": "OData context",
+          "x-ms-visibility": "advanced"
+        },
+        "value": {
+          "description": "value",
+          "items": {
+            "properties": {
+              "contentUrl": {
+                "description": "The content url.",
+                "type": "string",
+                "x-ms-summary": "Content Url",
+                "x-ms-visibility": "advanced"
+              },
+              "createdByAppId": {
+                "description": "The created by app id.",
+                "type": "string",
+                "x-ms-summary": "Created by app id",
+                "x-ms-visibility": "advanced"
+              },
+              "createdTime": {
+                "description": "The created time for this response.",
+                "format": "date-time",
+                "type": "string",
+                "x-ms-summary": "Created time",
+                "x-ms-visibility": "advanced"
+              },
+              "id": {
+                "description": "The unique identifier for this response.",
+                "type": "string",
+                "x-ms-summary": "Unique identifier for response",
+                "x-ms-visibility": "advanced"
+              },
+              "lastModifiedTime": {
+                "description": "The last modified time for this object.",
+                "format": "date-time",
+                "type": "string",
+                "x-ms-summary": "Last modified time",
+                "x-ms-visibility": "advanced"
+              },
+              "links": {
+                "description": "A collection of links for this object.",
+                "properties": {
+                  "oneNoteClientUrl": {
+                    "description": "The OneNote desktop client url.",
+                    "properties": {
+                      "href": {
+                        "description": "OneNote desktop client href.",
+                        "type": "string",
+                        "x-ms-summary": "OneNote desktop client href",
+                        "x-ms-visibility": "advanced"
+                      }
+                    },
+                    "type": "object",
+                    "x-ms-summary": "OneNote client url",
+                    "x-ms-visibility": "advanced"
+                  },
+                  "oneNoteWebUrl": {
+                    "description": "The OneNote web client url.",
+                    "properties": {
+                      "href": {
+                        "description": "OneNote web client href.",
+                        "type": "string",
+                        "x-ms-summary": "OneNote web client href",
+                        "x-ms-visibility": "advanced"
+                      }
+                    },
+                    "type": "object",
+                    "x-ms-summary": "OneNote web client url",
+                    "x-ms-visibility": "advanced"
+                  }
+                },
+                "type": "object",
+                "x-ms-summary": "Collection of links for this object",
+                "x-ms-visibility": "advanced"
+              },
+              "parentSection": {
+                "description": "parentSection",
+                "properties": {
+                  "id": {
+                    "description": "The unique identifier for this object parent section.",
+                    "type": "string",
+                    "x-ms-summary": "Parent section unique identifier",
+                    "x-ms-visibility": "advanced"
+                  },
+                  "name": {
+                    "type": "string",
+                    "x-ms-summary": "Parent section name",
+                    "x-ms-visibility": "advanced"
+                  },
+                  "self": {
+                    "description": "The url to the pages in section parent section.",
+                    "type": "string",
+                    "x-ms-summary": "Pages in Section parent section",
+                    "x-ms-visibility": "advanced"
+                  }
+                },
+                "type": "object",
+                "x-ms-summary": "Parent Section",
+                "x-ms-visibility": "advanced"
+              },
+              "parentSection@odata.context": {
+                "description": "Parent Section OData context.",
+                "type": "string",
+                "x-ms-summary": "Parent Section OData context",
+                "x-ms-visibility": "advanced"
+              },
+              "self": {
+                "description": "The url to the Pages In Section group.",
+                "type": "string",
+                "x-ms-summary": "Pages In Section group",
+                "x-ms-visibility": "advanced"
+              },
+              "title": {
+                "description": "Page title.",
+                "type": "string",
+                "x-ms-summary": "Page title",
+                "x-ms-visibility": "advanced"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "Pages in section value object",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "Link": {
+      "description": "The links associated with the OneNote page.",
+      "properties": {
+        "oneNoteClientUrl": {
+          "$ref": "#/definitions/OneNoteClientUrl"
+        },
+        "oneNoteWebUrl": {
+          "$ref": "#/definitions/OneNoteWebUrl"
+        }
+      },
+      "required": [
+        "oneNoteClientUrl",
+        "oneNoteWebUrl"
+      ],
+      "type": "object"
+    },
+    "NewPageResponse": {
+      "description": "Response for a new page.",
+      "properties": {
+        "value": {
+          "description": "An array of objects, each representing a specific page.",
+          "items": {
+            "$ref": "#/definitions/Page"
+          },
+          "type": "array",
+          "x-ms-summary": "Pages"
+        }
+      },
+      "type": "object"
+    },
+    "NewSectionGroupResponse": {
+      "description": "Response for a new section group.",
+      "properties": {
+        "value": {
+          "description": "An array of objects, each representing a specific section group.",
+          "items": {
+            "$ref": "#/definitions/SectionGroupResponse"
+          },
+          "type": "array",
+          "x-ms-summary": "Section Groups"
+        }
+      },
+      "type": "object"
+    },
+    "NewSectionResponse": {
+      "description": "Response for a new section.",
+      "properties": {
+        "value": {
+          "description": "An array of objects, each representing a specific section.",
+          "items": {
+            "$ref": "#/definitions/SectionResponse"
+          },
+          "type": "array",
+          "x-ms-summary": "Sections"
+        }
+      },
+      "type": "object"
+    },
+    "Notebook": {
+      "properties": {
+        "FileName": {
+          "type": "string"
+        },
+        "Key": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "OneNoteClientUrl": {
+      "properties": {
+        "href": {
+          "description": "A link to the notebook using the OneNote windows client.",
+          "type": "string",
+          "x-ms-summary": "OneNote client url",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "required": [
+        "href"
+      ],
+      "type": "object"
+    },
+    "OneNoteWebUrl": {
+      "properties": {
+        "href": {
+          "description": "A link to the notebook using the OneNote web client.",
+          "type": "string",
+          "x-ms-summary": "OneNote web url",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "required": [
+        "href"
+      ],
+      "type": "object"
+    },
+    "Page": {
+      "properties": {
+        "contentUrl": {
+          "description": "A url to the page content.",
+          "type": "string",
+          "x-ms-summary": "Content Url",
+          "x-ms-visibility": "advanced"
+        },
+        "createdTime": {
+          "description": "The date the page was created.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Created Date",
+          "x-ms-visibility": "advanced"
+        },
+        "id": {
+          "description": "The unique identifier of the page.",
+          "type": "string",
+          "x-ms-summary": "Id",
+          "x-ms-visibility": "advanced"
+        },
+        "lastModifiedTime": {
+          "description": "The last modified date of the page.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Last Modified Date",
+          "x-ms-visibility": "advanced"
+        },
+        "links": {
+          "$ref": "#/definitions/Link"
+        },
+        "title": {
+          "description": "The title of the page.",
+          "type": "string",
+          "x-ms-summary": "Page title",
+          "x-ms-visibility": "important"
+        }
+      },
+      "type": "object"
+    },
+    "ParentNotebook": {
+      "properties": {
+        "id": {
+          "description": "The unique identifier of the parent notebook.",
+          "type": "string",
+          "x-ms-summary": "Parent Notebook Key",
+          "x-ms-visibility": "advanced"
+        },
+        "name": {
+          "description": "The name of the parent notebook.",
+          "type": "string",
+          "x-ms-summary": "Parent Notebook Name",
+          "x-ms-visibility": "advanced"
+        },
+        "self": {
+          "description": "A url link to the parent notebook.",
+          "type": "string",
+          "x-ms-summary": "Parent Notebook Url",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "SectionGroupResponse": {
+      "description": "The fields included in a section group.",
+      "properties": {
+        "createdBy": {
+          "description": "The creator of the section group.",
+          "type": "string",
+          "x-ms-summary": "Creator",
+          "x-ms-visibility": "advanced"
+        },
+        "createdTime": {
+          "description": "The creation date and time of the section group.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Creation date",
+          "x-ms-visibility": "advanced"
+        },
+        "id": {
+          "description": "Unique identifier of the section group.",
+          "type": "string",
+          "x-ms-summary": "Identifier",
+          "x-ms-visibility": "advanced"
+        },
+        "lastModifiedBy": {
+          "description": "The user who last modified the section group.",
+          "type": "string",
+          "x-ms-summary": "Last modifier",
+          "x-ms-visibility": "advanced"
+        },
+        "lastModifiedTime": {
+          "description": "The last modification date and time of the section group.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Last modified date",
+          "x-ms-visibility": "advanced"
+        },
+        "name": {
+          "description": "The name of the section group.",
+          "type": "string",
+          "x-ms-summary": "Name",
+          "x-ms-visibility": "important"
+        },
+        "sectionsUrl": {
+          "description": "Url of the sections within this section group.",
+          "type": "string",
+          "x-ms-summary": "Sections Url",
+          "x-ms-visibility": "advanced"
+        },
+        "self": {
+          "description": "The url to this section group.",
+          "type": "string",
+          "x-ms-summary": "Section Group Url",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "SectionListItem": {
+      "description": "The fields included in a section list item.",
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the section.",
+          "type": "string",
+          "x-ms-summary": "Section Identifier",
+          "x-ms-visibility": "advanced"
+        },
+        "name": {
+          "description": "The name of the section.",
+          "type": "string",
+          "x-ms-summary": "Section name",
+          "x-ms-visibility": "important"
+        },
+        "pagesUrl": {
+          "description": "The key used to reference this section; also a url to the pages.",
+          "type": "string",
+          "x-ms-summary": "Section key",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "SectionResponse": {
+      "description": "The fields included in a section.",
+      "properties": {
+        "createdBy": {
+          "description": "The creator of the section.",
+          "type": "string",
+          "x-ms-summary": "Creator",
+          "x-ms-visibility": "advanced"
+        },
+        "createdTime": {
+          "description": "The creation date and time of the section.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Creation Date",
+          "x-ms-visibility": "advanced"
+        },
+        "id": {
+          "description": "Unique identifier of the section.",
+          "type": "string",
+          "x-ms-summary": "Section Identifier",
+          "x-ms-visibility": "advanced"
+        },
+        "isDefault": {
+          "description": "Indicates whether it is the default section.",
+          "type": "boolean",
+          "x-ms-summary": "IsDefault",
+          "x-ms-visibility": "internal"
+        },
+        "lastModifiedBy": {
+          "description": "The user who last modified the section.",
+          "type": "string",
+          "x-ms-summary": "Last Modified By",
+          "x-ms-visibility": "advanced"
+        },
+        "lastModifiedTime": {
+          "description": "The last modified date and time of the section.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Last Modified Date",
+          "x-ms-visibility": "advanced"
+        },
+        "name": {
+          "description": "The name of the section.",
+          "type": "string",
+          "x-ms-summary": "Section Name",
+          "x-ms-visibility": "important"
+        },
+        "pagesUrl": {
+          "description": "Url to the pages in this section.",
+          "type": "string",
+          "x-ms-summary": "Pages Url",
+          "x-ms-visibility": "advanced"
+        },
+        "parentNotebook": {
+          "$ref": "#/definitions/ParentNotebook"
+        },
+        "self": {
+          "description": "The url to this section.",
+          "type": "string",
+          "x-ms-summary": "Url",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "UpdatePageContentRequest": {
+      "description": "The content updates to apply to the page.",
+      "items": {
+        "properties": {
+          "action": {
+            "description": "The action to perform on the target element.",
+            "enum": [
+              "append",
+              "insert",
+              "prepend",
+              "replace"
+            ],
+            "type": "string",
+            "x-ms-summary": "Action",
+            "x-ms-visibility": "important"
+          },
+          "content": {
+            "description": "The new content.",
+            "format": "html",
+            "type": "string",
+            "x-ms-summary": "Content",
+            "x-ms-visibility": "important"
+          },
+          "position": {
+            "description": "The location to add the supplied content.",
+            "enum": [
+              "after",
+              "before"
+            ],
+            "type": "string",
+            "x-ms-summary": "Location",
+            "x-ms-visibility": "important"
+          },
+          "target": {
+            "description": "The element to update.",
+            "type": "string",
+            "x-ms-summary": "Target",
+            "x-ms-visibility": "important"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/onenote"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "description": "OneNote is a note taking app from Microsoft that makes it easy to sync your ideas, sketches and notes across all your devices! Connect to your Office 365 account with OneDrive for Business enabled to track new sections, create notes and more.",
+    "title": "OneNote (Business)",
+    "version": "1.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    },
+    "x-ms-deployment-version": "1.0.0"
+  },
+  "paths": {
+    "/{connectionId}/notebooks": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get recent notebooks.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/onenote/#get-recent-notebooks"
+        },
+        "operationId": "GetNotebooks",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/Notebook"
+              },
+              "type": "array"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error. Unknown error occured"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get recent notebooks",
+        "tags": [
+          "OneNote"
+        ]
+      }
+    },
+    "/{connectionId}/notebooks/Dynamic/sections": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "deprecated": false,
+        "description": "Create section in a notebook.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/onenote/#create-section-in-a-notebook"
+        },
+        "operationId": "CreateSectionInNotebook",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "A key identifying the notebook. Note this is specific to the API and cannot be hand-typed.",
+            "in": "query",
+            "name": "notebookKey",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetNotebooks",
+              "value-path": "Key",
+              "value-title": "FileName"
+            },
+            "x-ms-summary": "Notebook Key"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateSectionRequest"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "OK.",
+            "schema": {
+              "$ref": "#/definitions/CreateSectionInNotebookResponse"
+            }
+          }
+        },
+        "summary": "Create section in a notebook",
+        "tags": [
+          "OneNote"
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/notebooks/notebookKey/sections": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get sections in a specific notebook.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/onenote/#get-sections-in-notebook"
+        },
+        "operationId": "GetSectionsInNotebook",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "A key identifying the notebook. Note this is specific to the API and cannot be hand-typed.",
+            "in": "query",
+            "name": "notebookKey",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetNotebooks",
+              "value-path": "Key",
+              "value-title": "FileName"
+            },
+            "x-ms-summary": "Notebook Key"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "properties": {
+                "value": {
+                  "items": {
+                    "$ref": "#/definitions/SectionListItem"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error. Unknown error occured"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get sections in notebook",
+        "tags": [
+          "OneNote"
+        ]
+      }
+    },
+    "/{connectionId}/pages": {
+      "delete": {
+        "deprecated": false,
+        "description": "Delete a page.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/onenote/#delete-a-page"
+        },
+        "operationId": "DeletePage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "A key identifying the notebook. Note this is specific to the API and cannot be hand-typed.",
+            "in": "query",
+            "name": "notebookKey",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetNotebooks",
+              "value-path": "Key",
+              "value-title": "FileName"
+            },
+            "x-ms-summary": "Notebook Key"
+          },
+          {
+            "description": "API URL of the section pages.",
+            "in": "query",
+            "name": "sectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSectionsInNotebook",
+              "parameters": {
+                "notebookKey": {
+                  "parameter": "notebookKey"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "pagesUrl",
+              "value-title": "name"
+            },
+            "x-ms-summary": "Notebook section"
+          },
+          {
+            "description": "Unique id of the page.",
+            "in": "query",
+            "name": "pageId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetPagesInSection",
+              "parameters": {
+                "notebookKey": {
+                  "parameter": "notebookKey"
+                },
+                "sectionId": {
+                  "parameter": "sectionId"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "id",
+              "value-title": "title"
+            },
+            "x-ms-summary": "Page Id"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "OK."
+          }
+        },
+        "summary": "Delete a page",
+        "tags": [
+          "OneNote"
+        ],
+        "x-ms-api-annotation": {
+          "revision": 1,
+          "status": "Preview"
+        }
+      },
+      "post": {
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "deprecated": false,
+        "description": "Create a new page in the Quick Notes section.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/onenote/#create-a-page-in-quick-notes"
+        },
+        "operationId": "CreatePageInQuickNotes",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Page content.",
+            "in": "body",
+            "name": "pageContent",
+            "required": true,
+            "schema": {
+              "format": "html",
+              "type": "string"
+            },
+            "x-ms-summary": "Page Content"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error. Unknown error occured"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Create a page in Quick Notes",
+        "tags": [
+          "OneNote"
+        ]
+      }
+    },
+    "/{connectionId}/pages/Dynamic/content": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get HTML page content.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/onenote/#get-page-content"
+        },
+        "operationId": "GetPageContent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "A key identifying the notebook. Note this is specific to the API and cannot be hand-typed.",
+            "in": "query",
+            "name": "notebookKey",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetNotebooks",
+              "value-path": "Key",
+              "value-title": "FileName"
+            },
+            "x-ms-summary": "Notebook Key"
+          },
+          {
+            "description": "API URL of the section pages.",
+            "in": "query",
+            "name": "sectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSectionsInNotebook",
+              "parameters": {
+                "notebookKey": {
+                  "parameter": "notebookKey"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "pagesUrl",
+              "value-title": "name"
+            },
+            "x-ms-summary": "Notebook section"
+          },
+          {
+            "description": "Unique id of the page.",
+            "in": "query",
+            "name": "pageId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetPagesInSection",
+              "parameters": {
+                "notebookKey": {
+                  "parameter": "notebookKey"
+                },
+                "sectionId": {
+                  "parameter": "sectionId"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "contentUrl",
+              "value-title": "title"
+            },
+            "x-ms-summary": "Page Id"
+          },
+          {
+            "default": true,
+            "in": "query",
+            "name": "preAuthenticated",
+            "required": true,
+            "type": "boolean",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "text/html"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "summary": "Get page content",
+        "tags": [
+          "OneNote"
+        ]
+      },
+      "patch": {
+        "consumes": [
+          "application/json",
+          "text/json"
+        ],
+        "deprecated": false,
+        "description": "Update HTML page content.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/onenote/#update-page-content"
+        },
+        "operationId": "UpdatePageContent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "A key identifying the notebook. Note this is specific to the API and cannot be hand-typed.",
+            "in": "query",
+            "name": "notebookKey",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetNotebooks",
+              "value-path": "Key",
+              "value-title": "FileName"
+            },
+            "x-ms-summary": "Notebook Key"
+          },
+          {
+            "description": "API URL of the section pages.",
+            "in": "query",
+            "name": "sectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSectionsInNotebook",
+              "parameters": {
+                "notebookKey": {
+                  "parameter": "notebookKey"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "pagesUrl",
+              "value-title": "name"
+            },
+            "x-ms-summary": "Notebook section"
+          },
+          {
+            "description": "Unique id of the page.",
+            "in": "query",
+            "name": "pageId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetPagesInSection",
+              "parameters": {
+                "notebookKey": {
+                  "parameter": "notebookKey"
+                },
+                "sectionId": {
+                  "parameter": "sectionId"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "contentUrl",
+              "value-title": "title"
+            },
+            "x-ms-summary": "Page Id"
+          },
+          {
+            "in": "body",
+            "name": "updates",
+            "schema": {
+              "$ref": "#/definitions/UpdatePageContentRequest"
+            },
+            "x-ms-summary": "Update"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "summary": "Update page content",
+        "tags": [
+          "OneNote"
+        ],
+        "x-ms-api-annotation": {
+          "revision": 1,
+          "status": "Preview"
+        }
+      }
+    },
+    "/{connectionId}/sections/Dynamic/pages": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get pages for a specific section.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/onenote/#get-pages-for-a-specific-section"
+        },
+        "operationId": "GetPagesInSection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "A key identifying the notebook. Note this is specific to the API and cannot be hand-typed.",
+            "in": "query",
+            "name": "notebookKey",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetNotebooks",
+              "value-path": "Key",
+              "value-title": "FileName"
+            },
+            "x-ms-summary": "Notebook Key"
+          },
+          {
+            "description": "API URL of the section pages.",
+            "in": "query",
+            "name": "sectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSectionsInNotebook",
+              "parameters": {
+                "notebookKey": {
+                  "parameter": "notebookKey"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "pagesUrl",
+              "value-title": "name"
+            },
+            "x-ms-summary": "Notebook section"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "schema": {
+              "$ref": "#/definitions/GetPagesInSectionResponse"
+            }
+          }
+        },
+        "summary": "Get pages for a specific section",
+        "tags": [
+          "OneNote"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "deprecated": false,
+        "description": "Create new page in a specified section.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/onenote/#create-page-in-a-section"
+        },
+        "operationId": "CreatePageInSection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "A key identifying the notebook. Note this is specific to the API and cannot be hand-typed.",
+            "in": "query",
+            "name": "notebookKey",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetNotebooks",
+              "value-path": "Key",
+              "value-title": "FileName"
+            },
+            "x-ms-summary": "Notebook Key"
+          },
+          {
+            "description": "API URL of the section pages.",
+            "in": "query",
+            "name": "sectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSectionsInNotebook",
+              "parameters": {
+                "notebookKey": {
+                  "parameter": "notebookKey"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "pagesUrl",
+              "value-title": "name"
+            },
+            "x-ms-summary": "Notebook section"
+          },
+          {
+            "description": "Page content.",
+            "in": "body",
+            "name": "pageContent",
+            "required": true,
+            "schema": {
+              "format": "html",
+              "type": "string"
+            },
+            "x-ms-summary": "Page Content"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Page"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error. Unknown error occured"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Create page in a section",
+        "tags": [
+          "OneNote"
+        ]
+      }
+    },
+    "/{connectionId}/trigger1/notebooks/notebookKey/sections": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Triggers a flow when a new section is added to a notebook.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/onenote/#when-a-new-section-is-created"
+        },
+        "operationId": "OnNewSectionInNotebook",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "A key identifying the notebook. Note this is specific to the API and cannot be hand-typed.",
+            "in": "query",
+            "name": "notebookKey",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetNotebooks",
+              "value-path": "Key",
+              "value-title": "FileName"
+            },
+            "x-ms-summary": "Notebook Key"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NewSectionResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error. Unknown error occured"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a new section is created",
+        "tags": [
+          "OneNote"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, add a new section to the selected notebook.",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/trigger2/notebooks/notebookKey/sectiongroups": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Triggers a flow when a new section group is added to a notebook.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/onenote/#when-a-new-section-group-is-created"
+        },
+        "operationId": "OnNewSectionGroupInNotebook",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "A key identifying the notebook. Note this is specific to the API and cannot be hand-typed.",
+            "in": "query",
+            "name": "notebookKey",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetNotebooks",
+              "value-path": "Key",
+              "value-title": "FileName"
+            },
+            "x-ms-summary": "Notebook Key"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NewSectionGroupResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error. Unknown error occured"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a new section group is created",
+        "tags": [
+          "OneNote"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, add a new section group to the selected notebook.",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/trigger3/sections/Dynamic/pages": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Triggers a flow when a new page is added to a section.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/onenote/#when-a-new-page-is-created-in-a-section"
+        },
+        "operationId": "OnNewPageInSection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "A key identifying the notebook. Note this is specific to the API and cannot be hand-typed.",
+            "in": "query",
+            "name": "notebookKey",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetNotebooks",
+              "value-path": "Key",
+              "value-title": "FileName"
+            },
+            "x-ms-summary": "Notebook Key"
+          },
+          {
+            "description": "API URL of the section pages.",
+            "in": "query",
+            "name": "sectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSectionsInNotebook",
+              "parameters": {
+                "notebookKey": {
+                  "parameter": "notebookKey"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "pagesUrl",
+              "value-title": "name"
+            },
+            "x-ms-summary": "Notebook section"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NewPageResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error. Unknown error occured"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a new page is created in a section",
+        "tags": [
+          "OneNote"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, add a new page to the selected section."
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-capabilities": {
+    "testConnection": {
+      "operationId": "GetNotebooks"
+    }
+  },
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://products.office.com/onenote/digital-note-taking-app"
+    }
+  ]
+}

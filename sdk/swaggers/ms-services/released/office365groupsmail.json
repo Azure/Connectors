@@ -1,0 +1,1579 @@
+{
+  "basePath": "/apim/office365groupsmail",
+  "consumes": [],
+  "definitions": {
+    "Attachment": {
+      "properties": {
+        "contentBytes": {
+          "description": "Content of attachment.",
+          "format": "byte",
+          "type": "string",
+          "x-ms-summary": "Attachment content bytes"
+        },
+        "contentType": {
+          "description": "Content type of attachment.",
+          "type": "string",
+          "x-ms-summary": "Attachment content Type"
+        },
+        "id": {
+          "description": "Id of the attachment.",
+          "type": "string",
+          "x-ms-summary": "Attachment ID"
+        },
+        "name": {
+          "description": "Name of attachment.",
+          "type": "string",
+          "x-ms-summary": "Attachment name"
+        },
+        "size": {
+          "description": "Size of attachment.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Attachment size"
+        }
+      },
+      "type": "object"
+    },
+    "ClientSendAttachment": {
+      "description": "File attachment.",
+      "properties": {
+        "@odata.type": {
+          "default": "#microsoft.graph.fileAttachment",
+          "description": "@odata.type for a file attachment.",
+          "type": "string",
+          "x-ms-summary": "File attachment @odata.type",
+          "x-ms-visibility": "internal"
+        },
+        "ContentBytes": {
+          "description": "Content of the attachment.",
+          "format": "byte",
+          "type": "string",
+          "x-ms-summary": "Attachment content"
+        },
+        "Name": {
+          "description": "Name of the attachment.",
+          "type": "string",
+          "x-ms-summary": "Attachment name"
+        }
+      },
+      "required": [
+        "Name",
+        "ContentBytes",
+        "@odata.type"
+      ],
+      "type": "object",
+      "x-ms-visibility": "advanced"
+    },
+    "Conversation": {
+      "description": "Conversation object.",
+      "properties": {
+        "hasAttachments": {
+          "description": "Indicates whether any of the posts within this Conversation has at least one attachment.",
+          "title": "Has attachments?",
+          "type": "boolean",
+          "x-ms-summary": "Has attachments?"
+        },
+        "id": {
+          "description": "The conversations's unique identifier.",
+          "title": "Conversation ID",
+          "type": "string",
+          "x-ms-summary": "Conversation ID"
+        },
+        "lastDeliveredDateTime": {
+          "description": "The Timestamp type represents date and time information using ISO 8601 format and is always in UTC time.",
+          "format": "date-time",
+          "title": "Last delivered timestamp",
+          "type": "string",
+          "x-ms-summary": "Last delivered timestamp"
+        },
+        "preview": {
+          "description": "A short summary from the body of the latest post in this Conversation.",
+          "title": "Preview",
+          "type": "string",
+          "x-ms-summary": "Preview"
+        },
+        "threads": {
+          "items": {
+            "$ref": "#/definitions/ConversationThread"
+          },
+          "type": "array",
+          "x-ms-visibility": "internal"
+        },
+        "topic": {
+          "description": "The topic of the conversation.",
+          "title": "Conversation topic",
+          "type": "string",
+          "x-ms-summary": "Conversation topic"
+        },
+        "uniqueSenders": {
+          "description": "All the users that sent a message to this Conversation.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Unique senders array",
+          "type": "array",
+          "x-ms-summary": "Unique senders array"
+        }
+      },
+      "type": "object"
+    },
+    "ConversationThread": {
+      "description": "Conversation thread object.",
+      "properties": {
+        "ccRecipients": {
+          "description": "The Cc: recipients for the thread.",
+          "items": {
+            "$ref": "#/definitions/EmailAddress"
+          },
+          "type": "array"
+        },
+        "hasAttachments": {
+          "description": "Indicates whether any of the posts within this Conversation has at least one attachment.",
+          "title": "Has attachments?",
+          "type": "boolean",
+          "x-ms-summary": "Has attachments?"
+        },
+        "id": {
+          "description": "The conversation thread's unique identifier.",
+          "title": "Conversation thread ID",
+          "type": "string",
+          "x-ms-summary": "Conversation thread ID"
+        },
+        "isLocked": {
+          "description": "Indicates if the thread is locked.",
+          "title": "Is Locked?",
+          "type": "boolean",
+          "x-ms-summary": "Is Locked?"
+        },
+        "lastDeliveredDateTime": {
+          "description": "The Timestamp type represents date and time information using ISO 8601 format and is always in UTC time.",
+          "format": "date-time",
+          "title": "Last delivered timestamp",
+          "type": "string",
+          "x-ms-summary": "Last delivered timestamp"
+        },
+        "posts": {
+          "items": {
+            "$ref": "#/definitions/Post"
+          },
+          "type": "array",
+          "x-ms-visibility": "internal"
+        },
+        "preview": {
+          "description": "A short summary from the body of the latest post in this Conversation.",
+          "title": "Preview",
+          "type": "string",
+          "x-ms-summary": "Preview"
+        },
+        "toRecipients": {
+          "description": "The To: recipients for the thread.",
+          "items": {
+            "$ref": "#/definitions/EmailAddress"
+          },
+          "type": "array"
+        },
+        "topic": {
+          "description": "The topic of the conversation.",
+          "title": "Conversation topic",
+          "type": "string",
+          "x-ms-summary": "Conversation topic"
+        },
+        "uniqueSenders": {
+          "description": "All the users that sent a message to this Conversation.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Unique senders array",
+          "type": "array",
+          "x-ms-summary": "Unique senders array"
+        }
+      },
+      "type": "object"
+    },
+    "ConversationThreadTriggerResponse": {
+      "description": "Conversation thread object.",
+      "properties": {
+        "id": {
+          "description": "The conversation thread's unique identifier.",
+          "title": "Conversation thread ID",
+          "type": "string",
+          "x-ms-summary": "Conversation thread ID"
+        },
+        "posts": {
+          "items": {
+            "$ref": "#/definitions/PostTriggerResponse"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "ConversationTriggerResponse": {
+      "description": "When a new email arrives trigger response.",
+      "properties": {
+        "id": {
+          "description": "The conversation unique identifier.",
+          "title": "Conversation ID",
+          "type": "string",
+          "x-ms-summary": "Conversation ID"
+        },
+        "lastDeliveredDateTime": {
+          "description": "The Timestamp type represents date and time information using ISO 8601 format and is always in UTC time.",
+          "format": "date-time",
+          "title": "Last delivered timestamp",
+          "type": "string",
+          "x-ms-summary": "Last delivered timestamp"
+        },
+        "threads": {
+          "items": {
+            "$ref": "#/definitions/ConversationThreadTriggerResponse"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "CreateConversationBody": {
+      "description": "New Conversation body.",
+      "properties": {
+        "post": {
+          "$ref": "#/definitions/NewPostBody"
+        },
+        "topic": {
+          "description": "Topic of the new conversation.",
+          "type": "string",
+          "x-ms-summary": "New topic",
+          "x-ms-visibility": "important"
+        }
+      },
+      "required": [
+        "topic"
+      ],
+      "type": "object",
+      "x-ms-summary": "New Conversation body"
+    },
+    "CreateConversationResponse": {
+      "description": "The response of with the created conversation details.",
+      "properties": {
+        "@odata.context": {
+          "description": "The @odata.context link.",
+          "type": "string",
+          "x-ms-summary": "@odata.context",
+          "x-ms-visibility": "internal"
+        },
+        "id": {
+          "description": "New Conversation ID.",
+          "type": "string",
+          "x-ms-summary": "Conversation ID"
+        },
+        "threads": {
+          "description": "Created conversation thread.",
+          "items": {
+            "properties": {
+              "id": {
+                "description": "The new thread ID.",
+                "type": "string",
+                "x-ms-summary": "Thread ID"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "Conversation threads"
+        },
+        "threads@odata.context": {
+          "description": "The threads@odata.context link.",
+          "type": "string",
+          "x-ms-summary": "threads@odata.context",
+          "x-ms-visibility": "internal"
+        }
+      },
+      "type": "object",
+      "x-ms-summary": "Created conversation object"
+    },
+    "EmailAddress": {
+      "properties": {
+        "emailAddress": {
+          "description": "Represents information about a user in the sending or receiving end of an event, message or group post.",
+          "properties": {
+            "address": {
+              "format": "email",
+              "type": "string",
+              "x-ms-summary": "Email address of the user"
+            },
+            "name": {
+              "type": "string",
+              "x-ms-summary": "Name of the user"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "ForwardPostBody": {
+      "description": "New forward post body.",
+      "properties": {
+        "comment": {
+          "description": "Comment to forward with the post.",
+          "type": "string",
+          "x-ms-summary": "Comment",
+          "x-ms-visibility": "important"
+        },
+        "toRecipients": {
+          "description": "The recipients to whom the threaded is forwarded to.",
+          "items": {
+            "$ref": "#/definitions/GetUsers__GraphAction"
+          },
+          "type": "array",
+          "x-ms-summary": "Recipients"
+        }
+      },
+      "required": [
+        "toRecipients"
+      ],
+      "type": "object",
+      "x-ms-summary": "New forward post body"
+    },
+    "GetUsers__GraphAction": {
+      "properties": {
+        "emailAddress": {
+          "description": "User email address.",
+          "properties": {
+            "address": {
+              "description": "Email address.",
+              "format": "email",
+              "type": "string",
+              "x-ms-dynamic-values": {
+                "builtInOperation": "AadGraph.GetUsers",
+                "parameters": {},
+                "value-path": "mail"
+              }
+            }
+          },
+          "type": "object",
+          "x-ms-summary": "Email address",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "ItemBody": {
+      "description": "Represents properties of the body of an item, such as a message, event or group post.",
+      "properties": {
+        "content": {
+          "description": "Content of the body.",
+          "type": "string",
+          "x-ms-summary": "Body content"
+        },
+        "contentType": {
+          "description": "Content type of the body.",
+          "type": "string",
+          "x-ms-summary": "Body content type",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "NewConversationThreadResponse": {
+      "properties": {
+        "@odata.context": {
+          "description": "The @odata.context link.",
+          "type": "string",
+          "x-ms-summary": "@odata.context",
+          "x-ms-visibility": "internal"
+        },
+        "id": {
+          "description": "New conversation thread ID.",
+          "type": "string",
+          "x-ms-summary": "Conversation thread ID"
+        }
+      },
+      "type": "object"
+    },
+    "NewPostBody": {
+      "properties": {
+        "attachments": {
+          "description": "File attachments to include.",
+          "items": {
+            "$ref": "#/definitions/ClientSendAttachment"
+          },
+          "type": "array",
+          "x-ms-summary": "File attachments",
+          "x-ms-visibility": "advanced"
+        },
+        "body": {
+          "description": "Body of the new post.",
+          "properties": {
+            "content": {
+              "description": "Content of the new conversation.",
+              "format": "html",
+              "type": "string",
+              "x-ms-summary": "Content",
+              "x-ms-visibility": "important"
+            },
+            "contentType": {
+              "default": "html",
+              "description": "Type of the body content: HTML or text.",
+              "type": "string",
+              "x-ms-summary": "Content type",
+              "x-ms-visibility": "internal"
+            }
+          },
+          "required": [
+            "content",
+            "contentType"
+          ],
+          "type": "object",
+          "x-ms-summary": "Body"
+        },
+        "categories": {
+          "description": "The categories associated with the post.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Categories",
+          "type": "array",
+          "x-ms-summary": "Post categories",
+          "x-ms-visibility": "advanced"
+        },
+        "newParticipants": {
+          "description": "Add participants to the thread as part of this post.",
+          "items": {
+            "$ref": "#/definitions/GetUsers__GraphAction"
+          },
+          "type": "array",
+          "x-ms-summary": "New participants",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "Post": {
+      "description": "Represents an individual Post item within a conversationThread entity.",
+      "properties": {
+        "attachments": {
+          "items": {
+            "$ref": "#/definitions/Attachment"
+          },
+          "type": "array"
+        },
+        "body": {
+          "$ref": "#/definitions/ItemBody"
+        },
+        "categories": {
+          "description": "The categories associated with the post.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Categories",
+          "type": "array",
+          "x-ms-summary": "Post categories"
+        },
+        "changeKey": {
+          "description": "Identifies the version of the post.",
+          "title": "Change Key",
+          "type": "string",
+          "x-ms-summary": "Post change Key"
+        },
+        "conversationId": {
+          "description": "Unique ID of the conversation the post belongs to.",
+          "title": "Conversation ID",
+          "type": "string",
+          "x-ms-summary": "Post conversation ID"
+        },
+        "conversationThreadId": {
+          "description": "Unique ID of the conversation thread the post belongs to.",
+          "title": "Conversation thread ID",
+          "type": "string",
+          "x-ms-summary": "Post conversation thread ID"
+        },
+        "createdDateTime": {
+          "format": "date-time",
+          "title": "Created timestamp of the post",
+          "type": "string",
+          "x-ms-summary": "Post created timestamp"
+        },
+        "from": {
+          "$ref": "#/definitions/EmailAddress"
+        },
+        "hasAttachments": {
+          "description": "Indicates whether the post has at least one attachment.",
+          "title": "Has attachments?",
+          "type": "boolean",
+          "x-ms-summary": "Has attachments?"
+        },
+        "id": {
+          "description": "The post's unique identifier.",
+          "title": "Post ID",
+          "type": "string",
+          "x-ms-summary": "Post ID"
+        },
+        "lastModifiedDateTime": {
+          "format": "date-time",
+          "title": "Last modified timestamp of the post",
+          "type": "string",
+          "x-ms-summary": "Post last modified timestamp"
+        },
+        "newParticipants": {
+          "description": "Conversation participants that were added to the thread as part of this post.",
+          "items": {
+            "$ref": "#/definitions/EmailAddress"
+          },
+          "title": "New participants",
+          "type": "array",
+          "x-ms-summary": "New participants"
+        },
+        "receivedDateTime": {
+          "description": "Post received timestamp.",
+          "format": "date-time",
+          "title": "Received timestamp",
+          "type": "string",
+          "x-ms-summary": "Post received timestamp"
+        },
+        "sender": {
+          "$ref": "#/definitions/EmailAddress"
+        }
+      },
+      "type": "object"
+    },
+    "PostTriggerResponse": {
+      "description": "Represents an individual Post item within a conversationThread entity.",
+      "properties": {
+        "changeKey": {
+          "description": "Identifies the version of the post.",
+          "title": "Change Key",
+          "type": "string",
+          "x-ms-summary": "Post change Key"
+        },
+        "id": {
+          "description": "The post's unique identifier.",
+          "title": "Post ID",
+          "type": "string",
+          "x-ms-summary": "Post ID"
+        },
+        "lastModifiedDateTime": {
+          "format": "date-time",
+          "title": "Last modified timestamp of the post",
+          "type": "string",
+          "x-ms-summary": "Post last modified timestamp"
+        }
+      },
+      "type": "object"
+    },
+    "ReplyConversationThreadBody": {
+      "description": "Reply Conversation Thread body.",
+      "properties": {
+        "post": {
+          "$ref": "#/definitions/NewPostBody"
+        }
+      },
+      "type": "object",
+      "x-ms-summary": "Reply conversation thread body"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/office365groupsmail"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "The Office 365 Groups Mail connector allows users to work with data located in a Office 365 Group mailbox. The functionality in this connector works independently from a single user's personal mailbox and allows users to work with any Group they can access within their organization. The connector works off the Microsoft Graph API, and uses terminology specified in a Office 365 Groups documentation within the Graph API. Learn more in the connector documentation.",
+    "title": "Office 365 Groups Mail",
+    "version": "1.0",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    }
+  },
+  "parameters": {
+    "contentType__in_header": {
+      "default": "application/json",
+      "in": "header",
+      "name": "content-type",
+      "required": true,
+      "type": "string",
+      "x-ms-visibility": "internal"
+    },
+    "expand__in_query": {
+      "default": "attachments",
+      "in": "query",
+      "name": "$expand",
+      "required": true,
+      "type": "string",
+      "x-ms-visibility": "internal"
+    },
+    "groupId__in_path": {
+      "description": "Pick a group from the drop down or enter group id.",
+      "in": "path",
+      "name": "groupId",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListGroups",
+        "parameters": {
+          "$filter": "groupTypes/any(c:c eq 'Unified')",
+          "$select": "id,displayName",
+          "$top": 999
+        },
+        "value-collection": "value",
+        "value-path": "id",
+        "value-title": "displayName"
+      },
+      "x-ms-summary": "Group ID",
+      "x-ms-url-encoding": "single",
+      "x-ms-visibility": "important"
+    }
+  },
+  "paths": {
+    "/{connectionId}/trigger/v1.0/groups/{groupId}/conversations": {
+      "get": {
+        "description": "When a new email arrives to a group.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groupsmail/#when-a-new-email-arrives-to-a-group"
+        },
+        "operationId": "OnNewEmailInGroup",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "in": "query",
+            "name": "$filter",
+            "type": "string",
+            "x-ms-trigger-value": {
+              "value-collection": "value",
+              "value-path": "lastDeliveredDateTime"
+            },
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": "id,lastDeliveredDateTime",
+            "in": "query",
+            "name": "$select",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": "threads($select=id;$expand=posts($select=id,createdDateTime))",
+            "in": "query",
+            "name": "$expand",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": "lastDeliveredDateTime desc",
+            "in": "query",
+            "name": "$orderby",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "properties": {
+                "value": {
+                  "description": "Response of the trigger.",
+                  "items": {
+                    "$ref": "#/definitions/ConversationTriggerResponse"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "When a new email arrives to a group",
+        "x-ms-summary": "When a new email arrives to a group",
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "Send a new email to this group to test the trigger.",
+        "x-ms-trigger-metadata": {
+          "kind": "query",
+          "mode": "polling"
+        }
+      }
+    },
+    "/{connectionId}/v1.0/groups/{groupId}/conversations": {
+      "get": {
+        "description": "Get all the conversations in this group.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groupsmail/#list-the-conversations-of-a-group"
+        },
+        "operationId": "ListConversations",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "properties": {
+                "@odata.nextLink": {
+                  "description": "Link to get next page of results",
+                  "type": "string",
+                  "x-ms-summary": "Next link",
+                  "x-ms-visibility": "internal"
+                },
+                "value": {
+                  "items": {
+                    "$ref": "#/definitions/Conversation"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "404": {
+            "description": "Invalid group",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "summary": "List the conversations of a group",
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        }
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Create a new conversation in this group.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groupsmail/#create-a-new-conversation-in-a-group"
+        },
+        "operationId": "CreateConversation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "$ref": "#/parameters/contentType__in_header"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateConversationBody"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/CreateConversationResponse"
+            }
+          }
+        },
+        "summary": "Create a new conversation in a group"
+      }
+    },
+    "/{connectionId}/v1.0/groups/{groupId}/conversations/{conversationId}": {
+      "get": {
+        "description": "Retrieves the properties of a particular conversation.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groupsmail/#get-a-group-conversation"
+        },
+        "operationId": "GetGroupConversation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "description": "Enter the conversation ID.",
+            "in": "path",
+            "name": "conversationId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Conversation ID",
+            "x-ms-url-encoding": "single"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Conversation"
+            }
+          }
+        },
+        "summary": "Get a group conversation"
+      }
+    },
+    "/{connectionId}/v1.0/groups/{groupId}/conversations/{conversationId}/threads": {
+      "get": {
+        "description": "Get all the threads in a group conversation.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groupsmail/#list-the-conversation-threads-of-a-conversation"
+        },
+        "operationId": "ListConversationThreads",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "description": "Enter the conversation ID.",
+            "in": "path",
+            "name": "conversationId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Conversation ID",
+            "x-ms-url-encoding": "single"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "properties": {
+                "@odata.context": {
+                  "description": "The Odata.context link.",
+                  "type": "string",
+                  "x-ms-summary": "OData context",
+                  "x-ms-visibility": "internal"
+                },
+                "@odata.nextLink": {
+                  "description": "Link to get next page of results",
+                  "type": "string",
+                  "x-ms-summary": "Next link",
+                  "x-ms-visibility": "internal"
+                },
+                "value": {
+                  "items": {
+                    "$ref": "#/definitions/ConversationThread"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "List the conversation threads of a conversation",
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        }
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Create a new thread in the specified conversation.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groupsmail/#create-a-conversation-thread"
+        },
+        "operationId": "CreateConversationThread",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "description": "Enter the conversation ID.",
+            "in": "path",
+            "name": "conversationId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Conversation ID",
+            "x-ms-url-encoding": "single"
+          },
+          {
+            "$ref": "#/parameters/contentType__in_header"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateConversationBody"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/NewConversationThreadResponse"
+            }
+          }
+        },
+        "summary": "Create a conversation thread"
+      }
+    },
+    "/{connectionId}/v1.0/groups/{groupId}/threads": {
+      "get": {
+        "description": "Get all the threads of a group.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groupsmail/#list-the-threads-of-a-group"
+        },
+        "operationId": "ListGroupThreads",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "properties": {
+                "@odata.nextLink": {
+                  "description": "Link to get next page of results",
+                  "type": "string",
+                  "x-ms-summary": "Next link",
+                  "x-ms-visibility": "internal"
+                },
+                "value": {
+                  "items": {
+                    "$ref": "#/definitions/ConversationThread"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "List the threads of a group",
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        }
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Start a new group conversation by first creating a thread.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groupsmail/#start-a-new-group-conversation-by-creating-a-thread"
+        },
+        "operationId": "CreateGroupThread",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "$ref": "#/parameters/contentType__in_header"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateConversationBody"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/NewConversationThreadResponse"
+            }
+          }
+        },
+        "summary": "Start a new group conversation by creating a thread"
+      }
+    },
+    "/{connectionId}/v1.0/groups/{groupId}/threads/{threadId}": {
+      "delete": {
+        "description": "Deletes the specified conversation thread.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groupsmail/#delete-a-conversation-thread"
+        },
+        "operationId": "DeleteConversationThread",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "description": "Enter the conversation thread ID.",
+            "in": "path",
+            "name": "threadId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Thread ID",
+            "x-ms-url-encoding": "single"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          }
+        },
+        "summary": "Delete a conversation thread"
+      },
+      "get": {
+        "description": "Get a specific thread that belongs to a group.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groupsmail/#get-a-conversation-thread"
+        },
+        "operationId": "GetConversationThread",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "description": "Enter the conversation thread ID.",
+            "in": "path",
+            "name": "threadId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Thread ID",
+            "x-ms-url-encoding": "single"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ConversationThread"
+            }
+          }
+        },
+        "summary": "Get a conversation thread"
+      }
+    },
+    "/{connectionId}/v1.0/groups/{groupId}/threads/{threadId}/posts": {
+      "get": {
+        "description": "Get all the posts of the specified conversation thread.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groupsmail/#list-the-posts-of-a-conversation-thread"
+        },
+        "operationId": "ListThreadPosts",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "description": "Enter the conversation thread ID.",
+            "in": "path",
+            "name": "threadId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Thread ID",
+            "x-ms-url-encoding": "single"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "properties": {
+                "@odata.context": {
+                  "description": "The @odata.context link.",
+                  "type": "string",
+                  "x-ms-visibility": "internal"
+                },
+                "@odata.nextLink": {
+                  "description": "Link to get next page of results",
+                  "type": "string",
+                  "x-ms-summary": "Next link",
+                  "x-ms-visibility": "internal"
+                },
+                "value": {
+                  "description": "Array containing the posts in the specified thread.",
+                  "items": {
+                    "$ref": "#/definitions/Post"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "List the posts of a conversation thread",
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        }
+      }
+    },
+    "/{connectionId}/v1.0/groups/{groupId}/threads/{threadId}/posts/{postId}": {
+      "get": {
+        "description": "Retrieves a post in a specified thread.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groupsmail/#get-a-thread-post"
+        },
+        "operationId": "GetThreadPost",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "description": "Enter the conversation thread ID.",
+            "in": "path",
+            "name": "threadId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Thread ID",
+            "x-ms-url-encoding": "single"
+          },
+          {
+            "description": "Enter the post ID.",
+            "in": "path",
+            "name": "postId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Post ID",
+            "x-ms-url-encoding": "single"
+          },
+          {
+            "$ref": "#/parameters/expand__in_query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Post"
+            }
+          }
+        },
+        "summary": "Get a thread post"
+      }
+    },
+    "/{connectionId}/v1.0/groups/{groupId}/threads/{threadId}/posts/{postId}/attachments": {
+      "get": {
+        "description": "Retrieve a list of attachments that belong to a post.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groupsmail/#list-the-attachments-of-a-post"
+        },
+        "operationId": "GetAttachments",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "description": "Enter the conversation thread ID.",
+            "in": "path",
+            "name": "threadId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Thread ID",
+            "x-ms-url-encoding": "single"
+          },
+          {
+            "description": "Enter the post ID.",
+            "in": "path",
+            "name": "postId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Post ID",
+            "x-ms-url-encoding": "single"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "properties": {
+                "@odata.context": {
+                  "description": "The @odata.context link.",
+                  "type": "string",
+                  "x-ms-visibility": "internal"
+                },
+                "@odata.nextLink": {
+                  "description": "Link to get next page of results",
+                  "type": "string",
+                  "x-ms-summary": "Next link",
+                  "x-ms-visibility": "internal"
+                },
+                "value": {
+                  "description": "Array containing the attachments of the post.",
+                  "items": {
+                    "$ref": "#/definitions/Attachment"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "List the attachments of a post",
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        }
+      }
+    },
+    "/{connectionId}/v1.0/groups/{groupId}/threads/{threadId}/posts/{postId}/forward": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "deprecated": true,
+        "description": "Forward a post to a recipient.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groupsmail/#forward-a-post-%5bdeprecated%5d"
+        },
+        "operationId": "ForwardPost",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "description": "Enter the conversation thread ID.",
+            "in": "path",
+            "name": "threadId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Thread ID",
+            "x-ms-url-encoding": "single"
+          },
+          {
+            "description": "Enter the post ID.",
+            "in": "path",
+            "name": "postId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Post ID",
+            "x-ms-url-encoding": "single"
+          },
+          {
+            "$ref": "#/parameters/contentType__in_header"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ForwardPostBody"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Success"
+          }
+        },
+        "summary": "Forward a post"
+      }
+    },
+    "/{connectionId}/v1.0/groups/{groupId}/threads/{threadId}/posts/{postId}/reply": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Reply to a post and add a new post to the specified thread in a group conversation.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groupsmail/#reply-to-a-post"
+        },
+        "operationId": "ReplyPost",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "description": "Enter the conversation thread ID.",
+            "in": "path",
+            "name": "threadId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Thread ID",
+            "x-ms-url-encoding": "single"
+          },
+          {
+            "description": "Enter the post ID.",
+            "in": "path",
+            "name": "postId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Post ID",
+            "x-ms-url-encoding": "single"
+          },
+          {
+            "$ref": "#/parameters/contentType__in_header"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReplyConversationThreadBody"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Success"
+          }
+        },
+        "summary": "Reply to a post"
+      }
+    },
+    "/{connectionId}/v1.0/groups/{groupId}/threads/{threadId}/reply": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Reply to a thread in a group conversation and add a new post to it.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groupsmail/#reply-to-a-conversation-thread"
+        },
+        "operationId": "ReplyToAThread",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "description": "Enter the conversation thread ID.",
+            "in": "path",
+            "name": "threadId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Thread ID",
+            "x-ms-url-encoding": "single"
+          },
+          {
+            "$ref": "#/parameters/contentType__in_header"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ReplyConversationThreadBody"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          }
+        },
+        "summary": "Reply to a conversation thread"
+      }
+    },
+    "/{connectionId}/v1.0/me/memberOf/$/microsoft.graph.group": {
+      "get": {
+        "description": "Retrieves all Office 365 Groups the user is part of.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groupsmail/#list-user-groups"
+        },
+        "operationId": "ListGroups",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": "groupTypes/any(c:c eq 'Unified')",
+            "in": "query",
+            "name": "$filter",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": "id,displayName",
+            "in": "query",
+            "name": "$select",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": 999,
+            "in": "query",
+            "name": "$top",
+            "required": true,
+            "type": "integer",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "properties": {
+                "value": {
+                  "description": "Array with the groups the user is part of.",
+                  "items": {
+                    "properties": {
+                      "displayName": {
+                        "type": "string",
+                        "x-ms-summary": "Group display name"
+                      },
+                      "id": {
+                        "type": "string",
+                        "x-ms-summary": "Group ID"
+                      },
+                      "visibility": {
+                        "type": "string",
+                        "x-ms-summary": "Group visibility"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "List user groups",
+        "x-ms-visibility": "internal"
+      }
+    }
+  },
+  "produces": [],
+  "responses": {},
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "undefined": []
+    }
+  ],
+  "securityDefinitions": {
+    "undefined": {
+      "authorizationUrl": "https://login.windows.net/common/oauth2/authorize",
+      "flow": "accessCode",
+      "scopes": {},
+      "tokenUrl": "https://login.windows.net/common/oauth2/authorize",
+      "type": "oauth2"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [],
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://docs.microsoft.com/en-us/graph/api/resources/groups-overview?view=graph-rest-1.0"
+    },
+    {
+      "propertyName": "Categories",
+      "propertyValue": "Productivity"
+    }
+  ]
+}

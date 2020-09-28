@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "TEAMS_TEAM_NAME": "Marie's Team",
+    "TEAMS_CHANNEL_NAME": "Reminders",
+    "TEAMS_CONNECTION": "<API_CONNECTION_CONNECTION_STRING>",
+    "ONEDRIVE_CONNECTION": "<API_CONNECTION_CONNECTION_STRING>"
+  }
+}

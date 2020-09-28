@@ -1,0 +1,730 @@
+{
+  "basePath": "/apim/eventhubs",
+  "definitions": {
+    "Event": {
+      "additionalProperties": {
+        "$ref": "#/definitions/Object"
+      },
+      "description": "Event data",
+      "properties": {
+        "ContentData": {
+          "$ref": "#/definitions/Object"
+        },
+        "Properties": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Object"
+          },
+          "description": "Key-value pairs for each application property",
+          "type": "object",
+          "x-ms-summary": "Properties"
+        },
+        "SystemProperties": {
+          "$ref": "#/definitions/SystemProperties"
+        }
+      },
+      "type": "object",
+      "x-ms-dynamic-schema": {
+        "operationId": "GenerateEventSchemaV2",
+        "parameters": {
+          "contentSchema": {
+            "parameter": "contentSchema"
+          },
+          "contentType": {
+            "parameter": "contentType"
+          }
+        },
+        "value-path": "EventSchema"
+      }
+    },
+    "Object": {
+      "properties": {},
+      "type": "object"
+    },
+    "SendEvent": {
+      "description": "Send Event data",
+      "properties": {
+        "ContentData": {
+          "description": "Content of the event",
+          "format": "byte",
+          "type": "string",
+          "x-ms-summary": "Content"
+        },
+        "Properties": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Object"
+          },
+          "description": "Key-value pairs for each application property",
+          "type": "object",
+          "x-ms-summary": "Properties"
+        }
+      },
+      "type": "object"
+    },
+    "SystemProperties": {
+      "description": "Event Hub's system properties",
+      "properties": {
+        "EnqueuedTimeUtc": {
+          "description": "Enqueued time",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Enqueued time in UTC"
+        },
+        "Offset": {
+          "description": "Offset in a partition",
+          "type": "string",
+          "x-ms-summary": "Offset"
+        },
+        "PartitionKey": {
+          "description": "Partition Key",
+          "type": "string",
+          "x-ms-summary": "Partition Key"
+        },
+        "SequenceNumber": {
+          "description": "Sequence number",
+          "format": "int64",
+          "type": "integer",
+          "x-ms-summary": "Sequence Number"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/eventhubs"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Connect to Azure Event Hubs to send and receive events.",
+    "title": "Event Hubs",
+    "version": "1.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    }
+  },
+  "paths": {
+    "/{connectionId}/consumergroups": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get all the consumer groups for an event hub.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/eventhubs/#get-all-the-consumer-groups-for-an-event-hub"
+        },
+        "operationId": "GetConsumerGroups",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The Event Hub name.",
+            "in": "query",
+            "name": "eventHubName",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The Event Hub name"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get all the consumer groups for an event hub",
+        "tags": [
+          "EventHubs"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/contenttypes": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get all content types.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/eventhubs/#get-all-content-types"
+        },
+        "operationId": "GetContentTypes",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get all content types",
+        "tags": [
+          "EventHubs"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/eventhubs": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get all Event Hubs in a namespace.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/eventhubs/#get-all-event-hubs-in-a-namespace"
+        },
+        "operationId": "GetEventHubs",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get all Event Hubs in a namespace",
+        "tags": [
+          "EventHubs"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/eventschema": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Generate event schema.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/eventhubs/#generate-event-schema"
+        },
+        "operationId": "GenerateEventSchema",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Content type.",
+            "in": "query",
+            "name": "contentType",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetContentTypes",
+              "parameters": {}
+            },
+            "x-ms-summary": "Content type"
+          },
+          {
+            "description": "content schema of the event.",
+            "in": "query",
+            "name": "contentSchema",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "content schema of the event"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Object"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Generate event schema",
+        "tags": [
+          "EventHubs"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/eventschemaV2": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Generate event schema V2.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/eventhubs/#generate-event-schema-v2"
+        },
+        "operationId": "GenerateEventSchemaV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Content type.",
+            "in": "query",
+            "name": "contentType",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetContentTypes",
+              "parameters": {}
+            },
+            "x-ms-summary": "Content type"
+          },
+          {
+            "description": "content schema of the event.",
+            "in": "query",
+            "name": "contentSchema",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "content schema of the event"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Object"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Generate event schema V2",
+        "tags": [
+          "EventHubs"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/partitions": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get all partition keys in an Event Hub.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/eventhubs/#get-all-partition-keys-in-an-event-hub"
+        },
+        "operationId": "GetPartitionKeys",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The Event Hub name.",
+            "in": "query",
+            "name": "eventHubName",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The Event Hub name"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get all partition keys in an Event Hub",
+        "tags": [
+          "EventHubs"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/{eventHubName}/events": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "deprecated": false,
+        "description": "Send event.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/eventhubs/#send-event"
+        },
+        "operationId": "SendEvent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the Event Hub.",
+            "in": "path",
+            "name": "eventHubName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetEventHubs",
+              "parameters": {}
+            },
+            "x-ms-summary": "Event Hub name"
+          },
+          {
+            "description": "Event to send.",
+            "in": "body",
+            "name": "eventData",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SendEvent"
+            },
+            "x-ms-summary": "Event data"
+          },
+          {
+            "description": "Partition key.",
+            "in": "query",
+            "name": "partitionKey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Send event",
+        "tags": [
+          "EventHubs"
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/{eventHubName}/events/batch": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "deprecated": false,
+        "description": "Send one or more events to the Event Hub partition.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/eventhubs/#send-one-or-more-events-to-the-event-hub-partition"
+        },
+        "operationId": "SendEvents",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the Event Hub.",
+            "in": "path",
+            "name": "eventHubName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetEventHubs",
+              "parameters": {}
+            },
+            "x-ms-summary": "Event Hub name"
+          },
+          {
+            "description": "One or more events to send to the Event Hub partition.",
+            "in": "body",
+            "name": "events",
+            "required": true,
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/SendEvent"
+              },
+              "type": "array"
+            },
+            "x-ms-summary": "Events"
+          },
+          {
+            "description": "Partition key.",
+            "in": "query",
+            "name": "partitionKey",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Partition key"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Send one or more events to the Event Hub partition",
+        "tags": [
+          "EventHubs"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/{eventHubName}/events/batch/head": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "When events are available in Event Hub.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/eventhubs/#when-events-are-available-in-event-hub"
+        },
+        "operationId": "OnNewEvents",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the Event Hub.",
+            "in": "path",
+            "name": "eventHubName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetEventHubs",
+              "parameters": {}
+            },
+            "x-ms-summary": "Event Hub name"
+          },
+          {
+            "default": "application/octet-stream",
+            "description": "content type of the event.",
+            "in": "query",
+            "name": "contentType",
+            "required": false,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetContentTypes",
+              "parameters": {}
+            },
+            "x-ms-summary": "Content type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "content schema of the event.",
+            "in": "query",
+            "name": "contentSchema",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Content schema",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "$Default",
+            "description": "Name of the consumer group.",
+            "in": "query",
+            "name": "consumerGroupName",
+            "required": false,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetConsumerGroups",
+              "parameters": {
+                "eventHubName": {
+                  "parameter": "eventHubName"
+                }
+              }
+            },
+            "x-ms-summary": "Consumer group name",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Minimum partition key to read from.",
+            "in": "query",
+            "name": "minimumPartitionKey",
+            "required": false,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetPartitionKeys",
+              "parameters": {
+                "eventHubName": {
+                  "parameter": "eventHubName"
+                }
+              }
+            },
+            "x-ms-summary": "Minimum partition key",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Maximum partition key to read from.",
+            "in": "query",
+            "name": "maximumPartitionKey",
+            "required": false,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetPartitionKeys",
+              "parameters": {
+                "eventHubName": {
+                  "parameter": "eventHubName"
+                }
+              }
+            },
+            "x-ms-summary": "Maximum partition key",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": 50,
+            "description": "Maximum number of events to read in a batch.",
+            "format": "int32",
+            "in": "query",
+            "name": "maximumEventsCount",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Maximum events count",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/Event"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When events are available in Event Hub",
+        "tags": [
+          "EventHubs"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "important"
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://azure.microsoft.com/services/event-hubs/"
+    }
+  ]
+}

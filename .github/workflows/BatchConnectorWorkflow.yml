@@ -1,0 +1,98 @@
+on:
+  workflow_dispatch:
+    inputs:
+      releaseConfigFile:
+        description: 'Release Config File'
+        required: true
+        default: '.\sdk\ReleaseConfigs\ReleaseConfig_test.json'
+      cSharp:
+        description: 'Compile c#'
+        required: true
+        default: 'true'
+      typescript:
+        description: 'Compile Typescript'
+        required: true
+        default: 'false'
+      publishToGPR:
+        description: 'Publish to GitHub Registry'
+        required: true
+        default: 'false'
+
+env:
+  MAJOR_VERSION: '1.0'
+  NODE_VERSION: '10.x'                # set this to the node version to use
+
+jobs: 
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Batch Call Single Connector Workflow using release config
+      run: |
+        $compileCSharpString = "${{ github.event.inputs.cSharp }}";
+        $compileCSharp = $compileCSharpString.ToLower() -eq "true"
+        
+        $compileTypescriptString = "${{ github.event.inputs.typescript }}";
+        $compileTypescript = $compileTypescriptString.ToLower() -eq "true"
+        
+        $publishToGPRString = "${{ github.event.inputs.publishToGPR }}";
+        $publishToGPR = $publishToGPRString.ToLower() -eq "true"
+        
+        # foreach entry in in the release config
+        $releaseConfig = "${{ github.event.inputs.releaseConfigFile }}";
+        $arrayOfConnectorsToGenerate = Get-Content $releaseConfig | ConvertFrom-Json
+        foreach($connectorEntry in $arrayOfConnectorsToGenerate)
+        {
+            $uriCSharp = "https://api.github.com/repos/azure/Connectors/actions/workflows/SingleConnectorWorkflow_CSharp.yml/dispatches"
+            $uriTypescript = "https://api.github.com/repos/azure/Connectors/actions/workflows/SingleConnectorWorkflow_Typescript.yml/dispatches"
+            $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+            $headers.Add("Authorization", "Bearer ${{secrets.WORKFLOW_PAT}}")
+            $headers.Add("Accept", "application/vnd.github.everest-preview+json")
+            $headers.Add("Content-Type", "application/json")
+            if((($connectorEntry.friendlyName -eq $null) -or ($connectorEntry.friendlyName -eq "")))
+            {
+                $body = "{
+                    `"ref`": `"private-preview`",
+                    `"inputs`": {
+                        `"connectorName`": `"$($connectorEntry.name)`",
+                        `"versionName`": `"$($connectorEntry.version)`",
+                        `"publishToGPR`": `"$($publishToGPR)`"
+                    }
+                }"
+                if($compileCSharp)
+                {
+                    $response = Invoke-RestMethod -Uri $uriCSharp -Headers $headers -Body $body -Method POST
+                    $response | ConvertTo-Json
+                }
+                if($compileTypescript)
+                {
+                    $response = Invoke-RestMethod -Uri $uriTypescript -Headers $headers -Body $body -Method POST
+                    $response | ConvertTo-Json
+                }
+            }
+            else
+            {
+                $body = "{
+                    `"ref`": `"private-preview`",
+                    `"inputs`": {
+                        `"connectorName`": `"$($connectorEntry.name)`",
+                        `"versionName`": `"$($connectorEntry.version)`",
+                        `"publishToGPR`": `"$($publishToGPR)`",
+                        `"friendlyName`": `"$($connectorEntry.friendlyName)`"
+                    }
+                }"
+                 if($compileCSharp)
+                {
+                    $response = Invoke-RestMethod -Uri $uriCSharp -Headers $headers -Body $body -Method POST
+                    $response | ConvertTo-Json
+                }
+                if($compileTypescript)
+                {
+                    $response = Invoke-RestMethod -Uri $uriTypescript -Headers $headers -Body $body -Method POST
+                    $response | ConvertTo-Json
+                }
+            }
+            
+        }
+      shell: pwsh

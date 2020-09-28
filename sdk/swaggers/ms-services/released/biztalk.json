@@ -1,0 +1,407 @@
+{
+  "basePath": "/apim/biztalk",
+  "definitions": {
+    "BizTalkReceiveLocation": {
+      "description": "BizTalkReceiveLocation",
+      "properties": {
+        "DisplayName": {
+          "description": "DisplayName",
+          "readOnly": true,
+          "type": "string"
+        },
+        "Name": {
+          "description": "Name",
+          "type": "string"
+        },
+        "PublicAddress": {
+          "description": "Public Address URI",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "BizTalkSchema": {
+      "description": "Schema object model",
+      "properties": {
+        "ApplicationName": {
+          "description": "BizTalk Application Name",
+          "type": "string"
+        },
+        "AssemblyName": {
+          "description": "BizTalk Assembly Name",
+          "type": "string"
+        },
+        "DisplayName": {
+          "description": "Display Name",
+          "readOnly": true,
+          "type": "string"
+        },
+        "DocumentSpec": {
+          "description": "Schema Document Spec: TargetNamespace#RootNode",
+          "readOnly": true,
+          "type": "string"
+        },
+        "Name": {
+          "description": "Schema Name",
+          "type": "string"
+        },
+        "RootName": {
+          "description": "Root Node Name",
+          "type": "string"
+        },
+        "TargetNamespace": {
+          "description": "Target Namespace",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Object": {
+      "properties": {},
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/biztalk"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "description": "BizTalk messages",
+    "title": "BizTalkServer",
+    "version": "1.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    }
+  },
+  "paths": {
+    "/{connectionId}/EncodeJson": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/x-www-form-urlencoded"
+        ],
+        "deprecated": false,
+        "description": "Prepare message from JSON.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/biztalk/#prepare-message-from-json"
+        },
+        "operationId": "EncodeJson",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Body.",
+            "in": "body",
+            "name": "requestContent",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Object"
+            },
+            "x-ms-summary": "Body"
+          },
+          {
+            "description": "Document spec.",
+            "in": "query",
+            "name": "documentSpec",
+            "required": false,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListSchemas",
+              "parameters": {},
+              "value-path": "DocumentSpec",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Schema"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Prepare message from JSON",
+        "tags": [
+          "BizTalkServer"
+        ],
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/EncodeXml": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Prepare message from XML.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/biztalk/#prepare-message-from-xml"
+        },
+        "operationId": "EncodeXml",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Document spec.",
+            "in": "query",
+            "name": "documentSpec",
+            "required": false,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListSchemas",
+              "parameters": {},
+              "value-path": "DocumentSpec",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Schema"
+          },
+          {
+            "description": "Input Message to Encode Xml.",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            },
+            "x-ms-summary": "Input Message"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Prepare message from XML",
+        "tags": [
+          "BizTalkServer"
+        ],
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/ListBizTalkReceiveLocations": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Lists all the BizTalk Receive Locations.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/biztalk/#lists-all-the-biztalk-receive-locations"
+        },
+        "operationId": "ListBizTalkReceiveLocations",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/BizTalkReceiveLocation"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Lists all the BizTalk Receive Locations",
+        "tags": [
+          "BizTalkServer"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/ListSchemas": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "BizTalkServer Schemas Listing.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/biztalk/#biztalkserver-schemas-listing"
+        },
+        "operationId": "ListSchemas",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/BizTalkSchema"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "BizTalkServer Schemas Listing",
+        "tags": [
+          "BizTalkServer"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/Send": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Send message.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/biztalk/#send-message"
+        },
+        "operationId": "Send",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Public Address of the BizTalk receive location.",
+            "in": "query",
+            "name": "receiveLocationAddress",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListBizTalkReceiveLocations",
+              "parameters": {},
+              "value-path": "PublicAddress",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Receive Location"
+          },
+          {
+            "description": "Input Message to BizTalk Server.",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            },
+            "x-ms-summary": "Input Message"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Send message",
+        "tags": [
+          "BizTalkServer"
+        ],
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/testconnection": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Tests connection to BizTalk server",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/biztalk/#tests-connection-to-biztalk-server"
+        },
+        "operationId": "TestConnection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Tests connection to BizTalk server",
+        "tags": [
+          "BizTalkServer"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-capabilities": {
+    "testConnection": {
+      "operationId": "TestConnection",
+      "parameters": {}
+    }
+  }
+}

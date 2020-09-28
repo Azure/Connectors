@@ -1,0 +1,1862 @@
+{
+  "basePath": "/apim/todo",
+  "definitions": {
+    "CreateToDoBody": {
+      "description": "A Microsoft To-Do.",
+      "properties": {
+        "Body": {
+          "description": "To-do body that typically contains information about the to-do.",
+          "properties": {
+            "Content": {
+              "description": "The text or HTML content.",
+              "title": "Content",
+              "type": "string",
+              "x-ms-visibility": "important"
+            },
+            "ContentType": {
+              "description": "Text=0, HTML=1",
+              "enum": [
+                "Text",
+                "HTML"
+              ],
+              "title": "Content Type",
+              "type": "string",
+              "x-ms-visibility": "advanced"
+            }
+          },
+          "title": "Body",
+          "type": "object"
+        },
+        "Categories": {
+          "description": "Collection of category names associated with the to-do.",
+          "items": {
+            "description": "Associated with the to-do.",
+            "title": "Category",
+            "type": "string"
+          },
+          "title": "Categories",
+          "type": "array",
+          "x-ms-visibility": "advanced"
+        },
+        "DueDateTime": {
+          "description": "Date in the UTC time zone when the to-do is to be finished.",
+          "properties": {
+            "DateTime": {
+              "description": "YYYY-MM-DD or YYYY-MM-DDThh:mm:ssZ (note the time portion will be ignored)",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": "Due Date",
+              "x-ms-visibility": "important"
+            },
+            "TimeZone": {
+              "default": "UTC",
+              "description": "Time zone of the due date.",
+              "type": "string",
+              "x-ms-summary": "Due Time Zone",
+              "x-ms-visibility": "internal"
+            }
+          },
+          "required": [
+            "TimeZone"
+          ],
+          "type": "object"
+        },
+        "Importance": {
+          "description": "Low, normal or high.",
+          "enum": [
+            "Low",
+            "Normal",
+            "High"
+          ],
+          "title": "Importance",
+          "type": "string",
+          "x-ms-visibility": "important"
+        },
+        "IsReminderOn": {
+          "description": "True if an alert is set to remind the user of the to-do.",
+          "type": "boolean",
+          "x-ms-summary": "Is Reminder On",
+          "x-ms-visibility": "advanced"
+        },
+        "ReminderDateTime": {
+          "description": "Date-time in UTC time zone for a reminder alert of the to-do to occur.",
+          "properties": {
+            "DateTime": {
+              "description": "YYYY-MM-DDThh:mm:ssZ (UTC format)",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": " Reminder Date-Time",
+              "x-ms-visibility": "important"
+            },
+            "TimeZone": {
+              "default": "UTC",
+              "description": "Time zone of the reminder date.",
+              "type": "string",
+              "x-ms-summary": "Reminder Time Zone",
+              "x-ms-visibility": "internal"
+            }
+          },
+          "required": [
+            "TimeZone"
+          ],
+          "type": "object"
+        },
+        "Sensitivity": {
+          "description": "Indicates the level of privacy for the event.",
+          "enum": [
+            "Normal",
+            "Personal",
+            "Private",
+            "Confidential"
+          ],
+          "title": "Sensitivity",
+          "type": "string",
+          "x-ms-visibility": "advanced"
+        },
+        "StartDateTime": {
+          "description": "Date in the UTC time zone when the to-do is to begin.",
+          "properties": {
+            "DateTime": {
+              "description": "YYYY-MM-DD or YYYY-MM-DDThh:mm:ssZ (note the time portion will be ignored)",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": " Start Date",
+              "x-ms-visibility": "important"
+            },
+            "TimeZone": {
+              "default": "UTC",
+              "description": "Time zone of the start date.",
+              "type": "string",
+              "x-ms-summary": "Start Time Zone",
+              "x-ms-visibility": "internal"
+            }
+          },
+          "required": [
+            "TimeZone"
+          ],
+          "type": "object"
+        },
+        "Status": {
+          "description": "Indicates state or progress of the to-do - not started, in progress, completed, waiting on others or deferred.",
+          "enum": [
+            "NotStarted",
+            "InProgress",
+            "Completed",
+            "WaitingOnOthers",
+            "Deferred"
+          ],
+          "title": "Status",
+          "type": "string",
+          "x-ms-visibility": "important"
+        },
+        "Subject": {
+          "description": "Brief description or title of the to-do.",
+          "title": "Subject",
+          "type": "string",
+          "x-ms-visibility": "important"
+        }
+      },
+      "required": [
+        "Subject"
+      ],
+      "type": "object",
+      "x-ms-test-value": {
+        "Subject": "test to-do"
+      }
+    },
+    "CreateToDoHtmlBody": {
+      "description": "A Microsoft To-Do.",
+      "properties": {
+        "Body": {
+          "description": "To-do body that typically contains information about the to-do.",
+          "properties": {
+            "Content": {
+              "description": "The content.",
+              "format": "html",
+              "title": "Content",
+              "type": "string",
+              "x-ms-visibility": "important"
+            },
+            "ContentType": {
+              "default": "HTML",
+              "description": "HTML",
+              "title": "Content Type",
+              "type": "string",
+              "x-ms-visibility": "internal"
+            }
+          },
+          "required": [
+            "ContentType"
+          ],
+          "title": "Body",
+          "type": "object"
+        },
+        "Categories": {
+          "description": "Collection of category names associated with the to-do.",
+          "items": {
+            "description": "Associated with the to-do.",
+            "title": "Category",
+            "type": "string"
+          },
+          "title": "Categories",
+          "type": "array",
+          "x-ms-visibility": "advanced"
+        },
+        "DueDateTime": {
+          "description": "Date in the UTC time zone when the to-do is to be finished.",
+          "properties": {
+            "DateTime": {
+              "description": "YYYY-MM-DD or YYYY-MM-DDThh:mm:ssZ (note the time portion will be ignored)",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": "Due Date",
+              "x-ms-visibility": "important"
+            },
+            "TimeZone": {
+              "default": "UTC",
+              "description": "Time zone of the due date.",
+              "type": "string",
+              "x-ms-summary": "Due Time Zone",
+              "x-ms-visibility": "internal"
+            }
+          },
+          "required": [
+            "TimeZone"
+          ],
+          "type": "object"
+        },
+        "Importance": {
+          "description": "Low, normal or high.",
+          "enum": [
+            "Low",
+            "Normal",
+            "High"
+          ],
+          "title": "Importance",
+          "type": "string",
+          "x-ms-visibility": "important"
+        },
+        "IsReminderOn": {
+          "description": "True if an alert is set to remind the user of the to-do.",
+          "type": "boolean",
+          "x-ms-summary": "Is Reminder On",
+          "x-ms-visibility": "advanced"
+        },
+        "ReminderDateTime": {
+          "description": "Date-time in UTC time zone for a reminder alert of the to-do to occur.",
+          "properties": {
+            "DateTime": {
+              "description": "YYYY-MM-DDThh:mm:ssZ (UTC format)",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": " Reminder Date-Time",
+              "x-ms-visibility": "important"
+            },
+            "TimeZone": {
+              "default": "UTC",
+              "description": "Time zone of the reminder date.",
+              "type": "string",
+              "x-ms-summary": "Reminder Time Zone",
+              "x-ms-visibility": "internal"
+            }
+          },
+          "required": [
+            "TimeZone"
+          ],
+          "type": "object"
+        },
+        "Sensitivity": {
+          "description": "Indicates the level of privacy for the event.",
+          "enum": [
+            "Normal",
+            "Personal",
+            "Private",
+            "Confidential"
+          ],
+          "title": "Sensitivity",
+          "type": "string",
+          "x-ms-visibility": "advanced"
+        },
+        "StartDateTime": {
+          "description": "Date in the UTC time zone when the to-do is to begin.",
+          "properties": {
+            "DateTime": {
+              "description": "YYYY-MM-DD or YYYY-MM-DDThh:mm:ssZ (note the time portion will be ignored)",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": " Start Date",
+              "x-ms-visibility": "important"
+            },
+            "TimeZone": {
+              "default": "UTC",
+              "description": "Time zone of the start date.",
+              "type": "string",
+              "x-ms-summary": "Start Time Zone",
+              "x-ms-visibility": "internal"
+            }
+          },
+          "required": [
+            "TimeZone"
+          ],
+          "type": "object"
+        },
+        "Status": {
+          "description": "Indicates state or progress of the to-do - not started, in progress, completed, waiting on others or deferred.",
+          "enum": [
+            "NotStarted",
+            "InProgress",
+            "Completed",
+            "WaitingOnOthers",
+            "Deferred"
+          ],
+          "title": "Status",
+          "type": "string",
+          "x-ms-visibility": "important"
+        },
+        "Subject": {
+          "default": "DefaultToDo",
+          "description": "Brief description or title of the to-do.",
+          "title": "Subject",
+          "type": "string",
+          "x-ms-visibility": "important"
+        }
+      },
+      "required": [
+        "Subject"
+      ],
+      "type": "object",
+      "x-ms-test-value": {
+        "Subject": "test to-do"
+      }
+    },
+    "CreateToDoListBody": {
+      "description": "A Microsoft To-Do list.",
+      "properties": {
+        "name": {
+          "description": "List name",
+          "type": "string",
+          "x-ms-summary": "Name",
+          "x-ms-visibility": "important"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "x-ms-test-value": {
+        "name": "test to-do list"
+      }
+    },
+    "ToDo": {
+      "description": "A Microsoft To-Do object.",
+      "properties": {
+        "@odata.context": {
+          "type": "string",
+          "x-ms-visibility": "internal"
+        },
+        "@odata.etag": {
+          "type": "string",
+          "x-ms-visibility": "internal"
+        },
+        "@odata.id": {
+          "type": "string",
+          "x-ms-visibility": "internal"
+        },
+        "assignedTo": {
+          "description": "Name of the person who has been assigned the to-do.",
+          "title": "Assigned To",
+          "type": "string",
+          "x-ms-visibility": "important"
+        },
+        "body": {
+          "description": "To-do body that typically contains information about the to-do.",
+          "properties": {
+            "content": {
+              "description": "The text or HTML content.",
+              "title": "Content",
+              "type": "string",
+              "x-ms-visibility": "important"
+            },
+            "contentType": {
+              "description": "Text=0, HTML=1",
+              "enum": [
+                "Text",
+                "HTML"
+              ],
+              "title": "Content Type",
+              "type": "string",
+              "x-ms-visibility": "advanced"
+            }
+          },
+          "title": "Body",
+          "type": "object"
+        },
+        "categories": {
+          "description": "Collection of category names associated with the to-do.",
+          "items": {
+            "description": "Associated with the to-do.",
+            "title": "Category",
+            "type": "string"
+          },
+          "title": "Categories",
+          "type": "array",
+          "x-ms-visibility": "advanced"
+        },
+        "changeKey": {
+          "type": "string",
+          "x-ms-visibility": "internal"
+        },
+        "completedDateTime": {
+          "description": "Date-time in the UTC time zone when the to-do was finished.",
+          "properties": {
+            "dateTime": {
+              "description": "YYYY-MM-DDThh:mm:ssZ (UTC format)",
+              "format": "date-time",
+              "title": "Date-Time",
+              "type": "string",
+              "x-ms-visibility": "important"
+            }
+          },
+          "title": "Completed",
+          "type": "object"
+        },
+        "createdDateTime": {
+          "description": "YYYY-MM-DDThh:mm:ssZ (UTC format)",
+          "format": "date-time",
+          "title": "Created Date-Time",
+          "type": "string",
+          "x-ms-visibility": "advanced"
+        },
+        "dueDateTime": {
+          "description": "Date in the UTC time zone when the to-do is to be finished.",
+          "properties": {
+            "dateTime": {
+              "description": "YYYY-MM-DDThh:mm:ssZ (UTC format)",
+              "format": "date-time",
+              "title": "Date",
+              "type": "string",
+              "x-ms-visibility": "important"
+            }
+          },
+          "title": "Due",
+          "type": "object"
+        },
+        "id": {
+          "description": "Unique identifier of the to-do.",
+          "title": "Id",
+          "type": "string",
+          "x-ms-visibility": "advanced"
+        },
+        "importance": {
+          "description": "Low, normal or high.",
+          "enum": [
+            "Low",
+            "Normal",
+            "High"
+          ],
+          "title": "Importance",
+          "type": "string",
+          "x-ms-visibility": "important"
+        },
+        "isReminderOn": {
+          "description": "True if an alert is set to remind the user of the to-do.",
+          "title": "Is reminder on",
+          "type": "boolean",
+          "x-ms-visibility": "advanced"
+        },
+        "lastModifiedDateTime": {
+          "description": "YYYY-MM-DDThh:mm:ssZ (UTC format)",
+          "format": "date-time",
+          "title": "Modified Date-Time",
+          "type": "string",
+          "x-ms-visibility": "advanced"
+        },
+        "owner": {
+          "description": "Name of the person who created the to-do.",
+          "title": "Owner",
+          "type": "string",
+          "x-ms-visibility": "advanced"
+        },
+        "parentFolderId": {
+          "description": "Unique identifier of the parent folder.",
+          "title": "Parent folder identifier",
+          "type": "string",
+          "x-ms-visibility": "advanced"
+        },
+        "reminderDateTime": {
+          "description": "Date-time in the UTC time zone for a reminder alert of the to-do to occur.",
+          "properties": {
+            "dateTime": {
+              "description": "YYYY-MM-DDThh:mm:ssZ (UTC format)",
+              "format": "date-time",
+              "title": "Date-Time",
+              "type": "string",
+              "x-ms-visibility": "important"
+            }
+          },
+          "title": "Reminder",
+          "type": "object"
+        },
+        "startDateTime": {
+          "description": "Date in the UTC time zone when the to-do is to begin.",
+          "properties": {
+            "dateTime": {
+              "description": "YYYY-MM-DDThh:mm:ssZ (UTC format)",
+              "format": "date-time",
+              "title": "Date",
+              "type": "string",
+              "x-ms-visibility": "important"
+            }
+          },
+          "title": "Start",
+          "type": "object"
+        },
+        "status": {
+          "description": "Indicates state or progress of the to-do - not started, in progress, completed, waiting on others or deferred.",
+          "enum": [
+            "NotStarted",
+            "InProgress",
+            "Completed",
+            "WaitingOnOthers",
+            "Deferred"
+          ],
+          "title": "Status",
+          "type": "string",
+          "x-ms-visibility": "important"
+        },
+        "subject": {
+          "description": "Brief description or title of the to-do.",
+          "title": "Subject",
+          "type": "string",
+          "x-ms-visibility": "important"
+        }
+      },
+      "type": "object"
+    },
+    "ToDoHtml": {
+      "description": "A Microsoft To-Do object.",
+      "properties": {
+        "@odata.context": {
+          "type": "string",
+          "x-ms-visibility": "internal"
+        },
+        "@odata.etag": {
+          "type": "string",
+          "x-ms-visibility": "internal"
+        },
+        "@odata.id": {
+          "type": "string",
+          "x-ms-visibility": "internal"
+        },
+        "assignedTo": {
+          "description": "Name of the person who has been assigned the to-do.",
+          "title": "Assigned To",
+          "type": "string",
+          "x-ms-visibility": "important"
+        },
+        "body": {
+          "description": "To-do body that typically contains information about the to-do.",
+          "properties": {
+            "content": {
+              "description": "The content.",
+              "format": "html",
+              "title": "Content",
+              "type": "string",
+              "x-ms-visibility": "important"
+            }
+          },
+          "title": "Body",
+          "type": "object"
+        },
+        "categories": {
+          "description": "Collection of category names associated with the to-do.",
+          "items": {
+            "description": "Associated with the to-do.",
+            "title": "Category",
+            "type": "string"
+          },
+          "title": "Categories",
+          "type": "array",
+          "x-ms-visibility": "advanced"
+        },
+        "completedDateTime": {
+          "description": "Date-time in the UTC time zone when the to-do was finished.",
+          "properties": {
+            "dateTime": {
+              "description": "YYYY-MM-DDThh:mm:ssZ (UTC format)",
+              "format": "date-time",
+              "title": "Date-Time",
+              "type": "string",
+              "x-ms-visibility": "important"
+            }
+          },
+          "title": "Completed",
+          "type": "object"
+        },
+        "createdDateTime": {
+          "description": "YYYY-MM-DDThh:mm:ssZ (UTC format)",
+          "format": "date-time",
+          "title": "Created Date-Time",
+          "type": "string",
+          "x-ms-visibility": "advanced"
+        },
+        "dueDateTime": {
+          "description": "Date in the UTC time zone when the to-do is to be finished.",
+          "properties": {
+            "dateTime": {
+              "description": "YYYY-MM-DDThh:mm:ssZ (UTC format)",
+              "format": "date-time",
+              "title": "Date",
+              "type": "string",
+              "x-ms-visibility": "important"
+            }
+          },
+          "title": "Due",
+          "type": "object"
+        },
+        "id": {
+          "description": "Unique identifier of the to-do.",
+          "title": "Id",
+          "type": "string",
+          "x-ms-visibility": "advanced"
+        },
+        "importance": {
+          "description": "Low, normal or high.",
+          "enum": [
+            "Low",
+            "Normal",
+            "High"
+          ],
+          "title": "Importance",
+          "type": "string",
+          "x-ms-visibility": "important"
+        },
+        "isReminderOn": {
+          "description": "True if an alert is set to remind the user of the to-do.",
+          "title": "Is reminder on",
+          "type": "boolean",
+          "x-ms-visibility": "advanced"
+        },
+        "lastModifiedDateTime": {
+          "description": "YYYY-MM-DDThh:mm:ssZ (UTC format)",
+          "format": "date-time",
+          "title": "Modified Date-Time",
+          "type": "string",
+          "x-ms-visibility": "advanced"
+        },
+        "owner": {
+          "description": "Name of the person who created the to-do.",
+          "title": "Owner",
+          "type": "string",
+          "x-ms-visibility": "advanced"
+        },
+        "parentFolderId": {
+          "description": "Unique identifier of the parent folder.",
+          "title": "Parent folder identifier",
+          "type": "string",
+          "x-ms-visibility": "advanced"
+        },
+        "reminderDateTime": {
+          "description": "Date-time in the UTC time zone for a reminder alert of the to-do to occur.",
+          "properties": {
+            "dateTime": {
+              "description": "YYYY-MM-DDThh:mm:ssZ (UTC format)",
+              "format": "date-time",
+              "title": "Date-Time",
+              "type": "string",
+              "x-ms-visibility": "important"
+            }
+          },
+          "title": "Reminder",
+          "type": "object"
+        },
+        "startDateTime": {
+          "description": "Date in the UTC time zone when the to-do is to begin.",
+          "properties": {
+            "dateTime": {
+              "description": "YYYY-MM-DDThh:mm:ssZ (UTC format)",
+              "format": "date-time",
+              "title": "Date",
+              "type": "string",
+              "x-ms-visibility": "important"
+            }
+          },
+          "title": "Start",
+          "type": "object"
+        },
+        "status": {
+          "description": "Indicates state or progress of the to-do - not started, in progress, completed, waiting on others or deferred.",
+          "enum": [
+            "NotStarted",
+            "InProgress",
+            "Completed",
+            "WaitingOnOthers",
+            "Deferred"
+          ],
+          "title": "Status",
+          "type": "string",
+          "x-ms-visibility": "important"
+        },
+        "subject": {
+          "description": "Brief description or title of the to-do.",
+          "title": "Subject",
+          "type": "string",
+          "x-ms-visibility": "important"
+        }
+      },
+      "type": "object"
+    },
+    "TodoList": {
+      "description": "An Microsoft To-Do list.",
+      "properties": {
+        "@odata.id": {
+          "type": "string",
+          "x-ms-visibility": "internal"
+        },
+        "changeKey": {
+          "type": "string",
+          "x-ms-visibility": "internal"
+        },
+        "id": {
+          "description": "Unique identifier of the to-do list.",
+          "title": "Id",
+          "type": "string"
+        },
+        "isDefaultFolder": {
+          "description": "True if this is the default to-do list.",
+          "type": "boolean",
+          "x-ms-summary": "Is Default",
+          "x-ms-visibility": "advanced"
+        },
+        "name": {
+          "description": "Name of the to-do list.",
+          "title": "Name",
+          "type": "string"
+        },
+        "parentGroupKey": {
+          "type": "string",
+          "x-ms-visibility": "internal"
+        }
+      },
+      "type": "object"
+    },
+    "TodoList_V2": {
+      "description": "An Microsoft To-Do list.",
+      "properties": {
+        "@odata.etag": {
+          "type": "string",
+          "x-ms-visibility": "internal"
+        },
+        "displayName": {
+          "description": "Name of the to-do list.",
+          "title": "Name",
+          "type": "string"
+        },
+        "id": {
+          "description": "Unique identifier of the to-do list.",
+          "title": "Id",
+          "type": "string"
+        },
+        "isOwner": {
+          "description": "True if the user is owner of the given task list.",
+          "title": "Is owner",
+          "type": "boolean",
+          "x-ms-summary": "Is owner",
+          "x-ms-visibility": "advanced"
+        },
+        "isShared": {
+          "description": "True if the task list is shared with other users.",
+          "title": "Is shared",
+          "type": "boolean",
+          "x-ms-summary": "Is shared",
+          "x-ms-visibility": "advanced"
+        },
+        "wellknownListName": {
+          "description": "Property indicating the well-known list name if the given list is a well-known list. Possible values are: none, defaultList, flaggedEmails, unknownFutureValue.",
+          "title": "Well-known name",
+          "type": "string",
+          "x-ms-summary": "Well-known name",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "UpdateToDoBody": {
+      "description": "A Microsoft To-Do.",
+      "properties": {
+        "Body": {
+          "description": "To-do body that typically contains information about the to-do.",
+          "properties": {
+            "Content": {
+              "description": "The text or HTML content.",
+              "title": "Content",
+              "type": "string",
+              "x-ms-visibility": "important"
+            },
+            "ContentType": {
+              "description": "Text=0, HTML=1",
+              "enum": [
+                "Text",
+                "HTML"
+              ],
+              "title": "Content Type",
+              "type": "string",
+              "x-ms-visibility": "advanced"
+            }
+          },
+          "title": "Body",
+          "type": "object"
+        },
+        "Categories": {
+          "description": "Collection of category names associated with the to-do.",
+          "items": {
+            "description": "Associated with the to-do.",
+            "title": "Category",
+            "type": "string"
+          },
+          "title": "Categories",
+          "type": "array",
+          "x-ms-visibility": "advanced"
+        },
+        "DueDateTime": {
+          "description": "Date in the UTC time zone when the to-do is to be finished.",
+          "properties": {
+            "DateTime": {
+              "description": "YYYY-MM-DD or YYYY-MM-DDThh:mm:ssZ (note the time portion will be ignored)",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": "Due Date",
+              "x-ms-visibility": "important"
+            },
+            "TimeZone": {
+              "default": "UTC",
+              "description": "Time zone of the due date.",
+              "type": "string",
+              "x-ms-summary": "Due Time Zone",
+              "x-ms-visibility": "internal"
+            }
+          },
+          "required": [
+            "TimeZone"
+          ],
+          "type": "object"
+        },
+        "Importance": {
+          "description": "Low, normal or high.",
+          "enum": [
+            "Low",
+            "Normal",
+            "High"
+          ],
+          "title": "Importance",
+          "type": "string",
+          "x-ms-visibility": "important"
+        },
+        "IsReminderOn": {
+          "description": "True if an alert is set to remind the user of the to-do.",
+          "type": "boolean",
+          "x-ms-summary": "Is Reminder On",
+          "x-ms-visibility": "advanced"
+        },
+        "ReminderDateTime": {
+          "description": "Date-time in UTC time zone for a reminder alert of the to-do to occur.",
+          "properties": {
+            "DateTime": {
+              "description": "YYYY-MM-DDThh:mm:ssZ (UTC format)",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": " Reminder Date-Time",
+              "x-ms-visibility": "important"
+            },
+            "TimeZone": {
+              "default": "UTC",
+              "description": "Time zone of the reminder date.",
+              "type": "string",
+              "x-ms-summary": "Reminder Time Zone",
+              "x-ms-visibility": "internal"
+            }
+          },
+          "required": [
+            "TimeZone"
+          ],
+          "type": "object"
+        },
+        "Sensitivity": {
+          "description": "Indicates the level of privacy for the event.",
+          "enum": [
+            "Normal",
+            "Personal",
+            "Private",
+            "Confidential"
+          ],
+          "title": "Sensitivity",
+          "type": "string",
+          "x-ms-visibility": "advanced"
+        },
+        "StartDateTime": {
+          "description": "Date in the UTC time zone when the to-do is to begin.",
+          "properties": {
+            "DateTime": {
+              "description": "YYYY-MM-DD or YYYY-MM-DDThh:mm:ssZ (note the time portion will be ignored)",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": " Start Date",
+              "x-ms-visibility": "important"
+            },
+            "TimeZone": {
+              "default": "UTC",
+              "description": "Time zone of the start date.",
+              "type": "string",
+              "x-ms-summary": "Start Time Zone",
+              "x-ms-visibility": "internal"
+            }
+          },
+          "required": [
+            "TimeZone"
+          ],
+          "type": "object"
+        },
+        "Status": {
+          "description": "Indicates state or progress of the to-do - not started, in progress, completed, waiting on others or deferred.",
+          "enum": [
+            "NotStarted",
+            "InProgress",
+            "Completed",
+            "WaitingOnOthers",
+            "Deferred"
+          ],
+          "title": "Status",
+          "type": "string",
+          "x-ms-visibility": "important"
+        },
+        "Subject": {
+          "description": "Brief description or title of the to-do.",
+          "title": "Subject",
+          "type": "string",
+          "x-ms-visibility": "important"
+        }
+      },
+      "type": "object",
+      "x-ms-test-value": {
+        "Subject": "test to-do"
+      }
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/todo"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Microsoft To-Do is an intelligent task management app that makes it easy to plan and manage your day. Connect to Microsoft To-Do to manage your tasks from various services. You can perform actions such as creating tasks.",
+    "title": "Microsoft To-Do (Business)",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    },
+    "x-ms-deployment-version": "1.0.0"
+  },
+  "paths": {
+    "/{connectionId}/lists": {
+      "get": {
+        "deprecated": false,
+        "description": "Returns a list of all the to-do lists.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/todo/#list-all-to-do-lists-(v2)"
+        },
+        "operationId": "GetAllTodoListsV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation Successful",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/TodoList_V2"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "summary": "List all to-do lists (V2)",
+        "tags": [
+          "Tasks"
+        ],
+        "x-ms-api-annotation": {
+          "family": "GetAllTodoLists",
+          "revision": 2,
+          "status": "Preview"
+        }
+      }
+    },
+    "/{connectionId}/taskFolders/{folderId}/tasks": {
+      "get": {
+        "deprecated": false,
+        "description": "This operation is used to retrieve all to-do's from a specific list.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/todo/#list-to-do%27s-by-folder"
+        },
+        "operationId": "ListToDosByFolder",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "To-do list",
+            "in": "path",
+            "name": "folderId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetAllTodoListsV2",
+              "value-path": "id",
+              "value-title": "displayName"
+            },
+            "x-ms-summary": "To-do List",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = 10, maximum = 999).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation Successful",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/ToDo"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "summary": "List to-do's by folder",
+        "tags": [
+          "Tasks"
+        ],
+        "x-ms-api-annotation": {
+          "family": "ListToDosByFolder",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/taskFolders/{id}": {
+      "get": {
+        "deprecated": false,
+        "description": "This operation is used to get a specific to-do list.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/todo/#get-a-to-do-list"
+        },
+        "operationId": "GetToDoList",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "To-do list",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetAllTodoListsV2",
+              "value-path": "id",
+              "value-title": "displayName"
+            },
+            "x-ms-summary": "To-do List",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation Successful",
+            "schema": {
+              "$ref": "#/definitions/TodoList"
+            }
+          }
+        },
+        "summary": "Get a to-do list",
+        "tags": [
+          "TaskFolders"
+        ],
+        "x-ms-api-annotation": {
+          "family": "GetToDoList",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/taskfolders": {
+      "get": {
+        "deprecated": false,
+        "description": "Returns a list of all the to-do lists.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/todo/#list-all-to-do-lists"
+        },
+        "operationId": "GetAllTodoLists",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation Successful",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/TodoList"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "summary": "List all to-do lists",
+        "tags": [
+          "Tasks"
+        ],
+        "x-ms-api-annotation": {
+          "family": "GetAllTodoLists",
+          "revision": 1,
+          "status": "Production"
+        }
+      },
+      "post": {
+        "deprecated": false,
+        "description": "This operation is used to create a new to-do list.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/todo/#create-a-to-do-list"
+        },
+        "operationId": "CreateToDoList",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateToDoListBody"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation Successful",
+            "schema": {
+              "$ref": "#/definitions/TodoList"
+            }
+          }
+        },
+        "summary": "Create a to-do list",
+        "tags": [
+          "TaskFolders"
+        ],
+        "x-ms-api-annotation": {
+          "family": "CreateToDoList",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/tasks": {
+      "get": {
+        "deprecated": false,
+        "description": "This operation is used to retrieve all to-do's from all lists.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/todo/#list-all-to-do%27s"
+        },
+        "operationId": "ListAllToDos",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = 10, maximum = 999).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation Successful",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/ToDo"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "summary": "List all to-do's",
+        "tags": [
+          "Tasks"
+        ],
+        "x-ms-api-annotation": {
+          "family": "ListAllToDos",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      },
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "deprecated": true,
+        "description": "This operation is used to create a to-do in the specified to-do list (defaults to To-Do).",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/todo/#add-a-to-do-%5bdeprecated%5d"
+        },
+        "operationId": "CreateToDo",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "To-do list",
+            "in": "query",
+            "name": "folderId",
+            "required": false,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetAllTodoListsV2",
+              "value-path": "id",
+              "value-title": "displayName"
+            },
+            "x-ms-summary": "To-do List",
+            "x-ms-visibility": "important"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateToDoBody"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Operation Successful",
+            "schema": {
+              "$ref": "#/definitions/ToDo"
+            }
+          }
+        },
+        "summary": "Add a to-do",
+        "tags": [
+          "Tasks"
+        ],
+        "x-ms-api-annotation": {
+          "family": "CreateToDo",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/tasks/{id}": {
+      "delete": {
+        "deprecated": false,
+        "description": "This operation is used to delete a task.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/todo/#delete-to-do"
+        },
+        "operationId": "DeleteToDo",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "To-do list",
+            "in": "query",
+            "name": "folderId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetAllTodoListsV2",
+              "value-path": "id",
+              "value-title": "displayName"
+            },
+            "x-ms-summary": "To-do List",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "To-do task",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListToDosByFolder",
+              "parameters": {
+                "folderId": {
+                  "parameter": "folderId"
+                }
+              },
+              "value-path": "Id",
+              "value-title": "Subject"
+            },
+            "x-ms-summary": "To-do task",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Operation Successful"
+          }
+        },
+        "summary": "Delete to-do",
+        "tags": [
+          "Tasks"
+        ],
+        "x-ms-api-annotation": {
+          "family": "DeleteToDo",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      },
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "deprecated": false,
+        "description": "This operation is used to get the to-Do with the given Id.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/todo/#get-a-to-do"
+        },
+        "operationId": "GetToDo",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "To-do Id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "To-do Id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation Successful",
+            "schema": {
+              "$ref": "#/definitions/ToDo"
+            }
+          }
+        },
+        "summary": "Get a to-do",
+        "tags": [
+          "Tasks"
+        ],
+        "x-ms-api-annotation": {
+          "family": "GetToDo",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-visibility": "important"
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "deprecated": false,
+        "description": "This operation is used to update a specific to-do.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/todo/#update-to-do"
+        },
+        "operationId": "UpdateToDo",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "To-do list",
+            "in": "query",
+            "name": "folderId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetAllTodoListsV2",
+              "value-path": "id",
+              "value-title": "displayName"
+            },
+            "x-ms-summary": "To-do List",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "To-do task",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListToDosByFolder",
+              "parameters": {
+                "folderId": {
+                  "parameter": "folderId"
+                }
+              },
+              "value-path": "Id",
+              "value-title": "Subject"
+            },
+            "x-ms-summary": "To-do task",
+            "x-ms-visibility": "important"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateToDoBody"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Operation Successful",
+            "schema": {
+              "$ref": "#/definitions/ToDo"
+            }
+          }
+        },
+        "summary": "Update to-do",
+        "tags": [
+          "Tasks"
+        ],
+        "x-ms-api-annotation": {
+          "family": "UpdateToDo",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/trigger/onNewToDo": {
+      "get": {
+        "deprecated": false,
+        "description": "Triggers when a new to-do is created.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/todo/#when-a-new-to-do-is-created"
+        },
+        "operationId": "OnNewToDo",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/ToDo"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "summary": "When a new to-do is created",
+        "tags": [
+          "trigger"
+        ],
+        "x-ms-api-annotation": {
+          "family": "OnNewToDo",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To trigger this, make a new to-do.",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/trigger/onNewToDoInFolder/{folderId}": {
+      "get": {
+        "deprecated": false,
+        "description": "Triggers when a new to-do in a specific folder is created.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/todo/#when-a-new-to-do-in-a-specific-folder-is-created"
+        },
+        "operationId": "OnNewToDoInFolder",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "To-do list",
+            "in": "path",
+            "name": "folderId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetAllTodoListsV2",
+              "value-path": "id",
+              "value-title": "displayName"
+            },
+            "x-ms-summary": "To-do List",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/ToDo"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "summary": "When a new to-do in a specific folder is created",
+        "tags": [
+          "trigger"
+        ],
+        "x-ms-api-annotation": {
+          "family": "OnNewToDoInFolder",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To trigger this, create a to-do in a given folder.",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/trigger/onUpdateToDo": {
+      "get": {
+        "deprecated": false,
+        "description": "Triggers when a to-do is updated.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/todo/#when-a-to-do-is-updated"
+        },
+        "operationId": "OnUpdateToDo",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/ToDo"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "summary": "When a to-do is updated",
+        "tags": [
+          "trigger"
+        ],
+        "x-ms-api-annotation": {
+          "family": "OnUpdateToDo",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To trigger this, update a to-do.",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/trigger/onUpdateToDoInFolder/{folderId}": {
+      "get": {
+        "deprecated": false,
+        "description": "Triggers when a to-do in a specific folder is updated.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/todo/#when-a-to-do-in-a-specific-folder-is-updated"
+        },
+        "operationId": "OnUpdateToDoInFolder",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "To-do list",
+            "in": "path",
+            "name": "folderId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetAllTodoListsV2",
+              "value-path": "id",
+              "value-title": "displayName"
+            },
+            "x-ms-summary": "To-do List",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/ToDo"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "summary": "When a to-do in a specific folder is updated",
+        "tags": [
+          "trigger"
+        ],
+        "x-ms-api-annotation": {
+          "family": "OnUpdateToDoInFolder",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To trigger this, update a to-do in a given folder.",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/v2/tasks": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "deprecated": false,
+        "description": "This operation is used to create a to-do in the specified to-do list (defaults to To-Do).",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/todo/#add-a-to-do-(v2)"
+        },
+        "operationId": "CreateToDoV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "To-do list",
+            "in": "query",
+            "name": "folderId",
+            "required": false,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetAllTodoListsV2",
+              "value-path": "id",
+              "value-title": "displayName"
+            },
+            "x-ms-summary": "To-do List",
+            "x-ms-visibility": "important"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateToDoHtmlBody"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Operation Successful",
+            "schema": {
+              "$ref": "#/definitions/ToDoHtml"
+            }
+          }
+        },
+        "summary": "Add a to-do (V2)",
+        "tags": [
+          "Tasks"
+        ],
+        "x-ms-api-annotation": {
+          "family": "CreateToDo",
+          "revision": 2,
+          "status": "Production"
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v2/tasks/{id}": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "deprecated": false,
+        "description": "This operation is used to get the to-do with the given Id.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/todo/#get-a-to-do-(v2)"
+        },
+        "operationId": "GetToDoV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "To-do list",
+            "in": "query",
+            "name": "folderId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetAllTodoListsV2",
+              "value-path": "id",
+              "value-title": "displayName"
+            },
+            "x-ms-summary": "To-do List",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "To-do task",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListToDosByFolder",
+              "parameters": {
+                "folderId": {
+                  "parameter": "folderId"
+                }
+              },
+              "value-path": "Id",
+              "value-title": "Subject"
+            },
+            "x-ms-summary": "To-do task",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation Successful",
+            "schema": {
+              "$ref": "#/definitions/ToDo"
+            }
+          }
+        },
+        "summary": "Get a to-do (V2)",
+        "tags": [
+          "Tasks"
+        ],
+        "x-ms-api-annotation": {
+          "family": "GetToDo",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "important"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-capabilities": {
+    "testConnection": {
+      "operationId": "GetAllTodoListsV2"
+    }
+  },
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://todo.microsoft.com/tasks/"
+    }
+  ]
+}

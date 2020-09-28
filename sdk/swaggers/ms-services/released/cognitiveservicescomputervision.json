@@ -1,0 +1,1982 @@
+{
+  "basePath": "/apim/cognitiveservicescomputervision",
+  "definitions": {
+    "AnalyzeResponse": {
+      "properties": {
+        "categories": {
+          "description": "Categories identified from the image",
+          "items": {
+            "properties": {
+              "name": {
+                "description": "Name of the category identified from the image",
+                "type": "string",
+                "x-ms-summary": "Category Name"
+              },
+              "score": {
+                "description": "Confidence Score for the image category",
+                "format": "float",
+                "type": "number",
+                "x-ms-summary": "Category Confidence Score"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-visibility": "advanced"
+        },
+        "description": {
+          "description": "Properties to describe the image analyzed",
+          "properties": {
+            "captions": {
+              "description": "List of captions generated from the image",
+              "items": {
+                "properties": {
+                  "confidence": {
+                    "description": "Confidence score of the image caption",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Caption Confidence Score",
+                    "x-ms-visibility": "advanced"
+                  },
+                  "text": {
+                    "description": "Text caption generated from the image",
+                    "type": "string",
+                    "x-ms-summary": "Caption Text"
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array",
+              "x-ms-summary": "Captions"
+            },
+            "tags": {
+              "description": "Collection of tag names.",
+              "items": {
+                "type": "string"
+              },
+              "type": "array",
+              "x-ms-summary": "Tag Names"
+            }
+          },
+          "type": "object"
+        },
+        "tags": {
+          "description": "Tags identified with confidence scores.",
+          "items": {
+            "properties": {
+              "confidence": {
+                "description": "Confidence score for the identified tags.",
+                "format": "float",
+                "type": "number",
+                "x-ms-summary": "Tag Confidence Score",
+                "x-ms-visibility": "advanced"
+              },
+              "name": {
+                "description": "Name of the tag identified.",
+                "type": "string",
+                "x-ms-summary": "Tag Name",
+                "x-ms-visibility": "advanced"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "AreaOfInterestResponse": {
+      "properties": {
+        "areaOfInterest": {
+          "description": "Bounding box",
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "DescribeResponse": {
+      "properties": {
+        "description": {
+          "description": "Properties to describe the image analyzed",
+          "properties": {
+            "captions": {
+              "description": "List of captions generated from the image",
+              "items": {
+                "properties": {
+                  "confidence": {
+                    "description": "Confidence score of the image caption",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Caption Confidence Score",
+                    "x-ms-visibility": "advanced"
+                  },
+                  "text": {
+                    "description": "Text caption generated from the image",
+                    "type": "string",
+                    "x-ms-summary": "Caption Text"
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array",
+              "x-ms-summary": "Captions"
+            },
+            "tags": {
+              "description": "Collection of tag names.",
+              "items": {
+                "type": "string"
+              },
+              "type": "array",
+              "x-ms-summary": "Tag Names"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "DetectResponse": {
+      "properties": {
+        "objects": {
+          "description": "Set of objects returned from the picture analysis.",
+          "items": {
+            "properties": {
+              "confidence": {
+                "description": "Confidence score of the identified object.",
+                "format": "float",
+                "type": "number",
+                "x-ms-summary": "Object confidence score"
+              },
+              "object": {
+                "description": "Name of the object identified.",
+                "type": "string",
+                "x-ms-summary": "Object name"
+              },
+              "rectangle": {
+                "description": "Bounding box around the object",
+                "properties": {},
+                "type": "object",
+                "x-ms-summary": "Bounding box"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "DomainModelResponse": {
+      "properties": {
+        "result": {
+          "description": "Computer Vision Result",
+          "properties": {
+            "celebrities": {
+              "description": "Recognized celebrities in image",
+              "items": {
+                "properties": {
+                  "confidence": {
+                    "description": "Confidence score that image is of celebrity",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Celebrity Confidence"
+                  },
+                  "name": {
+                    "description": "Name of the recognized celebrity",
+                    "type": "string",
+                    "x-ms-summary": "Celebrity Name"
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "landmarks": {
+              "description": "Recognized landmarks in image",
+              "items": {
+                "properties": {
+                  "confidence": {
+                    "description": "Confidence score that image is of landmark",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Landmark Confidence"
+                  },
+                  "name": {
+                    "description": "Name of the identified landmark",
+                    "type": "string",
+                    "x-ms-summary": "Landmark Name"
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "ImageContentObject": {
+      "properties": {
+        "url": {
+          "description": "Source of image reference by URL.",
+          "format": "url",
+          "type": "string",
+          "x-ms-summary": "Image URL"
+        }
+      },
+      "type": "object"
+    },
+    "ListModelsResponse": {
+      "properties": {
+        "models": {
+          "description": "Models.",
+          "items": {
+            "$ref": "#/definitions/ModelResponse"
+          },
+          "type": "array",
+          "x-ms-summary": "Models",
+          "x-ms-visibility": "internal"
+        }
+      },
+      "type": "object"
+    },
+    "ModelResponse": {
+      "properties": {
+        "categories": {
+          "description": "Categories.",
+          "items": {
+            "description": "Category",
+            "type": "string",
+            "x-ms-summary": "Category",
+            "x-ms-visibility": "internal"
+          },
+          "type": "array",
+          "x-ms-summary": "Model categories",
+          "x-ms-visibility": "internal"
+        },
+        "name": {
+          "description": "Name.",
+          "type": "string",
+          "x-ms-summary": "Model name",
+          "x-ms-visibility": "internal"
+        }
+      },
+      "type": "object"
+    },
+    "OCRJsonResponse": {
+      "properties": {
+        "language": {
+          "description": "Detected language of the image text.",
+          "type": "string",
+          "x-ms-summary": "Text Language"
+        },
+        "regions": {
+          "description": "Text regions returned.",
+          "items": {
+            "properties": {},
+            "type": "object",
+            "x-ms-visibility": "advanced"
+          },
+          "type": "array",
+          "x-ms-summary": "Regions Array",
+          "x-ms-visibility": "important"
+        }
+      },
+      "type": "object",
+      "x-ms-summary": "JSON Response"
+    },
+    "OCRTextResponse": {
+      "properties": {
+        "text": {
+          "description": "Text detected in the image analyzed",
+          "type": "string",
+          "x-ms-summary": "Detected Text",
+          "x-ms-visibility": "important"
+        }
+      },
+      "type": "object"
+    },
+    "TagResponse": {
+      "properties": {
+        "tags": {
+          "description": "Set of tags returned from the picture analysis.",
+          "items": {
+            "properties": {
+              "confidence": {
+                "description": "Confidence score of the identified tag.",
+                "format": "float",
+                "type": "number",
+                "x-ms-summary": "Tag Confidence Score"
+              },
+              "name": {
+                "description": "Name of the tag identified.",
+                "type": "string",
+                "x-ms-summary": "Tag Name"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Extract rich information from images to categorize and process visual data—and protect your users from unwanted content with this Azure Cognitive Service.",
+    "title": "Computer Vision API",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    },
+    "x-ms-deployment-version": "1.0.0"
+  },
+  "parameters": {
+    "ImageFormatParameter": {
+      "description": "Source of the image - either included or by reference url.",
+      "enum": [
+        "Image Content",
+        "Image URL"
+      ],
+      "in": "query",
+      "name": "format",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "Image Source",
+      "x-ms-test-value": "Image URL"
+    }
+  },
+  "paths": {
+    "/{connectionId}/vision/v1.0/analyze": {
+      "post": {
+        "deprecated": false,
+        "description": "This operation extracts a rich set of visual features based on the image content.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#analyze-image"
+        },
+        "operationId": "AnalyzeImage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The service will return recognition results in specified language.",
+            "enum": [
+              "en",
+              "zh"
+            ],
+            "in": "query",
+            "name": "language",
+            "type": "string",
+            "x-ms-summary": "Language",
+            "x-ms-test-value": "en",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "Tags,Description,Categories",
+            "description": "A string indicating what visual feature types to return. Multiple values should be comma-separated.",
+            "in": "query",
+            "name": "visualFeatures",
+            "type": "string",
+            "x-ms-summary": "Visual Feature Options",
+            "x-ms-test-value": "",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          },
+          {
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetImageSchema",
+                "parameters": {
+                  "format": {
+                    "parameter": "format"
+                  }
+                },
+                "value-path": "schema"
+              },
+              "x-ms-test-value": {
+                "url": "https://dficons.blob.core.windows.net/dogfoodicons/PowerApps_120x120.png"
+              }
+            },
+            "x-ms-summary": "Image"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/AnalyzeResponse"
+            }
+          }
+        },
+        "summary": "Analyze Image",
+        "x-ms-api-annotation": {
+          "family": "AnalyzeImage",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/vision/v1.0/describe": {
+      "post": {
+        "deprecated": false,
+        "description": "This operation generates a description of an image in human readable language with complete sentences.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#describe-image"
+        },
+        "operationId": "DescribeImage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Maximum number of candidate descriptions to be returned.",
+            "in": "query",
+            "name": "maxCandidates",
+            "type": "number",
+            "x-ms-summary": "Max Candidates",
+            "x-ms-test-value": 1,
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          },
+          {
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetImageSchema",
+                "parameters": {
+                  "format": {
+                    "parameter": "format"
+                  }
+                },
+                "value-path": "schema"
+              },
+              "x-ms-test-value": {
+                "url": "https://dficons.blob.core.windows.net/dogfoodicons/PowerApps_120x120.png"
+              }
+            },
+            "x-ms-summary": "Image"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/DescribeResponse"
+            }
+          }
+        },
+        "summary": "Describe Image",
+        "x-ms-api-annotation": {
+          "family": "DescribeImage",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/vision/v1.0/describeImageContent": {
+      "post": {
+        "deprecated": false,
+        "description": "This operation generates a description of image content in human readable language with complete sentences.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#describe-image-content"
+        },
+        "operationId": "DescribeImageContent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Maximum number of candidate descriptions to be returned.",
+            "in": "query",
+            "name": "maxCandidates",
+            "type": "number",
+            "x-ms-summary": "Max Candidates",
+            "x-ms-test-value": 1,
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Source of the image reference in body.",
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            },
+            "x-ms-summary": "Image Content"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/DescribeResponse"
+            }
+          }
+        },
+        "summary": "Describe Image Content",
+        "x-ms-api-annotation": {
+          "family": "DescribeImageContent",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/vision/v1.0/describeImageURL": {
+      "post": {
+        "deprecated": false,
+        "description": "This operation generates a description of an image URL in human readable language with complete sentences.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#describe-image-url"
+        },
+        "operationId": "DescribeImageURL",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Maximum number of candidate descriptions to be returned.",
+            "in": "query",
+            "name": "maxCandidates",
+            "type": "number",
+            "x-ms-summary": "Max Candidates",
+            "x-ms-test-value": 1,
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Source of the image reference by URL",
+            "in": "body",
+            "name": "ImageURL",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ImageContentObject"
+            },
+            "x-ms-summary": "Image URL"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/DescribeResponse"
+            }
+          }
+        },
+        "summary": "Describe Image URL",
+        "x-ms-api-annotation": {
+          "family": "DescribeImageURL",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/vision/v1.0/generateThumbnail": {
+      "post": {
+        "deprecated": false,
+        "description": "This operation generates a thumbnail image with the user-specified width and height.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#generate-thumbnail"
+        },
+        "operationId": "GetThumbnail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": 50,
+            "description": "Width of the generated thumbnail - recommended is 50",
+            "in": "query",
+            "name": "width",
+            "required": true,
+            "type": "number",
+            "x-ms-summary": "Thumbnail Width",
+            "x-ms-test-value": 50
+          },
+          {
+            "default": 50,
+            "description": "Height of the generated thumbnail - recommended is 50",
+            "in": "query",
+            "name": "height",
+            "required": true,
+            "type": "number",
+            "x-ms-summary": "Thumbnail Height",
+            "x-ms-test-value": 50
+          },
+          {
+            "default": true,
+            "description": "Boolean flag for enabling smart cropping",
+            "in": "query",
+            "name": "smartCropping",
+            "type": "boolean",
+            "x-ms-summary": "Smart Cropping",
+            "x-ms-test-value": true,
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          },
+          {
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetImageSchema",
+                "parameters": {
+                  "format": {
+                    "parameter": "format"
+                  }
+                },
+                "value-path": "schema"
+              },
+              "x-ms-test-value": {
+                "url": "https://dficons.blob.core.windows.net/dogfoodicons/PowerApps_120x120.png"
+              }
+            },
+            "x-ms-summary": "Image"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "description": "Generated thumbnail image",
+              "format": "binary",
+              "type": "string",
+              "x-ms-summary": "Thumbnail"
+            }
+          }
+        },
+        "summary": "Generate Thumbnail",
+        "x-ms-api-annotation": {
+          "family": "GetThumbnail",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/vision/v1.0/imageSchema": {
+      "get": {
+        "deprecated": false,
+        "description": "Return the schema for the request body format desired.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#get-request-body-parameters"
+        },
+        "operationId": "GetImageSchema",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Schema of the request body",
+            "schema": {
+              "properties": {
+                "schema": {
+                  "properties": {},
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Get Request Body Parameters",
+        "x-ms-api-annotation": {
+          "family": "GetImageSchema",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/vision/v1.0/models": {
+      "get": {
+        "deprecated": false,
+        "description": "List domain specific models.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#list-domain-specific-models"
+        },
+        "operationId": "ListModels",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListModelsResponse"
+            }
+          },
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "summary": "List domain specific models",
+        "x-ms-api-annotation": {
+          "family": "ListModels",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/vision/v1.0/models/{model}/analyze": {
+      "post": {
+        "deprecated": false,
+        "description": "Recognize celebrities or landmarks in an image.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#recognize-domain-specific-content"
+        },
+        "operationId": "RecognizeDomainSpecificContent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Supported domain-specific model to recognize in image.",
+            "enum": [
+              "celebrities",
+              "landmarks"
+            ],
+            "in": "path",
+            "name": "model",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Domain Model",
+            "x-ms-test-value": "Landmarks"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          },
+          {
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetImageSchema",
+                "parameters": {
+                  "format": {
+                    "parameter": "format"
+                  }
+                },
+                "value-path": "schema"
+              },
+              "x-ms-test-value": {
+                "url": "https://dficons.blob.core.windows.net/dogfoodicons/PowerApps_120x120.png"
+              }
+            },
+            "x-ms-summary": "Image"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DomainModelResponse"
+            }
+          }
+        },
+        "summary": "Recognize Domain Specific Content",
+        "x-ms-api-annotation": {
+          "family": "RecognizeDomainSpecificContent",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/vision/v1.0/ocr": {
+      "post": {
+        "deprecated": false,
+        "description": "Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable JSON stream.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#optical-character-recognition-(ocr)-to-json"
+        },
+        "operationId": "OCR",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": "unk",
+            "description": "The language code of the text to be detected in the image.",
+            "in": "query",
+            "name": "language",
+            "type": "string",
+            "x-ms-summary": "Language",
+            "x-ms-test-value": "unk",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": true,
+            "description": "he BCP-47 language code of the text to be detected in the image.",
+            "in": "query",
+            "name": "detectOrientation",
+            "type": "boolean",
+            "x-ms-summary": "Detect Orientation",
+            "x-ms-test-value": true,
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          },
+          {
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetImageSchema",
+                "parameters": {
+                  "format": {
+                    "parameter": "format"
+                  }
+                },
+                "value-path": "schema"
+              },
+              "x-ms-test-value": {
+                "url": "https://dficons.blob.core.windows.net/dogfoodicons/PowerApps_120x120.png"
+              }
+            },
+            "x-ms-summary": "Image"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/OCRJsonResponse"
+            }
+          }
+        },
+        "summary": "Optical Character Recognition (OCR) to JSON",
+        "x-ms-api-annotation": {
+          "family": "OCR",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/vision/v1.0/ocrtext": {
+      "post": {
+        "deprecated": false,
+        "description": "Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a text file.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#optical-character-recognition-(ocr)-to-text"
+        },
+        "operationId": "OCRText",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": "unk",
+            "description": "The language code of the text to be detected in the image.",
+            "in": "query",
+            "name": "language",
+            "type": "string",
+            "x-ms-summary": "Language",
+            "x-ms-test-value": "unk",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": true,
+            "description": "The BCP-47 language code of the text to be detected in the image.",
+            "in": "query",
+            "name": "detectOrientation",
+            "type": "boolean",
+            "x-ms-summary": "Detect Orientation",
+            "x-ms-test-value": true,
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          },
+          {
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetImageSchema",
+                "parameters": {
+                  "format": {
+                    "parameter": "format"
+                  }
+                },
+                "value-path": "schema"
+              },
+              "x-ms-test-value": {
+                "url": "https://dficons.blob.core.windows.net/dogfoodicons/PowerApps_120x120.png"
+              }
+            },
+            "x-ms-summary": "Image"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/OCRTextResponse"
+            }
+          }
+        },
+        "summary": "Optical Character Recognition (OCR) to Text",
+        "x-ms-api-annotation": {
+          "family": "OCRText",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/vision/v1.0/tag": {
+      "post": {
+        "deprecated": false,
+        "description": "Generates a list of words, or tags, that are relevant to the content of the supplied image.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#tag-image"
+        },
+        "operationId": "TagImage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          },
+          {
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetImageSchema",
+                "parameters": {
+                  "format": {
+                    "parameter": "format"
+                  }
+                },
+                "value-path": "schema"
+              },
+              "x-ms-test-value": {
+                "url": "https://dficons.blob.core.windows.net/dogfoodicons/PowerApps_120x120.png"
+              }
+            },
+            "x-ms-summary": "Image"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/TagResponse"
+            }
+          }
+        },
+        "summary": "Tag Image",
+        "x-ms-api-annotation": {
+          "family": "TagImage",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/vision/v2.0/analyze": {
+      "post": {
+        "deprecated": false,
+        "description": "This operation extracts a rich set of visual features based on the image content.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#analyze-image"
+        },
+        "operationId": "AnalyzeImageV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The service will return recognition results in specified language.",
+            "enum": [
+              "en",
+              "ja",
+              "pt",
+              "zh"
+            ],
+            "in": "query",
+            "name": "language",
+            "type": "string",
+            "x-ms-summary": "Language",
+            "x-ms-test-value": "en",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "Tags,Description,Categories",
+            "description": "A string indicating what visual feature types to return. Multiple values should be comma-separated.",
+            "in": "query",
+            "name": "visualFeatures",
+            "type": "string",
+            "x-ms-summary": "Visual Feature Options",
+            "x-ms-test-value": "",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          },
+          {
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetImageSchemaV2",
+                "parameters": {
+                  "format": {
+                    "parameter": "format"
+                  }
+                },
+                "value-path": "schema"
+              },
+              "x-ms-test-value": {
+                "url": "https://dficons.blob.core.windows.net/dogfoodicons/PowerApps_120x120.png"
+              }
+            },
+            "x-ms-summary": "Image"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/AnalyzeResponse"
+            }
+          }
+        },
+        "summary": "Analyze Image",
+        "x-ms-api-annotation": {
+          "family": "AnalyzeImage",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/vision/v2.0/areaOfInterest": {
+      "post": {
+        "deprecated": false,
+        "description": "Returns a bounding box around the most important area of the image.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#get-area-of-interest"
+        },
+        "operationId": "GetAreaOfInterest",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          },
+          {
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetImageSchemaV2",
+                "parameters": {
+                  "format": {
+                    "parameter": "format"
+                  }
+                },
+                "value-path": "schema"
+              },
+              "x-ms-test-value": {
+                "url": "https://dficons.blob.core.windows.net/dogfoodicons/PowerApps_120x120.png"
+              }
+            },
+            "x-ms-summary": "Image"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/AreaOfInterestResponse"
+            }
+          }
+        },
+        "summary": "Get Area of Interest",
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/vision/v2.0/describe": {
+      "post": {
+        "deprecated": false,
+        "description": "This operation generates a description of an image in human readable language with complete sentences.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#describe-image"
+        },
+        "operationId": "DescribeImageV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Maximum number of candidate descriptions to be returned.",
+            "in": "query",
+            "name": "maxCandidates",
+            "type": "number",
+            "x-ms-summary": "Max Candidates",
+            "x-ms-test-value": 1,
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The service will return recognition results in specified language.",
+            "enum": [
+              "en",
+              "ja",
+              "pt",
+              "zh"
+            ],
+            "in": "query",
+            "name": "language",
+            "type": "string",
+            "x-ms-summary": "Language",
+            "x-ms-test-value": "en",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          },
+          {
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetImageSchemaV2",
+                "parameters": {
+                  "format": {
+                    "parameter": "format"
+                  }
+                },
+                "value-path": "schema"
+              },
+              "x-ms-test-value": {
+                "url": "https://dficons.blob.core.windows.net/dogfoodicons/PowerApps_120x120.png"
+              }
+            },
+            "x-ms-summary": "Image"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/DescribeResponse"
+            }
+          }
+        },
+        "summary": "Describe Image",
+        "x-ms-api-annotation": {
+          "family": "DescribeImage",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/vision/v2.0/describeImageContent": {
+      "post": {
+        "deprecated": false,
+        "description": "This operation generates a description of image content in human readable language with complete sentences.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#describe-image-content"
+        },
+        "operationId": "DescribeImageContentV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Maximum number of candidate descriptions to be returned.",
+            "in": "query",
+            "name": "maxCandidates",
+            "type": "number",
+            "x-ms-summary": "Max Candidates",
+            "x-ms-test-value": 1,
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The service will return recognition results in specified language.",
+            "enum": [
+              "en",
+              "ja",
+              "pt",
+              "zh"
+            ],
+            "in": "query",
+            "name": "language",
+            "type": "string",
+            "x-ms-summary": "Language",
+            "x-ms-test-value": "en",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Source of the image reference in body.",
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            },
+            "x-ms-summary": "Image Content"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/DescribeResponse"
+            }
+          }
+        },
+        "summary": "Describe Image Content",
+        "x-ms-api-annotation": {
+          "family": "DescribeImageContent",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/vision/v2.0/describeImageURL": {
+      "post": {
+        "deprecated": false,
+        "description": "This operation generates a description of an image URL in human readable language with complete sentences.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#describe-image-url"
+        },
+        "operationId": "DescribeImageURLV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Maximum number of candidate descriptions to be returned.",
+            "in": "query",
+            "name": "maxCandidates",
+            "type": "number",
+            "x-ms-summary": "Max Candidates",
+            "x-ms-test-value": 1,
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The service will return recognition results in specified language.",
+            "enum": [
+              "en",
+              "ja",
+              "pt",
+              "zh"
+            ],
+            "in": "query",
+            "name": "language",
+            "type": "string",
+            "x-ms-summary": "Language",
+            "x-ms-test-value": "en",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Source of the image reference by URL",
+            "in": "body",
+            "name": "ImageURL",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ImageContentObject"
+            },
+            "x-ms-summary": "Image URL"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/DescribeResponse"
+            }
+          }
+        },
+        "summary": "Describe Image URL",
+        "x-ms-api-annotation": {
+          "family": "DescribeImageURL",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/vision/v2.0/detect": {
+      "post": {
+        "deprecated": false,
+        "description": "Generates a list of deteced objects in the supplied image.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#detect-objects"
+        },
+        "operationId": "DetectObjects",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          },
+          {
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetImageSchemaV2",
+                "parameters": {
+                  "format": {
+                    "parameter": "format"
+                  }
+                },
+                "value-path": "schema"
+              },
+              "x-ms-test-value": {
+                "url": "https://dficons.blob.core.windows.net/dogfoodicons/PowerApps_120x120.png"
+              }
+            },
+            "x-ms-summary": "Image"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/DetectResponse"
+            }
+          }
+        },
+        "summary": "Detect Objects",
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/vision/v2.0/generateThumbnail": {
+      "post": {
+        "deprecated": false,
+        "description": "This operation generates a thumbnail image with the user-specified width and height.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#generate-thumbnail"
+        },
+        "operationId": "GetThumbnailV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": 50,
+            "description": "Width of the generated thumbnail - recommended is 50",
+            "in": "query",
+            "name": "width",
+            "required": true,
+            "type": "number",
+            "x-ms-summary": "Thumbnail Width",
+            "x-ms-test-value": 50
+          },
+          {
+            "default": 50,
+            "description": "Height of the generated thumbnail - recommended is 50",
+            "in": "query",
+            "name": "height",
+            "required": true,
+            "type": "number",
+            "x-ms-summary": "Thumbnail Height",
+            "x-ms-test-value": 50
+          },
+          {
+            "default": true,
+            "description": "Boolean flag for enabling smart cropping",
+            "in": "query",
+            "name": "smartCropping",
+            "type": "boolean",
+            "x-ms-summary": "Smart Cropping",
+            "x-ms-test-value": true,
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          },
+          {
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetImageSchemaV2",
+                "parameters": {
+                  "format": {
+                    "parameter": "format"
+                  }
+                },
+                "value-path": "schema"
+              },
+              "x-ms-test-value": {
+                "url": "https://dficons.blob.core.windows.net/dogfoodicons/PowerApps_120x120.png"
+              }
+            },
+            "x-ms-summary": "Image"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "description": "Generated thumbnail image",
+              "format": "binary",
+              "type": "string",
+              "x-ms-summary": "Thumbnail"
+            }
+          }
+        },
+        "summary": "Generate Thumbnail",
+        "x-ms-api-annotation": {
+          "family": "GetThumbnail",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/vision/v2.0/imageSchema": {
+      "get": {
+        "description": "Return the schema for the request body format desired.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#get-request-body-parameters"
+        },
+        "operationId": "GetImageSchemaV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Schema of the request body",
+            "schema": {
+              "properties": {
+                "schema": {
+                  "properties": {},
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Get Request Body Parameters",
+        "x-ms-api-annotation": {
+          "family": "GetImageSchema",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/vision/v2.0/models": {
+      "get": {
+        "deprecated": false,
+        "description": "List domain specific models.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#list-domain-specific-models"
+        },
+        "operationId": "ListModelsV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ListModelsResponse"
+            }
+          },
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "summary": "List domain specific models",
+        "x-ms-api-annotation": {
+          "family": "ListModels",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/vision/v2.0/models/{model}/analyze": {
+      "post": {
+        "deprecated": false,
+        "description": "Recognize celebrities or landmarks in an image.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#recognize-domain-specific-content"
+        },
+        "operationId": "RecognizeDomainSpecificContentV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Supported domain-specific model to recognize in image.",
+            "enum": [
+              "celebrities",
+              "landmarks"
+            ],
+            "in": "path",
+            "name": "model",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Domain Model",
+            "x-ms-test-value": "Landmarks"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          },
+          {
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetImageSchemaV2",
+                "parameters": {
+                  "format": {
+                    "parameter": "format"
+                  }
+                },
+                "value-path": "schema"
+              },
+              "x-ms-test-value": {
+                "url": "https://dficons.blob.core.windows.net/dogfoodicons/PowerApps_120x120.png"
+              }
+            },
+            "x-ms-summary": "Image"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DomainModelResponse"
+            }
+          }
+        },
+        "summary": "Recognize Domain Specific Content",
+        "x-ms-api-annotation": {
+          "family": "RecognizeDomainSpecificContent",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/vision/v2.0/ocr": {
+      "post": {
+        "deprecated": false,
+        "description": "Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable JSON stream.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#optical-character-recognition-(ocr)-to-json"
+        },
+        "operationId": "OCRV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": "unk",
+            "description": "The language code of the text to be detected in the image.",
+            "in": "query",
+            "name": "language",
+            "type": "string",
+            "x-ms-summary": "Language",
+            "x-ms-test-value": "unk",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": true,
+            "description": "he BCP-47 language code of the text to be detected in the image.",
+            "in": "query",
+            "name": "detectOrientation",
+            "type": "boolean",
+            "x-ms-summary": "Detect Orientation",
+            "x-ms-test-value": true,
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          },
+          {
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetImageSchemaV2",
+                "parameters": {
+                  "format": {
+                    "parameter": "format"
+                  }
+                },
+                "value-path": "schema"
+              },
+              "x-ms-test-value": {
+                "url": "https://dficons.blob.core.windows.net/dogfoodicons/PowerApps_120x120.png"
+              }
+            },
+            "x-ms-summary": "Image"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/OCRJsonResponse"
+            }
+          }
+        },
+        "summary": "Optical Character Recognition (OCR) to JSON",
+        "x-ms-api-annotation": {
+          "family": "OCR",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/vision/v2.0/ocrtext": {
+      "post": {
+        "deprecated": false,
+        "description": "Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a text file.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#optical-character-recognition-(ocr)-to-text"
+        },
+        "operationId": "OCRTextV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": "unk",
+            "description": "The language code of the text to be detected in the image.",
+            "in": "query",
+            "name": "language",
+            "type": "string",
+            "x-ms-summary": "Language",
+            "x-ms-test-value": "unk",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": true,
+            "description": "he BCP-47 language code of the text to be detected in the image.",
+            "in": "query",
+            "name": "detectOrientation",
+            "type": "boolean",
+            "x-ms-summary": "Detect Orientation",
+            "x-ms-test-value": true,
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          },
+          {
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetImageSchemaV2",
+                "parameters": {
+                  "format": {
+                    "parameter": "format"
+                  }
+                },
+                "value-path": "schema"
+              },
+              "x-ms-test-value": {
+                "url": "https://dficons.blob.core.windows.net/dogfoodicons/PowerApps_120x120.png"
+              }
+            },
+            "x-ms-summary": "Image"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/OCRTextResponse"
+            }
+          }
+        },
+        "summary": "Optical Character Recognition (OCR) to Text",
+        "x-ms-api-annotation": {
+          "family": "OCRText",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/vision/v2.0/tag": {
+      "post": {
+        "deprecated": false,
+        "description": "Generates a list of words, or tags, that are relevant to the content of the supplied image.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescomputervision/#tag-image"
+        },
+        "operationId": "TagImageV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ImageFormatParameter"
+          },
+          {
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetImageSchemaV2",
+                "parameters": {
+                  "format": {
+                    "parameter": "format"
+                  }
+                },
+                "value-path": "schema"
+              },
+              "x-ms-test-value": {
+                "url": "https://dficons.blob.core.windows.net/dogfoodicons/PowerApps_120x120.png"
+              }
+            },
+            "x-ms-summary": "Image"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/TagResponse"
+            }
+          }
+        },
+        "summary": "Tag Image",
+        "x-ms-api-annotation": {
+          "family": "TagImage",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-capabilities": {
+    "testConnection": {
+      "operationId": "ListModelsV2"
+    }
+  },
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://azure.microsoft.com/services/cognitive-services/computer-vision/"
+    }
+  ]
+}

@@ -1,0 +1,1977 @@
+{
+  "basePath": "/apim/github",
+  "definitions": {
+    "ActionsPublicKey": {
+      "description": "The public key used for setting Actions Secrets.",
+      "properties": {
+        "created_at": {
+          "description": "The date and time when the key was created.",
+          "type": "string",
+          "x-ms-summary": "Created At"
+        },
+        "id": {
+          "description": "Unique identifier of the key.",
+          "type": "integer",
+          "x-ms-summary": "Id"
+        },
+        "key": {
+          "description": "The Base64 encoded public key.",
+          "format": "byte",
+          "type": "string",
+          "x-ms-summary": "Key"
+        },
+        "key_id": {
+          "description": "The identifier for the key.",
+          "type": "string",
+          "x-ms-summary": "Key Id"
+        },
+        "title": {
+          "description": "Public key title.",
+          "type": "string",
+          "x-ms-summary": "Title"
+        },
+        "url": {
+          "description": "Public key url.",
+          "type": "string",
+          "x-ms-summary": "Url"
+        }
+      },
+      "required": [
+        "key_id",
+        "key"
+      ],
+      "type": "object"
+    },
+    "CreateRepositorySecretRequest": {
+      "properties": {
+        "encrypted_value": {
+          "description": "Value for your secret, encrypted with LibSodium using the public key retrieved from the Get an Repository public key action.",
+          "type": "string"
+        },
+        "key_id": {
+          "description": "ID of the key you used to encrypt the secret.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "CreateRepositoryUsingTemplateRequest": {
+      "properties": {
+        "description": {
+          "description": "A short description of the new repository.",
+          "type": "string",
+          "x-ms-summary": "Description"
+        },
+        "name": {
+          "description": "The name of the new repository.",
+          "type": "string",
+          "x-ms-summary": "Name"
+        },
+        "owner": {
+          "description": "The organization or person who will own the new repository. If left blank, the authenticated user will be the owner.",
+          "type": "string",
+          "x-ms-summary": "Owner"
+        },
+        "private": {
+          "default": false,
+          "description": "Either `true` to create a new private repository or `false` to create a new public one.",
+          "type": "boolean",
+          "x-ms-summary": "Is Private?"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "IssueBasicDetailsModel": {
+      "description": "Properties of an issue.",
+      "properties": {
+        "body": {
+          "description": "Description of the issue.",
+          "type": "string",
+          "x-ms-summary": "Body"
+        },
+        "title": {
+          "description": "Summary of the issue.",
+          "type": "string",
+          "x-ms-summary": "Title"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "type": "object"
+    },
+    "IssueDetailsModel": {
+      "description": "Properties of a GitHub issue.",
+      "properties": {
+        "assignee": {
+          "$ref": "#/definitions/UserDetailsModel"
+        },
+        "body": {
+          "description": "Description of the issue.",
+          "type": "string",
+          "x-ms-summary": "Body"
+        },
+        "created_at": {
+          "description": "yyyy-MM-ddTHH:mm:ss.fffZ (UTC format).",
+          "type": "string",
+          "x-ms-summary": "Created Date-Time"
+        },
+        "number": {
+          "description": "Unique id of the issue.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Id"
+        },
+        "repository_url": {
+          "description": "Web link to the repository.",
+          "type": "string",
+          "x-ms-summary": "Repository Url"
+        },
+        "state": {
+          "description": "Status of the issue.",
+          "type": "string",
+          "x-ms-summary": "State"
+        },
+        "title": {
+          "description": "Summary of the issue.",
+          "type": "string",
+          "x-ms-summary": "Title"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "type": "object"
+    },
+    "LicenseDetails": {
+      "description": "License Details",
+      "properties": {
+        "html_url": {
+          "description": "License HTML URL.",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "HTML Url"
+        },
+        "key": {
+          "description": "The lowercased SPDX Id of the license.",
+          "type": "string",
+          "x-ms-summary": "Key"
+        },
+        "name": {
+          "description": "The license full name specified by https://spdx.org/licenses.",
+          "type": "string",
+          "x-ms-summary": "Name"
+        },
+        "node_id": {
+          "description": "License Node Id.",
+          "type": "string",
+          "x-ms-summary": "Node Id"
+        },
+        "spdx_id": {
+          "description": "Short identifier specified by https://spdx.org/licenses.",
+          "type": "string",
+          "x-ms-summary": "SPDX Id"
+        },
+        "url": {
+          "description": "URL to the license on https://choosealicense.com.",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Url"
+        }
+      },
+      "title": "License",
+      "type": "object"
+    },
+    "RepositoryDetails": {
+      "description": "A git repository",
+      "properties": {
+        "allow_merge_commit": {
+          "default": true,
+          "description": "Whether to allow merge commits for pull requests.",
+          "type": "boolean",
+          "x-ms-summary": "Allow Merge Commit"
+        },
+        "allow_rebase_merge": {
+          "default": true,
+          "description": "Whether to allow rebase merges for pull requests.",
+          "type": "boolean",
+          "x-ms-summary": "Allow Rebase Merge"
+        },
+        "allow_squash_merge": {
+          "default": true,
+          "description": "Whether to allow squash merges for pull requests.",
+          "type": "boolean",
+          "x-ms-summary": "Allow Squash Merge"
+        },
+        "archive_url": {
+          "description": "The Archive URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Archive Url"
+        },
+        "archived": {
+          "default": false,
+          "description": "Whether the repository is archived.",
+          "type": "boolean",
+          "x-ms-summary": "Is Archived?"
+        },
+        "assignees_url": {
+          "description": "The Assignees URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Assignees Url"
+        },
+        "blobs_url": {
+          "description": "The Blobs URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Blobs Url"
+        },
+        "branches_url": {
+          "description": "The Branches URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Branches Url"
+        },
+        "clone_url": {
+          "description": "The clone URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Clone Url"
+        },
+        "collaborators_url": {
+          "description": "The Collaborators URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Collaborators Url"
+        },
+        "comments_url": {
+          "description": "The Comments URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Comments Url"
+        },
+        "commits_url": {
+          "description": "The Commits URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Commits Url"
+        },
+        "compare_url": {
+          "description": "The Compare URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Compare Url"
+        },
+        "contents_url": {
+          "description": "The Contents URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Contents Url"
+        },
+        "contributors_url": {
+          "description": "The Contributors URL for this repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Contributors Url"
+        },
+        "created_at": {
+          "description": "the date and time when the repository was created.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Created At"
+        },
+        "default_branch": {
+          "description": "The default branch of the repository.",
+          "type": "string",
+          "x-ms-summary": "Default Branch"
+        },
+        "delete_branch_on_merge": {
+          "default": false,
+          "description": "Whether to delete head branches when pull requests are merged",
+          "type": "boolean",
+          "x-ms-summary": "Delete Branch On Merge"
+        },
+        "deployments_url": {
+          "description": "The Deployments URL for this repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Deployments Url"
+        },
+        "description": {
+          "description": "The description of the repository",
+          "type": "string",
+          "x-ms-summary": "Description"
+        },
+        "disabled": {
+          "description": "Returns whether or not this repository disabled.",
+          "type": "boolean",
+          "x-ms-summary": "Is Disabled?"
+        },
+        "downloads_url": {
+          "description": "The Downloads URL for this repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Downloads Url"
+        },
+        "events_url": {
+          "description": "The Events URL for this repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Events Url"
+        },
+        "fork": {
+          "description": "If the repository is a fork?",
+          "type": "boolean",
+          "x-ms-summary": "Is a Fork?"
+        },
+        "forks": {
+          "description": "The number of forks of the repository.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Forks"
+        },
+        "forks_count": {
+          "description": "Number of forks there are of this repository in the whole network.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Forks Count"
+        },
+        "forks_url": {
+          "description": "The Forks URL for this repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Forks Url"
+        },
+        "full_name": {
+          "description": "The full name of the repository.",
+          "type": "string",
+          "x-ms-summary": "Full Name"
+        },
+        "git_commits_url": {
+          "description": "The Git Commits URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Git Commits Url"
+        },
+        "git_refs_url": {
+          "description": "The Git References URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Git References Url"
+        },
+        "git_tags_url": {
+          "description": "The Git Tags URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Git Tags Url"
+        },
+        "git_url": {
+          "description": "The Git URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Git Url"
+        },
+        "has_downloads": {
+          "default": true,
+          "description": "Whether downloads are enabled.",
+          "type": "boolean",
+          "x-ms-summary": "Has Downloads?"
+        },
+        "has_issues": {
+          "default": true,
+          "description": "Whether issues are enabled.",
+          "type": "boolean",
+          "x-ms-summary": "Has Issues?"
+        },
+        "has_pages": {
+          "description": "Whether pages are enabled.",
+          "type": "boolean",
+          "x-ms-summary": "Has Pages?"
+        },
+        "has_projects": {
+          "default": true,
+          "description": "Whether projects are enabled.",
+          "type": "boolean",
+          "x-ms-summary": "Has Projects?"
+        },
+        "has_wiki": {
+          "default": true,
+          "description": "Whether the wiki is enabled.",
+          "type": "boolean",
+          "x-ms-summary": "Has Wiki?"
+        },
+        "homepage": {
+          "description": "The homepage for this repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Homepage"
+        },
+        "hooks_url": {
+          "description": "The hooks URL for this repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Hooks Url"
+        },
+        "html_url": {
+          "description": "The Html Url of the repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Html Url"
+        },
+        "id": {
+          "description": "Unique identifier of the repository.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Id"
+        },
+        "is_template": {
+          "default": false,
+          "description": "Whether this repository acts as a template that can be used to generate new repositories.",
+          "type": "boolean",
+          "x-ms-summary": "Is Template?"
+        },
+        "issue_comment_url": {
+          "description": "The issue comment URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Issue Comment Url"
+        },
+        "issue_events_url": {
+          "description": "The issue events URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Issue Events Url"
+        },
+        "issues_url": {
+          "description": "The issues URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Issues Url"
+        },
+        "keys_url": {
+          "description": "The keys URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Keys Url"
+        },
+        "labels_url": {
+          "description": "The labels URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Labels Url"
+        },
+        "language": {
+          "description": "The language for this repository",
+          "type": "string",
+          "x-ms-summary": "Language"
+        },
+        "languages_url": {
+          "description": "The languages URL for this repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Languages Url"
+        },
+        "license": {
+          "$ref": "#/definitions/LicenseDetails"
+        },
+        "master_branch": {
+          "description": "Repository master branch.",
+          "type": "string",
+          "x-ms-summary": "Master Branch"
+        },
+        "merges_url": {
+          "description": "The merges URL for this repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Merges Url"
+        },
+        "milestones_url": {
+          "description": "The milestones URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Milestones Url"
+        },
+        "mirror_url": {
+          "description": "The original mirror URL for this repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Mirror Url"
+        },
+        "name": {
+          "description": "The name of the repository.",
+          "type": "string",
+          "x-ms-summary": "Name"
+        },
+        "network_count": {
+          "description": "Repository Network Count",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Network Count"
+        },
+        "node_id": {
+          "description": "The Node Id of the repository.",
+          "type": "string",
+          "x-ms-summary": "Node Id"
+        },
+        "notifications_url": {
+          "description": "The notifications URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Notifications Url"
+        },
+        "open_issues": {
+          "description": "Repository open issues.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Open Issues"
+        },
+        "open_issues_count": {
+          "description": "Number of open issues in the repository.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Open Issues Count"
+        },
+        "owner": {
+          "$ref": "#/definitions/UserDetailsModel"
+        },
+        "permissions": {
+          "description": "Permissions on the repository.",
+          "properties": {
+            "admin": {
+              "type": "boolean"
+            },
+            "maintain": {
+              "type": "boolean"
+            },
+            "pull": {
+              "type": "boolean"
+            },
+            "push": {
+              "type": "boolean"
+            },
+            "triage": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "admin",
+            "pull",
+            "push"
+          ],
+          "type": "object",
+          "x-ms-summary": "Permissions"
+        },
+        "private": {
+          "default": false,
+          "description": "Whether the repository is private or public.",
+          "type": "boolean",
+          "x-ms-summary": "Is Private?"
+        },
+        "pulls_url": {
+          "description": "The pulls URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Pulls Url"
+        },
+        "pushed_at": {
+          "description": "When the repository was last pushed to.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Pushed At"
+        },
+        "releases_url": {
+          "description": "The releases URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Releases Url"
+        },
+        "size": {
+          "description": "Size of the repository",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Size"
+        },
+        "ssh_url": {
+          "description": "The SSH URL to clone this repository",
+          "type": "string",
+          "x-ms-summary": "SSH Url"
+        },
+        "stargazers_count": {
+          "description": "Number of users who have starred the repository.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Stargazers Count"
+        },
+        "stargazers_url": {
+          "description": "The stargazers URL for this repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Stargazers Url"
+        },
+        "starred_at": {
+          "description": "Repository Starred At",
+          "type": "string",
+          "x-ms-summary": "Starred At"
+        },
+        "statuses_url": {
+          "description": "The statuses URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Statuses Url"
+        },
+        "subscribers_count": {
+          "description": "Number of subscribers for the repository.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Subscribers Count"
+        },
+        "subscribers_url": {
+          "description": "The subscribers URL for this repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Subscribers Url"
+        },
+        "subscription_url": {
+          "description": "The subscription URL for this repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Subscription Url"
+        },
+        "svn_url": {
+          "description": "The SVN URL for this repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "SVN Url"
+        },
+        "tags_url": {
+          "description": "The tags URL for this repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Tags Url"
+        },
+        "teams_url": {
+          "description": "The teams URL for this repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Teams Url"
+        },
+        "temp_clone_token": {
+          "description": "Temporary authentication token for cloning this repository.",
+          "type": "string",
+          "x-ms-summary": "Temp Clone Token"
+        },
+        "template_repository": {
+          "properties": {
+            "allow_merge_commit": {
+              "default": true,
+              "description": "Whether to allow merge commits for pull requests.",
+              "type": "boolean",
+              "x-ms-summary": "Template Repository Allow Merge Commit"
+            },
+            "allow_rebase_merge": {
+              "default": true,
+              "description": "Whether to allow rebase merges for pull requests.",
+              "type": "boolean",
+              "x-ms-summary": "Template Repository Allow Rebase Merge"
+            },
+            "allow_squash_merge": {
+              "default": true,
+              "description": "Whether to allow squash merges for pull requests.",
+              "type": "boolean",
+              "x-ms-summary": "Template Repository Allow Squash Merge"
+            },
+            "archive_url": {
+              "description": "The Archive URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Archive Url"
+            },
+            "archived": {
+              "default": false,
+              "description": "Whether the repository is archived.",
+              "type": "boolean",
+              "x-ms-summary": "Is Template Repository Archived?"
+            },
+            "assignees_url": {
+              "description": "The Assignees URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Assignees Url"
+            },
+            "blobs_url": {
+              "description": "The Blobs URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Blobs Url"
+            },
+            "branches_url": {
+              "description": "The Branches URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Branches Url"
+            },
+            "clone_url": {
+              "description": "The clone URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Clone Url"
+            },
+            "collaborators_url": {
+              "description": "The Collaborators URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Collaborators Url"
+            },
+            "comments_url": {
+              "description": "The Comments URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Comments Url"
+            },
+            "commits_url": {
+              "description": "The Commits URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Commits Url"
+            },
+            "compare_url": {
+              "description": "The Compare URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Compare Url"
+            },
+            "contents_url": {
+              "description": "The Contents URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Contents Url"
+            },
+            "contributors_url": {
+              "description": "The Contributors URL for this repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository Contributors Url"
+            },
+            "created_at": {
+              "description": "the date and time when the repository was created.",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": "Template Repository Created At"
+            },
+            "default_branch": {
+              "description": "The default branch of the repository.",
+              "type": "string",
+              "x-ms-summary": "Template Repository Default Branch"
+            },
+            "delete_branch_on_merge": {
+              "default": false,
+              "description": "Whether to delete head branches when pull requests are merged",
+              "type": "boolean",
+              "x-ms-summary": "Template Repository Delete Branch On Merge"
+            },
+            "deployments_url": {
+              "description": "The Deployments URL for this repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository Deployments Url"
+            },
+            "description": {
+              "description": "The description of the repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Description"
+            },
+            "disabled": {
+              "description": "Returns whether or not this repository disabled.",
+              "type": "boolean",
+              "x-ms-summary": "Is Template Repository Disabled?"
+            },
+            "downloads_url": {
+              "description": "The Downloads URL for this repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository Downloads Url"
+            },
+            "events_url": {
+              "description": "The Events URL for this repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository Events Url"
+            },
+            "fork": {
+              "description": "If the repository is a fork?",
+              "type": "boolean",
+              "x-ms-summary": "Is Template Repository a Fork?"
+            },
+            "forks_count": {
+              "description": "Number of forks there are of this repository in the whole network.",
+              "format": "int32",
+              "type": "integer",
+              "x-ms-summary": "Template Repository Forks Count"
+            },
+            "forks_url": {
+              "description": "The Forks URL for this repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository Forks Url"
+            },
+            "full_name": {
+              "description": "The full name of the repository.",
+              "type": "string",
+              "x-ms-summary": "Template Repository Full Name"
+            },
+            "git_commits_url": {
+              "description": "The Git Commits URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Git Commits Url"
+            },
+            "git_refs_url": {
+              "description": "The Git References URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Git References Url"
+            },
+            "git_tags_url": {
+              "description": "The Git Tags URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Git Tags Url"
+            },
+            "git_url": {
+              "description": "The Git URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Git Url"
+            },
+            "has_downloads": {
+              "default": true,
+              "description": "Whether downloads are enabled.",
+              "type": "boolean",
+              "x-ms-summary": "Template Repository Has Downloads?"
+            },
+            "has_issues": {
+              "default": true,
+              "description": "Whether issues are enabled.",
+              "type": "boolean",
+              "x-ms-summary": "Template Repository Has Issues?"
+            },
+            "has_pages": {
+              "description": "Whether pages are enabled.",
+              "type": "boolean",
+              "x-ms-summary": "Template Repository Has Pages?"
+            },
+            "has_projects": {
+              "default": true,
+              "description": "Whether projects are enabled.",
+              "type": "boolean",
+              "x-ms-summary": "Template Repository Has Projects?"
+            },
+            "has_wiki": {
+              "default": true,
+              "description": "Whether the wiki is enabled.",
+              "type": "boolean",
+              "x-ms-summary": "Template Repository Has Wiki?"
+            },
+            "homepage": {
+              "description": "The homepage for this repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository Homepage"
+            },
+            "hooks_url": {
+              "description": "The hooks URL for this repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository Hooks Url"
+            },
+            "html_url": {
+              "description": "The Html Url of the repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository Html Url"
+            },
+            "id": {
+              "description": "Unique identifier of the repository.",
+              "format": "int32",
+              "type": "integer",
+              "x-ms-summary": "Template Repository Id"
+            },
+            "is_template": {
+              "default": false,
+              "description": "Whether this repository acts as a template that can be used to generate new repositories.",
+              "type": "boolean",
+              "x-ms-summary": "Is Template Repository a Template?"
+            },
+            "issue_comment_url": {
+              "description": "The issue comment URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Issue Comment Url"
+            },
+            "issue_events_url": {
+              "description": "The issue events URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Issue Events Url"
+            },
+            "issues_url": {
+              "description": "The issues URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Issues Url"
+            },
+            "keys_url": {
+              "description": "The keys URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Keys Url"
+            },
+            "labels_url": {
+              "description": "The labels URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Labels Url"
+            },
+            "language": {
+              "description": "The language for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Language"
+            },
+            "languages_url": {
+              "description": "The languages URL for this repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository Languages Url"
+            },
+            "merges_url": {
+              "description": "The merges URL for this repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository Merges Url"
+            },
+            "milestones_url": {
+              "description": "The milestones URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Milestones Url"
+            },
+            "mirror_url": {
+              "description": "The original mirror URL for this repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository Mirror Url"
+            },
+            "name": {
+              "description": "The name of the repository.",
+              "type": "string",
+              "x-ms-summary": "Template Repository Name"
+            },
+            "network_count": {
+              "description": "Repository Network Count",
+              "format": "int32",
+              "type": "integer",
+              "x-ms-summary": "Template Repository Network Count"
+            },
+            "node_id": {
+              "description": "The Node Id of the repository.",
+              "type": "string",
+              "x-ms-summary": "Template Repository Node Id"
+            },
+            "notifications_url": {
+              "description": "The notifications URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Notifications Url"
+            },
+            "open_issues_count": {
+              "description": "Number of open issues in the repository.",
+              "format": "int32",
+              "type": "integer",
+              "x-ms-summary": "Template Repository Open Issues Count"
+            },
+            "owner": {
+              "$ref": "#/definitions/UserDetailsModel"
+            },
+            "permissions": {
+              "description": "Permissions on the repository.",
+              "properties": {
+                "admin": {
+                  "type": "boolean"
+                },
+                "pull": {
+                  "type": "boolean"
+                },
+                "push": {
+                  "type": "boolean"
+                }
+              },
+              "type": "object",
+              "x-ms-summary": "Template Repository Permissions"
+            },
+            "private": {
+              "default": false,
+              "description": "Whether the repository is private or public.",
+              "type": "boolean",
+              "x-ms-summary": "Is Template Repository Private?"
+            },
+            "pulls_url": {
+              "description": "The pulls URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Pulls Url"
+            },
+            "pushed_at": {
+              "description": "When the repository was last pushed to.",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": "Template Repository Pushed At"
+            },
+            "releases_url": {
+              "description": "The releases URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Releases Url"
+            },
+            "size": {
+              "description": "Size of the repository",
+              "format": "int32",
+              "type": "integer",
+              "x-ms-summary": "Template Repository Size"
+            },
+            "ssh_url": {
+              "description": "The SSH URL to clone this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository SSH Url"
+            },
+            "stargazers_count": {
+              "description": "Number of users who have starred the repository.",
+              "format": "int32",
+              "type": "integer",
+              "x-ms-summary": "Template Repository Stargazers Count"
+            },
+            "stargazers_url": {
+              "description": "The stargazers URL for this repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository Stargazers Url"
+            },
+            "statuses_url": {
+              "description": "The statuses URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Statuses Url"
+            },
+            "subscribers_count": {
+              "description": "Number of subscribers for the repository.",
+              "format": "int32",
+              "type": "integer",
+              "x-ms-summary": "Template Repository Subscribers Count"
+            },
+            "subscribers_url": {
+              "description": "The subscribers URL for this repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository Subscribers Url"
+            },
+            "subscription_url": {
+              "description": "The subscription URL for this repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository Subscription Url"
+            },
+            "svn_url": {
+              "description": "The SVN URL for this repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository SVN Url"
+            },
+            "tags_url": {
+              "description": "The tags URL for this repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository Tags Url"
+            },
+            "teams_url": {
+              "description": "The teams URL for this repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository Teams Url"
+            },
+            "temp_clone_token": {
+              "description": "Temporary authentication token for cloning this repository.",
+              "type": "string",
+              "x-ms-summary": "Template Repository Temp Clone Token"
+            },
+            "template_repository": {
+              "description": "Template repository.",
+              "type": "string",
+              "x-ms-summary": "Template Repository of Template Repository"
+            },
+            "topics": {
+              "description": "List of topics in the repository",
+              "items": {
+                "type": "string"
+              },
+              "type": "array",
+              "x-ms-summary": "Template Repository Topics"
+            },
+            "trees_url": {
+              "description": "The trees URL for this repository",
+              "type": "string",
+              "x-ms-summary": "Template Repository Trees Url"
+            },
+            "updated_at": {
+              "description": "the date and time when the repository was last updated.",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": "Template Repository Updated At"
+            },
+            "url": {
+              "description": "The HTTP URL for this repository",
+              "format": "uri",
+              "type": "string",
+              "x-ms-summary": "Template Repository Url"
+            },
+            "visibility": {
+              "default": "public",
+              "description": "The repository visibility: public, private, or internal.",
+              "type": "string",
+              "x-ms-summary": "Template Repository Visibility"
+            },
+            "watchers_count": {
+              "description": "Number of users watching the repository.",
+              "format": "int32",
+              "type": "integer",
+              "x-ms-summary": "Template Repository Watchers Count"
+            }
+          },
+          "type": "object"
+        },
+        "topics": {
+          "description": "List of topics in the repository",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-ms-summary": "Topics"
+        },
+        "trees_url": {
+          "description": "The trees URL for this repository",
+          "type": "string",
+          "x-ms-summary": "Trees Url"
+        },
+        "updated_at": {
+          "description": "the date and time when the repository was last updated.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Updated At"
+        },
+        "url": {
+          "description": "The HTTP URL for this repository",
+          "format": "uri",
+          "type": "string",
+          "x-ms-summary": "Url"
+        },
+        "visibility": {
+          "default": "public",
+          "description": "The repository visibility: public, private, or internal.",
+          "type": "string",
+          "x-ms-summary": "Visibility"
+        },
+        "watchers": {
+          "description": "Repository Watchers.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Watchers"
+        },
+        "watchers_count": {
+          "description": "Number of users watching the repository.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Watchers Count"
+        }
+      },
+      "type": "object"
+    },
+    "UserDetailsModel": {
+      "description": "Properties of a GitHub user.",
+      "properties": {
+        "avatar_url": {
+          "description": "User Avatar Url.",
+          "type": "string",
+          "x-ms-summary": "Avatar Url"
+        },
+        "bio": {
+          "description": "User Bio.",
+          "type": "string",
+          "x-ms-summary": "Bio"
+        },
+        "blog": {
+          "description": "User Blog.",
+          "type": "string",
+          "x-ms-summary": "Blog"
+        },
+        "company": {
+          "description": "User Company.",
+          "type": "string",
+          "x-ms-summary": "Company"
+        },
+        "created_at": {
+          "description": "User Created At.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Created At"
+        },
+        "email": {
+          "description": "User Email.",
+          "type": "string",
+          "x-ms-summary": "Email"
+        },
+        "events_url": {
+          "description": "User Events Url.",
+          "type": "string",
+          "x-ms-summary": "Events Url"
+        },
+        "followers": {
+          "description": "User Followers.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Followers"
+        },
+        "followers_url": {
+          "description": "User FollowersUrl",
+          "type": "string",
+          "x-ms-summary": "Followers Url"
+        },
+        "following": {
+          "description": "User Following.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Following"
+        },
+        "following_url": {
+          "description": "User Following Url.",
+          "type": "string",
+          "x-ms-summary": "Following Url"
+        },
+        "gists_url": {
+          "description": "User Gists Url.",
+          "type": "string",
+          "x-ms-summary": "Gists Url"
+        },
+        "gravatar_id": {
+          "description": "User Gravatar Id.",
+          "type": "string",
+          "x-ms-summary": "Gravatar Id"
+        },
+        "hireable": {
+          "description": "User Hireable?",
+          "type": "boolean",
+          "x-ms-summary": "Hireable"
+        },
+        "html_url": {
+          "description": "User Html Url.",
+          "type": "string",
+          "x-ms-summary": "Html Url"
+        },
+        "id": {
+          "description": "User Id.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Id"
+        },
+        "location": {
+          "description": "User Location.",
+          "type": "string",
+          "x-ms-summary": "Location"
+        },
+        "login": {
+          "description": "User Login.",
+          "type": "string",
+          "x-ms-summary": "Login"
+        },
+        "name": {
+          "description": "User Name.",
+          "type": "string",
+          "x-ms-summary": "Name"
+        },
+        "node_id": {
+          "description": "User Node Id.",
+          "type": "string",
+          "x-ms-summary": "Node Id"
+        },
+        "organizations_url": {
+          "description": "User Organizations Url.",
+          "type": "string",
+          "x-ms-summary": "Organizations Url"
+        },
+        "public_gists": {
+          "description": "User Public Gists.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Public Gists"
+        },
+        "public_repos": {
+          "description": "User Public Repos.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Public Repos"
+        },
+        "received_events_url": {
+          "description": "User Received Events Url.",
+          "type": "string",
+          "x-ms-summary": "Received Events Url"
+        },
+        "repos_url": {
+          "description": "User Repos Url.",
+          "type": "string",
+          "x-ms-summary": "Repos Url"
+        },
+        "site_admin": {
+          "description": "Is User Site Admin?",
+          "type": "boolean",
+          "x-ms-summary": "Site Admin"
+        },
+        "starred_url": {
+          "description": "User Starred Url.",
+          "type": "string",
+          "x-ms-summary": "Starred Url"
+        },
+        "subscriptions_url": {
+          "description": "User Subscriptions Url.",
+          "type": "string",
+          "x-ms-summary": "Subscriptions Url"
+        },
+        "type": {
+          "description": "User Type.",
+          "type": "string",
+          "x-ms-summary": "Type"
+        },
+        "updated_at": {
+          "description": "User Updated At.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Updated At"
+        },
+        "url": {
+          "description": "User Url.",
+          "type": "string",
+          "x-ms-summary": "Url"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/github"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "GitHub is a web-based Git repository hosting service. It offers all of the distributed revision control and source code management (SCM) functionality of Git as well as adding its own features.",
+    "title": "GitHub",
+    "version": "1.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    }
+  },
+  "parameters": {
+    "pullNumber": {
+      "description": "Pull Number.",
+      "in": "path",
+      "name": "pullNumber",
+      "required": true,
+      "type": "integer",
+      "x-ms-summary": "Pull Number"
+    },
+    "repositoryId": {
+      "description": "Unique Identifier of the repository.",
+      "in": "path",
+      "name": "repositoryId",
+      "required": true,
+      "type": "integer",
+      "x-ms-summary": "Repository Id"
+    },
+    "repositoryName": {
+      "description": "Name of the repository.",
+      "in": "path",
+      "name": "repositoryName",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "Repository Name"
+    },
+    "repositoryOwner": {
+      "description": "Name of the repository owner.",
+      "in": "path",
+      "name": "repositoryOwner",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "Repository Owner"
+    },
+    "secretName": {
+      "description": "Name of the secret.",
+      "in": "path",
+      "name": "secretName",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "Secret Name"
+    },
+    "templateOwner": {
+      "description": "Name of the template repository owner.",
+      "in": "path",
+      "name": "templateOwner",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "Template Owner"
+    },
+    "templateRepository": {
+      "description": "Name of the template repository.",
+      "in": "path",
+      "name": "templateRepository",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "Template Repository"
+    }
+  },
+  "paths": {
+    "/{connectionId}/repos/{repositoryOwner}/{repositoryName}/actions/secrets/public-key": {
+      "get": {
+        "deprecated": false,
+        "description": "Gets your public key, which you need to encrypt secrets. You need to encrypt a secret before you can create or update secrets.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/github/#get-a-repository-public-key"
+        },
+        "operationId": "GetRepositoryPublicKey",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/repositoryOwner"
+          },
+          {
+            "$ref": "#/parameters/repositoryName"
+          },
+          {
+            "default": "application/vnd.github.v3+json",
+            "in": "header",
+            "name": "Accept",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ActionsPublicKey"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error. Unknown error occurred"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get a repository public key",
+        "tags": [
+          "GitHub"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/repos/{repositoryOwner}/{repositoryName}/actions/secrets/{secretName}": {
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "deprecated": false,
+        "description": "Creates or updates a repository secret with an encrypted value. Encrypt your secret using LibSodium.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/github/#create-or-update-a-repository-secret"
+        },
+        "operationId": "CreateUpdateRepositorySecret",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/repositoryOwner"
+          },
+          {
+            "$ref": "#/parameters/repositoryName"
+          },
+          {
+            "$ref": "#/parameters/secretName"
+          },
+          {
+            "default": "application/vnd.github.v3+json",
+            "in": "header",
+            "name": "Accept",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateRepositorySecretRequest"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Response when creating a secret"
+          },
+          "204": {
+            "description": "Response when updating a secret"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error. Unknown error occurred"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Create or update a repository secret",
+        "tags": [
+          "GitHub"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/repos/{repositoryOwner}/{repositoryName}/issues": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "deprecated": false,
+        "description": "This operation is used to create a new issue for a specific repository.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/github/#create-an-issue"
+        },
+        "operationId": "CreateIssue",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the repository owner.",
+            "in": "path",
+            "name": "repositoryOwner",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Repository Owner"
+          },
+          {
+            "description": "Name of the repository.",
+            "in": "path",
+            "name": "repositoryName",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Repository Name"
+          },
+          {
+            "description": "Details of the issue.",
+            "in": "body",
+            "name": "issueBasicDetails",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IssueBasicDetailsModel"
+            },
+            "x-ms-summary": "Issue"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/IssueDetailsModel"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error. Unknown error occurred"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Create an issue",
+        "tags": [
+          "GitHub"
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/repos/{templateOwner}/{templateRepository}/generate": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "deprecated": false,
+        "description": "Creates a new repository using a repository template. The authenticated user must own or be a member of an organization that owns the repository.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/github/#create-a-repository-using-a-template"
+        },
+        "operationId": "CreateRepositoryUsingTemplate",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/templateOwner"
+          },
+          {
+            "$ref": "#/parameters/templateRepository"
+          },
+          {
+            "default": "application/vnd.github.baptiste-preview+json",
+            "in": "header",
+            "name": "Accept",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateRepositoryUsingTemplateRequest"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/RepositoryDetails"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Failed"
+          },
+          "500": {
+            "description": "Internal Server Error. Unknown error occurred"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Create a repository using a template",
+        "tags": [
+          "GitHub"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/repositories/{repositoryId}": {
+      "get": {
+        "deprecated": false,
+        "description": "Gets a repository by Id.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/github/#get-a-repository-by-id"
+        },
+        "operationId": "GetRepositoryById",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/repositoryId"
+          },
+          {
+            "default": "application/vnd.github.v3+json",
+            "in": "header",
+            "name": "Accept",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/RepositoryDetails"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error. Unknown error occurred"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get a repository by Id",
+        "tags": [
+          "GitHub"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/trigger/issueAssigned": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation triggers when an issue is assigned to the logged in user.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/github/#when-an-issue-is-assigned-to-me"
+        },
+        "operationId": "IssueAssigned",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/IssueDetailsModel"
+              },
+              "type": "array"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error. Unknown error occurred"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When an issue is assigned to me",
+        "tags": [
+          "GitHub"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, assign an issue in GitHub.",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/trigger/issueClosed": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation triggers when an issue assigned to the logged in user is closed.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/github/#when-an-issue-assigned-to-me-is-closed"
+        },
+        "operationId": "IssueClosed",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/IssueDetailsModel"
+              },
+              "type": "array"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error. Unknown error occurred"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When an issue assigned to me is closed",
+        "tags": [
+          "GitHub"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, close an issue in GitHub.",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/trigger/issueOpened": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation triggers when an issue is opened and assigned to the logged in user.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/github/#when-a-new-issue-is-opened-and-assigned-to-me"
+        },
+        "operationId": "IssueOpened",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/IssueDetailsModel"
+              },
+              "type": "array"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error. Unknown error occurred"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a new issue is opened and assigned to me",
+        "tags": [
+          "GitHub"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, open a new issue in GitHub.",
+        "x-ms-visibility": "important"
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://github.com/"
+    }
+  ]
+}

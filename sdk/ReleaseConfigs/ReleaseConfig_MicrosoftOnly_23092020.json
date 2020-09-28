@@ -1,0 +1,62 @@
+[
+	{
+		"name": "azureadip",
+		"friendlyName": "AzureADIdentityProtection",
+		"version": "0.0.1-alpha"
+	  },
+	  {
+		"name": "azureappservice",
+		"friendlyName": "AzureAppService",
+		"version": "0.0.1-alpha"
+	  },
+	  {
+		"name": "bingmaps",
+		"friendlyName": "BingMaps",
+		"version": "0.0.1-alpha"
+	  },
+	  {
+		"name": "bingsearch",
+		"friendlyName": "BingSearch",
+		"version": "0.0.1-alpha"
+	  },
+	  {
+		"name": "biztalk",
+		"friendlyName": "BizTalkServer",
+		"version": "0.0.1-alpha"
+	  },
+	  {
+		"name": "cognitiveservicescomputervision",
+		"friendlyName": "ComputerVisionAPI",
+		"version": "0.0.1-alpha"
+	  },
+	  {
+		"name": "cognitiveservicescontentmoderator",
+		"friendlyName": "ContentModerator",
+		"version": "0.0.1-alpha"
+	  },
+	  {
+		"name": "cognitiveservicescustomvision",
+		"friendlyName": "CustomVision",
+		"version": "0.0.1-alpha"
+	  },
+	  {
+		"name": "cognitiveservicesqnamaker",
+		"friendlyName": "QnAMaker",
+		"version": "0.0.1-alpha"
+	  },
+	  {
+		"name": "faceapi",
+		"friendlyName": "FaceAPI",
+		"version": "0.0.1-alpha"
+	  },
+	  {
+		"name": "formrecognizer",
+		"friendlyName": "FormRecognizer",
+		"version": "0.0.1-alpha"
+	  },
+	  {
+		"name": "cognitiveservicestextanalytics" ,
+		"friendlyName": "TextAnalytics",
+		"version": "0.0.1-alpha"
+	  }
+]

@@ -1,0 +1,4315 @@
+{
+  "basePath": "/apim/dynamicscrmonline",
+  "definitions": {
+    "BlobDataSetsMetadata": {
+      "description": "Blob dataset metadata",
+      "properties": {
+        "displayName": {
+          "description": "Blob dataset display name",
+          "type": "string"
+        },
+        "source": {
+          "description": "Blob dataset source",
+          "type": "string"
+        },
+        "urlEncoding": {
+          "description": "Blob dataset url encoding",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "DataSet": {
+      "description": "Dataset",
+      "properties": {
+        "DisplayName": {
+          "description": "Dataset display name",
+          "type": "string"
+        },
+        "Name": {
+          "description": "Dataset name",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "DataSetsList": {
+      "description": "List of datasets",
+      "properties": {
+        "value": {
+          "description": "List of datasets",
+          "items": {
+            "$ref": "#/definitions/DataSet"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "DataSetsMetadata": {
+      "description": "Dataset metadata",
+      "properties": {
+        "blob": {
+          "$ref": "#/definitions/BlobDataSetsMetadata"
+        },
+        "tabular": {
+          "$ref": "#/definitions/TabularDataSetsMetadata"
+        }
+      },
+      "type": "object"
+    },
+    "Item": {
+      "additionalProperties": {
+        "$ref": "#/definitions/Object"
+      },
+      "description": "Table item entity",
+      "properties": {
+        "dynamicProperties": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Object"
+          },
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "x-ms-dynamic-schema": {
+        "operationId": "GetTable",
+        "parameters": {
+          "dataset": {
+            "parameter": "dataset"
+          },
+          "table": {
+            "parameter": "table"
+          }
+        },
+        "value-path": "Schema/Items"
+      }
+    },
+    "ItemsList": {
+      "description": "List of Items",
+      "properties": {
+        "value": {
+          "description": "List of Items",
+          "items": {
+            "$ref": "#/definitions/Item"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "Object": {
+      "properties": {},
+      "type": "object"
+    },
+    "Procedure": {
+      "description": "Procedure",
+      "properties": {
+        "DisplayName": {
+          "description": "Procedure display name",
+          "type": "string"
+        },
+        "Name": {
+          "description": "Procedure name",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Table": {
+      "description": "Represents a table.",
+      "properties": {
+        "DisplayName": {
+          "description": "The display name of the table.",
+          "type": "string"
+        },
+        "Name": {
+          "description": "The name of the table. The name is used at runtime.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "TableCapabilitiesMetadata": {
+      "description": "Metadata for a table (capabilities)",
+      "properties": {
+        "filterFunctionSupport": {
+          "description": "List of supported filter capabilities",
+          "items": {
+            "enum": [
+              "eq",
+              "ne",
+              "gt",
+              "ge",
+              "lt",
+              "le",
+              "and",
+              "or",
+              "contains",
+              "startswith",
+              "endswith",
+              "length",
+              "indexof",
+              "replace",
+              "substring",
+              "substringof",
+              "tolower",
+              "toupper",
+              "trim",
+              "concat",
+              "year",
+              "month",
+              "day",
+              "hour",
+              "minute",
+              "second",
+              "date",
+              "time",
+              "now",
+              "totaloffsetminutes",
+              "totalseconds",
+              "floor",
+              "ceiling",
+              "round",
+              "not",
+              "negate",
+              "add",
+              "sub",
+              "mul",
+              "div",
+              "mod",
+              "sum",
+              "min",
+              "max",
+              "average",
+              "countdistinct",
+              "null"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "filterRestrictions": {
+          "$ref": "#/definitions/TableFilterRestrictionsMetadata"
+        },
+        "isOnlyServerPagable": {
+          "description": "Server paging restrictions",
+          "type": "boolean"
+        },
+        "sortRestrictions": {
+          "$ref": "#/definitions/TableSortRestrictionsMetadata"
+        }
+      },
+      "type": "object"
+    },
+    "TableFilterRestrictionsMetadata": {
+      "description": "Metadata for a table (filter restrictions)",
+      "properties": {
+        "filterable": {
+          "description": "Indicates whether this table has sortable columns",
+          "type": "boolean"
+        },
+        "nonFilterableProperties": {
+          "description": "List of non filterable properties",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "requiredProperties": {
+          "description": "List of required properties",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "TableMetadata": {
+      "description": "Table metadata",
+      "properties": {
+        "name": {
+          "description": "Table name",
+          "type": "string"
+        },
+        "referencedEntities": {
+          "$ref": "#/definitions/Object"
+        },
+        "schema": {
+          "$ref": "#/definitions/Object"
+        },
+        "title": {
+          "description": "Table title",
+          "type": "string"
+        },
+        "webUrl": {
+          "description": "Url link",
+          "type": "string"
+        },
+        "x-ms-capabilities": {
+          "$ref": "#/definitions/TableCapabilitiesMetadata"
+        },
+        "x-ms-permission": {
+          "description": "Table permission",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "TableSortRestrictionsMetadata": {
+      "description": "Metadata for a table (sort restrictions)",
+      "properties": {
+        "ascendingOnlyProperties": {
+          "description": "List of properties which support ascending order only",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "sortable": {
+          "description": "Indicates whether this table has sortable columns",
+          "type": "boolean"
+        },
+        "unsortableProperties": {
+          "description": "List of unsortable properties",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "TablesList": {
+      "description": "Represents a list of tables.",
+      "properties": {
+        "value": {
+          "description": "List of Tables",
+          "items": {
+            "$ref": "#/definitions/Table"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "TabularDataSetsMetadata": {
+      "description": "Tabular dataset metadata",
+      "properties": {
+        "displayName": {
+          "description": "Dataset display name",
+          "type": "string"
+        },
+        "source": {
+          "description": "Dataset source",
+          "type": "string"
+        },
+        "tableDisplayName": {
+          "description": "Table display name",
+          "type": "string"
+        },
+        "tablePluralName": {
+          "description": "Table plural display name",
+          "type": "string"
+        },
+        "urlEncoding": {
+          "description": "Dataset url encoding",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/dynamicscrmonline"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Microsoft Dynamics 365 is a cloud based service that provides a set of intelligent applications that seamlessly work together — unifying the capabilities of CRM business software and ERP systems.",
+    "title": "Dynamics 365 (deprecated)",
+    "version": "1.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    }
+  },
+  "paths": {
+    "/{connectionId}/$metadata.json/datasets": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "GetDataSetsMetadata",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DataSetsMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "CrmDataSetsMetadata"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/$metadata.json/datasets('{dataset}')/tables('{table}')": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Gets entity metadata",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#get-entity-metadata-(deprecated)"
+        },
+        "operationId": "ODataStyleGetTable",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TableMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get Entity metadata (deprecated)",
+        "tags": [
+          "CrmTableMetadata"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/$metadata.json/datasets/{dataset}/tables/{table}": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Gets entity metadata",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#get-entity-metadata-(deprecated)"
+        },
+        "operationId": "GetTable",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TableMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get Entity metadata (deprecated)",
+        "tags": [
+          "CrmTableMetadata"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/$metadata.json/datasets/{dataset}/tables/{table}/patchitem": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get metadata of a table for patch operation",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#get-metadata-of-a-table-for-patch-operation-(deprecated)"
+        },
+        "operationId": "GetMetadataForPatchItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TableMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get metadata of a table for patch operation (deprecated)",
+        "tags": [
+          "CrmTableMetadata"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/$metadata.json/datasets/{dataset}/tables/{table}/postitem": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get metadata of a table for post operation",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#get-metadata-of-a-table-for-post-operation-(deprecated)"
+        },
+        "operationId": "GetMetadataForPostItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TableMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get metadata of a table for post operation (deprecated)",
+        "tags": [
+          "CrmTableMetadata"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "GetDataSets",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DataSetsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "CrmDataSet"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation gets the list of entities",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#gets-entities-(deprecated)"
+        },
+        "operationId": "ODataStyleGetTables",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TablesList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Gets entities (deprecated)",
+        "tags": [
+          "CrmTable"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables({table})/items": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation gets records for an entity",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#list-records-(deprecated)"
+        },
+        "operationId": "ODataStyleGetItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Related entries to include with requested entries (default = none)",
+            "in": "query",
+            "name": "$expand",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Expand Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Defines columns to return, entities to join and filters to apply to build the resulting list of entries",
+            "in": "query",
+            "name": "fetchXml",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "FetchXML Query",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "List records (deprecated)",
+        "tags": [
+          "CrmTableData"
+        ],
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        },
+        "x-ms-visibility": "internal"
+      },
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation creates a new record of an entity",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#create-a-new-record-(deprecated)"
+        },
+        "operationId": "ODataStylePostItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name"
+          },
+          {
+            "description": "Record to create",
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Item"
+            },
+            "x-ms-summary": "Record Item"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Create a new record (deprecated)",
+        "tags": [
+          "CrmTableData"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables({table})/items({id})": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation deletes a record from an entity collection",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#delete-a-record-(deprecated)"
+        },
+        "operationId": "ODataStyleDeleteItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name"
+          },
+          {
+            "description": "Identifier for the record",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Item identifier"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Delete a record (deprecated)",
+        "tags": [
+          "CrmTableData"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation retrieves the specified record for an entity",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#get-record-(deprecated)"
+        },
+        "operationId": "ODataStyleGetItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name"
+          },
+          {
+            "description": "Item identifier",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Item identifier"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get record (deprecated)",
+        "tags": [
+          "CrmTableData"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "patch": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation updates an existing record for an entity",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#update-a-record-(deprecated)"
+        },
+        "operationId": "ODataStylePatchItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name"
+          },
+          {
+            "description": "Identifier for the record",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Item identifier"
+          },
+          {
+            "description": "Record to update",
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Item"
+            },
+            "x-ms-summary": "Record Item"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Update a record (deprecated)",
+        "tags": [
+          "CrmTableData"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables({table})/ondeleteditems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Triggers a flow when an object is deleted in Dynamics 365",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#when-a-record-is-deleted-(deprecated)"
+        },
+        "operationId": "ODataStyleGetOnDeletedItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is deleted (deprecated)",
+        "tags": [
+          "CrmTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, delete an item in the Dynamics 365 entity you selected.",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables({table})/onnewitems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Triggers a flow when an object is created in Dynamics 365",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#when-a-record-is-created-(deprecated)"
+        },
+        "operationId": "ODataStyleGetOnNewItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is created (deprecated)",
+        "tags": [
+          "CrmTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, add a new item in the Dynamics 365 entity you selected.",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables({table})/onupdateditems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Triggers a flow when an object is modified in Dynamics 365",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#when-a-record-is-updated-(deprecated)"
+        },
+        "operationId": "ODataStyleGetOnUpdatedItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is updated (deprecated)",
+        "tags": [
+          "CrmTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, edit an item in the Dynamics 365 entity you selected.",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tables": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation gets the list of entities",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#gets-entities-(deprecated)"
+        },
+        "operationId": "GetTables",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TablesList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Gets entities (deprecated)",
+        "tags": [
+          "CrmTable"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tables/{table}/items": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation gets records for an entity",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#list-records-(deprecated)"
+        },
+        "operationId": "GetItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Related entries to include with requested entries (default = none)",
+            "in": "query",
+            "name": "$expand",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Expand Query",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "List records (deprecated)",
+        "tags": [
+          "CrmTableData"
+        ],
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        },
+        "x-ms-visibility": "important"
+      },
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation creates a new record of an entity",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#create-a-new-record-(deprecated)"
+        },
+        "operationId": "PostItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Record to create",
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetMetadataForPostItem",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            },
+            "x-ms-summary": "Record Item"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetMetadataForPostItem",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Create a new record (deprecated)",
+        "tags": [
+          "CrmTableData"
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tables/{table}/items/{id}": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation deletes a record from an entity collection",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#delete-a-record-(deprecated)"
+        },
+        "operationId": "DeleteItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Identifier for the record",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Item identifier",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Delete a record (deprecated)",
+        "tags": [
+          "CrmTableData"
+        ]
+      },
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation retrieves the specified record for an entity",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#get-record-(deprecated)"
+        },
+        "operationId": "GetItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Identifier for the record",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Item identifier",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetTable",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get record (deprecated)",
+        "tags": [
+          "CrmTableData"
+        ],
+        "x-ms-visibility": "advanced"
+      },
+      "patch": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation updates an existing record for an entity",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#update-a-record-(deprecated)"
+        },
+        "operationId": "PatchItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Identifier for the record",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Record identifier",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Record to update",
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetMetadataForPatchItem",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            },
+            "x-ms-summary": "Record Item"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetMetadataForPatchItem",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Update a record (deprecated)",
+        "tags": [
+          "CrmTableData"
+        ]
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tables/{table}/ondeleteditems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Triggers a flow when an object is deleted in Dynamics 365",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#when-a-record-is-deleted-(deprecated)"
+        },
+        "operationId": "GetOnDeletedItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is deleted (deprecated)",
+        "tags": [
+          "CrmTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, delete an item in the Dynamics 365 entity you selected.",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tables/{table}/onnewitems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Triggers a flow when an object is created in Dynamics 365",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#when-a-record-is-created-(deprecated)"
+        },
+        "operationId": "GetOnNewItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is created (deprecated)",
+        "tags": [
+          "CrmTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, add a new item in the Dynamics 365 entity you selected.",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tables/{table}/onupdateditems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Triggers a flow when an object is modified in Dynamics 365",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#when-a-record-is-updated-(deprecated)"
+        },
+        "operationId": "GetOnUpdatedItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is updated (deprecated)",
+        "tags": [
+          "CrmTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, edit an item in the Dynamics 365 entity you selected.",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v2/$metadata.json/datasets('{dataset}')/tables('{table}')": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Gets entity metadata",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#get-entity-metadata-(deprecated)"
+        },
+        "operationId": "ODataStyleGetTable_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TableMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get Entity metadata (deprecated)",
+        "tags": [
+          "CrmTableMetadataV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v2/$metadata.json/datasets/{dataset}/tables/{table}": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Gets entity metadata",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#get-entity-metadata-(deprecated)"
+        },
+        "operationId": "GetTable_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TableMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get Entity metadata (deprecated)",
+        "tags": [
+          "CrmTableMetadataV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v2/$metadata.json/datasets/{dataset}/tables/{table}/patchitem": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Gets entity metadata for patch operation",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#get-entity-metadata---patch-(deprecated)"
+        },
+        "operationId": "GetMetadataForPatchItem_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TableMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get Entity metadata - Patch (deprecated)",
+        "tags": [
+          "CrmTableMetadataV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v2/$metadata.json/datasets/{dataset}/tables/{table}/postitem": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Gets entity metadata for post operation",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#get-entity-metadata---post-(deprecated)"
+        },
+        "operationId": "GetMetadataForPostItem_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TableMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get Entity metadata - Post (deprecated)",
+        "tags": [
+          "CrmTableMetadataV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v2/datasets({dataset})/tables({table})/items": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation gets records for an entity (with option sets exposed as strings)",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#list-records-(deprecated)"
+        },
+        "operationId": "ODataStyleGetItems_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Related entries to include with requested entries (default = none)",
+            "in": "query",
+            "name": "$expand",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Expand Query",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "List records (deprecated)",
+        "tags": [
+          "CrmTableDataV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        },
+        "x-ms-visibility": "internal"
+      },
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation creates a new record of an entity (with option sets exposed as strings)",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#create-a-new-record-(deprecated)"
+        },
+        "operationId": "ODataStylePostItem_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name"
+          },
+          {
+            "description": "Record to create",
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Item"
+            },
+            "x-ms-summary": "Record Item"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Create a new record (deprecated)",
+        "tags": [
+          "CrmTableDataV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v2/datasets({dataset})/tables({table})/items({id})": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation deletes a record from an entity collection",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#delete-a-record-(deprecated)"
+        },
+        "operationId": "ODataStyleDeleteItem_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name"
+          },
+          {
+            "description": "Identifier for the record",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Item identifier"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Delete a record (deprecated)",
+        "tags": [
+          "CrmTableDataV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      },
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation retrieves the specified record for an entity (with option sets exposed as strings)",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#get-record-(deprecated)"
+        },
+        "operationId": "ODataStyleGetItem_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name"
+          },
+          {
+            "description": "Identifier for the record",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Item identifier"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get record (deprecated)",
+        "tags": [
+          "CrmTableDataV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      },
+      "patch": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation updates an existing record for an entity (with option sets exposed as strings)",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#update-a-record-(deprecated)"
+        },
+        "operationId": "ODataStylePatchItem_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name"
+          },
+          {
+            "description": "Identifier for the record",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Item identifier"
+          },
+          {
+            "description": "Record to update",
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Item"
+            },
+            "x-ms-summary": "Record Item"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Update a record (deprecated)",
+        "tags": [
+          "CrmTableDataV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v2/datasets({dataset})/tables({table})/ondeleteditems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Triggers a flow when an object is deleted in Dynamics 365",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#when-a-record-is-deleted-(deprecated)"
+        },
+        "operationId": "ODataStyleGetOnDeletedItems_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is deleted (deprecated)",
+        "tags": [
+          "CrmTableDataTriggerV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v2/datasets({dataset})/tables({table})/onnewitems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Triggers a flow when an object is created in Dynamics 365 (with option sets exposed as strings)",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#when-a-record-is-created-(deprecated)"
+        },
+        "operationId": "ODataStyleGetOnNewItems_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is created (deprecated)",
+        "tags": [
+          "CrmTableDataTriggerV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, add a new item in the Dynamics 365 entity you selected.",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v2/datasets({dataset})/tables({table})/onupdateditems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Triggers a flow when an object is created or modified in Dynamics 365 (with option sets exposed as strings)",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#when-a-record-is-created-or-updated-(deprecated)"
+        },
+        "operationId": "ODataStyleGetOnUpdatedItems_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Organization Name"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity Name"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is created or updated (deprecated)",
+        "tags": [
+          "CrmTableDataTriggerV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, add or edit an item in the Dynamics 365 entity you selected.",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v2/datasets/{dataset}/tables/{table}/items": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation gets records for an entity (with option sets exposed as strings)",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#list-records-(deprecated)"
+        },
+        "operationId": "GetItems_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Related entries to include with requested entries (default = none)",
+            "in": "query",
+            "name": "$expand",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Expand Query",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "List records (deprecated)",
+        "tags": [
+          "CrmTableDataV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        },
+        "x-ms-visibility": "advanced"
+      },
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation creates a new record of an entity (with option sets exposed as strings)",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#create-a-new-record-(deprecated)"
+        },
+        "operationId": "PostItem_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Record to create",
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetMetadataForPostItem_V2",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            },
+            "x-ms-summary": "Record Item"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetMetadataForPostItem_V2",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Create a new record (deprecated)",
+        "tags": [
+          "CrmTableDataV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/v2/datasets/{dataset}/tables/{table}/items/{id}": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation deletes a record from an entity collection",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#delete-a-record-(deprecated)"
+        },
+        "operationId": "DeleteItem_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Identifier for the record",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Item identifier",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Delete a record (deprecated)",
+        "tags": [
+          "CrmTableDataV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      },
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation retrieves the specified record for an entity (with option sets exposed as strings)",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#get-record-(deprecated)"
+        },
+        "operationId": "GetItem_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Identifier for the record",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Item identifier",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetTable_V2",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get record (deprecated)",
+        "tags": [
+          "CrmTableDataV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      },
+      "patch": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation updates an existing record for an entity (with option sets exposed as strings)",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#update-a-record-(deprecated)"
+        },
+        "operationId": "PatchItem_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Identifier for the record",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Record identifier",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Record to update",
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetMetadataForPatchItem_V2",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            },
+            "x-ms-summary": "Record Item"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetMetadataForPatchItem_V2",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Update a record (deprecated)",
+        "tags": [
+          "CrmTableDataV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/v2/datasets/{dataset}/tables/{table}/ondeleteditems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Triggers a flow when an object is deleted in Dynamics 365",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#when-a-record-is-deleted-(deprecated)"
+        },
+        "operationId": "GetOnDeletedItems_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is deleted (deprecated)",
+        "tags": [
+          "CrmTableDataTriggerV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, delete an item in the Dynamics 365 entity you selected.",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v2/datasets/{dataset}/tables/{table}/onnewitems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Triggers a flow when an object is created in Dynamics 365 (with option sets exposed as strings)",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#when-a-record-is-created-(deprecated)"
+        },
+        "operationId": "GetOnNewItems_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is created (deprecated)",
+        "tags": [
+          "CrmTableDataTriggerV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, add a new item in the Dynamics 365 entity you selected.",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/v2/datasets/{dataset}/tables/{table}/onupdateditems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Triggers a flow when an object is created or modified in Dynamics 365 (with option sets exposed as strings)",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicscrmonline/#when-a-record-is-created-or-updated-(deprecated)"
+        },
+        "operationId": "GetOnUpdatedItems_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics 365 organization like Contoso",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Organization Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity Name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is created or updated (deprecated)",
+        "tags": [
+          "CrmTableDataTriggerV2"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, add or edit an item in the Dynamics 365 entity you selected.",
+        "x-ms-visibility": "advanced"
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://dynamics.microsoft.com/"
+    }
+  ]
+}

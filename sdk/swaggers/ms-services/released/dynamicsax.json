@@ -1,0 +1,3414 @@
+{
+  "basePath": "/apim/dynamicsax",
+  "definitions": {
+    "AxOnlineProcedureResult": {
+      "additionalProperties": {
+        "$ref": "#/definitions/Object"
+      },
+      "description": "Result of procedure execution",
+      "properties": {
+        "OutputParameters": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Object"
+          },
+          "description": "Output parameter values",
+          "readOnly": true,
+          "type": "object",
+          "x-ms-dynamic-schema": {
+            "operationId": "GetProcedure",
+            "parameters": {
+              "dataset": {
+                "parameter": "dataset"
+              },
+              "procedure": {
+                "parameter": "procedure"
+              }
+            },
+            "value-path": "schema/OutputParameters"
+          }
+        },
+        "value": {
+          "description": "Output parameter values",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "BlobDataSetsMetadata": {
+      "description": "Blob dataset metadata",
+      "properties": {
+        "displayName": {
+          "description": "Blob dataset display name",
+          "type": "string"
+        },
+        "source": {
+          "description": "Blob dataset source",
+          "type": "string"
+        },
+        "urlEncoding": {
+          "description": "Blob dataset url encoding",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "BusinessEventData": {
+      "description": "Business event model",
+      "properties": {
+        "DisplayName": {
+          "description": "Business event data display name",
+          "type": "string"
+        },
+        "Id": {
+          "description": "Business event Id",
+          "type": "string"
+        },
+        "Name": {
+          "description": "Business event data name",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "BusinessEventSubscription": {
+      "description": "Described the subscription information for Business events",
+      "properties": {
+        "NotificationUrl": {
+          "description": "Callback URL to the flow engine. Expected as part of the request and provided by Flow.",
+          "type": "string",
+          "x-ms-notification-url": true,
+          "x-ms-visibility": "internal"
+        }
+      },
+      "required": [
+        "NotificationUrl"
+      ],
+      "type": "object"
+    },
+    "BusinessEventSubscriptionResponse": {
+      "description": "Model for Business Events Subscription response",
+      "properties": {
+        "id": {
+          "description": "Id of the subscription",
+          "type": "string"
+        },
+        "notificationType": {
+          "description": "Notification Type",
+          "type": "string"
+        },
+        "notificationUrl": {
+          "description": "Notification Url",
+          "type": "string"
+        },
+        "resource": {
+          "description": "Resource of the subscription request",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "BusinessEventsList": {
+      "description": "Represents a list of Business events.",
+      "properties": {
+        "value": {
+          "description": "List of business events",
+          "items": {
+            "$ref": "#/definitions/BusinessEventData"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "DataSet": {
+      "description": "Dataset",
+      "properties": {
+        "DisplayName": {
+          "description": "Dataset display name",
+          "type": "string"
+        },
+        "Name": {
+          "description": "Dataset name",
+          "type": "string"
+        },
+        "query": {
+          "description": "Pass-through Native Queries",
+          "items": {
+            "$ref": "#/definitions/PassThroughNativeQuery"
+          },
+          "readOnly": true,
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "DataSetsList": {
+      "description": "List of datasets",
+      "properties": {
+        "value": {
+          "description": "List of datasets",
+          "items": {
+            "$ref": "#/definitions/DataSet"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "DataSetsMetadata": {
+      "description": "Dataset metadata",
+      "properties": {
+        "blob": {
+          "$ref": "#/definitions/BlobDataSetsMetadata"
+        },
+        "tabular": {
+          "$ref": "#/definitions/TabularDataSetsMetadata"
+        }
+      },
+      "type": "object"
+    },
+    "ExportableItem": {
+      "additionalProperties": {
+        "$ref": "#/definitions/Object"
+      },
+      "description": "Exportable item",
+      "properties": {
+        "dynamicProperties": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Object"
+          },
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "x-ms-dynamic-schema": {
+        "operationId": "GetTable",
+        "parameters": {
+          "dataset": {
+            "parameter": "dataset"
+          },
+          "table": {
+            "parameter": "table"
+          }
+        },
+        "value-path": "Schema/Items"
+      }
+    },
+    "ExportableItemsList": {
+      "description": "Exportable Items list",
+      "properties": {
+        "value": {
+          "description": "List of Items.",
+          "items": {
+            "$ref": "#/definitions/ExportableItem"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "Item": {
+      "additionalProperties": {
+        "$ref": "#/definitions/Object"
+      },
+      "description": "Table item entity",
+      "properties": {
+        "dynamicProperties": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Object"
+          },
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "x-ms-dynamic-schema": {
+        "operationId": "GetTable",
+        "parameters": {
+          "dataset": {
+            "parameter": "dataset"
+          },
+          "table": {
+            "parameter": "table"
+          }
+        },
+        "value-path": "Schema/Items"
+      }
+    },
+    "ItemsList": {
+      "description": "List of Items",
+      "properties": {
+        "value": {
+          "description": "List of Items",
+          "items": {
+            "$ref": "#/definitions/Item"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "Object": {
+      "properties": {},
+      "type": "object"
+    },
+    "PassThroughNativeQuery": {
+      "description": "static schema for pass-through native query execution",
+      "properties": {
+        "Language": {
+          "description": "Query language",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Procedure": {
+      "description": "Procedure",
+      "properties": {
+        "DisplayName": {
+          "description": "Procedure display name",
+          "type": "string"
+        },
+        "Name": {
+          "description": "Procedure name",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ProcedureMetadata": {
+      "description": "Procedure metadata",
+      "properties": {
+        "name": {
+          "description": "Procedure name",
+          "type": "string"
+        },
+        "schema": {
+          "$ref": "#/definitions/Object"
+        },
+        "title": {
+          "description": "Procedure title",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ProceduresList": {
+      "description": "Represents a list of procedures.",
+      "properties": {
+        "value": {
+          "description": "List of Procedures",
+          "items": {
+            "$ref": "#/definitions/Procedure"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "Table": {
+      "description": "Represents a table.",
+      "properties": {
+        "DisplayName": {
+          "description": "The display name of the table.",
+          "type": "string"
+        },
+        "DynamicProperties": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Object"
+          },
+          "description": "Additional table properties provided by the connector to the clients.",
+          "readOnly": true,
+          "type": "object"
+        },
+        "Name": {
+          "description": "The name of the table. The name is used at runtime.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "TableCapabilitiesMetadata": {
+      "description": "Metadata for a table (capabilities)",
+      "properties": {
+        "filterFunctionSupport": {
+          "description": "List of supported filter capabilities",
+          "items": {
+            "enum": [
+              "eq",
+              "ne",
+              "gt",
+              "ge",
+              "lt",
+              "le",
+              "and",
+              "or",
+              "contains",
+              "startswith",
+              "endswith",
+              "length",
+              "indexof",
+              "replace",
+              "substring",
+              "substringof",
+              "tolower",
+              "toupper",
+              "trim",
+              "concat",
+              "year",
+              "month",
+              "day",
+              "hour",
+              "minute",
+              "second",
+              "date",
+              "time",
+              "now",
+              "totaloffsetminutes",
+              "totalseconds",
+              "floor",
+              "ceiling",
+              "round",
+              "not",
+              "negate",
+              "add",
+              "sub",
+              "mul",
+              "div",
+              "mod",
+              "sum",
+              "min",
+              "max",
+              "average",
+              "countdistinct",
+              "null"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "filterRestrictions": {
+          "$ref": "#/definitions/TableFilterRestrictionsMetadata"
+        },
+        "isOnlyServerPagable": {
+          "description": "Server paging restrictions",
+          "type": "boolean"
+        },
+        "selectRestrictions": {
+          "$ref": "#/definitions/TableSelectRestrictionsMetadata"
+        },
+        "serverPagingOptions": {
+          "description": "List of supported server-driven paging capabilities",
+          "items": {
+            "enum": [
+              "top",
+              "skiptoken"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "sortRestrictions": {
+          "$ref": "#/definitions/TableSortRestrictionsMetadata"
+        }
+      },
+      "type": "object"
+    },
+    "TableFilterRestrictionsMetadata": {
+      "description": "Metadata for a table (filter restrictions)",
+      "properties": {
+        "filterable": {
+          "description": "Indicates whether this table has filterable columns",
+          "type": "boolean"
+        },
+        "nonFilterableProperties": {
+          "description": "List of non filterable properties",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "requiredProperties": {
+          "description": "List of required properties",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "TableMetadata": {
+      "description": "Table metadata",
+      "properties": {
+        "name": {
+          "description": "Table name",
+          "type": "string"
+        },
+        "referencedEntities": {
+          "$ref": "#/definitions/Object"
+        },
+        "schema": {
+          "$ref": "#/definitions/Object"
+        },
+        "title": {
+          "description": "Table title",
+          "type": "string"
+        },
+        "webUrl": {
+          "description": "Url link",
+          "type": "string"
+        },
+        "x-ms-capabilities": {
+          "$ref": "#/definitions/TableCapabilitiesMetadata"
+        },
+        "x-ms-permission": {
+          "description": "Table permission",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "TableSelectRestrictionsMetadata": {
+      "description": "Metadata for a table (select restrictions)",
+      "properties": {
+        "selectable": {
+          "description": "Indicates whether this table has selectable columns",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "TableSortRestrictionsMetadata": {
+      "description": "Metadata for a table (sort restrictions)",
+      "properties": {
+        "ascendingOnlyProperties": {
+          "description": "List of properties which support ascending order only",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "sortable": {
+          "description": "Indicates whether this table has sortable columns",
+          "type": "boolean"
+        },
+        "unsortableProperties": {
+          "description": "List of unsortable properties",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "TablesList": {
+      "description": "Represents a list of tables.",
+      "properties": {
+        "value": {
+          "description": "List of Tables",
+          "items": {
+            "$ref": "#/definitions/Table"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "TabularDataSetsMetadata": {
+      "description": "Tabular dataset metadata",
+      "properties": {
+        "displayName": {
+          "description": "Dataset display name",
+          "type": "string"
+        },
+        "source": {
+          "description": "Dataset source",
+          "type": "string"
+        },
+        "tableDisplayName": {
+          "description": "Table display name",
+          "type": "string"
+        },
+        "tablePluralName": {
+          "description": "Table plural display name",
+          "type": "string"
+        },
+        "urlEncoding": {
+          "description": "Dataset url encoding",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "TriggerFieldData": {
+      "description": "Business event model",
+      "properties": {
+        "DisplayName": {
+          "description": "Business event data display name",
+          "type": "string"
+        },
+        "Name": {
+          "description": "Business event data name",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "TriggerFieldDataList": {
+      "description": "Represents a list of Business event categories.",
+      "properties": {
+        "value": {
+          "description": "List of business event categories",
+          "items": {
+            "$ref": "#/definitions/TriggerFieldData"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/dynamicsax"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Microsoft Dynamics 365 for Fin & Ops connector provides access to data entities.",
+    "title": "Dynamics 365 for Fin & Ops",
+    "version": "1.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    }
+  },
+  "paths": {
+    "/{connectionId}/$metadata.json/datasets": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "GetDataSetsMetadata",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DataSetsMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "AxOnlineDataSetsMetadata"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/$metadata.json/datasets('{dataset}')/tables('{table}')": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ODataStyleGetTable",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TableMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "AxOnlineTableMetadata"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/$metadata.json/datasets/{dataset}/exportabletables/{table}": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get metadata of a exportable table.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#get-metadata-of-a-exportable-table"
+        },
+        "operationId": "GetExportableTable",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "dataset name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "table name.",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetExportableTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "table name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TableMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get metadata of a exportable table",
+        "tags": [
+          "AxOnlineTableMetadata"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/$metadata.json/datasets/{dataset}/procedures/{procedure}": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get actions metadata.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#get-actions-metadata"
+        },
+        "operationId": "GetProcedure",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The Dynamics 365 for Fin & Ops instance.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of action.",
+            "in": "path",
+            "name": "procedure",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetProcedures",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Action",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ProcedureMetadata"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get actions metadata",
+        "tags": [
+          "AxOnlineActionMetadata"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/$metadata.json/datasets/{dataset}/tables/{table}": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Retrieves metadata for an entity",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#get-entity-metadata"
+        },
+        "operationId": "GetTable",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The Dynamics 365 for Fin & Ops instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Entity name",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TableMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get entity metadata",
+        "tags": [
+          "AxOnlineTableMetadata"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/$metadata.json/datasets/{dataset}/tables/{table}/hybridtrigger/onDataEntitySelected": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "For a Selected Record.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#for-a-selected-record"
+        },
+        "operationId": "OnDataEntitySelected",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Select an environment",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Data Entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "For a Selected Record",
+        "tags": [
+          "DynamicsAxTrigger"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Retrieves a list of accessable Dynamics 365 for Fin & Ops instances",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#get-instances"
+        },
+        "operationId": "GetDataSets",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DataSetsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get instances",
+        "tags": [
+          "AxOnlineDataSet"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/exportabletables": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Lists exportable tables",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#lists-exportable-tables"
+        },
+        "operationId": "ODataStyleGetExportableTables",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "dataset name"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TablesList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Lists exportable tables",
+        "tags": [
+          "AxOnlineTable"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/procedures": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get actions",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#get-actions"
+        },
+        "operationId": "ODataStyleGetProcedures",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The Dynamics 365 for Fin & Ops instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Instance"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ProceduresList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get actions",
+        "tags": [
+          "AxOnlineAction"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/procedures({procedure})": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Execute action",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#execute-action"
+        },
+        "operationId": "ODataStyleExecuteProcedure",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The Dynamics 365 for Fin & Ops instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Instance"
+          },
+          {
+            "description": "Name of action",
+            "in": "path",
+            "name": "procedure",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Action"
+          },
+          {
+            "description": "Input parameters to the action",
+            "in": "body",
+            "name": "parameters",
+            "required": true,
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Object"
+              },
+              "type": "object"
+            },
+            "x-ms-summary": "Parameters"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AxOnlineProcedureResult"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Execute action",
+        "tags": [
+          "AxOnlineAction"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ODataStyleGetTables",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TablesList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "AxOnlineTable"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables({table})/items": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Lists items present in table",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#lists-items-present-in-table"
+        },
+        "operationId": "ODataStyleGetItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "dataset name"
+          },
+          {
+            "description": "table name",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "table name"
+          },
+          {
+            "description": "A sequence of OData aggregation transformations",
+            "in": "query",
+            "name": "$apply",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Aggregation transformation",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Specific fields to retrieve from entries (default = all).",
+            "in": "query",
+            "name": "$select",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Select Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Query across companies (default = no).",
+            "in": "query",
+            "name": "cross-company",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Cross Company",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Lists items present in table",
+        "tags": [
+          "AxOnlineItem"
+        ],
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        },
+        "x-ms-visibility": "internal"
+      },
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ODataStylePostItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "AxOnlineItem"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables({table})/items({id})": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ODataStyleDeleteItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "AxOnlineItem"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ODataStyleGetItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "AxOnlineItem"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "patch": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ODataStylePatchItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "AxOnlineItem"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables({table})/ondeleteditems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ODataStyleGetOnDeletedItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "AxOnlineExportableTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables({table})/onnewitems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ODataStyleGetOnNewItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "AxOnlineExportableTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables({table})/onupdateditems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ODataStyleGetOnUpdatedItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Instance"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Entity name"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ExportableItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "AxOnlineExportableTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/businesseventcategories": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Gets business events categories.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#gets-business-events-categories"
+        },
+        "operationId": "GetBusinessEventCategories",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Data set.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TriggerFieldDataList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Gets business events categories",
+        "tags": [
+          "AxWHTrigger"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/businesseventcategories/{businesseventcategory}/businessevents": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Gets business events.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#gets-business-events"
+        },
+        "operationId": "GetBusinessEvents",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Data set.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Business event category.",
+            "in": "path",
+            "name": "businesseventcategory",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetBusinessEventCategories",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "BusinessEventCategory",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BusinessEventsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Gets business events",
+        "tags": [
+          "AxWHTrigger"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/exportabletables": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Lists exportable tables",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#lists-exportable-tables"
+        },
+        "operationId": "GetExportableTables",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "dataset name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TablesList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Lists exportable tables",
+        "tags": [
+          "AxOnlineTable"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/legalentities": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Gets legal entities.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#gets-legal-entities"
+        },
+        "operationId": "GetLegalEntities",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Data set.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Business event category.",
+            "in": "query",
+            "name": "businesseventcategory",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetBusinessEventCategories",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Category",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Business event.",
+            "in": "query",
+            "name": "businessevent",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetBusinessEvents",
+              "parameters": {
+                "businesseventcategory": {
+                  "parameter": "businesseventcategory"
+                },
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Business event",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TriggerFieldDataList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Gets legal entities",
+        "tags": [
+          "AxWHTrigger"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/legalentity/{legalEntity}/unsubscribebusinessevent/{id}": {
+      "delete": {
+        "consumes": [],
+        "deprecated": true,
+        "description": "This operation deletes existing subscription for a business event.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#deletes-subscription-for-a-business-event-%5bdeprecated%5d"
+        },
+        "operationId": "UnsubscribeABusinessEvent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the data set.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Name of the data set",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Legal entity.",
+            "in": "path",
+            "name": "legalEntity",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Legal entity",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Id of business event to be deleted.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Id of business event to be deleted",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Notification url from subscription.",
+            "in": "query",
+            "name": "notificationUrl",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Notification url from subscription",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "BadRequest"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Deletes subscription for a business event",
+        "tags": [
+          "AxWHTrigger"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/procedures": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get actions",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#get-actions"
+        },
+        "operationId": "GetProcedures",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The Dynamics 365 for Fin & Ops instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ProceduresList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get actions",
+        "tags": [
+          "AxOnlineAction"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/procedures/{procedure}": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Execute action",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#execute-action"
+        },
+        "operationId": "ExecuteProcedure",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The Dynamics 365 for Fin & Ops instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of action",
+            "in": "path",
+            "name": "procedure",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetProcedures",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Action",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Input parameters to the action",
+            "in": "body",
+            "name": "parameters",
+            "required": true,
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Object"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetProcedure",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "procedure": {
+                    "parameter": "procedure"
+                  }
+                },
+                "value-path": "schema/InputParameters"
+              }
+            },
+            "x-ms-summary": "Parameters"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AxOnlineProcedureResult"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Execute action",
+        "tags": [
+          "AxOnlineAction"
+        ],
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/subscribebusinessevent/{businessevent}": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "deprecated": false,
+        "description": "Triggers a flow when a Business Event occurs in Dynamics 365.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#when-a-business-event-occurs"
+        },
+        "operationId": "SubscribeOnABusinessEvent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Select an Environment.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Business event category.",
+            "in": "query",
+            "name": "businesseventcategory",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetBusinessEventCategories",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Category",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the business event.",
+            "in": "path",
+            "name": "businessevent",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetBusinessEvents",
+              "parameters": {
+                "businesseventcategory": {
+                  "parameter": "businesseventcategory"
+                },
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Business event",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "The subscription.",
+            "in": "body",
+            "name": "subscription",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BusinessEventSubscription"
+            },
+            "x-ms-summary": "The subscription",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the legal entity.",
+            "in": "query",
+            "name": "legalEntity",
+            "required": false,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetLegalEntities",
+              "parameters": {
+                "businessevent": {
+                  "parameter": "businessevent"
+                },
+                "businesseventcategory": {
+                  "parameter": "businesseventcategory"
+                },
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Legal entity"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BusinessEventSubscriptionResponse"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a Business Event occurs",
+        "tags": [
+          "AxWHTrigger"
+        ],
+        "x-ms-trigger": "single",
+        "x-ms-visibility": "important"
+      },
+      "x-ms-notification-content": {
+        "description": "Object",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "schema": {
+          "$ref": "#/definitions/Object"
+        }
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tables": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Retrieves a list of entities",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#get-list-of-entities"
+        },
+        "operationId": "GetTables",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The Dynamics 365 for Fin & Ops instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TablesList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get list of entities",
+        "tags": [
+          "AxOnlineTable"
+        ],
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tables/{table}/items": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Lists items present in table",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#lists-items-present-in-table"
+        },
+        "operationId": "GetItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The Dynamics 365 for Fin & Ops instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Entity name",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "A sequence of OData aggregation transformations",
+            "in": "query",
+            "name": "$apply",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Aggregation transformation",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Specific fields to retrieve from entries (default = all).",
+            "in": "query",
+            "name": "$select",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Select Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Query across companies (default = no).",
+            "in": "query",
+            "name": "cross-company",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Cross Company",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Lists items present in table",
+        "tags": [
+          "AxOnlineItem"
+        ],
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        },
+        "x-ms-visibility": "important"
+      },
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Create a new record in an entity",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#create-record"
+        },
+        "operationId": "PostItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The Dynamics 365 for Fin & Ops instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Entity name",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Object to create",
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetTable",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            },
+            "x-ms-summary": "Object"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetTable",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Create record",
+        "tags": [
+          "AxOnlineItem"
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tables/{table}/items/{id}": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Deletes a single record in an entity",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#delete-record"
+        },
+        "operationId": "DeleteItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The Dynamics 365 for Fin & Ops instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Entity name",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Unique identifier of the object to delete",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Object id",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Delete record",
+        "tags": [
+          "AxOnlineItem"
+        ]
+      },
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Retrieves a single record",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#get-a-record"
+        },
+        "operationId": "GetItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The Dynamics 365 for Fin & Ops instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Entity name",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Unique identifier of the object to retrieve",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Object id",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetTable",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get a record",
+        "tags": [
+          "AxOnlineItem"
+        ],
+        "x-ms-visibility": "advanced"
+      },
+      "patch": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Updates a single record in an entity",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#update-a-record"
+        },
+        "operationId": "PatchItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The Dynamics 365 for Fin & Ops instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Entity name",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Unique identifier of the object to update",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Object id",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Object with changed properties",
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetTable",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            },
+            "x-ms-summary": "Object"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetTable",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Update a record",
+        "tags": [
+          "AxOnlineItem"
+        ]
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tables/{table}/ondeleteditems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "GetOnDeletedItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetExportableTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "AxOnlineExportableTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tables/{table}/onnewitems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "GetOnNewItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetExportableTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "AxOnlineExportableTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tables/{table}/onupdateditems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Gets the list of added and updated entities.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#when-an-entity-is-added-or-updated"
+        },
+        "operationId": "GetOnUpdatedItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The Dynamics 365 for Fin & Ops instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Entity name",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetExportableTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Entity name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "The dataAreaId attribute.",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Company",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/ExportableItemsList"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetExportableTable",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When an entity is added or updated",
+        "tags": [
+          "AxOnlineExportableTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/unsubscribebusinessevent/{id}": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation deletes existing subscription for a business event.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsax/#deletes-subscription-for-a-business-event"
+        },
+        "operationId": "UnsubscribeABusinessEventV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the data set.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Name of the data set",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Id of business event to be deleted.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Id of business event to be deleted",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Legal entity.",
+            "in": "query",
+            "name": "legalEntity",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Legal entity",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Notification url from subscription.",
+            "in": "query",
+            "name": "notificationUrl",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Notification url from subscription",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "BadRequest"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Deletes subscription for a business event",
+        "tags": [
+          "AxWHTrigger"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-capabilities": {},
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://dynamics.microsoft.com/finance-and-operations-to-finance-and-scm/"
+    }
+  ]
+}

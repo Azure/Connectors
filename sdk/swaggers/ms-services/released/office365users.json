@@ -1,0 +1,1760 @@
+{
+  "basePath": "/apim/office365users",
+  "definitions": {
+    "ClientPhotoMetadata": {
+      "description": "Photo Metadata class",
+      "properties": {
+        "ContentType": {
+          "description": "Content Type of photo",
+          "type": "string",
+          "x-ms-summary": "ContentType"
+        },
+        "HasPhoto": {
+          "description": "Has photo",
+          "type": "boolean",
+          "x-ms-summary": "Has photo"
+        },
+        "Height": {
+          "description": "Height of photo",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Height"
+        },
+        "ImageFileExtension": {
+          "description": "File extension for the photo (ex: \".jpg\")",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Image File Extension"
+        },
+        "Width": {
+          "description": "Width of photo",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Width"
+        }
+      },
+      "type": "object"
+    },
+    "EntityListResponse[IReadOnlyList[User]]": {
+      "description": "Class representing entity list response from an Office API.",
+      "properties": {
+        "@odata.nextLink": {
+          "description": "Next page link",
+          "type": "string"
+        },
+        "value": {
+          "description": "Value",
+          "items": {
+            "$ref": "#/definitions/User"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "GraphTrending": {
+      "description": "Trending documents from Graph API",
+      "properties": {
+        "id": {
+          "description": "Unique identifier of the relationship",
+          "type": "string",
+          "x-ms-summary": "Id"
+        },
+        "resourceReference": {
+          "$ref": "#/definitions/resourceReference"
+        },
+        "resourceVisualization": {
+          "$ref": "#/definitions/resourceVisualization"
+        },
+        "weight": {
+          "description": "Value indicating how much the document is currently trending",
+          "format": "float",
+          "type": "number",
+          "x-ms-summary": "Weight"
+        }
+      },
+      "type": "object"
+    },
+    "GraphUserUpdateable_V1": {
+      "description": "Updateable parts of user from Graph API",
+      "properties": {
+        "aboutMe": {
+          "description": "About Me",
+          "type": "string",
+          "x-ms-summary": "About Me"
+        },
+        "birthday": {
+          "description": "Birthday",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Birthday"
+        },
+        "interests": {
+          "description": "Interests",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-ms-summary": "Interests"
+        },
+        "mySite": {
+          "description": "My Site",
+          "type": "string",
+          "x-ms-summary": "My Site"
+        },
+        "pastProjects": {
+          "description": "Past Projects",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-ms-summary": "Past Projects"
+        },
+        "schools": {
+          "description": "Schools",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-ms-summary": "Schools"
+        },
+        "skills": {
+          "description": "Skills",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-ms-summary": "Skills"
+        }
+      },
+      "type": "object"
+    },
+    "GraphUser_V1": {
+      "description": "User from Graph API",
+      "properties": {
+        "aboutMe": {
+          "description": "About Me",
+          "type": "string",
+          "x-ms-summary": "About Me"
+        },
+        "accountEnabled": {
+          "description": "true if the account is enabled; otherwise, false. This property is required when a user is created.",
+          "type": "boolean",
+          "x-ms-summary": "Account enabled?"
+        },
+        "birthday": {
+          "description": "Birthday",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Birthday"
+        },
+        "businessPhones": {
+          "description": "Business Phones",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-ms-summary": "Business Phones"
+        },
+        "city": {
+          "description": "The city in which the user is located.",
+          "type": "string",
+          "x-ms-summary": "City"
+        },
+        "companyName": {
+          "description": "The name of the company in which the user works.",
+          "type": "string",
+          "x-ms-summary": "Company name"
+        },
+        "country": {
+          "description": "The country/region in which the user is located; for example, \"US\" or \"UK\".",
+          "type": "string",
+          "x-ms-summary": "Country"
+        },
+        "department": {
+          "description": "The name of the department in which the user works.",
+          "type": "string",
+          "x-ms-summary": "Department"
+        },
+        "displayName": {
+          "description": "Display Name",
+          "type": "string",
+          "x-ms-summary": "Display Name"
+        },
+        "givenName": {
+          "description": "Given Name",
+          "type": "string",
+          "x-ms-summary": "Given Name"
+        },
+        "hireDate": {
+          "description": "Hire Date",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Hire Date"
+        },
+        "id": {
+          "description": "Id",
+          "type": "string",
+          "x-ms-summary": "Id"
+        },
+        "interests": {
+          "description": "Interests",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-ms-summary": "Interests"
+        },
+        "jobTitle": {
+          "description": "Job Title",
+          "type": "string",
+          "x-ms-summary": "Job Title"
+        },
+        "mail": {
+          "description": "Mail",
+          "type": "string",
+          "x-ms-summary": "Mail"
+        },
+        "mailNickname": {
+          "description": "The mail alias for the user. This property must be specified when a user is created.",
+          "type": "string",
+          "x-ms-summary": "Nickname"
+        },
+        "mobilePhone": {
+          "description": "Mobile Phone",
+          "type": "string",
+          "x-ms-summary": "Mobile Phone"
+        },
+        "mySite": {
+          "description": "My Site",
+          "type": "string",
+          "x-ms-summary": "My Site"
+        },
+        "officeLocation": {
+          "description": "Office Location",
+          "type": "string",
+          "x-ms-summary": "Office Location"
+        },
+        "pastProjects": {
+          "description": "Past Projects",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-ms-summary": "Past Projects"
+        },
+        "postalCode": {
+          "description": "The postal code for the user's postal address. The postal code is specific to the user's country/region. In the United States of America, this attribute contains the ZIP code.",
+          "type": "string",
+          "x-ms-summary": "Postal code"
+        },
+        "preferredLanguage": {
+          "description": "Preferred Language",
+          "type": "string",
+          "x-ms-summary": "Preferred Language"
+        },
+        "preferredName": {
+          "description": "Preferred Name",
+          "type": "string",
+          "x-ms-summary": "Preferred Name"
+        },
+        "responsibilities": {
+          "description": "Responsibilities",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-ms-summary": "Responsibilities"
+        },
+        "schools": {
+          "description": "Schools",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-ms-summary": "Schools"
+        },
+        "skills": {
+          "description": "Skills",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-ms-summary": "Skills"
+        },
+        "state": {
+          "description": "State",
+          "type": "string",
+          "x-ms-summary": "State"
+        },
+        "streetAddress": {
+          "description": "Street Address",
+          "type": "string",
+          "x-ms-summary": "Street Address"
+        },
+        "surname": {
+          "description": "Surname",
+          "type": "string",
+          "x-ms-summary": "Surname"
+        },
+        "userPrincipalName": {
+          "description": "User Principal Name",
+          "type": "string",
+          "x-ms-summary": "User Principal Name"
+        },
+        "userType": {
+          "description": "User Type",
+          "type": "string",
+          "x-ms-summary": "User Type"
+        }
+      },
+      "type": "object"
+    },
+    "LinklessEntityListResponse[List[Person]]": {
+      "description": "Represents a list from the Graph API",
+      "properties": {
+        "value": {
+          "description": "Value",
+          "items": {
+            "$ref": "#/definitions/Person"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "Object": {
+      "properties": {},
+      "type": "object"
+    },
+    "Person": {
+      "description": "Represents a Person",
+      "properties": {
+        "birthday": {
+          "description": "The person's birthday",
+          "type": "string",
+          "x-ms-summary": "Birthday"
+        },
+        "companyName": {
+          "description": "The name of the person's company",
+          "type": "string",
+          "x-ms-summary": "Company name"
+        },
+        "department": {
+          "description": "The person's department",
+          "type": "string",
+          "x-ms-summary": "Department"
+        },
+        "displayName": {
+          "description": "The person's display name",
+          "type": "string",
+          "x-ms-summary": "Display name"
+        },
+        "givenName": {
+          "description": "The person's given name",
+          "type": "string",
+          "x-ms-summary": "Given name"
+        },
+        "id": {
+          "description": "A unique identifier for the Person object in the directory",
+          "type": "string",
+          "x-ms-summary": "Person id"
+        },
+        "imAddress": {
+          "description": "The person's VOIP SIP address",
+          "type": "string",
+          "x-ms-summary": "IM Address"
+        },
+        "isFavorite": {
+          "description": "If the current user has flagged this person as a favorite",
+          "type": "boolean",
+          "x-ms-summary": "Is Favorite?"
+        },
+        "jobTitle": {
+          "description": "The person's job title",
+          "type": "string",
+          "x-ms-summary": "Job title"
+        },
+        "officeLocation": {
+          "description": "The location of the person's office",
+          "type": "string",
+          "x-ms-summary": "Office location"
+        },
+        "personNotes": {
+          "description": "Free-form notes that the current user has taken about this person",
+          "type": "string",
+          "x-ms-summary": "Person Notes"
+        },
+        "phones": {
+          "description": "The person's phone numbers",
+          "items": {
+            "$ref": "#/definitions/Phone"
+          },
+          "type": "array",
+          "x-ms-summary": "Phones"
+        },
+        "profession": {
+          "description": "The person's profession",
+          "type": "string",
+          "x-ms-summary": "Profession"
+        },
+        "scoredEmailAddresses": {
+          "description": "Collection of the person's email addresses with a relevance score",
+          "items": {
+            "$ref": "#/definitions/ScoredEmailAddress"
+          },
+          "type": "array",
+          "x-ms-summary": "Scored Email Addresses"
+        },
+        "surname": {
+          "description": "The person's surname",
+          "type": "string",
+          "x-ms-summary": "Surname"
+        },
+        "userPrincipalName": {
+          "description": "The user principal name(UPN) of the user.The UPN is an Internet-style login name for the user based on the Internet standard RFC 822. By convention, this should map to the user's email name.The general format is alias @domain, where domain must be present in the tenant's collection of verified domains.",
+          "type": "string",
+          "x-ms-summary": "User Principal Name (UPN)"
+        }
+      },
+      "type": "object"
+    },
+    "Phone": {
+      "description": "Represents a phone number",
+      "properties": {
+        "number": {
+          "description": "The phone number",
+          "type": "string",
+          "x-ms-summary": "Phone Number"
+        },
+        "type": {
+          "description": "The type of phone number. Possible values: home, business, mobile, other, assistant, homeFax, businessFax, otherFax, pager, radio.",
+          "type": "string",
+          "x-ms-summary": "Phone Type"
+        }
+      },
+      "type": "object"
+    },
+    "ScoredEmailAddress": {
+      "description": "Represents a scored email address",
+      "properties": {
+        "address": {
+          "description": "The email address",
+          "type": "string",
+          "x-ms-summary": "Email Address"
+        },
+        "relevanceScore": {
+          "description": "The relevance score of the email address. A relevance score is used as a sort key, in relation to the other returned results. A higher relevance score value corresponds to a more relevant result. Relevance is determined by the user's communication and collaboration patterns and business relationships.",
+          "format": "double",
+          "type": "number",
+          "x-ms-summary": "Relevance Score"
+        }
+      },
+      "type": "object"
+    },
+    "User": {
+      "description": "Represents a User object in the directory",
+      "properties": {
+        "AccountEnabled": {
+          "description": "true if the account is enabled; otherwise, false. This property is required when a user is created.",
+          "type": "boolean",
+          "x-ms-summary": "Account enabled?"
+        },
+        "BusinessPhones": {
+          "description": "A list of business phone numbers for the user",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true,
+          "type": "array",
+          "x-ms-summary": "Business phones"
+        },
+        "City": {
+          "description": "The city in which the user is located.",
+          "type": "string",
+          "x-ms-summary": "City"
+        },
+        "CompanyName": {
+          "description": "The name of the company in which the user works.",
+          "type": "string",
+          "x-ms-summary": "Company name"
+        },
+        "Country": {
+          "description": "The country/region in which the user is located; for example, \"US\" or \"UK\".",
+          "type": "string",
+          "x-ms-summary": "Country"
+        },
+        "Department": {
+          "description": "The name of the department in which the user works.",
+          "type": "string",
+          "x-ms-summary": "Department"
+        },
+        "DisplayName": {
+          "description": "The name displayed in the address book for the user. This is usually the combination of the user's first name, middle initial and last name. This property is required when a user is created and it cannot be cleared during updates.",
+          "type": "string",
+          "x-ms-summary": "Display name"
+        },
+        "GivenName": {
+          "description": "The given name (first name) of the user.",
+          "type": "string",
+          "x-ms-summary": "Given name"
+        },
+        "Id": {
+          "description": "A unique identifier for the user object in the directory.",
+          "type": "string",
+          "x-ms-summary": "User id"
+        },
+        "JobTitle": {
+          "description": "The user’s job title.",
+          "type": "string",
+          "x-ms-summary": "Job title"
+        },
+        "Mail": {
+          "description": "The SMTP/email address for the user, for example, \"jeff@contoso.onmicrosoft.com\". Read-Only.",
+          "type": "string",
+          "x-ms-summary": "Email"
+        },
+        "MailNickname": {
+          "description": "The mail alias for the user. This property must be specified when a user is created.",
+          "type": "string",
+          "x-ms-summary": "Nickname"
+        },
+        "OfficeLocation": {
+          "description": "The office location in the user's place of business.",
+          "type": "string",
+          "x-ms-summary": "Office location"
+        },
+        "PostalCode": {
+          "description": "The postal code for the user's postal address. The postal code is specific to the user's country/region. In the United States of America, this attribute contains the ZIP code.",
+          "type": "string",
+          "x-ms-summary": "Postal code"
+        },
+        "Surname": {
+          "description": "The user's surname (family name or last name).",
+          "type": "string",
+          "x-ms-summary": "Surname"
+        },
+        "TelephoneNumber": {
+          "description": "The primary cellular telephone number for the user.",
+          "type": "string",
+          "x-ms-summary": "Telephone number"
+        },
+        "UserPrincipalName": {
+          "description": "The user principal name (UPN) of the user. The UPN is an Internet-style login name for the user based on the Internet standard RFC 822. By convention, this should map to the user’s email name. The general format is alias@domain, where domain must be present in the tenant’s collection of verified domains.",
+          "type": "string",
+          "x-ms-summary": "User Principal Name (UPN)"
+        },
+        "mobilePhone": {
+          "description": "The primary cellular telephone number for the user.",
+          "type": "string",
+          "x-ms-visibility": "internal"
+        }
+      },
+      "required": [
+        "Id"
+      ],
+      "type": "object"
+    },
+    "resourceReference": {
+      "description": "resourceReference",
+      "properties": {
+        "id": {
+          "description": "The item's unique identifier",
+          "type": "string",
+          "x-ms-summary": "Id"
+        },
+        "type": {
+          "description": "A string value that can be used to classify the item, such as \"microsoft.graph.driveItem\"",
+          "type": "string",
+          "x-ms-summary": "Type"
+        },
+        "webUrl": {
+          "description": "A URL leading to the referenced item",
+          "type": "string",
+          "x-ms-summary": "Web URL"
+        }
+      },
+      "type": "object",
+      "x-ms-summary": "Resource reference"
+    },
+    "resourceVisualization": {
+      "description": "resourceVisualization",
+      "properties": {
+        "containerDisplayName": {
+          "description": "A string describing where the item is stored",
+          "type": "string",
+          "x-ms-summary": "Container display name"
+        },
+        "containerType": {
+          "description": "Can be used for filtering by the type of container in which the file is stored",
+          "type": "string",
+          "x-ms-summary": "Container type"
+        },
+        "containerWebUrl": {
+          "description": "A path leading to the folder in which the item is stored",
+          "type": "string",
+          "x-ms-summary": "Container web URL"
+        },
+        "mediaType": {
+          "description": "The items media type (can be used for filtering for a specific type of file based on supported IANA Media MIME types)",
+          "type": "string",
+          "x-ms-summary": "Media type"
+        },
+        "previewImageUrl": {
+          "description": "A URL leading to the preview image for the item",
+          "type": "string",
+          "x-ms-summary": "Preview image URL"
+        },
+        "previewText": {
+          "description": "A preview text for the item",
+          "type": "string",
+          "x-ms-summary": "Preview text"
+        },
+        "title": {
+          "description": "The item's title text",
+          "type": "string",
+          "x-ms-summary": "Title"
+        },
+        "type": {
+          "description": "The item's media type (can be used for filtering for a specific file based on a specific type)",
+          "type": "string",
+          "x-ms-summary": "Type"
+        }
+      },
+      "type": "object",
+      "x-ms-summary": "Resource visualization"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/office365users"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "description": "Office 365 Users Connection provider lets you access user profiles in your organization using your Office 365 account. You can perform various actions such as get your profile, a user's profile, a user's manager or direct reports and also update a user profile.",
+    "title": "Office 365 Users",
+    "version": "1.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    }
+  },
+  "paths": {
+    "/{connectionId}/codeless/beta/me/insights/trending": {
+      "get": {
+        "description": "Retrieves the trending documents for the signed in user",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#get-my-trending-documents"
+        },
+        "operationId": "MyTrendingDocuments",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An OData filter to filter the resources selected. Filter selected resources on ResourceVisualization/Type or ResourceVisualization/containerType",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "description": "List of trending documents",
+              "properties": {
+                "value": {
+                  "description": "value",
+                  "items": {
+                    "$ref": "#/definitions/GraphTrending"
+                  },
+                  "type": "array",
+                  "x-ms-summary": "value"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Get my trending documents"
+      }
+    },
+    "/{connectionId}/codeless/beta/users/{id}/insights/trending": {
+      "get": {
+        "description": "Retrieves the trending documents for a user",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#get-trending-documents"
+        },
+        "operationId": "TrendingDocuments",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "User principal name or email id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "User (UPN)"
+          },
+          {
+            "description": "An OData filter to filter the resources selected. Filter selected resources on ResourceVisualization/Type or ResourceVisualization/containerType",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "description": "List of trending documents",
+              "properties": {
+                "value": {
+                  "description": "value",
+                  "items": {
+                    "$ref": "#/definitions/GraphTrending"
+                  },
+                  "type": "array",
+                  "x-ms-summary": "value"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Get trending documents"
+      }
+    },
+    "/{connectionId}/codeless/v1.0/me": {
+      "get": {
+        "deprecated": false,
+        "description": "Retrieves the profile of the current user. Learn more about available fields to select: https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user#properties",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#get-my-profile-(v2)"
+        },
+        "operationId": "MyProfile_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Comma separated list of fields to select. Example: surname, department, jobTitle",
+            "in": "query",
+            "name": "$select",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Select fields",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/GraphUser_V1"
+            }
+          }
+        },
+        "summary": "Get my profile (V2)",
+        "x-ms-api-annotation": {
+          "family": "MyProfile",
+          "revision": 2,
+          "status": "Production"
+        }
+      },
+      "patch": {
+        "deprecated": false,
+        "description": "Updates the profile of the current user",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#update-my-profile"
+        },
+        "operationId": "UpdateMyProfile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/GraphUserUpdateable_V1"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default"
+          }
+        },
+        "summary": "Update my profile",
+        "x-ms-api-annotation": {
+          "status": "Production"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/codeless/v1.0/me/photo/$value": {
+      "put": {
+        "deprecated": false,
+        "description": "Updates the profile photo of the current user. The size of the photo must be less than 4 MB.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#update-my-profile-photo"
+        },
+        "operationId": "UpdateMyPhoto",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Image content",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            },
+            "x-ms-summary": "Image content"
+          },
+          {
+            "default": "image/jpeg",
+            "description": "Image content type (like 'image/jpeg')",
+            "in": "header",
+            "name": "Content-Type",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Content-Type",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default"
+          }
+        },
+        "summary": "Update my profile photo",
+        "x-ms-api-annotation": {
+          "status": "Production"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/codeless/v1.0/users/{id}": {
+      "get": {
+        "deprecated": false,
+        "description": "Retrieves the profile of a specific user. Learn more about available fields to select: https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user#properties",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#get-user-profile-(v2)"
+        },
+        "operationId": "UserProfile_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "User principal name or email id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "User (UPN)"
+          },
+          {
+            "description": "Comma separated list of fields to select. Example: surname, department, jobTitle",
+            "in": "query",
+            "name": "$select",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Select fields",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/GraphUser_V1"
+            }
+          }
+        },
+        "summary": "Get user profile (V2)",
+        "x-ms-api-annotation": {
+          "family": "UserProfile",
+          "revision": 2,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/codeless/v1.0/users/{id}/directReports": {
+      "get": {
+        "deprecated": false,
+        "description": "Retrieves the user profiles of the specified user's direct reports. Learn more about available fields to select: https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user#properties",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#get-direct-reports-(v2)"
+        },
+        "operationId": "DirectReports_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "User principal name or email id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "User (UPN)"
+          },
+          {
+            "description": "Comma separated list of fields to select. Example: surname, department, jobTitle",
+            "in": "query",
+            "name": "$select",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Select fields",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Limit on the number of results to return. By default returns all entries.",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "description": "List of direct reports",
+              "properties": {
+                "value": {
+                  "description": "Value",
+                  "items": {
+                    "$ref": "#/definitions/GraphUser_V1"
+                  },
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Get direct reports (V2)",
+        "x-ms-api-annotation": {
+          "family": "DirectReports",
+          "revision": 2,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/codeless/v1.0/users/{id}/manager": {
+      "get": {
+        "deprecated": false,
+        "description": "Retrieves the profile of the specified user's manager. Learn more about available fields to select: https://developer.microsoft.com/en-us/graph/docs/api-reference/v1.0/resources/user#properties",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#get-manager-(v2)"
+        },
+        "operationId": "Manager_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "User principal name or email id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "User (UPN)"
+          },
+          {
+            "description": "Comma separated list of fields to select. Example: surname, department, jobTitle",
+            "in": "query",
+            "name": "$select",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Select fields",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/GraphUser_V1"
+            }
+          }
+        },
+        "summary": "Get manager (V2)",
+        "x-ms-api-annotation": {
+          "family": "Manager",
+          "revision": 2,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/codeless/v1.0/users/{id}/photo/$value": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Retrieves the photo of the specified user if they have one",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#get-user-photo-(v2)"
+        },
+        "operationId": "UserPhoto_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "User principal name or email id",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "User (UPN)"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "format": "binary",
+              "type": "string",
+              "x-ms-media-kind": "image",
+              "x-ms-summary": "Image file content"
+            }
+          }
+        },
+        "summary": "Get user photo (V2)",
+        "x-ms-api-annotation": {
+          "family": "UserPhoto",
+          "revision": 2,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/testconnection": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Tests the connection.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#tests-the-connection"
+        },
+        "operationId": "TestConnection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Tests the connection",
+        "tags": [
+          "Users"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/users": {
+      "get": {
+        "consumes": [],
+        "deprecated": true,
+        "description": "Retrieves the user profiles that match the search term.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#search-for-users-%5bdeprecated%5d"
+        },
+        "operationId": "SearchUser",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Search string (applies to: display name, given name, surname, mail, mail nickname and user principal name).",
+            "in": "query",
+            "name": "searchTerm",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Search term"
+          },
+          {
+            "default": 0,
+            "description": "Limit on the number of results to return. By default returns all entries.",
+            "format": "int32",
+            "in": "query",
+            "name": "top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successful",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/User"
+              },
+              "type": "array"
+            }
+          },
+          "202": {
+            "description": "Operation was successful"
+          },
+          "400": {
+            "description": "BadRequest"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Search for users",
+        "tags": [
+          "Users"
+        ],
+        "x-ms-api-annotation": {
+          "family": "SearchUser",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/users/me": {
+      "get": {
+        "consumes": [],
+        "deprecated": true,
+        "description": "Retrieves the profile of the current user.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#get-my-profile-(v1)-%5bdeprecated%5d"
+        },
+        "operationId": "MyProfile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successful",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "202": {
+            "description": "Operation was successful"
+          },
+          "400": {
+            "description": "BadRequest"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get my profile (V1)",
+        "tags": [
+          "Users"
+        ],
+        "x-ms-api-annotation": {
+          "family": "MyProfile",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/users/photo": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get user photo metadata.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#get-user-photo-metadata"
+        },
+        "operationId": "UserPhotoMetadata",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "User principal name or email id.",
+            "in": "query",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "User (UPN)"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ClientPhotoMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get user photo metadata",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/{connectionId}/users/photo/value": {
+      "get": {
+        "consumes": [],
+        "deprecated": true,
+        "description": "Retrieves the photo of the specified user if they have one.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#get-user-photo-(v1)-%5bdeprecated%5d"
+        },
+        "operationId": "UserPhoto",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "User principal name or email id.",
+            "in": "query",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "User (UPN)"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "format": "binary",
+              "type": "string",
+              "x-ms-media-kind": "image",
+              "x-ms-summary": "Image file content"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get user photo (V1)",
+        "tags": [
+          "Users"
+        ],
+        "x-ms-api-annotation": {
+          "family": "UserPhoto",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/users/{userId}": {
+      "get": {
+        "consumes": [],
+        "deprecated": true,
+        "description": "Retrieves the profile of a specific user.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#get-user-profile-(v1)-%5bdeprecated%5d"
+        },
+        "operationId": "UserProfile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "User principal name or email id.",
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "User (UPN)"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successful",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "202": {
+            "description": "Operation was successful"
+          },
+          "400": {
+            "description": "BadRequest"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get user profile (V1)",
+        "tags": [
+          "Users"
+        ],
+        "x-ms-api-annotation": {
+          "family": "UserProfile",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/users/{userId}/directReports": {
+      "get": {
+        "consumes": [],
+        "deprecated": true,
+        "description": "Retrieves the user profiles of the specified user's direct reports.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#get-direct-reports-(v1)-%5bdeprecated%5d"
+        },
+        "operationId": "DirectReports",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "User principal name or email id.",
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "User (UPN)"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successful",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/User"
+              },
+              "type": "array"
+            }
+          },
+          "202": {
+            "description": "Operation was successful"
+          },
+          "400": {
+            "description": "BadRequest"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get direct reports (V1)",
+        "tags": [
+          "Users"
+        ],
+        "x-ms-api-annotation": {
+          "family": "DirectReports",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/users/{userId}/manager": {
+      "get": {
+        "consumes": [],
+        "deprecated": true,
+        "description": "Retrieves the profile of the specified user's manager.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#get-manager-(v1)-%5bdeprecated%5d"
+        },
+        "operationId": "Manager",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "User principal name or email id.",
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "User (UPN)"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successful",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "202": {
+            "description": "Operation was successful"
+          },
+          "400": {
+            "description": "BadRequest"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get manager (V1)",
+        "tags": [
+          "Users"
+        ],
+        "x-ms-api-annotation": {
+          "family": "Manager",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/users/{userId}/relevantpeople": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get relevant people.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#get-relevant-people"
+        },
+        "operationId": "RelevantPeople",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "User principal name or email id.",
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "User (UPN)"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/LinklessEntityListResponse[List[Person]]"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get relevant people",
+        "tags": [
+          "People"
+        ],
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/v2/users": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Retrieves the user profiles that match the search term (V2).",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365users/#search-for-users-(v2)"
+        },
+        "operationId": "SearchUserV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Search string (applies to: display name, given name, surname, mail, mail nickname and user principal name). If not provided then no filtering will be applied.",
+            "in": "query",
+            "name": "searchTerm",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Search term"
+          },
+          {
+            "description": "Limit on the number of results to return. Minimum value is 1. Default value is 1000.",
+            "format": "int32",
+            "in": "query",
+            "name": "top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Skip token to get next users.",
+            "in": "query",
+            "name": "skipToken",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Skip token",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successful",
+            "schema": {
+              "$ref": "#/definitions/EntityListResponse[IReadOnlyList[User]]"
+            }
+          },
+          "202": {
+            "description": "Operation was successful"
+          },
+          "400": {
+            "description": "BadRequest"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Search for users (V2)",
+        "tags": [
+          "Users"
+        ],
+        "x-ms-api-annotation": {
+          "family": "SearchUser",
+          "revision": 2,
+          "status": "Production"
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "oauth2_auth": [
+        "Sites.Read.All User.ReadBasic.All User.ReadWrite"
+      ]
+    }
+  ],
+  "securityDefinitions": {
+    "oauth2_auth": {
+      "authorizationUrl": "https://login.windows.net/common/oauth2/authorize",
+      "flow": "accessCode",
+      "scopes": {
+        "Sites.Read.All User.ReadBasic.All User.ReadWrite": "Sites.Read.All User.ReadBasic.All User.ReadWrite"
+      },
+      "tokenUrl": "https://login.windows.net/common/oauth2/authorize",
+      "type": "oauth2"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [],
+  "x-ms-capabilities": {
+    "testConnection": {
+      "operationId": "TestConnection",
+      "parameters": {}
+    }
+  },
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://www.office.com/"
+    }
+  ]
+}

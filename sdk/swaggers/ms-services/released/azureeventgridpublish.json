@@ -1,0 +1,122 @@
+{
+  "basePath": "/apim/azureeventgridpublish",
+  "definitions": {
+    "PublishEventBody": {
+      "items": {
+        "properties": {
+          "data": {
+            "description": "Object with data for the event.",
+            "properties": {},
+            "type": "object",
+            "x-ms-summary": "Data"
+          },
+          "eventTime": {
+            "description": "Date and time for the emitted event. Empty will default to current time.",
+            "format": "date-time",
+            "type": "string",
+            "x-ms-summary": "Event Time",
+            "x-ms-visibility": "advanced"
+          },
+          "eventType": {
+            "description": "Type of event being emitted.",
+            "type": "string",
+            "x-ms-summary": "Event Type"
+          },
+          "id": {
+            "description": "Useful to idenitify individual events.",
+            "type": "string",
+            "x-ms-summary": "ID"
+          },
+          "subject": {
+            "description": "Subject for the event.",
+            "type": "string",
+            "x-ms-summary": "Subject"
+          }
+        },
+        "required": [
+          "id",
+          "subject",
+          "eventType",
+          "data"
+        ],
+        "type": "object"
+      },
+      "type": "array",
+      "x-ms-test-value": [
+        {
+          "data": {
+            "Participants": "PortugalVsFrance"
+          },
+          "eventTime": "2017-08-09T12:00:00Z",
+          "eventType": "SoccerGameScoreUpdate",
+          "id": "SomeEventID",
+          "subject": "EuroCup/2016"
+        }
+      ]
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/azureeventgridpublish"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "description": "Azure Event Grid Publish will publish data to any Azure Event Grid Custom Topic.",
+    "title": "Azure Event Grid Publish",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    }
+  },
+  "paths": {
+    "/{connectionId}/eventGrid/api/events": {
+      "post": {
+        "deprecated": false,
+        "description": "Publish an event to an Event Grid Custom Topic.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azureeventgridpublish/#publish-event"
+        },
+        "operationId": "PublishEvent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PublishEventBody"
+            },
+            "x-ms-summary": "Grid Event Array"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        },
+        "summary": "Publish Event",
+        "x-ms-visibility": "advanced"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "api_key": {
+      "in": "header",
+      "name": "aeg-sas-key",
+      "type": "apiKey"
+    }
+  },
+  "swagger": "2.0"
+}

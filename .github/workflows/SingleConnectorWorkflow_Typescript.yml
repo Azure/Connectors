@@ -1,0 +1,139 @@
+on:
+  workflow_dispatch:
+    inputs:
+      connectorName:
+        description: 'Connector Name'
+        required: true
+        default: 'dropbox'
+      versionName:
+        description: 'Version'
+        required: true
+        default: '0.0.1-alpha'
+      autoRestConfigFile:
+        description: 'AutoRest Config File'
+        required: false
+        default: '.\sdk\autorest\readme.md'
+      friendlyName:
+        description: 'Friendly Name'
+        required: false
+        default: ''
+      copyToAzureSdkDrop:
+        description: 'Do AzCopy to Azure SDK build drop'
+        required: false
+        default: 'false'
+      publishToGPR:
+        description: 'Publish to github package registry '
+        required: false
+        default: 'false'
+env:
+  MAJOR_VERSION: '1.0'
+  NODE_VERSION: '10.x'                # set this to the node version to use
+  NPM_ORG_NAME: 'azure' #org name for npm package
+  NPM_PROJECT_SUFFIX: '-connector' #suffix for npm package name
+
+jobs: 
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Login via Az module
+      uses: azure/login@v1.1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        enable-AzPSSession: true 
+    - name: Download Swaggers from logic apps
+      run: |
+        $connectorName = "${{ github.event.inputs.connectorName }}";
+        .\sdk\Scripts\DownloadSwaggers.ps1 -subscriptionId "a39747ec-b5c4-45de-82a1-935083247170" -location "westcentralus" -connectorName $connectorName
+      shell: pwsh
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        registry-url: 'https://registry.npmjs.org'
+    - name: Install auto rest, Run autorest, and Package typescript packages
+      run: |
+        $connectorName = "${{ github.event.inputs.connectorName }}";
+        $config = "${{ github.event.inputs.autoRestConfigFile }}";
+        $friendlyName = "${{ github.event.inputs.friendlyName }}";
+        $version = "${{ github.event.inputs.versionName }}";
+        $orgName = "${{env.NPM_ORG_NAME}}";
+        $npmProjectSuffix = "${{env.NPM_PROJECT_SUFFIX}}";
+        
+        # Run Autorest
+        .\sdk\Typescript\Scripts\RunAutoRestTypescript.ps1 -connectorName $connectorName -config $config -friendlyName $friendlyName -version $version -orgName $orgName -npmProjectSuffix $npmProjectSuffix
+        
+        # Compile typescript
+        .\sdk\Typescript\Scripts\CompileTypescript.ps1 -connectorName $connectorName -friendlyName $friendlyName
+      shell: pwsh
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
+    - name: Move package artifacts to out folder
+      run: |
+        # create out folder if it does not exist
+        if(-not (Test-Path .\out -PathType Container))
+        {
+            New-Item -Path "." -Name "out" -ItemType "directory"
+        }
+        $connectorName = "${{ github.event.inputs.connectorName }}";
+        $config = "${{ github.event.inputs.autoRestConfigFile }}";
+        $friendlyName = "${{ github.event.inputs.friendlyName }}";
+        $version = "${{ github.event.inputs.versionName }}";
+        
+        $TextInfo = (Get-Culture).TextInfo
+        $capitalizedName = if (($friendlyName -eq $null) -or ($friendlyName -eq "")) { $TextInfo.ToTitleCase($connectorName) } else { $friendlyName }
+        
+        # copy over tar ball for npm to out folder (out/azure-apihub/typescript/$($version)/connectors-$($connectorName).tgz)
+        Write-Output "copying over typescript tarball from ./${{env.NPM_ORG_NAME}}-$($connectorName)${{env.NPM_PROJECT_SUFFIX}}.tgz to ./out/azure-apihub/typescript/$($version)/${{env.NPM_ORG_NAME}}-$($connectorName)${{env.NPM_PROJECT_SUFFIX}}.tgz"
+        New-Item -ItemType File -Path "./out/azure-apihub/typescript/$($version)/${{env.NPM_ORG_NAME}}-$($connectorName)${{env.NPM_PROJECT_SUFFIX}}-$($version).tgz" -Force
+        Copy-Item -Path "./${{env.NPM_ORG_NAME}}-$($capitalizedName.ToLower())${{env.NPM_PROJECT_SUFFIX}}-$($version).tgz" -Destination "./out/azure-apihub/typescript/$($version)/${{env.NPM_ORG_NAME}}-$($connectorName)${{env.NPM_PROJECT_SUFFIX}}-$($version).tgz" -Force
+        
+        Write-Output "copying over swagger file from /RetrievedSwaggers/$($connectorName).json to ./out/azure-apihub/swaggers/$($connectorName).json"
+        New-Item -ItemType File -Path "./out/azure-apihub/swaggers/$($connectorName).json" -Force
+        Copy-Item -Path "./RetrievedSwaggers/$($connectorName).json" -Destination "./out/azure-apihub/swaggers/$($connectorName).json" -Force
+      shell: pwsh
+    - name: Upload output
+      uses: actions/upload-artifact@v2
+      with:
+        name: out
+        path: out
+    - name: Use azcopy install
+      uses: kheiakiyama/install-azcopy-action@v1
+      with:
+       version: 'v10'
+    - name: Run AzCopy to move packages to azure-sdk drop
+      run: |
+       $copyToAzureSdkDropString = "${{ github.event.inputs.copyToAzureSdkDrop }}";
+       $copyToAzureSdkDrop = $copyToAzureSdkDropString.ToLower() -eq "true"
+       if($copyToAzureSdkDrop)
+       {
+            $env:AZCOPY_SPA_CLIENT_SECRET="${{secrets.AZURE_SDK_DROP_SPA_CLIENT_SECRET}}"
+            azcopy_v10 login --service-principal --application-id cfb5fe52-8bb2-4901-9056-70449fa2df96
+            azcopy_v10 copy "./out/azure-apihub" "${{secrets.AZURE_SDK_DROP_URL}}" --recursive
+       }
+      shell: pwsh
+    - name: Use Node.js ${{ env.NODE_VERSION }} with github npm registry
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        registry-url: 'https://npm.pkg.github.com/'
+        scope: '@azure'
+    - name: Push generated package to GitHub registry
+      run: |
+        echo registry=https://npm.pkg.github.com/azure >> .npmrc
+        $publishToGPRString = "${{ github.event.inputs.publishToGPR }}";
+        $connectorName = "${{ github.event.inputs.connectorName }}";
+        $publishToGPR = $publishToGPRString.ToLower() -eq "true"
+        if($publishToGPR)
+        {
+            Write-Output "Publishing package"
+            npm publish ScriptGenerated/$($connectorName)/typescript
+        } 
+        else 
+        {
+            Write-Output "Skip Publishing package"
+        }
+      shell: pwsh
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN  }}

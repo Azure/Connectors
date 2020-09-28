@@ -1,0 +1,691 @@
+{
+  "basePath": "/apim/formrecognizer",
+  "consumes": [],
+  "definitions": {
+    "AnalyzeResult": {
+      "description": "Analyze API call result.",
+      "properties": {
+        "errors": {
+          "description": "List of errors reported during the analyze operation.",
+          "items": {
+            "$ref": "#/definitions/FormOperationError"
+          },
+          "type": "array",
+          "uniqueItems": false
+        },
+        "pages": {
+          "description": "Page level information extracted in the analyzed document.",
+          "items": {
+            "$ref": "#/definitions/ExtractedPage"
+          },
+          "type": "array",
+          "uniqueItems": false
+        },
+        "status": {
+          "description": "Status of the analyze operation.",
+          "enum": [
+            "success",
+            "partialSuccess",
+            "failure"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ErrorInformation": {
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "innerError": {
+          "$ref": "#/definitions/InnerError"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ErrorResponse": {
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/ErrorInformation"
+        }
+      },
+      "type": "object"
+    },
+    "ExtractedKeyValuePair": {
+      "description": "Representation of a key-value pair as a list of key and value tokens.",
+      "properties": {
+        "key": {
+          "description": "List of tokens for the extracted key in a key-value pair.",
+          "items": {
+            "$ref": "#/definitions/ExtractedToken"
+          },
+          "type": "array",
+          "uniqueItems": false
+        },
+        "value": {
+          "description": "List of tokens for the extracted value in a key-value pair.",
+          "items": {
+            "$ref": "#/definitions/ExtractedToken"
+          },
+          "type": "array",
+          "uniqueItems": false
+        }
+      },
+      "type": "object"
+    },
+    "ExtractedPage": {
+      "description": "Extraction information of a single page in a with a document.",
+      "properties": {
+        "clusterId": {
+          "description": "Cluster identifier.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "height": {
+          "description": "Height of the page (in pixels).",
+          "format": "int32",
+          "type": "integer"
+        },
+        "keyValuePairs": {
+          "description": "List of Key-Value pairs extracted from the page.",
+          "items": {
+            "$ref": "#/definitions/ExtractedKeyValuePair"
+          },
+          "type": "array",
+          "uniqueItems": false
+        },
+        "number": {
+          "description": "Page number.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "tables": {
+          "description": "List of Tables and their information extracted from the page.",
+          "items": {
+            "$ref": "#/definitions/ExtractedTable"
+          },
+          "type": "array",
+          "uniqueItems": false
+        },
+        "width": {
+          "description": "Width of the page (in pixels).",
+          "format": "int32",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "ExtractedTable": {
+      "description": "Extraction information about a table contained in a page.",
+      "properties": {
+        "columns": {
+          "description": "List of columns contained in the table.",
+          "items": {
+            "$ref": "#/definitions/ExtractedTableColumn"
+          },
+          "type": "array",
+          "uniqueItems": false
+        },
+        "id": {
+          "description": "Table identifier.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ExtractedTableColumn": {
+      "description": "Extraction information of a column in a table.",
+      "properties": {
+        "entries": {
+          "description": "Extracted text for each cell of a column. Each cell in the column can have a list of one or more tokens.",
+          "items": {
+            "items": {
+              "$ref": "#/definitions/ExtractedToken"
+            },
+            "type": "array",
+            "uniqueItems": false
+          },
+          "type": "array",
+          "uniqueItems": false
+        },
+        "header": {
+          "description": "List of extracted tokens for the column header.",
+          "items": {
+            "$ref": "#/definitions/ExtractedToken"
+          },
+          "type": "array",
+          "uniqueItems": false
+        }
+      },
+      "type": "object"
+    },
+    "ExtractedToken": {
+      "description": "Canonical representation of single extracted text.",
+      "properties": {
+        "boundingBox": {
+          "description": "Bounding box of the extracted text. Represents the location of the extracted text as a pair of cartesian co-ordinates. The co-ordinate pairs are arranged by top-left, top-right, bottom-right and bottom-left endpoints box with origin reference from the bottom-left of the page.",
+          "items": {
+            "format": "double",
+            "type": "number"
+          },
+          "type": "array",
+          "uniqueItems": false
+        },
+        "confidence": {
+          "description": "A measure of accuracy of the extracted text.",
+          "format": "double",
+          "type": "number"
+        },
+        "text": {
+          "description": "String value of the extracted text.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "FormDocumentReport": {
+      "properties": {
+        "documentName": {
+          "description": "Reference to the data that the report is for.",
+          "type": "string"
+        },
+        "errors": {
+          "description": "List of errors per page.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": false
+        },
+        "pages": {
+          "description": "Total number of pages trained on.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "status": {
+          "description": "Status of the training operation.",
+          "enum": [
+            "success",
+            "partialSuccess",
+            "failure"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "FormOperationError": {
+      "description": "Error reported during an operation.",
+      "properties": {
+        "errorMessage": {
+          "description": "Message reported during the train operation.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "InnerError": {
+      "properties": {
+        "requestId": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "KeysResult": {
+      "description": "Result of an operation to get the keys extracted by a model.",
+      "properties": {
+        "clusters": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": false
+          },
+          "description": "Object mapping ClusterIds to Key lists.",
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "ModelResult": {
+      "description": "Result of a model status query operation.",
+      "properties": {
+        "createdDateTime": {
+          "description": "Get or set the created date time of the model.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "lastUpdatedDateTime": {
+          "description": "Get or set the model last updated datetime.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "modelId": {
+          "description": "Get or set model identifier.",
+          "format": "uuid",
+          "type": "string",
+          "x-nullable": false
+        },
+        "status": {
+          "description": "Get or set the status of model.",
+          "enum": [
+            "created",
+            "ready",
+            "invalid"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ModelsResult": {
+      "description": "Result of query operation to fetch multiple models.",
+      "properties": {
+        "models": {
+          "description": "Collection of models.",
+          "items": {
+            "$ref": "#/definitions/ModelResult"
+          },
+          "type": "array",
+          "uniqueItems": false
+        }
+      },
+      "type": "object"
+    },
+    "TrainRequest": {
+      "description": "Contract to initiate a train request.",
+      "properties": {
+        "source": {
+          "description": "Get or set source path.",
+          "maxLength": 2048,
+          "minLength": 0,
+          "type": "string"
+        }
+      },
+      "required": [
+        "source"
+      ],
+      "type": "object"
+    },
+    "TrainResult": {
+      "description": "Response of the Train API call.",
+      "properties": {
+        "errors": {
+          "description": "Errors returned during the training operation.",
+          "items": {
+            "$ref": "#/definitions/FormOperationError"
+          },
+          "type": "array",
+          "uniqueItems": false
+        },
+        "modelId": {
+          "description": "Identifier of the model.",
+          "format": "uuid",
+          "type": "string",
+          "x-nullable": false
+        },
+        "trainingDocuments": {
+          "description": "List of documents used to train the model and the train operation error reported by each.",
+          "items": {
+            "$ref": "#/definitions/FormDocumentReport"
+          },
+          "type": "array",
+          "uniqueItems": false
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/formrecognizer"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Extracts information from forms and images into structured data based on a model created by a set of representative training forms.",
+    "title": "Form Recognizer",
+    "version": "v1.0-preview",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    }
+  },
+  "parameters": {},
+  "paths": {
+    "/{connectionId}/custom/models": {
+      "get": {
+        "description": "Get information about all trained models",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/formrecognizer/#get-models"
+        },
+        "operationId": "GetCustomModels",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ModelsResult"
+            }
+          },
+          "500": {
+            "description": "Response entity accompanying non-successful responses containing additional details about the error.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "summary": "Get Models"
+      }
+    },
+    "/{connectionId}/custom/models/{modelId}": {
+      "delete": {
+        "description": "Delete model artifacts.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/formrecognizer/#delete-model"
+        },
+        "operationId": "DeleteCustomModel",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The identifier of the model to delete.",
+            "in": "path",
+            "name": "modelId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Model ID"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully removed model artifacts."
+          },
+          "500": {
+            "description": "Response entity accompanying non-successful responses containing additional details about the error.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "summary": "Delete Model"
+      },
+      "get": {
+        "description": "Get information about a model.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/formrecognizer/#get-model"
+        },
+        "operationId": "GetCustomModel",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "This is your Model Identifier that is used to analyze your documents with.",
+            "in": "path",
+            "name": "modelId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Model ID"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ModelResult"
+            }
+          },
+          "500": {
+            "description": "Response entity accompanying non-successful responses containing additional details about the error.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "summary": "Get Model"
+      }
+    },
+    "/{connectionId}/custom/models/{modelId}/analyze": {
+      "post": {
+        "consumes": [
+          "application/pdf",
+          "image/jpg",
+          "image/png"
+        ],
+        "description": "The document to analyze must be of a supported content type - 'application/pdf', 'image/jpeg' or 'image/png'. The response contains not just the extracted information of the analyzed form but also information about content that was not extracted along with a reason.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/formrecognizer/#analyze-form"
+        },
+        "operationId": "AnalyzeWithCustomModel",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "This is your Model Identifier that is used to analyze the document.",
+            "in": "path",
+            "name": "modelId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Model ID"
+          },
+          {
+            "description": "An optional list of known keys to extract the values for.",
+            "in": "query",
+            "name": "Keys",
+            "type": "string",
+            "x-ms-summary": "Keys to extract"
+          },
+          {
+            "description": "A PDF document or image (JPG or PNG) file to analyze.",
+            "in": "body",
+            "name": "Document",
+            "required": true,
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            }
+          },
+          {
+            "default": "application/pdf",
+            "description": "Content type of the document to analyze.",
+            "in": "header",
+            "name": "Content-type",
+            "type": "string",
+            "x-ms-summary": "Content type"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/AnalyzeResult"
+            }
+          },
+          "500": {
+            "description": "Response entity accompanying non-successful responses containing additional details about the error.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "summary": "Analyze Form"
+      }
+    },
+    "/{connectionId}/custom/models/{modelId}/keys": {
+      "get": {
+        "description": "Use the API to retrieve the keys that were extracted by the specified model.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/formrecognizer/#get-keys"
+        },
+        "operationId": "GetExtractedKeys",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Model identifier.",
+            "in": "path",
+            "name": "modelId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Model ID"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/KeysResult"
+            }
+          },
+          "500": {
+            "description": "Response entity accompanying non-successful responses containing additional details about the error.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "summary": "Get Keys"
+      }
+    },
+    "/{connectionId}/custom/train": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "The train request must include a source parameter that is either an externally accessible Azure Storage blob container Uri (preferably a Shared Access Signature Uri) or valid path to a data folder in a locally mounted drive. When local paths are specified, they must follow the Linux/Unix path format and be an absolute path rooted to the input mount configuration setting value e.g., if '{Mounts:Input}' configuration setting value is '/input' then a valid source path would be '/input/contosodataset'. All data to be trained are expected to be under the source. Models are trained using documents that are of the following content type - 'application/pdf', 'image/jpeg' and 'image/png'.\" Other content is ignored when training a model.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/formrecognizer/#train-model"
+        },
+        "operationId": "TrainCustomModel",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Request object for training.",
+            "in": "body",
+            "name": "trainRequest",
+            "schema": {
+              "$ref": "#/definitions/TrainRequest"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/TrainResult"
+            }
+          },
+          "500": {
+            "description": "Response entity accompanying non-successful responses containing additional details about the error.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        },
+        "summary": "Train Model"
+      }
+    }
+  },
+  "produces": [],
+  "responses": {},
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "apiKeyHeader": []
+    },
+    {
+      "apiKeyQuery": []
+    }
+  ],
+  "securityDefinitions": {
+    "apiKeyHeader": {
+      "in": "header",
+      "name": "Ocp-Apim-Subscription-Key",
+      "type": "apiKey"
+    },
+    "apiKeyQuery": {
+      "in": "query",
+      "name": "subscription-key",
+      "type": "apiKey"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [],
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://azure.microsoft.com/services/cognitive-services/form-recognizer/"
+    }
+  ],
+  "x-servers": [
+    {
+      "url": "https://cognitiveusw2prod.cognitiveservices.azure.com"
+    },
+    {
+      "url": "https://cognitiveusw2prod-westus2-01.regional.azure-api.net"
+    },
+    {
+      "url": "https://westus2.api.cognitive.microsoft.com"
+    }
+  ]
+}

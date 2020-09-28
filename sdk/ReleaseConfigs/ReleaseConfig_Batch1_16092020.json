@@ -1,0 +1,99 @@
+[
+  {
+    "name": "amazonredshift",
+    "friendlyName": "AmazonRedShift",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "as2",
+    "friendlyName": "AS2",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "aweber",
+    "friendlyName": "AWeber",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "azureadip",
+    "friendlyName": "AzureADIdentityProtection",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "azureappservice",
+    "friendlyName": "AzureAppService",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "azureloganalytics",
+    "friendlyName": "AzureLogAnalytics",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "basecamp",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "basecamp2",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "bingmaps",
+    "friendlyName": "BingMaps",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "bingsearch",
+    "friendlyName": "BingSearch",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "bitbucket",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "bitly",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "biztalk",
+    "friendlyName": "BizTalkServer",
+    "version": "0.0.1-alpha"
+  },
+  {
+		"name": "blockchainethereum",
+		"friendlyName": "EthereumBlockchain",
+		"version": "0.0.1-alpha"
+	},
+  {
+		"name": "blockchaincorda",
+		"friendlyName": "CordaBlockchain",
+		"version": "0.0.1-alpha"
+	},
+  {
+    "name": "blogger",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "bttn",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "campfire",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "capsulecrm",
+    "friendlyName": "CapsuleCRM",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "casper365",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "chatter",
+    "friendlyName": "Chatter",
+    "version": "0.0.1-alpha"
+  }
+]

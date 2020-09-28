@@ -1,0 +1,905 @@
+{
+  "basePath": "/apim/bingmaps",
+  "definitions": {
+    "GetLocation_Response": {
+      "properties": {
+        "address": {
+          "description": "address",
+          "properties": {
+            "addressLine": {
+              "description": "The official street line of an address.",
+              "type": "string",
+              "x-ms-summary": "Line",
+              "x-ms-visibility": "advanced"
+            },
+            "countryRegion": {
+              "description": "Country or region name of an address.",
+              "type": "string",
+              "x-ms-summary": "Country Region",
+              "x-ms-visibility": "important"
+            },
+            "countryRegionIso2": {
+              "description": "The two-letter ISO country code.",
+              "type": "string",
+              "x-ms-summary": "Country Region ISO 2",
+              "x-ms-visibility": "advanced"
+            },
+            "formattedAddress": {
+              "description": "A string specifying the complete address.",
+              "type": "string",
+              "x-ms-summary": "Formatted Address",
+              "x-ms-visibility": "important"
+            },
+            "postalCode": {
+              "description": "The post code, postal code, or ZIP Code of an address.",
+              "type": "string",
+              "x-ms-summary": "Postal Code",
+              "x-ms-visibility": "important"
+            }
+          },
+          "type": "object",
+          "x-ms-summary": "Address"
+        },
+        "confidence": {
+          "description": "The confidence of the match.",
+          "type": "string",
+          "x-ms-summary": "Confidence",
+          "x-ms-visibility": "advanced"
+        },
+        "entityType": {
+          "description": "A type of location. Examples include PopulatedPlace and Monument.",
+          "type": "string",
+          "x-ms-summary": "Entity Type",
+          "x-ms-visibility": "advanced"
+        },
+        "name": {
+          "type": "string",
+          "x-ms-summary": "Name",
+          "x-ms-visibility": "important"
+        },
+        "point": {
+          "description": "point",
+          "properties": {
+            "coordinates": {
+              "description": "coordinates",
+              "properties": {
+                "combined": {
+                  "description": "Comma separated latitude and longitude values.",
+                  "type": "string",
+                  "x-ms-summary": "Combined",
+                  "x-ms-visibility": "advanced"
+                },
+                "latitude": {
+                  "description": "The latitude point that was used for the location.",
+                  "format": "float",
+                  "type": "number",
+                  "x-ms-summary": "Latitude",
+                  "x-ms-visibility": "advanced"
+                },
+                "longitude": {
+                  "description": "The longitude point that was used for the location.",
+                  "format": "float",
+                  "type": "number",
+                  "x-ms-summary": "Longitude",
+                  "x-ms-visibility": "advanced"
+                }
+              },
+              "type": "object",
+              "x-ms-summary": "coordinates",
+              "x-ms-visibility": "advanced"
+            },
+            "type": {
+              "description": "type",
+              "type": "string",
+              "x-ms-summary": "Type",
+              "x-ms-visibility": "advanced"
+            }
+          },
+          "type": "object",
+          "x-ms-summary": "Point",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "GetMap_Response": {
+      "format": "binary",
+      "type": "string",
+      "x-ms-media-kind": "image",
+      "x-ms-summary": "Map Image",
+      "x-ms-visibility": "important"
+    },
+    "GetRoute_Response": {
+      "properties": {
+        "distanceUnit": {
+          "description": "The unit used for distance.",
+          "type": "string",
+          "x-ms-summary": "Distance Unit",
+          "x-ms-visibility": "important"
+        },
+        "durationUnit": {
+          "description": "The unit used for time of travel.",
+          "type": "string",
+          "x-ms-summary": "Duration Unit",
+          "x-ms-visibility": "important"
+        },
+        "routeLegs": {
+          "properties": {
+            "actualEnd": {
+              "properties": {
+                "coordinates": {
+                  "properties": {
+                    "combined": {
+                      "description": "Comma separated latitude and longitude values.",
+                      "type": "string",
+                      "x-ms-summary": "Combined",
+                      "x-ms-visibility": "advanced"
+                    },
+                    "latitude": {
+                      "description": "The latitude point that was used as the actual ending location for the route leg.",
+                      "format": "float",
+                      "type": "number",
+                      "x-ms-summary": "Latitude",
+                      "x-ms-visibility": "advanced"
+                    },
+                    "longitude": {
+                      "description": "The longitude point that was used as the actual ending location for the route leg.",
+                      "format": "float",
+                      "type": "number",
+                      "x-ms-summary": "Longitude",
+                      "x-ms-visibility": "advanced"
+                    }
+                  },
+                  "type": "object",
+                  "x-ms-summary": "Coordinates"
+                },
+                "type": {
+                  "type": "string",
+                  "x-ms-summary": "Type",
+                  "x-ms-visibility": "advanced"
+                }
+              },
+              "type": "object",
+              "x-ms-summary": "Actual End"
+            },
+            "actualStart": {
+              "properties": {
+                "coordinates": {
+                  "properties": {
+                    "combined": {
+                      "description": "Comma separated latitude and longitude values.",
+                      "type": "string",
+                      "x-ms-summary": "Combined",
+                      "x-ms-visibility": "advanced"
+                    },
+                    "latitude": {
+                      "description": "The latitude that was used as the actual starting location for the route leg.",
+                      "format": "float",
+                      "type": "number",
+                      "x-ms-summary": "Latitude",
+                      "x-ms-visibility": "advanced"
+                    },
+                    "longitude": {
+                      "description": "The longitude that was used as the actual starting location for the route leg.",
+                      "format": "float",
+                      "type": "number",
+                      "x-ms-summary": "Longitude",
+                      "x-ms-visibility": "advanced"
+                    }
+                  },
+                  "type": "object",
+                  "x-ms-summary": "Coordinates",
+                  "x-ms-visibility": "advanced"
+                },
+                "type": {
+                  "type": "string",
+                  "x-ms-summary": "Type",
+                  "x-ms-visibility": "advanced"
+                }
+              },
+              "type": "object",
+              "x-ms-summary": "Actual Start"
+            },
+            "description": {
+              "description": "A short description of the route.",
+              "type": "string",
+              "x-ms-summary": "Description",
+              "x-ms-visibility": "important"
+            },
+            "endLocation": {
+              "properties": {
+                "address": {
+                  "properties": {
+                    "countryRegion": {
+                      "description": "Country or region name of an address.",
+                      "type": "string",
+                      "x-ms-summary": "Country Region",
+                      "x-ms-visibility": "important"
+                    },
+                    "formattedAddress": {
+                      "description": "A string specifying the complete address.",
+                      "type": "string",
+                      "x-ms-summary": "Formatted Address",
+                      "x-ms-visibility": "important"
+                    }
+                  },
+                  "type": "object",
+                  "x-ms-summary": "Address"
+                },
+                "confidence": {
+                  "description": "The confidence of the match.",
+                  "type": "string",
+                  "x-ms-summary": "Confidence",
+                  "x-ms-visibility": "advanced"
+                },
+                "entityType": {
+                  "description": "A type of location. Examples include PopulatedPlace and Monument.",
+                  "type": "string",
+                  "x-ms-summary": "Entity Type",
+                  "x-ms-visibility": "advanced"
+                },
+                "name": {
+                  "type": "string",
+                  "x-ms-summary": "Name",
+                  "x-ms-visibility": "advanced"
+                }
+              },
+              "type": "object",
+              "x-ms-summary": "End Location"
+            },
+            "routeRegion": {
+              "description": "routeRegion",
+              "type": "string",
+              "x-ms-summary": "Region",
+              "x-ms-visibility": "advanced"
+            },
+            "startLocation": {
+              "properties": {
+                "address": {
+                  "properties": {
+                    "countryRegion": {
+                      "description": "Country or region name of an address.",
+                      "type": "string",
+                      "x-ms-summary": "Country Region",
+                      "x-ms-visibility": "important"
+                    },
+                    "formattedAddress": {
+                      "description": "A string specifying the complete address.",
+                      "type": "string",
+                      "x-ms-summary": "Formatted Address",
+                      "x-ms-visibility": "important"
+                    }
+                  },
+                  "type": "object",
+                  "x-ms-summary": "Address"
+                },
+                "confidence": {
+                  "description": "The confidence of the match.",
+                  "type": "string",
+                  "x-ms-summary": "Confidence",
+                  "x-ms-visibility": "advanced"
+                },
+                "entityType": {
+                  "description": "A type of location. Examples include PopulatedPlace and Monument.",
+                  "type": "string",
+                  "x-ms-summary": "Entity Type",
+                  "x-ms-visibility": "advanced"
+                },
+                "name": {
+                  "description": "name",
+                  "type": "string",
+                  "x-ms-summary": "Name",
+                  "x-ms-visibility": "advanced"
+                }
+              },
+              "type": "object",
+              "x-ms-summary": "Start Location",
+              "x-ms-visibility": "advanced"
+            }
+          },
+          "type": "object"
+        },
+        "trafficCongestion": {
+          "type": "string",
+          "x-ms-summary": "Traffic Congestion",
+          "x-ms-visibility": "advanced"
+        },
+        "trafficDataUsed": {
+          "type": "string",
+          "x-ms-summary": "Traffic Data Used",
+          "x-ms-visibility": "advanced"
+        },
+        "travelDistance": {
+          "description": "The physical distance covered by the entire route.",
+          "format": "float",
+          "type": "number",
+          "x-ms-summary": "Travel Distance",
+          "x-ms-visibility": "important"
+        },
+        "travelDuration": {
+          "description": "The time that it takes, in seconds, to travel a corresponding travel distance.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Travel Duration",
+          "x-ms-visibility": "important"
+        },
+        "travelDurationTraffic": {
+          "description": "The time that it takes, in seconds, to travel a corresponding TravelDistance with current traffic conditions.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Travel Duration Traffic",
+          "x-ms-visibility": "important"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/bingmaps"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Bing Maps",
+    "title": "Bing Maps",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    }
+  },
+  "paths": {
+    "/{connectionId}/REST/V1/Routes/Driving": {
+      "get": {
+        "deprecated": false,
+        "description": "Calculate a route using waypoints.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/bingmaps/#get-route"
+        },
+        "operationId": "GetRoute",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specified as a point, landmark, or address. (47.610,-122.107 or Seattle, WA)",
+            "in": "query",
+            "name": "wp.0",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Waypoint 1",
+            "x-ms-test-value": "Redmond,wa"
+          },
+          {
+            "description": "Specified as a point, landmark, or address. (47.610,-122.107 or Seattle, WA)",
+            "in": "query",
+            "name": "wp.1",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Waypoint 2",
+            "x-ms-test-value": "Issaquah,wa"
+          },
+          {
+            "description": "A comma-separated list of values from the following list (highways, tolls, minimizeHighways, minimizeTolls).",
+            "in": "query",
+            "name": "avoid",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Avoid",
+            "x-ms-test-value": "minimizeTolls"
+          },
+          {
+            "description": "Specifies what parameters to use to optimize the route.",
+            "enum": [
+              "distance",
+              "time ",
+              "timeWithTraffic",
+              "timeAvoidClosure"
+            ],
+            "in": "query",
+            "name": "optimize",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Optimize",
+            "x-ms-test-value": "distance"
+          },
+          {
+            "description": "The units to use for distance in the response. Default: Kilometer",
+            "enum": [
+              "Mile",
+              "Kilometer"
+            ],
+            "in": "query",
+            "name": "distanceUnit",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Distance unit",
+            "x-ms-test-value": "mi"
+          },
+          {
+            "description": "The mode of travel for the route. Default: Driving",
+            "enum": [
+              "Driving",
+              "Walking",
+              "Transit"
+            ],
+            "in": "query",
+            "name": "travelMode",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Travel mode",
+            "x-ms-test-value": "Driving"
+          },
+          {
+            "description": "Required when the travel mode is transit. Identifies the desired transit time, such as arrival time or departure time.",
+            "in": "query",
+            "name": "dateTime",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Transit Date-Time",
+            "x-ms-test-value": "2017-09-10T05:42:00Z"
+          },
+          {
+            "description": "Required when the travel mode is transit. Specifies how to interpret the transit date-time value.",
+            "enum": [
+              "Arrival",
+              "Departure",
+              "LastAvailable"
+            ],
+            "in": "query",
+            "name": "timeType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Transit Date-Time Type",
+            "x-ms-test-value": "Arrival"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetRoute_Response"
+            }
+          }
+        },
+        "summary": "Get route",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/REST/v1/Imagery/Map/{imagerySet}/pointPlaceHolder/{zoomLevel}": {
+      "get": {
+        "deprecated": true,
+        "description": "Get static map.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/bingmaps/#get-static-map-%5bdeprecated%5d"
+        },
+        "operationId": "GetMap",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The latitude coordinate you want to reverse geocode. Example: 47.64054",
+            "in": "query",
+            "name": "latitude",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Point latitude",
+            "x-ms-test-value": "47.64054"
+          },
+          {
+            "description": "The longitude coordinate you want to reverse geocode. Example: -122.12934",
+            "in": "query",
+            "name": "longitude",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Point longitude",
+            "x-ms-test-value": "-122.12934"
+          },
+          {
+            "description": "The type of imagery.",
+            "enum": [
+              "Aerial",
+              "AerialWithLabels",
+              "CanvasDark",
+              "CanvasLight",
+              "CanvasGray",
+              "Road"
+            ],
+            "in": "path",
+            "name": "imagerySet",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Imagery set",
+            "x-ms-test-value": "CanvasGray"
+          },
+          {
+            "default": "10",
+            "description": "The level of zoom to display between 0 and 21. Default 10",
+            "in": "path",
+            "name": "zoomLevel",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Zoom level"
+          },
+          {
+            "description": "The image format to use for the static map.",
+            "enum": [
+              "gif",
+              "jpeg",
+              "png"
+            ],
+            "in": "query",
+            "name": "format",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Image format",
+            "x-ms-test-value": "jpeg"
+          },
+          {
+            "description": "The width and height in pixels of the static map output. Example: 1000,600.",
+            "in": "query",
+            "name": "mapSize",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Map size",
+            "x-ms-test-value": "1000,600"
+          },
+          {
+            "description": "Point value (latitude and longitude) with options to add a label of up to three (3) characters and to specify an icon style. Example: 47.610,-122.107;5;P10 (more information https://aka.ms/u8b8aq).",
+            "in": "query",
+            "name": "pushpin",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Pushpin",
+            "x-ms-test-value": "47.610,-122.107;5;P10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetMap_Response"
+            }
+          }
+        },
+        "summary": "Get static map",
+        "x-ms-api-annotation": {
+          "family": "GetMap",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/REST/v1/Locations": {
+      "get": {
+        "deprecated": false,
+        "description": "Get the location information associated with an address. If no location is found, an empty result will be returned.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/bingmaps/#get-location-by-address"
+        },
+        "operationId": "GetLocationByAddress",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "A string specifying the street line of an address (not including city, country region, etc).",
+            "in": "query",
+            "name": "addressLine",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Address line",
+            "x-ms-test-value": "15595 NE 36th St",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "A string that contains the locality, such as a US city.",
+            "in": "query",
+            "name": "locality",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Locality (City)",
+            "x-ms-test-value": "Redmond",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "A string that contains a subdivision, such as the abbreviation of a US state.",
+            "in": "query",
+            "name": "adminDistrict",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Admin district (State)",
+            "x-ms-test-value": "WA",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "A string that contains the postal code, such as a US ZIP Code.",
+            "in": "query",
+            "name": "postalCode",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Postal code",
+            "x-ms-test-value": "98052",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "A string specifying the ISO country code.",
+            "in": "query",
+            "name": "countryRegion",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Country region",
+            "x-ms-test-value": "US",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetLocation_Response"
+            }
+          }
+        },
+        "summary": "Get location by address",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/REST/v1/Locations/pointPlaceHolder": {
+      "get": {
+        "deprecated": false,
+        "description": "Get the location information associated with latitude and longitude coordinates.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/bingmaps/#get-location-by-point"
+        },
+        "operationId": "GetLocationByPoint",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The latitude coordinate you want to reverse geocode. Example: 47.64054",
+            "format": "double",
+            "in": "query",
+            "name": "latitude",
+            "required": true,
+            "type": "number",
+            "x-ms-summary": "Point Latitude",
+            "x-ms-test-value": "47.64054"
+          },
+          {
+            "description": "The longitude coordinate you want to reverse geocode. Example: -122.12934",
+            "format": "double",
+            "in": "query",
+            "name": "longitude",
+            "required": true,
+            "type": "number",
+            "x-ms-summary": "Point Longitude",
+            "x-ms-test-value": "-122.12934"
+          },
+          {
+            "description": "The entity types that you want to return in the response.",
+            "in": "query",
+            "name": "includeEntityTypes",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Include Entity Types",
+            "x-ms-test-value": "Address,Neighborhood,PopulatedPlace,Postcode1,AdminDivision1,AdminDivision2,CountryRegion"
+          },
+          {
+            "default": true,
+            "description": "A value determining whether or not to include the neighborhood in the response when it is available. 0 or 1",
+            "in": "query",
+            "name": "includeNeighborhood",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Include Neighborhood"
+          },
+          {
+            "default": true,
+            "description": "A value determining whether or not to include the two-letter ISO country code. ciso2",
+            "in": "query",
+            "name": "include",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Include Country Code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetLocation_Response"
+            }
+          }
+        },
+        "summary": "Get location by point",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/V2/REST/v1/Imagery/Map/{imagerySet}/pointPlaceHolder/{zoomLevel}": {
+      "get": {
+        "deprecated": false,
+        "description": "Get static map.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/bingmaps/#get-static-map"
+        },
+        "operationId": "GetMapV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The latitude coordinate you want to reverse geocode. Example: 47.64054",
+            "format": "double",
+            "in": "query",
+            "name": "latitude",
+            "required": true,
+            "type": "number",
+            "x-ms-summary": "Point latitude",
+            "x-ms-test-value": "47.64054"
+          },
+          {
+            "description": "The longitude coordinate you want to reverse geocode. Example: -122.12934",
+            "format": "double",
+            "in": "query",
+            "name": "longitude",
+            "required": true,
+            "type": "number",
+            "x-ms-summary": "Point longitude",
+            "x-ms-test-value": "-122.12934"
+          },
+          {
+            "description": "The type of imagery.",
+            "enum": [
+              "Aerial",
+              "AerialWithLabels",
+              "CanvasDark",
+              "CanvasLight",
+              "CanvasGray",
+              "Road"
+            ],
+            "in": "path",
+            "name": "imagerySet",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Imagery set",
+            "x-ms-test-value": "CanvasGray"
+          },
+          {
+            "default": "10",
+            "description": "The level of zoom to display between 0 and 21. Default 10",
+            "in": "path",
+            "name": "zoomLevel",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Zoom level"
+          },
+          {
+            "description": "The image format to use for the static map.",
+            "enum": [
+              "gif",
+              "jpeg",
+              "png"
+            ],
+            "in": "query",
+            "name": "format",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Image format",
+            "x-ms-test-value": "jpeg"
+          },
+          {
+            "description": "The width and height in pixels of the static map output. Example: 1000,600.",
+            "in": "query",
+            "name": "mapSize",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Map size",
+            "x-ms-test-value": "1000,600"
+          },
+          {
+            "description": "Specify pushpin latitude (more information https://aka.ms/u8b8aq).",
+            "format": "double",
+            "in": "query",
+            "name": "pushpinLatitude",
+            "required": false,
+            "type": "number",
+            "x-ms-summary": "Pushpin latitude",
+            "x-ms-test-value": "47.610",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Specify pushpin longitude (more information https://aka.ms/u8b8aq).",
+            "format": "double",
+            "in": "query",
+            "name": "pushpinLongitude",
+            "required": false,
+            "type": "number",
+            "x-ms-summary": "Pushpin longitude",
+            "x-ms-test-value": "-122.107",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Specify pushpin icon style (more information https://aka.ms/u8b8aq).",
+            "in": "query",
+            "maximum": 136,
+            "minimum": 0,
+            "name": "pushpinIconStyle",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Pushpin icon style",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Specify a label of up to three (3) characters (more information https://aka.ms/u8b8aq).",
+            "in": "query",
+            "name": "pushpinLabel",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Pushpin label",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetMap_Response"
+            }
+          }
+        },
+        "summary": "Get static map",
+        "x-ms-api-annotation": {
+          "family": "GetMap",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "api_key": {
+      "in": "query",
+      "name": "key",
+      "type": "apiKey"
+    }
+  },
+  "swagger": "2.0",
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://www.bing.com/maps/"
+    }
+  ]
+}

@@ -1,0 +1,251 @@
+{
+  "basePath": "/apim/rss",
+  "definitions": {
+    "FeedItem": {
+      "description": "Represents an RSS feed item.",
+      "properties": {
+        "categories": {
+          "description": "Feed item categories",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-ms-summary": "Feed categories"
+        },
+        "copyright": {
+          "description": "Copyright information",
+          "type": "string",
+          "x-ms-summary": "Feed copyright information"
+        },
+        "id": {
+          "description": "Feed ID",
+          "type": "string",
+          "x-ms-summary": "Feed ID"
+        },
+        "links": {
+          "description": "Feed links",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-ms-summary": "Feed links",
+          "x-ms-visibility": "advanced"
+        },
+        "primaryLink": {
+          "description": "Primary feed link",
+          "type": "string",
+          "x-ms-summary": "Primary feed link"
+        },
+        "publishDate": {
+          "description": "Feed published date",
+          "type": "string",
+          "x-ms-summary": "Feed published on"
+        },
+        "summary": {
+          "description": "Feed item summary",
+          "type": "string",
+          "x-ms-summary": "Feed summary"
+        },
+        "title": {
+          "description": "Feed title",
+          "type": "string",
+          "x-ms-summary": "Feed title"
+        },
+        "updatedOn": {
+          "description": "Feed updated on",
+          "type": "string",
+          "x-ms-summary": "Feed updated on"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "type": "object"
+    },
+    "TriggerBatchResponse[FeedItem]": {
+      "description": "Represents a wrapper object for batch trigger response",
+      "properties": {
+        "value": {
+          "description": "A list of the response objects",
+          "items": {
+            "$ref": "#/definitions/FeedItem"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/rss"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "RSS is a popular web syndication format used to publish frequently updated content – like blog entries and news headlines.  Many content publishers provide an RSS feed to allow users to subscribe to it.  Use the RSS connector to retrieve feed information and trigger flows when new items are published in an RSS feed.",
+    "title": "RSS",
+    "version": "1.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    }
+  },
+  "paths": {
+    "/{connectionId}/ListFeedItems": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation retrieves all items from an RSS feed.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/rss/#list-all-rss-feed-items"
+        },
+        "operationId": "ListFeedItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The RSS feed URL (Example: http://rss.cnn.com/rss/cnn_topstories.rss).",
+            "in": "query",
+            "name": "feedUrl",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The RSS feed URL",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "The date since when RSS feed should be retrieved (Example: 2018-12-29 10:24:05Z).",
+            "in": "query",
+            "name": "since",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "since"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/FeedItem"
+              },
+              "type": "array"
+            }
+          },
+          "202": {
+            "description": "Accepted"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error. Unknown error occurred"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "List all RSS feed items",
+        "tags": [
+          "Rss"
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/OnNewFeed": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation triggers a workflow when a new item is published in an RSS feed.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/rss/#when-a-feed-item-is-published"
+        },
+        "operationId": "OnNewFeed",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The RSS feed URL (Example: http://rss.cnn.com/rss/cnn_topstories.rss).",
+            "in": "query",
+            "name": "feedUrl",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The RSS feed URL",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TriggerBatchResponse[FeedItem]"
+            }
+          },
+          "202": {
+            "description": "Accepted"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error. Unknown error occurred"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a feed item is published",
+        "tags": [
+          "Rss"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, publish an item to the RSS feed.",
+        "x-ms-visibility": "important"
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0"
+}

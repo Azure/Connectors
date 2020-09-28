@@ -1,0 +1,799 @@
+{
+  "basePath": "/apim/azurevm",
+  "definitions": {
+    "ResourceGroup": {
+      "description": "Resource group information.",
+      "properties": {
+        "id": {
+          "description": "The ID of the resource group.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Id",
+          "x-ms-visibility": "advanced"
+        },
+        "managedBy": {
+          "description": "Id of the resource that manages this resource group.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Managed By",
+          "x-ms-visibility": "advanced"
+        },
+        "name": {
+          "description": "The Name of the resource group.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Name"
+        }
+      },
+      "type": "object"
+    },
+    "ResourceGroupListResult": {
+      "description": "List of resource groups.",
+      "properties": {
+        "nextLink": {
+          "description": "The URL to get the next set of results.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Next Link",
+          "x-ms-visibility": "advanced"
+        },
+        "value": {
+          "description": "The list of resource groups.",
+          "items": {
+            "$ref": "#/definitions/ResourceGroup"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "Subscription": {
+      "description": "Subscription information.",
+      "properties": {
+        "authorizationSource": {
+          "description": "The authorization source of the request. Valid values are one or more combinations of Legacy, RoleBased, Bypassed, Direct and Management. For example, 'Legacy, RoleBased'.",
+          "type": "string",
+          "x-ms-summary": "Authorization Source",
+          "x-ms-visibility": "advanced"
+        },
+        "displayName": {
+          "description": "The subscription display name.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Display Name"
+        },
+        "id": {
+          "description": "The fully qualified Id.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Id"
+        },
+        "state": {
+          "description": "The subscription state.",
+          "enum": [
+            "Enabled",
+            "Warned",
+            "PastDue",
+            "Disabled",
+            "Deleted"
+          ],
+          "readOnly": true,
+          "type": "string",
+          "x-ms-enum": {
+            "modelAsString": false,
+            "name": "SubscriptionState"
+          },
+          "x-ms-summary": "State"
+        },
+        "subscriptionId": {
+          "description": "The subscription Id.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Subscription Id"
+        },
+        "tenantId": {
+          "description": "The tenant Id.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Tenant Id"
+        }
+      },
+      "type": "object"
+    },
+    "SubscriptionListResult": {
+      "description": "Subscription list operation response.",
+      "properties": {
+        "nextLink": {
+          "description": "The URL to get the next set of results.",
+          "type": "string",
+          "x-ms-summary": "Next Link",
+          "x-ms-visibility": "advanced"
+        },
+        "value": {
+          "description": "The subscriptions.",
+          "items": {
+            "$ref": "#/definitions/Subscription"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "VirtualMachine": {
+      "description": "Virtual Machine information.",
+      "properties": {
+        "id": {
+          "description": "The ID of the virtual machine.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Id",
+          "x-ms-visibility": "advanced"
+        },
+        "name": {
+          "description": "The Name of the virtual machine.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Name"
+        },
+        "properties": {
+          "$ref": "#/definitions/VirtualMachineProperties"
+        }
+      },
+      "type": "object"
+    },
+    "VirtualMachineListResult": {
+      "description": "List of virtual machines.",
+      "properties": {
+        "nextLink": {
+          "description": "The URL to get the next set of results.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Next Link",
+          "x-ms-visibility": "advanced"
+        },
+        "value": {
+          "description": "The list of virtual machines.",
+          "items": {
+            "$ref": "#/definitions/VirtualMachine"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "VirtualMachineProperties": {
+      "description": "Virtual Machine properties.",
+      "properties": {
+        "provisioningState": {
+          "description": "The state of the virtual machine.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "ProvisioningState"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/azurevm"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "description": "Azure VM connector allows you to manage virtual machines.",
+    "title": "Azure VM",
+    "version": "2019-12-01",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    }
+  },
+  "parameters": {
+    "ARMApiVersionParameter": {
+      "default": "2020-01-01",
+      "description": "ARM API version",
+      "in": "query",
+      "name": "x-ms-api-version",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "API Version",
+      "x-ms-test-value": "2020-01-01",
+      "x-ms-visibility": "internal"
+    },
+    "ComputeApiVersionParameter": {
+      "default": "2019-12-01",
+      "description": "Compute API version",
+      "in": "query",
+      "name": "api-version",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "API Version",
+      "x-ms-test-value": "2019-12-01",
+      "x-ms-visibility": "internal"
+    },
+    "ComputeInternalApiVersionParameter": {
+      "default": "2019-12-01",
+      "description": "Compute API version",
+      "in": "query",
+      "name": "x-ms-api-version",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "API Version",
+      "x-ms-test-value": "2019-12-01",
+      "x-ms-visibility": "internal"
+    },
+    "ResourceGroupNameParameter": {
+      "description": "The name of the resource group.",
+      "in": "path",
+      "name": "resourceGroupName",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ResourceGroups_List",
+        "parameters": {
+          "subscriptionId": {
+            "parameter": "subscriptionId"
+          },
+          "x-ms-api-version": "2020-01-01"
+        },
+        "value-collection": "value",
+        "value-path": "name",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Resource Group",
+      "x-ms-test-value": "connector-vm",
+      "x-ms-url-encoding": "single"
+    },
+    "SubscriptionIdParameter": {
+      "description": "Microsoft Azure subscription.",
+      "in": "path",
+      "name": "subscriptionId",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "Subscriptions_List",
+        "parameters": {
+          "x-ms-api-version": "2020-01-01"
+        },
+        "value-collection": "value",
+        "value-path": "subscriptionId",
+        "value-title": "displayName"
+      },
+      "x-ms-summary": "Subscription Id",
+      "x-ms-test-value": "ae43b1e3-c35d-4c8c-bc0d-f148b4c52b78",
+      "x-ms-url-encoding": "single"
+    },
+    "VirtualMachineNameParameter": {
+      "description": "The name of the virtual machine.",
+      "in": "path",
+      "name": "virtualMachineName",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "VirtualMachines_List",
+        "parameters": {
+          "resourceGroupName": {
+            "parameter": "resourceGroupName"
+          },
+          "subscriptionId": {
+            "parameter": "subscriptionId"
+          },
+          "x-ms-api-version": "2019-12-01"
+        },
+        "value-collection": "value",
+        "value-path": "name",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Virtual Machine",
+      "x-ms-test-value": "connector-vm",
+      "x-ms-url-encoding": "single"
+    }
+  },
+  "paths": {
+    "/{connectionId}/subscriptions": {
+      "get": {
+        "deprecated": false,
+        "description": "Gets a list of all the subscriptions to which the principal has access.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurevm/#list-subscriptions"
+        },
+        "operationId": "Subscriptions_List",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ARMApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SubscriptionListResult"
+            }
+          }
+        },
+        "summary": "List subscriptions",
+        "tags": [
+          "Subscriptions"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/operations/{operationId}": {
+      "get": {
+        "deprecated": false,
+        "description": "Get status of an operation on a virtual machine.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurevm/#get-virtual-machine-operation-status"
+        },
+        "operationId": "VirtualMachines_GetOperationStatus",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ComputeApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "default": "true",
+            "in": "query",
+            "name": "monitor",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Monitor the operation",
+            "x-ms-test-value": "true",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": "southcentralus",
+            "in": "path",
+            "name": "location",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Location of the virtual machine",
+            "x-ms-test-value": "southcentralus",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": "dummy-operation-id",
+            "in": "path",
+            "name": "operationId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Id of the operation to track",
+            "x-ms-test-value": "dummy-operation-id",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "202": {
+            "description": "Accepted"
+          }
+        },
+        "summary": "Get virtual machine operation status",
+        "tags": [
+          "VirtualMachines"
+        ],
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/resourcegroups": {
+      "get": {
+        "deprecated": false,
+        "description": "Lists all the resource groups within the subscription.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurevm/#list-resource-groups"
+        },
+        "operationId": "ResourceGroups_List",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ARMApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResourceGroupListResult"
+            }
+          }
+        },
+        "summary": "List resource groups",
+        "tags": [
+          "ResourceGroups"
+        ],
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines": {
+      "get": {
+        "deprecated": false,
+        "description": "Lists all the virtual machines within the resource group.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurevm/#list-virtual-machines"
+        },
+        "operationId": "VirtualMachines_List",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ComputeInternalApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/VirtualMachineListResult"
+            }
+          }
+        },
+        "summary": "List virtual machines",
+        "tags": [
+          "VirtualMachines"
+        ],
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}": {
+      "get": {
+        "deprecated": false,
+        "description": "Gets a virtual machine.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurevm/#get-virtual-machine"
+        },
+        "operationId": "VirtualMachine_Get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ComputeApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/VirtualMachineNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/VirtualMachine"
+            }
+          },
+          "404": {
+            "description": "NotFound"
+          }
+        },
+        "summary": "Get virtual machine",
+        "tags": [
+          "VirtualMachines"
+        ],
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/deallocate": {
+      "post": {
+        "deprecated": false,
+        "description": "Shuts down the virtual machine and releases the compute resources. You are not billed for the compute resources that this virtual machine uses.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurevm/#deallocate-virtual-machine"
+        },
+        "operationId": "VirtualMachine_Deallocate",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ComputeApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/VirtualMachineNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "202": {
+            "description": "Accepted"
+          }
+        },
+        "summary": "Deallocate virtual machine",
+        "tags": [
+          "VirtualMachines"
+        ],
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/powerOff": {
+      "post": {
+        "deprecated": false,
+        "description": "Power off (stop) a virtual machine. The virtual machine can be restarted with the same provisioned resources. You are still charged for this virtual machine.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurevm/#power-off-virtual-machine"
+        },
+        "operationId": "VirtualMachine_Poweroff",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ComputeApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/VirtualMachineNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "202": {
+            "description": "Accepted"
+          }
+        },
+        "summary": "Power off virtual machine",
+        "tags": [
+          "VirtualMachines"
+        ],
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/reapply": {
+      "post": {
+        "deprecated": false,
+        "description": "Reapply a virtual machine's state.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurevm/#reapply-virtual-machine"
+        },
+        "operationId": "VirtualMachine_Reapply",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ComputeApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/VirtualMachineNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "202": {
+            "description": "Accepted"
+          }
+        },
+        "summary": "Reapply virtual machine",
+        "tags": [
+          "VirtualMachines"
+        ],
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/redeploy": {
+      "post": {
+        "deprecated": false,
+        "description": "Shuts down the virtual machine, moves it to a new node, and powers it back on.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurevm/#redeploy-virtual-machine"
+        },
+        "operationId": "VirtualMachine_Redeploy",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ComputeApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/VirtualMachineNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "202": {
+            "description": "Accepted"
+          }
+        },
+        "summary": "Redeploy virtual machine",
+        "tags": [
+          "VirtualMachines"
+        ],
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/restart": {
+      "post": {
+        "deprecated": false,
+        "description": "Restarts a virtual machine.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurevm/#restart-virtual-machine"
+        },
+        "operationId": "VirtualMachine_Restart",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ComputeApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/VirtualMachineNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "202": {
+            "description": "Accepted"
+          }
+        },
+        "summary": "Restart virtual machine",
+        "tags": [
+          "VirtualMachines"
+        ],
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/start": {
+      "post": {
+        "deprecated": false,
+        "description": "Starts a virtual machine.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurevm/#start-virtual-machine"
+        },
+        "operationId": "VirtualMachine_Start",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ComputeApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/VirtualMachineNameParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "202": {
+            "description": "Accepted"
+          }
+        },
+        "summary": "Start virtual machine",
+        "tags": [
+          "VirtualMachines"
+        ],
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0"
+}

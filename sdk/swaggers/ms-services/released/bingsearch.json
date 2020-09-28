@@ -1,0 +1,313 @@
+{
+  "basePath": "/apim/bingsearch",
+  "consumes": [
+    "application/json"
+  ],
+  "definitions": {
+    "BingNewsBatch": {
+      "items": {
+        "$ref": "#/definitions/NewsArticle"
+      },
+      "type": "array"
+    },
+    "NewsArticle": {
+      "properties": {
+        "category": {
+          "description": "The category of the news article, such as ScienceAndTechnology.",
+          "type": "string",
+          "x-ms-summary": "Category"
+        },
+        "datePublished": {
+          "description": "The datetime the article was published.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Date Published"
+        },
+        "description": {
+          "description": "A short description of the news article.",
+          "type": "string",
+          "x-ms-summary": "Description"
+        },
+        "name": {
+          "description": "The name of the news article.",
+          "type": "string",
+          "x-ms-summary": "Name"
+        },
+        "url": {
+          "description": "The URL to the news article.",
+          "type": "string",
+          "x-ms-summary": "URL"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/bingsearch"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Microsoft Cognitive Services Bing Search API allows you to search content across the web.",
+    "title": "Bing Search",
+    "version": "1.0",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    },
+    "x-ms-deployment-version": "1.0.0"
+  },
+  "paths": {
+    "/{connectionId}/news/search": {
+      "get": {
+        "deprecated": false,
+        "description": "Returns a list of news articles for a given query.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/bingsearch/#list-news-by-query"
+        },
+        "operationId": "GetNews",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The search query string.",
+            "in": "query",
+            "name": "q",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Search Query",
+            "x-ms-test-value": "Microsoft Flows"
+          },
+          {
+            "default": "en-US",
+            "description": "The market where the results come from. Typically, this is the country where the user is making the request from; however, it could be a different country if the user is not located in a country where Bing delivers results. The market must be in the form -. For example, en-US.",
+            "enum": [
+              "es-AR",
+              "en-AU",
+              "de-AT",
+              "nl-BE",
+              "fr-BE",
+              "pt-BR",
+              "en-CA",
+              "fr-CA",
+              "es-CL",
+              "da-DK",
+              "fi-FI",
+              "fr-FR",
+              "de-DE",
+              "zh-HK",
+              "en-IN",
+              "en-ID",
+              "en-IE",
+              "it-IT",
+              "ja-JP",
+              "ko-KR",
+              "en-MY",
+              "es-MX",
+              "nl-NL",
+              "en-NZ",
+              "no-NO",
+              "zh-CN",
+              "pl-PL",
+              "pt-PT",
+              "en-PH",
+              "ru-RU",
+              "ar-SA",
+              "en-ZA",
+              "es-ES",
+              "sv-SE",
+              "fr-CH",
+              "de-CH",
+              "zh-TW",
+              "tr-TR",
+              "en-GB",
+              "en-US",
+              "es-US"
+            ],
+            "in": "query",
+            "name": "mkt",
+            "type": "string",
+            "x-ms-summary": "Market"
+          },
+          {
+            "default": "Moderate",
+            "description": "A filter used to filter results for adult content.",
+            "enum": [
+              "Moderate",
+              "Off",
+              "Strict"
+            ],
+            "in": "query",
+            "name": "safeSearch",
+            "type": "string",
+            "x-ms-summary": "Safe Search"
+          },
+          {
+            "default": "20",
+            "description": "The number of search results to return in the response. The actual number delivered may be less than requested.",
+            "in": "query",
+            "name": "count",
+            "type": "string",
+            "x-ms-summary": "Count"
+          },
+          {
+            "description": "The zero-based offset that indicates the number of search results to skip before returning results.",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Offset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BingNewsBatch"
+            }
+          }
+        },
+        "summary": "List news by query",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/trigger/news/search": {
+      "get": {
+        "deprecated": false,
+        "description": "Triggers when a news article matches the given query.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/bingsearch/#on-new-news-article"
+        },
+        "operationId": "TrigNewNews",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The search query string.",
+            "in": "query",
+            "name": "q",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Search Query",
+            "x-ms-test-value": "Microsoft Flows"
+          },
+          {
+            "default": "en-US",
+            "description": "The market where the results come from. Typically, this is the country where the user is making the request from; however, it could be a different country if the user is not located in a country where Bing delivers results. The market must be in the form -. For example, en-US.",
+            "enum": [
+              "es-AR",
+              "en-AU",
+              "de-AT",
+              "nl-BE",
+              "fr-BE",
+              "pt-BR",
+              "en-CA",
+              "fr-CA",
+              "es-CL",
+              "da-DK",
+              "fi-FI",
+              "fr-FR",
+              "de-DE",
+              "zh-HK",
+              "en-IN",
+              "en-ID",
+              "en-IE",
+              "it-IT",
+              "ja-JP",
+              "ko-KR",
+              "en-MY",
+              "es-MX",
+              "nl-NL",
+              "en-NZ",
+              "no-NO",
+              "zh-CN",
+              "pl-PL",
+              "pt-PT",
+              "en-PH",
+              "ru-RU",
+              "ar-SA",
+              "en-ZA",
+              "es-ES",
+              "sv-SE",
+              "fr-CH",
+              "de-CH",
+              "zh-TW",
+              "tr-TR",
+              "en-GB",
+              "en-US",
+              "es-US"
+            ],
+            "in": "query",
+            "name": "mkt",
+            "type": "string",
+            "x-ms-summary": "Market"
+          },
+          {
+            "default": "Moderate",
+            "description": "A filter used to filter results for adult content.",
+            "enum": [
+              "Moderate",
+              "Off",
+              "Strict"
+            ],
+            "in": "query",
+            "name": "safeSearch",
+            "type": "string",
+            "x-ms-summary": "Safe Search"
+          },
+          {
+            "default": "20",
+            "description": "The number of search results to return in the response. The actual number delivered may be less than requested.",
+            "in": "query",
+            "name": "count",
+            "type": "string",
+            "x-ms-summary": "Count"
+          },
+          {
+            "description": "The zero-based offset that indicates the number of search results to skip before returning results.",
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Offset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BingNewsBatch"
+            }
+          }
+        },
+        "summary": "On new news article",
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "important"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://www.bing.com"
+    }
+  ]
+}

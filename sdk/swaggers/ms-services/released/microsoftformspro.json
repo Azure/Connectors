@@ -1,0 +1,498 @@
+{
+  "basePath": "/apim/microsoftformspro",
+  "consumes": [],
+  "definitions": {
+    "Item": {
+      "additionalProperties": {
+        "$ref": "#/definitions/Object"
+      },
+      "description": "pipe data",
+      "properties": {
+        "ItemInternalId": {
+          "description": "pipe data to parameter",
+          "type": "string",
+          "x-ms-visibility": "internal"
+        },
+        "dynamicProperties": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Object"
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "Object": {
+      "properties": {},
+      "type": "object"
+    },
+    "ProjectList": {
+      "items": {
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "ProjectId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "SurveyList": {
+      "items": {
+        "properties": {
+          "FormId": {
+            "type": "string"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "SurveyId": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/microsoftformspro"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Use Dynamics 365 Customer Voice to quickly create and send customized surveys to keep in close contact with your customers. View responses in automatically generated reports that highlight important trends and flag outlier scores for immediate attention. Track the customer metrics that matter the most to your business to make informed decisions.",
+    "title": "Dynamics 365 Customer Voice",
+    "version": "1.1",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    }
+  },
+  "parameters": {
+    "Email": {
+      "description": "The email address to identify the survey invite, Optionally enter the recipient info.",
+      "in": "query",
+      "name": "Email",
+      "required": false,
+      "type": "string",
+      "x-ms-summary": "Email"
+    },
+    "EmailTemplateId": {
+      "description": "Select an email template",
+      "in": "query",
+      "name": "EmailTemplateId",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "GetTemplates",
+        "parameters": {
+          "FormId": {
+            "parameter": "FormId"
+          }
+        },
+        "value-path": "Id",
+        "value-title": "Name"
+      },
+      "x-ms-summary": "Email template"
+    },
+    "FormId": {
+      "description": "Select a survey",
+      "in": "query",
+      "name": "FormId",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "GetSurvey",
+        "parameters": {
+          "ProjectId": {
+            "parameter": "ProjectId"
+          }
+        },
+        "value-path": "FormId",
+        "value-title": "Name"
+      },
+      "x-ms-summary": "Survey"
+    },
+    "ProjectId": {
+      "description": "Select a project",
+      "in": "header",
+      "name": "ProjectId",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "GetProject",
+        "value-path": "ProjectId",
+        "value-title": "Name"
+      },
+      "x-ms-summary": "Project"
+    },
+    "RecipientInfo": {
+      "description": "If the recipient is from CDS, specify an entity id and entity type of the recipient to relate in the format: entity type name, entity id",
+      "in": "query",
+      "name": "RecipientInfo",
+      "type": "string",
+      "x-ms-summary": "Recipient details",
+      "x-ms-visibility": "advanced"
+    },
+    "Regarding": {
+      "description": "Relate this invitation by providing an entity id and entity type from this CDS in the format: entity type name, entity id",
+      "in": "query",
+      "name": "Regarding",
+      "type": "string",
+      "x-ms-summary": "Regarding",
+      "x-ms-visibility": "advanced"
+    },
+    "firstName": {
+      "description": "If the first name was personalized in email or used in pipe, enter the value here to replace",
+      "in": "query",
+      "name": "firstName",
+      "type": "string",
+      "x-ms-summary": "First name",
+      "x-ms-visibility": "advanced"
+    },
+    "lastName": {
+      "description": "If the last name was personalized in email or used in pipe, enter the value here to replace",
+      "in": "query",
+      "name": "lastName",
+      "type": "string",
+      "x-ms-summary": "Last name",
+      "x-ms-visibility": "advanced"
+    },
+    "pipeData": {
+      "description": "schema ",
+      "in": "body",
+      "name": "item",
+      "required": false,
+      "schema": {
+        "description": "An object that represents the posting of fields.",
+        "properties": {},
+        "type": "object",
+        "x-ms-dynamic-schema": {
+          "operationId": "getFormsPipeData",
+          "parameters": {
+            "FormId": {
+              "parameter": "FormId"
+            }
+          },
+          "value-path": "items"
+        },
+        "x-ms-summary": "The fields to send to WebMerge"
+      }
+    },
+    "subject": {
+      "description": "Subject of the invitation",
+      "in": "query",
+      "name": "subject",
+      "type": "string",
+      "x-ms-summary": "Subject",
+      "x-ms-visibility": "advanced"
+    },
+    "to": {
+      "description": "Add a list of recipients this survey is sent to",
+      "in": "query",
+      "name": "to",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "To"
+    }
+  },
+  "paths": {
+    "/{connectionId}/api/Projects": {
+      "get": {
+        "deprecated": false,
+        "description": "Retrieve user owned and shared projects.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/microsoftformspro/#retrieve-user-owned-and-shared-projects"
+        },
+        "operationId": "GetProject",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ProjectList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Retrieve user owned and shared projects",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/api/createinvite": {
+      "post": {
+        "description": "This action creates a survey invitation and returns a personalized invitation link.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/microsoftformspro/#create-an-invitation"
+        },
+        "operationId": "createSurveyInvite",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ProjectId"
+          },
+          {
+            "$ref": "#/parameters/FormId"
+          },
+          {
+            "$ref": "#/parameters/Email"
+          },
+          {
+            "$ref": "#/parameters/subject"
+          },
+          {
+            "$ref": "#/parameters/firstName"
+          },
+          {
+            "$ref": "#/parameters/lastName"
+          },
+          {
+            "$ref": "#/parameters/Regarding"
+          },
+          {
+            "$ref": "#/parameters/RecipientInfo"
+          },
+          {
+            "$ref": "#/parameters/pipeData"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "default",
+            "schema": {
+              "properties": {
+                "InvitationId": {
+                  "description": " The unique identifier of the created survey invitation.",
+                  "title": "Invitation Id",
+                  "type": "string"
+                },
+                "Invitationlink": {
+                  "description": "The personalized invitation link of the survey.",
+                  "title": "Invitation link",
+                  "type": "string"
+                },
+                "Unsubscribelink": {
+                  "description": "The unsubscribe link of the survey.",
+                  "title": "Unsubscribe link",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Create an invitation"
+      }
+    },
+    "/{connectionId}/api/getFormsPipeData": {
+      "get": {
+        "description": "Retrieves the schema of the pipes configured in this survey.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/microsoftformspro/#retrieves-the-schema-of-the-pipes-configured-in-this-survey"
+        },
+        "operationId": "getFormsPipeData",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/FormId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Retrieves the schema of the pipes configured in this survey",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/api/getemailTemplatelist": {
+      "get": {
+        "deprecated": false,
+        "description": "Retrieve user email templates.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/microsoftformspro/#retrieve-user-email-templates"
+        },
+        "operationId": "GetTemplates",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/FormId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "summary": "Retrieve user email templates",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/api/getsurveylist": {
+      "get": {
+        "deprecated": false,
+        "description": "Retrieve user owned and shared surveys.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/microsoftformspro/#retrieve-user-owned-and-shared-surveys"
+        },
+        "operationId": "GetSurvey",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ProjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SurveyList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Retrieve user owned and shared surveys",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/api/sendmail/flow": {
+      "post": {
+        "description": "This action sends a survey to a specified list of recipients and creates a survey invitation for each recipient.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/microsoftformspro/#send-a-survey"
+        },
+        "operationId": "sendSurvey",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/to"
+          },
+          {
+            "$ref": "#/parameters/ProjectId"
+          },
+          {
+            "$ref": "#/parameters/FormId"
+          },
+          {
+            "$ref": "#/parameters/EmailTemplateId"
+          },
+          {
+            "$ref": "#/parameters/Regarding"
+          },
+          {
+            "$ref": "#/parameters/RecipientInfo"
+          },
+          {
+            "$ref": "#/parameters/firstName"
+          },
+          {
+            "$ref": "#/parameters/lastName"
+          },
+          {
+            "$ref": "#/parameters/pipeData"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "summary": "Send a survey"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "responses": {},
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "oauth2_auth": []
+    }
+  ],
+  "securityDefinitions": {
+    "oauth2_auth": {
+      "authorizationUrl": "https://login.windows.net/common/oauth2/authorize",
+      "flow": "accessCode",
+      "scopes": {},
+      "tokenUrl": "https://login.windows.net/common/oauth2/authorize/",
+      "type": "oauth2"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [],
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://formspro.microsoft.com/"
+    }
+  ]
+}

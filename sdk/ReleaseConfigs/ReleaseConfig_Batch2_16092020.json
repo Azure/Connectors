@@ -1,0 +1,89 @@
+[
+  {
+    "name": "cloudmersivedv",
+    "friendlyName": "CloudmersiveDataValidation",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "cognitiveservicescomputervision",
+    "friendlyName": "ComputerVisionAPI",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "cognitiveservicescontentmoderator",
+    "friendlyName": "ContentModerator",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "cognitiveservicescustomvision",
+    "friendlyName": "CustomVision",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "cognitiveservicesqnamaker",
+    "friendlyName": "QnAMaker",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "customerinsights",
+    "friendlyName": "Dynamics365CustomerInsights",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "db2",
+    "friendlyName": "DB2",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "dynamicsnavision",
+    "friendlyName": "DynamicsNAV",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "dynamicssmbsaas",
+    "friendlyName": "BusinessCentral",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "easyredmine",
+    "friendlyName": "EasyRedmine",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "edifact",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "eduframe",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "eventbrite",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "excelonline",
+    "friendlyName": "ExcelOnlineOneDrive",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "faceapi",
+    "friendlyName": "FaceAPI",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "filesystem",
+    "friendlyName": "FileSystem",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "formrecognizer",
+    "friendlyName": "FormRecognizer",
+    "version": "0.0.1-alpha"
+  },
+  {
+    "name": "freshbooks",
+    "friendlyName": "FreshBooks",
+    "version": "0.0.1-alpha"
+  }
+]

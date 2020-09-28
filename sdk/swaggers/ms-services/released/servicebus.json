@@ -1,0 +1,3031 @@
+{
+  "basePath": "/apim/servicebus",
+  "definitions": {
+    "ServiceBusEntity": {
+      "description": "Entity with name and display name.",
+      "properties": {
+        "DisplayName": {
+          "description": "The display name for the entity",
+          "type": "string"
+        },
+        "Name": {
+          "description": "The entity name",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ServiceBusMessage": {
+      "description": "Service Bus Message",
+      "properties": {
+        "ContentData": {
+          "description": "Content of the message",
+          "format": "byte",
+          "type": "string",
+          "x-ms-summary": "Content"
+        },
+        "ContentType": {
+          "description": "Content type of the message content",
+          "type": "string",
+          "x-ms-summary": "Content Type"
+        },
+        "CorrelationId": {
+          "description": "Identifier of the correlation",
+          "type": "string",
+          "x-ms-summary": "Correlation Id",
+          "x-ms-visibility": "advanced"
+        },
+        "Label": {
+          "description": "Application specific label",
+          "type": "string",
+          "x-ms-summary": "Label",
+          "x-ms-visibility": "advanced"
+        },
+        "LockToken": {
+          "description": "The lock token of the message as a string.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Lock Token",
+          "x-ms-visibility": "important"
+        },
+        "MessageId": {
+          "description": "This is a user-defined value that Service Bus can use to identify duplicate messages, if enabled.",
+          "type": "string",
+          "x-ms-summary": "Message Id",
+          "x-ms-visibility": "advanced"
+        },
+        "Properties": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Key-value pairs for each brokered property",
+          "type": "object",
+          "x-ms-summary": "Properties"
+        },
+        "ReplyTo": {
+          "description": "Address of the queue to reply to",
+          "type": "string",
+          "x-ms-summary": "Reply To",
+          "x-ms-visibility": "advanced"
+        },
+        "ReplyToSessionId": {
+          "description": "Identifier of the session to reply to",
+          "type": "string",
+          "x-ms-summary": "Reply To Session Id",
+          "x-ms-visibility": "advanced"
+        },
+        "ScheduledEnqueueTimeUtc": {
+          "description": "Date and time, in UTC, when the message will be added to the queue",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "ScheduledEnqueueTimeUtc",
+          "x-ms-visibility": "advanced"
+        },
+        "SequenceNumber": {
+          "description": "Identifier of the sequence number",
+          "format": "int64",
+          "type": "integer",
+          "x-ms-summary": "Sequence Number",
+          "x-ms-visibility": "advanced"
+        },
+        "SessionId": {
+          "description": "Identifier of the session",
+          "type": "string",
+          "x-ms-summary": "Session Id",
+          "x-ms-visibility": "important"
+        },
+        "TimeToLive": {
+          "description": "This is the duration, in ticks, that a message is valid.  The duration starts from when the message is sent to the Service Bus.",
+          "format": "int64",
+          "type": "string",
+          "x-ms-summary": "Time To Live",
+          "x-ms-visibility": "advanced"
+        },
+        "To": {
+          "description": "Send to address",
+          "type": "string",
+          "x-ms-summary": "To",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "Subscription": {
+      "description": "The topic subscription.",
+      "properties": {
+        "SubscriptionName": {
+          "description": "Subscription name.",
+          "type": "string",
+          "x-ms-summary": "Subscription name"
+        }
+      },
+      "type": "object"
+    },
+    "SubscriptionCorrelationFilter": {
+      "description": "This object has the basic properties of a message for the correlation filter.",
+      "properties": {
+        "ContentType": {
+          "description": "Content type of the message content",
+          "type": "string"
+        },
+        "CorrelationId": {
+          "description": "Identifier of the correlation",
+          "type": "string"
+        },
+        "Label": {
+          "description": "Application specific label",
+          "type": "string"
+        },
+        "MessageId": {
+          "description": "This is a user-defined value that Service Bus can use to identify duplicate messages, if enabled.",
+          "type": "string"
+        },
+        "Properties": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Key-value pairs for each brokered property",
+          "type": "object"
+        },
+        "ReplyTo": {
+          "description": "Address of the queue to reply to",
+          "type": "string"
+        },
+        "ReplyToSessionId": {
+          "description": "Identifier of the session to reply to",
+          "type": "string"
+        },
+        "SessionId": {
+          "description": "Identifier of the session",
+          "type": "string"
+        },
+        "To": {
+          "description": "Send to address",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "SubscriptionFilter": {
+      "description": "The service bus filter for a topic subscription.",
+      "properties": {
+        "CorrelationFilter": {
+          "$ref": "#/definitions/SubscriptionCorrelationFilter"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/servicebus"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Connect to Azure Service Bus to send and receive messages. You can perform actions such as send to queue, send to topic, receive from queue, receive from subscription, etc.",
+    "title": "Service Bus",
+    "version": "1.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    }
+  },
+  "paths": {
+    "/{connectionId}/entities": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation gets all queues and topics in the Service Bus namespace.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#get-all-entities"
+        },
+        "operationId": "GetEntities",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/ServiceBusEntity"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get all entities",
+        "tags": [
+          "ServiceBus"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/queues": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation gets all queues in the Service Bus namespace.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#get-all-queues"
+        },
+        "operationId": "GetQueues",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get all queues",
+        "tags": [
+          "ServiceBus"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/sessionoptions": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation gets the list of options for session handling - None, Next available.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#get-session-options"
+        },
+        "operationId": "GetSessionOptions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get session options",
+        "tags": [
+          "ServiceBus"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/subscriptionfilter": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get metadata of a filter",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#get-metadata-of-a-filter"
+        },
+        "operationId": "GetSubscriptionFilter",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Subscription filter type",
+            "enum": [
+              "None",
+              "Correlation"
+            ],
+            "in": "query",
+            "name": "subscriptionFilterType",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Subscription filter type"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SubscriptionFilter"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get metadata of a filter",
+        "tags": [
+          "ServiceBus"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/systemproperties": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation gets list of properties.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#get-the-list-of-system-properties"
+        },
+        "operationId": "GetSystemProperties",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get the list of system properties",
+        "tags": [
+          "ServiceBus"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/topics": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation gets all topics in the Service Bus namespace.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#get-all-topics"
+        },
+        "operationId": "GetTopics",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get all topics",
+        "tags": [
+          "ServiceBus"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/topics/{topicName}/subscriptions": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation gets the list of subscriptions for a topic in the Service Bus namespace.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#get-the-subscriptions-for-a-topic"
+        },
+        "operationId": "GetSubscriptions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Topic name",
+            "in": "path",
+            "name": "topicName",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Topic name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get the subscriptions for a topic",
+        "tags": [
+          "ServiceBus"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/{entityName}/messages": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "deprecated": false,
+        "description": "This operation sends a message to a queue or topic.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#send-message"
+        },
+        "operationId": "SendMessage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the queue or topic",
+            "in": "path",
+            "name": "entityName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetEntities",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Queue/Topic name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Message to send",
+            "in": "body",
+            "name": "message",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ServiceBusMessage"
+            },
+            "x-ms-summary": "Message"
+          },
+          {
+            "default": "None",
+            "description": "System properties - None or Run Details. Run Details will add run metadata property details as custom properties in the message.",
+            "in": "query",
+            "name": "systemProperties",
+            "required": false,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSystemProperties"
+            },
+            "x-ms-summary": "System properties",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Send message",
+        "tags": [
+          "ServiceBus"
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/{entityName}/messages/batch": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "deprecated": false,
+        "description": "This operation sends one or more messages to a queue or topic.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#send-one-or-more-messages"
+        },
+        "operationId": "SendMessages",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the queue or topic",
+            "in": "path",
+            "name": "entityName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetEntities",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Queue/Topic name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Messages to send",
+            "in": "body",
+            "name": "messages",
+            "required": true,
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/ServiceBusMessage"
+              },
+              "type": "array"
+            },
+            "x-ms-summary": "Message"
+          },
+          {
+            "default": "None",
+            "description": "System properties - None or Run Details. Run Details will add run metadata property details as custom properties in the message.",
+            "in": "query",
+            "name": "systemProperties",
+            "required": false,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSystemProperties"
+            },
+            "x-ms-summary": "System properties",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Send one or more messages",
+        "tags": [
+          "ServiceBus"
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/{queueName}/messages/abandon": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation abandons a message in a queue.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#abandon-the-message-in-a-queue"
+        },
+        "operationId": "AbandonMessageInQueue",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the queue",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetQueues"
+            },
+            "x-ms-summary": "Queue name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Lock token of the message to abandon",
+            "in": "query",
+            "name": "lockToken",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Lock token of the message"
+          },
+          {
+            "default": "Main",
+            "description": "Queue type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "queueType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Queue type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "",
+            "description": "Session id",
+            "in": "query",
+            "name": "sessionId",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Abandon the message in a queue",
+        "tags": [
+          "ServiceBus"
+        ]
+      }
+    },
+    "/{connectionId}/{queueName}/messages/batch/head": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation receives one or more messages from a queue. If maximum message count is not provided, it reads 20 messages.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#when-one-or-more-messages-arrive-in-a-queue-(auto-complete)"
+        },
+        "operationId": "GetMessagesFromQueue",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the queue",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetQueues"
+            },
+            "x-ms-summary": "Queue name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "default": 20,
+            "description": "The maximum number of messages to return in the batch",
+            "format": "int32",
+            "in": "query",
+            "name": "maxMessageCount",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Maximum message count"
+          },
+          {
+            "default": "Main",
+            "description": "Queue type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "queueType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Queue type",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/ServiceBusMessage"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When one or more messages arrive in a queue (auto-complete)",
+        "tags": [
+          "ServiceBus"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/{queueName}/messages/batch/head/peek": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation receives one or more messages from a queue with peek-lock. If maximum message count is not provided, it reads 20 messages.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#when-one-or-more-messages-arrive-in-a-queue-(peek-lock)"
+        },
+        "operationId": "GetNewMessagesFromQueueWithPeekLock",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the queue",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetQueues"
+            },
+            "x-ms-summary": "Queue name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "default": 20,
+            "description": "The maximum number of messages to return in the batch",
+            "format": "int32",
+            "in": "query",
+            "name": "maxMessageCount",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Maximum message count"
+          },
+          {
+            "default": "Main",
+            "description": "Queue type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "queueType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Queue type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "None",
+            "description": "Session id - None or Next Available or provide session id",
+            "in": "query",
+            "name": "sessionId",
+            "required": false,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSessionOptions"
+            },
+            "x-ms-summary": "Session id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/ServiceBusMessage"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When one or more messages arrive in a queue (peek-lock)",
+        "tags": [
+          "ServiceBus"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/{queueName}/messages/batch/peek": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation receives messages from a queue with peek-lock. If maximum message count is not provided, it reads 20 messages.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#get-messages-from-a-queue-(peek-lock)"
+        },
+        "operationId": "GetMessagesFromQueueWithPeekLock",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the queue",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetQueues"
+            },
+            "x-ms-summary": "Queue name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "default": 20,
+            "description": "The maximum number of messages to return in the batch",
+            "format": "int32",
+            "in": "query",
+            "name": "maxMessageCount",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Maximum message count"
+          },
+          {
+            "default": "Main",
+            "description": "Queue type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "queueType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Queue type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "",
+            "description": "Session id",
+            "in": "query",
+            "name": "sessionId",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/ServiceBusMessage"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get messages from a queue (peek-lock)",
+        "tags": [
+          "ServiceBus"
+        ]
+      }
+    },
+    "/{connectionId}/{queueName}/messages/complete": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation completes a message in a queue.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#complete-the-message-in-a-queue"
+        },
+        "operationId": "CompleteMessageInQueue",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the queue",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetQueues"
+            },
+            "x-ms-summary": "Queue name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Lock token of the message to complete",
+            "in": "query",
+            "name": "lockToken",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Lock token of the message"
+          },
+          {
+            "default": "Main",
+            "description": "Queue type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "queueType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Queue type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "",
+            "description": "Session id",
+            "in": "query",
+            "name": "sessionId",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Complete the message in a queue",
+        "tags": [
+          "ServiceBus"
+        ]
+      }
+    },
+    "/{connectionId}/{queueName}/messages/deadletter": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation moves the message to the Dead-Letter Queue.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#dead-letter-the-message-in-a-queue"
+        },
+        "operationId": "DeadLetterMessageInQueue",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the queue",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetQueues"
+            },
+            "x-ms-summary": "Queue name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Lock token of the message to dead-letter",
+            "in": "query",
+            "name": "lockToken",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Lock token of the message"
+          },
+          {
+            "default": "",
+            "description": "Session id",
+            "in": "query",
+            "name": "sessionId",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session id",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "",
+            "description": "Dead letter reason",
+            "in": "query",
+            "name": "deadLetterReason",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Dead letter reason"
+          },
+          {
+            "default": "",
+            "description": "Dead letter error description",
+            "in": "query",
+            "name": "deadLetterErrorDescription",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Dead letter error description"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Dead-letter the message in a queue",
+        "tags": [
+          "ServiceBus"
+        ]
+      }
+    },
+    "/{connectionId}/{queueName}/messages/defer": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation gets a deferred message from a queue.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#get-deferred-message-from-a-queue"
+        },
+        "operationId": "GetDeferredMessageFromQueue",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the queue",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetQueues"
+            },
+            "x-ms-summary": "Queue name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Sequence number of message",
+            "format": "int64",
+            "in": "query",
+            "name": "sequenceNumber",
+            "required": true,
+            "type": "integer",
+            "x-ms-summary": "Sequence number of message"
+          },
+          {
+            "default": "Main",
+            "description": "Queue type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "queueType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Queue type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "",
+            "description": "Session id",
+            "in": "query",
+            "name": "sessionId",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ServiceBusMessage"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get deferred message from a queue",
+        "tags": [
+          "ServiceBus"
+        ]
+      },
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation defers a message in a queue.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#defer-the-message-in-a-queue"
+        },
+        "operationId": "DeferMessageInQueue",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the queue",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetQueues"
+            },
+            "x-ms-summary": "Queue name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Lock token of the message to defer",
+            "in": "query",
+            "name": "lockToken",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Lock token of the message"
+          },
+          {
+            "default": "Main",
+            "description": "Queue type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "queueType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Queue type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "",
+            "description": "Session id",
+            "in": "query",
+            "name": "sessionId",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Defer the message in a queue",
+        "tags": [
+          "ServiceBus"
+        ]
+      }
+    },
+    "/{connectionId}/{queueName}/messages/head": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation triggers a flow when a message is received in a queue and auto completes the message.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#when-a-message-is-received-in-a-queue-(auto-complete)"
+        },
+        "operationId": "GetMessageFromQueue",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the queue",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetQueues"
+            },
+            "x-ms-summary": "Queue name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "default": "Main",
+            "description": "Queue type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "queueType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Queue type",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ServiceBusMessage"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a message is received in a queue (auto-complete)",
+        "tags": [
+          "ServiceBus"
+        ],
+        "x-ms-trigger": "single",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/{queueName}/messages/head/peek": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation triggers a flow when a message received in a queue with peek-lock mode.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#when-a-message-is-received-in-a-queue-(peek-lock)"
+        },
+        "operationId": "GetNewMessageFromQueueWithPeekLock",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the queue",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetQueues"
+            },
+            "x-ms-summary": "Queue name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "default": "Main",
+            "description": "Queue type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "queueType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Queue type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "None",
+            "description": "Session id - None or Next Available or provide session id",
+            "in": "query",
+            "name": "sessionId",
+            "required": false,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSessionOptions"
+            },
+            "x-ms-summary": "Session id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ServiceBusMessage"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a message is received in a queue (peek-lock)",
+        "tags": [
+          "ServiceBus"
+        ],
+        "x-ms-trigger": "single",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/{queueName}/messages/renewlock": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation renews lock on a message in a queue.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#renew-lock-on-the-message-in-a-queue"
+        },
+        "operationId": "RenewLockOnMessageInQueue",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the queue",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetQueues"
+            },
+            "x-ms-summary": "Queue name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Lock token of the message to renew lock",
+            "in": "query",
+            "name": "lockToken",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Lock token of the message"
+          },
+          {
+            "default": "Main",
+            "description": "Queue type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "queueType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Queue type",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Renew lock on the message in a queue",
+        "tags": [
+          "ServiceBus"
+        ]
+      }
+    },
+    "/{connectionId}/{queueName}/sessions/{sessionId}/close": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation closes a session in a queue.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#close-a-session-in-a-queue"
+        },
+        "operationId": "CloseSessionInQueue",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of a queue",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetQueues"
+            },
+            "x-ms-summary": "Queue name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Session id",
+            "in": "path",
+            "name": "sessionId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Session id"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Close a session in a queue",
+        "tags": [
+          "ServiceBus"
+        ]
+      }
+    },
+    "/{connectionId}/{queueName}/sessions/{sessionId}/renewlock": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation renews a session in a queue.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#renew-lock-on-the-session-in-a-queue"
+        },
+        "operationId": "RenewLockOnSessionInQueue",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the queue",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetQueues"
+            },
+            "x-ms-summary": "Queue name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Session id",
+            "in": "path",
+            "name": "sessionId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Session id"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Renew lock on the session in a queue",
+        "tags": [
+          "ServiceBus"
+        ]
+      }
+    },
+    "/{connectionId}/{topicName}/subscriptions/{subscriptionName}": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation deletes a topic subscription.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#delete-a-topic-subscription"
+        },
+        "operationId": "DeleteTopicSubscription",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the topic",
+            "in": "path",
+            "name": "topicName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTopics"
+            },
+            "x-ms-summary": "Topic name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the topic subscription",
+            "in": "path",
+            "name": "subscriptionName",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Topic subscription name"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Delete a topic subscription",
+        "tags": [
+          "ServiceBus"
+        ]
+      },
+      "post": {
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "deprecated": false,
+        "description": "The operation creates a topic subscription.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#create-a-topic-subscription"
+        },
+        "operationId": "CreateTopicSubscription",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the topic",
+            "in": "path",
+            "name": "topicName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTopics"
+            },
+            "x-ms-summary": "Topic name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the topic subscription",
+            "in": "path",
+            "name": "subscriptionName",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Topic subscription name"
+          },
+          {
+            "description": "Subscription filter",
+            "in": "body",
+            "name": "subscriptionFilter",
+            "required": true,
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/SubscriptionFilter"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetSubscriptionFilter",
+                "parameters": {
+                  "subscriptionFilterType": {
+                    "parameter": "subscriptionFilterType"
+                  }
+                }
+              }
+            },
+            "x-ms-summary": "Filter"
+          },
+          {
+            "default": "None",
+            "description": "Filter type",
+            "enum": [
+              "None",
+              "Correlation"
+            ],
+            "in": "query",
+            "name": "subscriptionFilterType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter type",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Subscription"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Create a topic subscription",
+        "tags": [
+          "ServiceBus"
+        ]
+      }
+    },
+    "/{connectionId}/{topicName}/subscriptions/{subscriptionName}/messages/abandon": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation abandons a message in a topic subscription.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#abandon-the-message-in-a-topic-subscription"
+        },
+        "operationId": "AbandonMessageInTopic",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the topic",
+            "in": "path",
+            "name": "topicName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTopics"
+            },
+            "x-ms-summary": "Topic name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the topic subscription",
+            "in": "path",
+            "name": "subscriptionName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSubscriptions",
+              "parameters": {
+                "topicName": {
+                  "parameter": "topicName"
+                }
+              }
+            },
+            "x-ms-summary": "Topic subscription name"
+          },
+          {
+            "description": "Lock token of the message to abandon",
+            "in": "query",
+            "name": "lockToken",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Lock token of the message"
+          },
+          {
+            "default": "Main",
+            "description": "Subscription type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "subscriptionType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Subscription type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "",
+            "description": "Session id",
+            "in": "query",
+            "name": "sessionId",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Abandon the message in a topic subscription",
+        "tags": [
+          "ServiceBus"
+        ]
+      }
+    },
+    "/{connectionId}/{topicName}/subscriptions/{subscriptionName}/messages/batch/head": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation receives one or more messages from a topic. If maximum message count is not provided, it reads 20 messages.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#when-one-or-more-messages-arrive-in-a-topic-(auto-complete)"
+        },
+        "operationId": "GetMessagesFromTopic",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the topic",
+            "in": "path",
+            "name": "topicName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTopics"
+            },
+            "x-ms-summary": "Topic name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the topic subscription",
+            "in": "path",
+            "name": "subscriptionName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSubscriptions",
+              "parameters": {
+                "topicName": {
+                  "parameter": "topicName"
+                }
+              }
+            },
+            "x-ms-summary": "Topic subscription name"
+          },
+          {
+            "default": 20,
+            "description": "The maximum number of messages to return in the batch",
+            "format": "int32",
+            "in": "query",
+            "name": "maxMessageCount",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Maximum message count"
+          },
+          {
+            "default": "Main",
+            "description": "Subscription type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "subscriptionType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Subscription type",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/ServiceBusMessage"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When one or more messages arrive in a topic (auto-complete)",
+        "tags": [
+          "ServiceBus"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/{topicName}/subscriptions/{subscriptionName}/messages/batch/head/peek": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation receives one or more messages from a topic with peek-lock. If maximum message count is not provided, it reads 20 messages.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#when-one-or-more-messages-arrive-in-a-topic-(peek-lock)"
+        },
+        "operationId": "GetNewMessagesFromTopicWithPeekLock",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the topic",
+            "in": "path",
+            "name": "topicName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTopics"
+            },
+            "x-ms-summary": "Topic name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the topic subscription",
+            "in": "path",
+            "name": "subscriptionName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSubscriptions",
+              "parameters": {
+                "topicName": {
+                  "parameter": "topicName"
+                }
+              }
+            },
+            "x-ms-summary": "Topic subscription name"
+          },
+          {
+            "default": 20,
+            "description": "The maximum number of messages to return in the batch",
+            "format": "int32",
+            "in": "query",
+            "name": "maxMessageCount",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Maximum message count"
+          },
+          {
+            "default": "Main",
+            "description": "Subscription type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "subscriptionType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Subscription type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "None",
+            "description": "Session id - None or Next Available or provide session id",
+            "in": "query",
+            "name": "sessionId",
+            "required": false,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSessionOptions"
+            },
+            "x-ms-summary": "Session id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/ServiceBusMessage"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When one or more messages arrive in a topic (peek-lock)",
+        "tags": [
+          "ServiceBus"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/{topicName}/subscriptions/{subscriptionName}/messages/batch/peek": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation receives messages from a topic subscription with peek-lock. If maximum message count is not provided, it reads 20 messages.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#get-messages-from-a-topic-subscription-(peek-lock)"
+        },
+        "operationId": "GetMessagesFromTopicWithPeekLock",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the topic",
+            "in": "path",
+            "name": "topicName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTopics"
+            },
+            "x-ms-summary": "Topic name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the topic subscription",
+            "in": "path",
+            "name": "subscriptionName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSubscriptions",
+              "parameters": {
+                "topicName": {
+                  "parameter": "topicName"
+                }
+              }
+            },
+            "x-ms-summary": "Topic subscription name"
+          },
+          {
+            "default": 20,
+            "description": "The maximum number of messages to return in the batch",
+            "format": "int32",
+            "in": "query",
+            "name": "maxMessageCount",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Maximum message count"
+          },
+          {
+            "default": "Main",
+            "description": "Subscription type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "subscriptionType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Subscription type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "",
+            "description": "Session id",
+            "in": "query",
+            "name": "sessionId",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/ServiceBusMessage"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get messages from a topic subscription (peek-lock)",
+        "tags": [
+          "ServiceBus"
+        ]
+      }
+    },
+    "/{connectionId}/{topicName}/subscriptions/{subscriptionName}/messages/complete": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation completes a message in a topic subscription.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#complete-the-message-in-a-topic-subscription"
+        },
+        "operationId": "CompleteMessageInTopic",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the topic",
+            "in": "path",
+            "name": "topicName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTopics"
+            },
+            "x-ms-summary": "Topic name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the topic subscription",
+            "in": "path",
+            "name": "subscriptionName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSubscriptions",
+              "parameters": {
+                "topicName": {
+                  "parameter": "topicName"
+                }
+              }
+            },
+            "x-ms-summary": "Topic subscription name"
+          },
+          {
+            "description": "Lock token of the message to complete",
+            "in": "query",
+            "name": "lockToken",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Lock token of the message"
+          },
+          {
+            "default": "Main",
+            "description": "Subscription type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "subscriptionType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Subscription type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "",
+            "description": "Session id",
+            "in": "query",
+            "name": "sessionId",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Complete the message in a topic subscription",
+        "tags": [
+          "ServiceBus"
+        ]
+      }
+    },
+    "/{connectionId}/{topicName}/subscriptions/{subscriptionName}/messages/deadletter": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation moves the message to the topic Dead-Letter Queue.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#dead-letter-the-message-in-a-topic-subscription"
+        },
+        "operationId": "DeadLetterMessageInTopic",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the topic",
+            "in": "path",
+            "name": "topicName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTopics"
+            },
+            "x-ms-summary": "Topic name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the topic subscription",
+            "in": "path",
+            "name": "subscriptionName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSubscriptions",
+              "parameters": {
+                "topicName": {
+                  "parameter": "topicName"
+                }
+              }
+            },
+            "x-ms-summary": "Topic subscription name"
+          },
+          {
+            "description": "Lock token of the message to dead-letter",
+            "in": "query",
+            "name": "lockToken",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Lock token of the message"
+          },
+          {
+            "default": "",
+            "description": "Session id",
+            "in": "query",
+            "name": "sessionId",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session id",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "",
+            "description": "Dead letter reason",
+            "in": "query",
+            "name": "deadLetterReason",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Dead letter reason"
+          },
+          {
+            "default": "",
+            "description": "Dead letter error description",
+            "in": "query",
+            "name": "deadLetterErrorDescription",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Dead letter error description"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Dead-letter the message in a topic subscription",
+        "tags": [
+          "ServiceBus"
+        ]
+      }
+    },
+    "/{connectionId}/{topicName}/subscriptions/{subscriptionName}/messages/defer": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation gets a deferred message from a topic subscription.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#get-deferred-message-from-a-topic-subscription"
+        },
+        "operationId": "GetDeferredMessageFromTopic",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the topic",
+            "in": "path",
+            "name": "topicName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTopics"
+            },
+            "x-ms-summary": "Topic name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the topic subscription",
+            "in": "path",
+            "name": "subscriptionName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSubscriptions",
+              "parameters": {
+                "topicName": {
+                  "parameter": "topicName"
+                }
+              }
+            },
+            "x-ms-summary": "Topic subscription name"
+          },
+          {
+            "description": "Sequence number of message",
+            "format": "int64",
+            "in": "query",
+            "name": "sequenceNumber",
+            "required": true,
+            "type": "integer",
+            "x-ms-summary": "Sequence number of message"
+          },
+          {
+            "default": "Main",
+            "description": "Queue type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "subscriptionType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Subscription type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "",
+            "description": "Session id",
+            "in": "query",
+            "name": "sessionId",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ServiceBusMessage"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get deferred message from a topic subscription",
+        "tags": [
+          "ServiceBus"
+        ]
+      },
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation defers a message in a topic subscription.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#defer-the-message-in-a-topic-subscription"
+        },
+        "operationId": "DeferMessageInTopic",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the topic",
+            "in": "path",
+            "name": "topicName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTopics"
+            },
+            "x-ms-summary": "Topic name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the topic subscription",
+            "in": "path",
+            "name": "subscriptionName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSubscriptions",
+              "parameters": {
+                "topicName": {
+                  "parameter": "topicName"
+                }
+              }
+            },
+            "x-ms-summary": "Topic subscription name"
+          },
+          {
+            "description": "Lock token of the message to defer",
+            "in": "query",
+            "name": "lockToken",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Lock token of the message"
+          },
+          {
+            "default": "Main",
+            "description": "Subscription type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "subscriptionType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Subscription type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "",
+            "description": "Session id",
+            "in": "query",
+            "name": "sessionId",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Defer the message in a topic subscription",
+        "tags": [
+          "ServiceBus"
+        ]
+      }
+    },
+    "/{connectionId}/{topicName}/subscriptions/{subscriptionName}/messages/head": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation triggers a flow when a message is received in a topic subscription and auto completes the message.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#when-a-message-is-received-in-a-topic-subscription-(auto-complete)"
+        },
+        "operationId": "GetMessageFromTopic",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the topic",
+            "in": "path",
+            "name": "topicName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTopics"
+            },
+            "x-ms-summary": "Topic name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the topic subscription",
+            "in": "path",
+            "name": "subscriptionName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSubscriptions",
+              "parameters": {
+                "topicName": {
+                  "parameter": "topicName"
+                }
+              }
+            },
+            "x-ms-summary": "Topic subscription name"
+          },
+          {
+            "default": "Main",
+            "description": "Subscription type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "subscriptionType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Subscription type",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ServiceBusMessage"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a message is received in a topic subscription (auto-complete)",
+        "tags": [
+          "ServiceBus"
+        ],
+        "x-ms-trigger": "single",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/{topicName}/subscriptions/{subscriptionName}/messages/head/peek": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation triggers a flow when a message received in a topic subscription with peek-lock mode.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#when-a-message-is-received-in-a-topic-subscription-(peek-lock)"
+        },
+        "operationId": "GetNewMessageFromTopicWithPeekLock",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the topic",
+            "in": "path",
+            "name": "topicName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTopics"
+            },
+            "x-ms-summary": "Topic name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the topic subscription",
+            "in": "path",
+            "name": "subscriptionName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSubscriptions",
+              "parameters": {
+                "topicName": {
+                  "parameter": "topicName"
+                }
+              }
+            },
+            "x-ms-summary": "Topic subscription name"
+          },
+          {
+            "default": "Main",
+            "description": "Subscription type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "subscriptionType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Subscription type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": "None",
+            "description": "Session id - None or Next Available or provide session id",
+            "in": "query",
+            "name": "sessionId",
+            "required": false,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSessionOptions"
+            },
+            "x-ms-summary": "Session id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ServiceBusMessage"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a message is received in a topic subscription (peek-lock)",
+        "tags": [
+          "ServiceBus"
+        ],
+        "x-ms-trigger": "single",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/{topicName}/subscriptions/{subscriptionName}/messages/renewlock": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation renews lock on a message in a topic subscription.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#renew-lock-on-the-message-in-a-topic-subscription"
+        },
+        "operationId": "RenewLockOnMessageInTopic",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the topic",
+            "in": "path",
+            "name": "topicName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTopics"
+            },
+            "x-ms-summary": "Topic name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the topic subscription",
+            "in": "path",
+            "name": "subscriptionName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSubscriptions",
+              "parameters": {
+                "topicName": {
+                  "parameter": "topicName"
+                }
+              }
+            },
+            "x-ms-summary": "Topic subscription name"
+          },
+          {
+            "description": "Lock token of the message to renew lock",
+            "in": "query",
+            "name": "lockToken",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Lock token of the message"
+          },
+          {
+            "default": "Main",
+            "description": "Subscription type - Main or DeadLetter",
+            "enum": [
+              "Main",
+              "DeadLetter"
+            ],
+            "in": "query",
+            "name": "subscriptionType",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Subscription type",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Renew lock on the message in a topic subscription",
+        "tags": [
+          "ServiceBus"
+        ]
+      }
+    },
+    "/{connectionId}/{topicName}/subscriptions/{subscriptionName}/sessions/{sessionId}/close": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation closes a session in the topic.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#close-a-session-in-the-topic"
+        },
+        "operationId": "CloseSessionInTopic",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the topic",
+            "in": "path",
+            "name": "topicName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTopics"
+            },
+            "x-ms-summary": "Topic name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the topic subscription",
+            "in": "path",
+            "name": "subscriptionName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSubscriptions",
+              "parameters": {
+                "topicName": {
+                  "parameter": "topicName"
+                }
+              }
+            },
+            "x-ms-summary": "Topic subscription name"
+          },
+          {
+            "description": "Session id",
+            "in": "path",
+            "name": "sessionId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Session id"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Close a session in the topic",
+        "tags": [
+          "ServiceBus"
+        ]
+      }
+    },
+    "/{connectionId}/{topicName}/subscriptions/{subscriptionName}/sessions/{sessionId}/renewlock": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "The operation renews a session in a topic subscription.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/servicebus/#renew-lock-on-the-session-in-a-topic-subscription"
+        },
+        "operationId": "RenewLockOnSessionInTopic",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of the topic",
+            "in": "path",
+            "name": "topicName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTopics"
+            },
+            "x-ms-summary": "Topic name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of the topic subscription",
+            "in": "path",
+            "name": "subscriptionName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSubscriptions",
+              "parameters": {
+                "topicName": {
+                  "parameter": "topicName"
+                }
+              }
+            },
+            "x-ms-summary": "Topic subscription name"
+          },
+          {
+            "description": "Session id",
+            "in": "path",
+            "name": "sessionId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Session id"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Renew lock on the session in a topic subscription",
+        "tags": [
+          "ServiceBus"
+        ]
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://azure.microsoft.com/services/service-bus/"
+    }
+  ]
+}

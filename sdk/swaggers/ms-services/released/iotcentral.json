@@ -1,0 +1,1658 @@
+{
+  "basePath": "/apim/iotcentral",
+  "consumes": [
+    "application/json"
+  ],
+  "definitions": {
+    "Action": {
+      "properties": {
+        "id": {
+          "description": "Unique ID of the action.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Action ID",
+          "x-ms-visibility": "advanced"
+        },
+        "ruleId": {
+          "description": "Unique ID of the rule that is tied to the action.",
+          "type": "string",
+          "x-ms-dynamic-values": {
+            "operationId": "Rules_List",
+            "parameters": {
+              "application_id": {
+                "parameter": "application_id"
+              }
+            },
+            "value-collection": "value",
+            "value-path": "id",
+            "value-title": "name"
+          },
+          "x-ms-summary": "Rule"
+        },
+        "type": {
+          "default": "flow",
+          "description": "Type of the action.",
+          "enum": [
+            "flow"
+          ],
+          "type": "string",
+          "x-ms-summary": "Action Type",
+          "x-ms-visibility": "internal"
+        },
+        "url": {
+          "type": "string",
+          "x-ms-notification-url": true,
+          "x-ms-visibility": "internal"
+        }
+      },
+      "required": [
+        "ruleId",
+        "type",
+        "url"
+      ],
+      "type": "object"
+    },
+    "ActionCollection": {
+      "properties": {
+        "value": {
+          "items": {
+            "$ref": "#/definitions/Action"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "Application": {
+      "properties": {
+        "id": {
+          "description": "Unique ID of the application.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Application ID",
+          "x-ms-visibility": "advanced"
+        },
+        "name": {
+          "description": "Display name of the application.",
+          "type": "string",
+          "x-ms-summary": "Application Name",
+          "x-ms-visibility": "important"
+        },
+        "subdomain": {
+          "description": "Subdomain of the application.",
+          "type": "string",
+          "x-ms-summary": "Application Subdomain"
+        }
+      },
+      "required": [
+        "name",
+        "subdomain"
+      ],
+      "type": "object"
+    },
+    "ApplicationCollection": {
+      "properties": {
+        "value": {
+          "items": {
+            "$ref": "#/definitions/Application"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "Attestation": {
+      "properties": {
+        "symmetricKey": {
+          "$ref": "#/definitions/SymmetricKey"
+        },
+        "tpm": {
+          "$ref": "#/definitions/TPM"
+        },
+        "type": {
+          "enum": [
+            "tpm",
+            "x509",
+            "symmetricKey"
+          ],
+          "type": "string"
+        },
+        "x509": {
+          "$ref": "#/definitions/X509"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "CaReferences": {
+      "properties": {
+        "primary": {
+          "type": "string"
+        },
+        "secondary": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "primary"
+      ],
+      "type": "object"
+    },
+    "Device": {
+      "properties": {
+        "deviceId": {
+          "description": "ID used for device connectivity.",
+          "type": "string",
+          "x-ms-summary": "Device Connection ID"
+        },
+        "deviceTemplate": {
+          "$ref": "#/definitions/DeviceTemplateReference"
+        },
+        "id": {
+          "description": "Unique ID of the device in IoT Central.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Device ID",
+          "x-ms-visibility": "advanced"
+        },
+        "measurements": {
+          "$ref": "#/definitions/DeviceMeasurements"
+        },
+        "name": {
+          "description": "Display name of the device.",
+          "type": "string",
+          "x-ms-summary": "Device Name",
+          "x-ms-visibility": "important"
+        },
+        "properties": {
+          "$ref": "#/definitions/DeviceProperties"
+        },
+        "settings": {
+          "$ref": "#/definitions/DeviceSettings"
+        },
+        "simulated": {
+          "default": false,
+          "description": "Simulated flag of the device. True if device is simulated.",
+          "type": "boolean",
+          "x-ms-summary": "Device Simulated"
+        }
+      },
+      "required": [
+        "name",
+        "deviceTemplate"
+      ],
+      "type": "object",
+      "x-ms-dynamic-schema": {
+        "operationId": "Devices_Schema",
+        "parameters": {
+          "application_id": {
+            "parameter": "application_id"
+          },
+          "deviceTemplateDisplayId": {
+            "parameter": "deviceTemplateDisplayId"
+          }
+        },
+        "value-path": "definitions/Device"
+      }
+    },
+    "DeviceCollection": {
+      "properties": {
+        "value": {
+          "items": {
+            "$ref": "#/definitions/Device"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "DeviceCommandParameters": {
+      "properties": {},
+      "type": "object",
+      "x-ms-dynamic-schema": {
+        "operationId": "DeviceCommandDisplay_Definition",
+        "parameters": {
+          "application_id": {
+            "parameter": "application_id"
+          },
+          "device_command_id": {
+            "parameter": "device_command_id"
+          },
+          "device_template_display_id": {
+            "parameter": "deviceTemplateDisplayId"
+          }
+        },
+        "value-path": "definitions/DeviceCommandParameters"
+      }
+    },
+    "DeviceMeasurements": {
+      "properties": {
+        "events": {
+          "additionalProperties": {},
+          "readOnly": true,
+          "type": "object"
+        },
+        "states": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "readOnly": true,
+          "type": "object"
+        },
+        "telemetry": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "readOnly": true,
+          "type": "object"
+        }
+      },
+      "readOnly": true,
+      "type": "object",
+      "x-ms-visibility": "internal"
+    },
+    "DeviceProperties": {
+      "properties": {
+        "cloud": {
+          "additionalProperties": {},
+          "type": "object"
+        },
+        "device": {
+          "additionalProperties": {},
+          "readOnly": true,
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "x-ms-visibility": "internal"
+    },
+    "DevicePropertiesUpdate": {
+      "properties": {
+        "cloud": {
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "x-ms-visibility": "internal"
+    },
+    "DeviceSettings": {
+      "properties": {
+        "device": {
+          "additionalProperties": {},
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "x-ms-visibility": "internal"
+    },
+    "DeviceSettingsUpdate": {
+      "properties": {
+        "device": {
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "x-ms-visibility": "internal"
+    },
+    "DeviceTemplateReference": {
+      "properties": {
+        "id": {
+          "description": "Unique ID of the device template.",
+          "type": "string",
+          "x-ms-summary": "Device Template ID",
+          "x-ms-visibility": "advanced"
+        },
+        "version": {
+          "description": "Version of the device template.",
+          "type": "string",
+          "x-ms-summary": "Device Template Version",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ],
+      "type": "object"
+    },
+    "DeviceTemplateReferenceUpdate": {
+      "properties": {
+        "id": {
+          "description": "Unique ID of the device template.",
+          "type": "string",
+          "x-ms-summary": "Device Template ID",
+          "x-ms-visibility": "advanced"
+        },
+        "version": {
+          "description": "Version of the device template.",
+          "type": "string",
+          "x-ms-summary": "Device Template Version",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "DeviceUpdate": {
+      "properties": {
+        "deviceId": {
+          "description": "ID used for device connectivity.",
+          "type": "string",
+          "x-ms-summary": "Device Connection ID"
+        },
+        "deviceTemplate": {
+          "$ref": "#/definitions/DeviceTemplateReferenceUpdate"
+        },
+        "name": {
+          "description": "Display name of the device.",
+          "type": "string",
+          "x-ms-summary": "Device Name",
+          "x-ms-visibility": "important"
+        },
+        "properties": {
+          "$ref": "#/definitions/DevicePropertiesUpdate"
+        },
+        "settings": {
+          "$ref": "#/definitions/DeviceSettingsUpdate"
+        },
+        "simulated": {
+          "description": "Simulated flag of the device. True if device is simulated.",
+          "type": "boolean",
+          "x-ms-summary": "Device Simulated"
+        }
+      },
+      "type": "object",
+      "x-ms-dynamic-schema": {
+        "operationId": "Devices_Schema",
+        "parameters": {
+          "application_id": {
+            "parameter": "application_id"
+          },
+          "deviceTemplateDisplayId": {
+            "parameter": "deviceTemplateDisplayId"
+          }
+        },
+        "value-path": "definitions/DeviceUpdate"
+      }
+    },
+    "DisplayEntity": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "DisplayEntityCollection": {
+      "properties": {
+        "value": {
+          "items": {
+            "$ref": "#/definitions/DisplayEntity"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "DpsEnvironment": {
+      "properties": {
+        "deviceProvisioningHostName": {
+          "type": "string"
+        },
+        "enrollmentGroups": {
+          "items": {
+            "$ref": "#/definitions/EnrollmentGroup"
+          },
+          "type": "array"
+        },
+        "idScope": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "idScope",
+        "deviceProvisioningHostName",
+        "enrollmentGroups"
+      ],
+      "type": "object"
+    },
+    "EnrollmentGroup": {
+      "properties": {
+        "attestation": {
+          "$ref": "#/definitions/Attestation"
+        },
+        "enrollmentGroupId": {
+          "readOnly": true,
+          "type": "string"
+        },
+        "provisioningStatus": {
+          "enum": [
+            "enabled",
+            "disabled"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "attestation"
+      ],
+      "type": "object"
+    },
+    "Rule": {
+      "properties": {
+        "deviceTemplate": {
+          "$ref": "#/definitions/DeviceTemplateReference"
+        },
+        "enabled": {
+          "default": false,
+          "description": "Enabled flag of the rule. True if rule is enabled.",
+          "type": "boolean",
+          "x-ms-summary": "Rule Enabled"
+        },
+        "id": {
+          "description": "Unique ID of the rule.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Rule ID",
+          "x-ms-visibility": "advanced"
+        },
+        "name": {
+          "description": "Display name of the rule.",
+          "type": "string",
+          "x-ms-summary": "Rule Name",
+          "x-ms-visibility": "important"
+        }
+      },
+      "required": [
+        "name",
+        "deviceTemplate"
+      ],
+      "type": "object"
+    },
+    "RuleCollection": {
+      "properties": {
+        "value": {
+          "items": {
+            "$ref": "#/definitions/Rule"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "SymmetricKey": {
+      "properties": {
+        "primaryKey": {
+          "type": "string"
+        },
+        "secondaryKey": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "primaryKey",
+        "secondaryKey"
+      ],
+      "type": "object"
+    },
+    "TPM": {
+      "properties": {
+        "endorsementKey": {
+          "type": "string"
+        },
+        "storageRootKey": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "endorsementKey"
+      ],
+      "type": "object"
+    },
+    "WebhookActionBody": {
+      "properties": {
+        "application": {
+          "$ref": "#/definitions/Application"
+        },
+        "device": {
+          "properties": {
+            "deviceId": {
+              "description": "ID used for device connectivity.",
+              "type": "string",
+              "x-ms-summary": "Device Connection ID"
+            },
+            "deviceTemplate": {
+              "$ref": "#/definitions/DeviceTemplateReference"
+            },
+            "id": {
+              "description": "Unique ID of the device in IoT Central.",
+              "readOnly": true,
+              "type": "string",
+              "x-ms-summary": "Device ID",
+              "x-ms-visibility": "advanced"
+            },
+            "measurements": {
+              "$ref": "#/definitions/DeviceMeasurements"
+            },
+            "name": {
+              "description": "Display name of the device.",
+              "type": "string",
+              "x-ms-summary": "Device Name",
+              "x-ms-visibility": "important"
+            },
+            "properties": {
+              "$ref": "#/definitions/DeviceProperties"
+            },
+            "settings": {
+              "$ref": "#/definitions/DeviceSettings"
+            },
+            "simulated": {
+              "default": false,
+              "description": "Simulated flag of the device. True if device is simulated.",
+              "type": "boolean",
+              "x-ms-summary": "Device Simulated"
+            }
+          },
+          "required": [
+            "name",
+            "deviceTemplate"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "description": "Unique ID of the action.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Action ID",
+          "x-ms-visibility": "advanced"
+        },
+        "rule": {
+          "$ref": "#/definitions/Rule"
+        },
+        "timestamp": {
+          "description": "Time when the rule was triggered (UTC format).",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Timestamp"
+        }
+      },
+      "required": [
+        "timestamp",
+        "rule",
+        "device",
+        "application"
+      ],
+      "type": "object",
+      "x-ms-dynamic-properties": {
+        "itemValuePath": "definitions/WebhookActionBody",
+        "operationId": "Actions_Schema",
+        "parameters": {
+          "application_id": {
+            "parameterReference": "application_id"
+          },
+          "ruleId": {
+            "parameterReference": "body/ruleId"
+          }
+        }
+      },
+      "x-ms-dynamic-schema": {
+        "operationId": "Actions_Schema",
+        "parameters": {
+          "application_id": {
+            "parameter": "application_id"
+          },
+          "ruleId": {
+            "parameter": "ruleId"
+          }
+        },
+        "value-path": "definitions/WebhookActionBody"
+      }
+    },
+    "X509": {
+      "properties": {
+        "caReferences": {
+          "$ref": "#/definitions/CaReferences"
+        }
+      },
+      "required": [
+        "caReferences"
+      ],
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/iotcentral"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Azure IoT Central Technical Support",
+      "url": "https://aka.ms/iotcentral-create-technical-support-ticket-trial"
+    },
+    "description": "This is a legacy connector for Azure IoT Central V2 applications that will become deprecated in the future. You should use the Azure IoT Central V3 connector and applications instead. Azure IoT Central makes it easy to connect, monitor, and manage your IoT devices at scale. With the IoT Central V2 connector, you can trigger flows when a rule has fired and take action by creating new devices, updating existing devices, and deleting devices.",
+    "termsOfService": "",
+    "title": "Azure IoT Central V2",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    }
+  },
+  "parameters": {
+    "ActionId": {
+      "description": "Unique ID of the action.",
+      "in": "path",
+      "name": "action_id",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "Actions_List",
+        "parameters": {
+          "application_id": {
+            "parameter": "application_id"
+          }
+        },
+        "value-collection": "value",
+        "value-path": "id",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Action",
+      "x-ms-visibility": "important"
+    },
+    "ApplicationId": {
+      "description": "Unique ID of the application.",
+      "in": "path",
+      "name": "application_id",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "Applications_List",
+        "parameters": {},
+        "value-collection": "value",
+        "value-path": "id",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Application",
+      "x-ms-visibility": "important"
+    },
+    "DeviceCommandId": {
+      "description": "ID of the command.",
+      "in": "path",
+      "name": "device_command_id",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "DeviceCommandDisplay_List",
+        "parameters": {
+          "application_id": {
+            "parameter": "application_id"
+          },
+          "device_template_display_id": {
+            "parameter": "deviceTemplateDisplayId"
+          }
+        },
+        "value-collection": "value",
+        "value-path": "id",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Command",
+      "x-ms-visibility": "important"
+    },
+    "DeviceId": {
+      "description": "Unique ID of the device.",
+      "in": "path",
+      "name": "device_id",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "Device",
+      "x-ms-visibility": "important"
+    },
+    "DeviceTemplateDisplayId": {
+      "description": "Device template associated with this device.",
+      "in": "query",
+      "name": "deviceTemplateDisplayId",
+      "required": false,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "DeviceTemplateDisplay_List",
+        "parameters": {
+          "application_id": {
+            "parameter": "application_id"
+          }
+        },
+        "value-collection": "value",
+        "value-path": "id",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Device Template",
+      "x-ms-visibility": "important"
+    },
+    "RuleId": {
+      "description": "Unique ID of the rule.",
+      "in": "path",
+      "name": "rule_id",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "Rules_List",
+        "parameters": {
+          "application_id": {
+            "parameter": "application_id"
+          }
+        },
+        "value-collection": "value",
+        "value-path": "id",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Rule",
+      "x-ms-visibility": "important"
+    }
+  },
+  "paths": {
+    "/{connectionId}/applications/": {
+      "get": {
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/iotcentral/#get-the-list-of-applications-accessible-to-the-signed-in-user"
+        },
+        "operationId": "Applications_List",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ApplicationCollection"
+            }
+          }
+        },
+        "summary": "Get the list of applications accessible to the signed-in user",
+        "tags": [
+          "Applications"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/applications/{application_id}": {
+      "get": {
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/iotcentral/#get-an-application-by-id"
+        },
+        "operationId": "Applications_Get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Application"
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "summary": "Get an application by ID",
+        "tags": [
+          "Applications"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/applications/{application_id}/actions/": {
+      "get": {
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/iotcentral/#get-the-list-of-actions-in-an-application"
+        },
+        "operationId": "Actions_List",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/ActionCollection"
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "summary": "Get the list of actions in an application",
+        "tags": [
+          "Actions"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "options": {
+        "operationId": "Actions_Schema",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "ruleId",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "Allow": {
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "tags": [
+          "Actions"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "post": {
+        "description": "Create an action which triggers when a rule is fired in IoT Central.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/iotcentral/#when-a-rule-is-fired"
+        },
+        "operationId": "Actions_Create",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Action"
+            }
+          },
+          {
+            "in": "header",
+            "name": "user-agent",
+            "required": false,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "header",
+            "name": "x-ms-workflow-name",
+            "required": false,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Action"
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "summary": "When a rule is fired",
+        "tags": [
+          "Actions"
+        ],
+        "x-ms-trigger": "single"
+      },
+      "x-ms-notification-content": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "schema": {
+          "$ref": "#/definitions/WebhookActionBody"
+        }
+      }
+    },
+    "/{connectionId}/applications/{application_id}/actions/{action_id}": {
+      "delete": {
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/iotcentral/#delete-an-action"
+        },
+        "operationId": "Actions_Remove",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          },
+          {
+            "$ref": "#/parameters/ActionId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "summary": "Delete an action",
+        "tags": [
+          "Actions"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "get": {
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/iotcentral/#get-an-action-by-id"
+        },
+        "operationId": "Actions_Get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          },
+          {
+            "$ref": "#/parameters/ActionId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Action"
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "summary": "Get an action by ID",
+        "tags": [
+          "Actions"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/applications/{application_id}/devices/": {
+      "get": {
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/iotcentral/#get-the-list-of-devices-in-an-application"
+        },
+        "operationId": "Devices_List",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          },
+          {
+            "$ref": "#/parameters/DeviceTemplateDisplayId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/DeviceCollection"
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "summary": "Get the list of devices in an application",
+        "tags": [
+          "Devices"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "options": {
+        "operationId": "Devices_Schema",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "$ref": "#/parameters/DeviceTemplateDisplayId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "Allow": {
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "tags": [
+          "Devices"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "post": {
+        "description": "Create a new real or simulated device of a specified device template.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/iotcentral/#create-a-device"
+        },
+        "operationId": "Devices_Create",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          },
+          {
+            "$ref": "#/parameters/DeviceTemplateDisplayId"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "summary": "Create a device",
+        "tags": [
+          "Devices"
+        ]
+      }
+    },
+    "/{connectionId}/applications/{application_id}/devices/{device_id}": {
+      "delete": {
+        "description": "Delete an existing device by device ID.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/iotcentral/#delete-a-device"
+        },
+        "operationId": "Devices_Remove",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          },
+          {
+            "$ref": "#/parameters/DeviceId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "summary": "Delete a device",
+        "tags": [
+          "Devices"
+        ]
+      },
+      "get": {
+        "description": "Get details about an existing device by device ID.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/iotcentral/#get-a-device"
+        },
+        "operationId": "Devices_Get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          },
+          {
+            "$ref": "#/parameters/DeviceId"
+          },
+          {
+            "$ref": "#/parameters/DeviceTemplateDisplayId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "summary": "Get a device",
+        "tags": [
+          "Devices"
+        ]
+      },
+      "options": {
+        "operationId": "Devices_Definition",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          },
+          {
+            "$ref": "#/parameters/DeviceId"
+          },
+          {
+            "$ref": "#/parameters/DeviceTemplateDisplayId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "Allow": {
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "tags": [
+          "Devices"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "patch": {
+        "description": "Update an existing device by device ID.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/iotcentral/#update-a-device"
+        },
+        "operationId": "Devices_Update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          },
+          {
+            "$ref": "#/parameters/DeviceId"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeviceUpdate"
+            }
+          },
+          {
+            "$ref": "#/parameters/DeviceTemplateDisplayId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Device"
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "summary": "Update a device",
+        "tags": [
+          "Devices"
+        ]
+      }
+    },
+    "/{connectionId}/applications/{application_id}/devices/{device_id}/commands/{device_command_id}": {
+      "post": {
+        "description": "Run a command by ID on a device.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/iotcentral/#run-a-command"
+        },
+        "operationId": "DeviceCommands_Run",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          },
+          {
+            "$ref": "#/parameters/DeviceId"
+          },
+          {
+            "$ref": "#/parameters/DeviceCommandId"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeviceCommandParameters"
+            }
+          },
+          {
+            "$ref": "#/parameters/DeviceTemplateDisplayId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "summary": "Run a command",
+        "tags": [
+          "DeviceCommands"
+        ]
+      }
+    },
+    "/{connectionId}/applications/{application_id}/dps/": {
+      "get": {
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/iotcentral/#get-the-dps-environment"
+        },
+        "operationId": "Dps_Details",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/DpsEnvironment"
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "summary": "Get the DPS environment",
+        "tags": [
+          "Dps"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/applications/{application_id}/rules/": {
+      "get": {
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/iotcentral/#get-the-list-of-rules-in-an-application"
+        },
+        "operationId": "Rules_List",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/RuleCollection"
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "summary": "Get the list of rules in an application",
+        "tags": [
+          "Rules"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/applications/{application_id}/rules/{rule_id}": {
+      "get": {
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/iotcentral/#get-a-rule-by-id"
+        },
+        "operationId": "Rules_Get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          },
+          {
+            "$ref": "#/parameters/RuleId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Rule"
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "summary": "Get a rule by ID",
+        "tags": [
+          "Rules"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/display/applications/{application_id}/deviceTemplates/": {
+      "get": {
+        "operationId": "DeviceTemplateDisplay_List",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/DisplayEntityCollection"
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "tags": [
+          "DeviceTemplateDisplay"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/display/applications/{application_id}/deviceTemplates/{device_template_display_id}/commands/": {
+      "get": {
+        "operationId": "DeviceCommandDisplay_List",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          },
+          {
+            "in": "path",
+            "name": "device_template_display_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/DisplayEntityCollection"
+            }
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "tags": [
+          "DeviceCommandDisplay"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/display/applications/{application_id}/deviceTemplates/{device_template_display_id}/commands/{device_command_id}": {
+      "options": {
+        "operationId": "DeviceCommandDisplay_Definition",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApplicationId"
+          },
+          {
+            "in": "path",
+            "name": "device_template_display_id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "device_command_id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Missing required parameter"
+          }
+        },
+        "tags": [
+          "DeviceCommandDisplay"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "AAD": {
+      "authorizationUrl": "https://login.windows.net/common/oauth2/authorize",
+      "flow": "accessCode",
+      "scopes": {},
+      "tokenUrl": "https://login.windows.net/common/oauth2/token",
+      "type": "oauth2"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [
+    {
+      "name": "Applications"
+    },
+    {
+      "name": "ApplicationDisplay"
+    }
+  ],
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://azure.microsoft.com/services/iot-central/"
+    },
+    {
+      "propertyName": "Privacy policy",
+      "propertyValue": "https://privacy.microsoft.com"
+    },
+    {
+      "propertyName": "Categories",
+      "propertyValue": "Internet of Things"
+    }
+  ]
+}

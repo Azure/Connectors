@@ -1,0 +1,2332 @@
+{
+  "basePath": "/apim/customerinsights",
+  "definitions": {
+    "DataSet": {
+      "description": "Dataset",
+      "properties": {
+        "DisplayName": {
+          "description": "Dataset display name",
+          "type": "string"
+        },
+        "Name": {
+          "description": "Dataset name",
+          "type": "string"
+        },
+        "query": {
+          "description": "Pass-through Native Queries",
+          "items": {
+            "$ref": "#/definitions/PassThroughNativeQuery"
+          },
+          "readOnly": true,
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "DataSetsList": {
+      "description": "List of datasets",
+      "properties": {
+        "value": {
+          "description": "List of datasets",
+          "items": {
+            "$ref": "#/definitions/DataSet"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "DataSource": {
+      "description": "DataSource Class",
+      "properties": {
+        "EndTimeUtc": {
+          "description": "Gets the endTime for data refresh",
+          "type": "string"
+        },
+        "ErrorCode": {
+          "description": "Gets the error code during data refresh.",
+          "type": "string"
+        },
+        "ErrorMessage": {
+          "description": "Gets the error message during refresh",
+          "type": "string"
+        },
+        "ErrorSeverity": {
+          "description": "Gets the error serverity during refresh",
+          "type": "string"
+        },
+        "JobType": {
+          "description": "Gets the jobType",
+          "type": "string"
+        },
+        "Operation": {
+          "description": "Gets the operation",
+          "type": "string"
+        },
+        "RefreshObjectId": {
+          "description": "Gets the refresh object id",
+          "type": "string"
+        },
+        "RefreshObjectVersion": {
+          "description": "Gets the refresh object version",
+          "format": "int64",
+          "type": "integer"
+        },
+        "RefreshType": {
+          "description": "Gets the type for data refresh",
+          "type": "string"
+        },
+        "StartTimeUtc": {
+          "description": "Gets the start time for data refresh",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "DataSourcesList": {
+      "description": "DataSourcesList",
+      "properties": {
+        "value": {
+          "description": "List of data sources",
+          "items": {
+            "$ref": "#/definitions/DataSource"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "FullRefreshProcessData": {
+      "description": "The information about executed full refresh",
+      "properties": {
+        "Duration": {
+          "description": "Gets the duration of the process in minutes",
+          "format": "int32",
+          "type": "integer"
+        },
+        "EndTime": {
+          "description": "Gets the end time of the workflow step",
+          "format": "date-time",
+          "type": "string"
+        },
+        "NumberOfFailedTasks": {
+          "description": "Gets the number of failed tasks",
+          "format": "int32",
+          "type": "integer"
+        },
+        "StartTime": {
+          "description": "Gets the start time of the workflow step",
+          "format": "date-time",
+          "type": "string"
+        },
+        "Status": {
+          "description": "Gets the status of the workflow step",
+          "type": "string"
+        },
+        "StatusPage": {
+          "description": "Gets the link to the status page",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Item": {
+      "additionalProperties": {
+        "$ref": "#/definitions/Object"
+      },
+      "description": "Table item entity",
+      "properties": {
+        "dynamicProperties": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Object"
+          },
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "x-ms-dynamic-schema": {
+        "operationId": "GetTable",
+        "parameters": {
+          "dataset": {
+            "parameter": "dataset"
+          },
+          "table": {
+            "parameter": "table"
+          }
+        },
+        "value-path": "Schema/Items"
+      }
+    },
+    "ItemsList": {
+      "description": "List of Items",
+      "properties": {
+        "value": {
+          "description": "List of Items",
+          "items": {
+            "$ref": "#/definitions/Item"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "MeasureData": {
+      "description": "Business Measure data",
+      "properties": {
+        "DisplayName": {
+          "description": "Gets the measure display name",
+          "type": "string"
+        },
+        "EvaluationDate": {
+          "description": "Gets the measure evaluation date",
+          "format": "date-time",
+          "type": "string"
+        },
+        "Name": {
+          "description": "Gets the measure name",
+          "type": "string"
+        },
+        "Threshold": {
+          "description": "Gets the measure threshold",
+          "format": "double",
+          "type": "number"
+        },
+        "Value": {
+          "description": "Gets the value of the measure",
+          "format": "double",
+          "type": "number"
+        },
+        "ValueDisplayName": {
+          "description": "Gets the display name of the value",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Object": {
+      "properties": {},
+      "type": "object"
+    },
+    "PassThroughNativeQuery": {
+      "description": "static schema for pass-through native query execution",
+      "properties": {
+        "Language": {
+          "description": "Query language",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Procedure": {
+      "description": "Procedure",
+      "properties": {
+        "DisplayName": {
+          "description": "Procedure display name",
+          "type": "string"
+        },
+        "Name": {
+          "description": "Procedure name",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ProcessData": {
+      "description": "The information about executed process",
+      "properties": {
+        "Duration": {
+          "description": "Gets the duration of the process in minutes",
+          "format": "int32",
+          "type": "integer"
+        },
+        "EndTime": {
+          "description": "Gets the end time of the workflow step",
+          "format": "date-time",
+          "type": "string"
+        },
+        "StartTime": {
+          "description": "Gets the start time of the workflow step",
+          "format": "date-time",
+          "type": "string"
+        },
+        "Status": {
+          "description": "Gets the status of the workflow step",
+          "type": "string"
+        },
+        "StatusPage": {
+          "description": "Gets the link to the status page",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "SegmentData": {
+      "description": "Segment data",
+      "properties": {
+        "DisplayName": {
+          "description": "Gets the segment display name",
+          "type": "string"
+        },
+        "EntityCount": {
+          "description": "Gets the actual count of segment members",
+          "format": "int64",
+          "type": "integer"
+        },
+        "EvaluationDate": {
+          "description": "Gets the segment evaluation date",
+          "format": "date-time",
+          "type": "string"
+        },
+        "Name": {
+          "description": "Gets the segment name",
+          "type": "string"
+        },
+        "Threshold": {
+          "description": "Gets the segment threshold",
+          "format": "int32",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "Table": {
+      "description": "Represents a table.",
+      "properties": {
+        "DisplayName": {
+          "description": "The display name of the table.",
+          "type": "string"
+        },
+        "DynamicProperties": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Object"
+          },
+          "description": "Additional table properties provided by the connector to the clients.",
+          "readOnly": true,
+          "type": "object"
+        },
+        "Name": {
+          "description": "The name of the table. The name is used at runtime.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "TableCapabilitiesMetadata": {
+      "description": "Metadata for a table (capabilities)",
+      "properties": {
+        "filterFunctionSupport": {
+          "description": "List of supported filter capabilities",
+          "items": {
+            "enum": [
+              "eq",
+              "ne",
+              "gt",
+              "ge",
+              "lt",
+              "le",
+              "and",
+              "or",
+              "contains",
+              "startswith",
+              "endswith",
+              "length",
+              "indexof",
+              "replace",
+              "substring",
+              "substringof",
+              "tolower",
+              "toupper",
+              "trim",
+              "concat",
+              "year",
+              "month",
+              "day",
+              "hour",
+              "minute",
+              "second",
+              "date",
+              "time",
+              "now",
+              "totaloffsetminutes",
+              "totalseconds",
+              "floor",
+              "ceiling",
+              "round",
+              "not",
+              "negate",
+              "add",
+              "sub",
+              "mul",
+              "div",
+              "mod",
+              "sum",
+              "min",
+              "max",
+              "average",
+              "countdistinct",
+              "null"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "filterRestrictions": {
+          "$ref": "#/definitions/TableFilterRestrictionsMetadata"
+        },
+        "isOnlyServerPagable": {
+          "description": "Server paging restrictions",
+          "type": "boolean"
+        },
+        "selectRestrictions": {
+          "$ref": "#/definitions/TableSelectRestrictionsMetadata"
+        },
+        "serverPagingOptions": {
+          "description": "List of supported server-driven paging capabilities",
+          "items": {
+            "enum": [
+              "top",
+              "skiptoken"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "sortRestrictions": {
+          "$ref": "#/definitions/TableSortRestrictionsMetadata"
+        }
+      },
+      "type": "object"
+    },
+    "TableFilterRestrictionsMetadata": {
+      "description": "Metadata for a table (filter restrictions)",
+      "properties": {
+        "filterable": {
+          "description": "Indicates whether this table has filterable columns",
+          "type": "boolean"
+        },
+        "nonFilterableProperties": {
+          "description": "List of non filterable properties",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "requiredProperties": {
+          "description": "List of required properties",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "TableMetadata": {
+      "description": "Table metadata",
+      "properties": {
+        "name": {
+          "description": "Table name",
+          "type": "string"
+        },
+        "referencedEntities": {
+          "$ref": "#/definitions/Object"
+        },
+        "schema": {
+          "$ref": "#/definitions/Object"
+        },
+        "title": {
+          "description": "Table title",
+          "type": "string"
+        },
+        "webUrl": {
+          "description": "Url link",
+          "type": "string"
+        },
+        "x-ms-capabilities": {
+          "$ref": "#/definitions/TableCapabilitiesMetadata"
+        },
+        "x-ms-permission": {
+          "description": "Table permission",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "TableSelectRestrictionsMetadata": {
+      "description": "Metadata for a table (select restrictions)",
+      "properties": {
+        "selectable": {
+          "description": "Indicates whether this table has selectable columns",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "TableSortRestrictionsMetadata": {
+      "description": "Metadata for a table (sort restrictions)",
+      "properties": {
+        "ascendingOnlyProperties": {
+          "description": "List of properties which support ascending order only",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "sortable": {
+          "description": "Indicates whether this table has sortable columns",
+          "type": "boolean"
+        },
+        "unsortableProperties": {
+          "description": "List of unsortable properties",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "TablesList": {
+      "description": "Represents a list of tables.",
+      "properties": {
+        "value": {
+          "description": "List of Tables",
+          "items": {
+            "$ref": "#/definitions/Table"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/customerinsights"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "The Dynamics 365 Customer Insights Connector provides a set of APIs to interact with Dynamics 365 Customer Insights instances.",
+    "title": "Dynamics 365 Customer Insights Connector",
+    "version": "1.0",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    }
+  },
+  "paths": {
+    "/{connectionId}/$metadata.json/datasets/{dataset}/tables/{table}": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation gets the metadata for an entity",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#get-an-entity-metadata"
+        },
+        "operationId": "GetTable",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Identifier of an instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "instanceId",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of an entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "entityName",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TableMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get an entity metadata",
+        "tags": [
+          "CITableMetadata"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation gets all instances available to the connection.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#get-dynamics-365-customer-insights-instances"
+        },
+        "operationId": "GetDataSets",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DataSetsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get Dynamics 365 Customer Insights instances",
+        "tags": [
+          "CIDataSet"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ODataStyleGetTables",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TablesList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "CITable"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables({table})/items": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ODataStyleGetItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Specific fields to retrieve from entries (default = all).",
+            "in": "query",
+            "name": "$select",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Select Query",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "CITableData"
+        ],
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        },
+        "x-ms-visibility": "internal"
+      },
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ODataStylePostItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "CITableData"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables({table})/items({id})": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ODataStyleDeleteItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "CITableData"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ODataStyleGetItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "CITableData"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "patch": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ODataStylePatchItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "CITableData"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/measures": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Lists business measures.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#lists-business-measures"
+        },
+        "operationId": "GetBusinessMeasures",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "dataset name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TablesList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Lists business measures",
+        "tags": [
+          "CITableAction"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/onfulldagrefreshcompleted": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation triggers a flow when a full refresh of Customer Insights (data sources, segments, measures,...) is completed.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#triggers-a-flow-when-a-full-refresh-of-customer-insights-is-completed"
+        },
+        "operationId": "GetOnFullDagRefreshCompleted",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Select an instance.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/FullRefreshProcessData"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Triggers a flow when a full refresh of Customer Insights is completed",
+        "tags": [
+          "CIPollingTrigger"
+        ],
+        "x-ms-trigger": "single",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/onprocesscompleted": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "A flow is triggered for scheduled refreshes of selected process. Additionally, you can choose to trigger a flow for manual refreshes.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#triggers-a-flow-when-a-process-in-customer-insights-is-completed"
+        },
+        "operationId": "GetOnProcessCompleted",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Select an instance.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "default": "Unification",
+            "description": "Select a process.",
+            "enum": [
+              "Unification"
+            ],
+            "in": "query",
+            "name": "process",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Process"
+          },
+          {
+            "default": false,
+            "description": "Select yes if manually triggered process should be included.",
+            "in": "query",
+            "name": "includingManualRefreshes",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Include manually triggered process"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ProcessData"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Triggers a flow when a process in Customer Insights is completed",
+        "tags": [
+          "CIPollingTrigger"
+        ],
+        "x-ms-trigger": "single",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/onupdatedbusinessmeasure/{measure}/{threshold}": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation triggers a flow when a business measure threshold is crossed in Dynamics 365 Customer Insights.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#triggers-a-flow-when-a-business-measure-threshold-is-crossed"
+        },
+        "operationId": "GetOnBusinessMeasureUpdated",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Select an instance.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Select a measure.",
+            "in": "path",
+            "name": "measure",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetBusinessMeasures",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Business Measure name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Set any number as threshold.",
+            "format": "double",
+            "in": "path",
+            "name": "threshold",
+            "required": true,
+            "type": "number",
+            "x-ms-summary": "Threshold"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MeasureData"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Triggers a flow when a business measure threshold is crossed",
+        "tags": [
+          "CIPollingTrigger"
+        ],
+        "x-ms-trigger": "single",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/onupdateditemscomplete": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Endpoint for notifications from the data source when refresh is completed.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#endpoint-for-notifications-from-the-data-source-when-refresh-is-completed"
+        },
+        "operationId": "GetOnDataSourceRefreshComplete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Environment",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DataSourcesList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Endpoint for notifications from the data source when refresh is completed",
+        "tags": [
+          "CIPollingTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, select the data source and refresh in Customer Insight UI",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/onupdateditemsfail": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Endpoint for notifications from the data source when refresh is failed.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#endpoint-for-notifications-from-the-data-source-when-refresh-is-failed"
+        },
+        "operationId": "GetOnDataSourceRefreshFail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Environment",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DataSourcesList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Endpoint for notifications from the data source when refresh is failed",
+        "tags": [
+          "CIPollingTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, select the data source and refresh in Customer Insight UI. Will trigger if datasource refresh is failed.",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/onupdatedsegment/{segment}/{threshold}": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation triggers a flow when a segment threshold is crossed in Dynamics 365 Customer Insights.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#triggers-a-flow-when-a-segment-threshold-is-crossed"
+        },
+        "operationId": "GetOnSegmentUpdated",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Select an instance.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Select a segment.",
+            "in": "path",
+            "name": "segment",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetSegments",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Segment name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Set any number as threshold.",
+            "format": "int32",
+            "in": "path",
+            "name": "threshold",
+            "required": true,
+            "type": "integer",
+            "x-ms-summary": "Threshold"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SegmentData"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Triggers a flow when a segment threshold is crossed",
+        "tags": [
+          "CIPollingTrigger"
+        ],
+        "x-ms-trigger": "single",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/report/{reportType}": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "text/json"
+        ],
+        "deprecated": false,
+        "description": "Sends the status report.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#sends-the-status-report"
+        },
+        "operationId": "SendStatusReport",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Select an instance.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Instance id",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Select a report type.",
+            "enum": [
+              "Export"
+            ],
+            "in": "path",
+            "name": "reportType",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Report type"
+          },
+          {
+            "description": "Status report payload.",
+            "in": "body",
+            "name": "payload",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Object"
+            },
+            "x-ms-summary": "Status report"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Sends the status report",
+        "tags": [
+          "CICustomAction"
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/segments": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Lists segments.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#lists-segments"
+        },
+        "operationId": "GetSegments",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "dataset name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TablesList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Lists segments",
+        "tags": [
+          "CITableAction"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tables": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation gets entities from an instance",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#get-entities"
+        },
+        "operationId": "GetTables",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Identifier of an instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "instanceId",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TablesList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get entities",
+        "tags": [
+          "CITable"
+        ],
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tables/{table}/items": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation gets items from an entity",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#get-items-from-an-entity"
+        },
+        "operationId": "GetItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Identifier of an instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "instanceId",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of an entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTablesForGetItem",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "entityName",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Specific fields to retrieve from entries (default = all).",
+            "in": "query",
+            "name": "$select",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Select Query",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get items from an entity",
+        "tags": [
+          "CITableData"
+        ],
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        },
+        "x-ms-visibility": "important"
+      },
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation creates an item on an entity",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#create-item"
+        },
+        "operationId": "PostItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Identifier of an instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "instanceId",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of an entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTablesForPostItem",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "entityName",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Record to create",
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetTable",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            },
+            "x-ms-summary": "recordItem"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Create item",
+        "tags": [
+          "CITableData"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tables/{table}/items/{id}": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "DeleteItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "CITableData"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation gets an item from an entity",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#get-item"
+        },
+        "operationId": "GetItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Identifier of an instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "instanceId",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Name of an entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "entityName",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Identifier for the item",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "itemIdentifier",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetTable",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get item",
+        "tags": [
+          "CITableData"
+        ],
+        "x-ms-visibility": "advanced"
+      },
+      "patch": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation updates an item on an entity",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#update-item"
+        },
+        "operationId": "PatchItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Identifier of an instance",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "instanceId"
+          },
+          {
+            "description": "Name of an entity",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTablesForPatchItem",
+              "parameters": {
+                "dataset": {
+                  "parameter": "dataset"
+                }
+              },
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "entityName"
+          },
+          {
+            "description": "Identifier for the item",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "itemIdentifier"
+          },
+          {
+            "description": "Record to update",
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetTable",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            },
+            "x-ms-summary": "recordItem"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetTable",
+                "parameters": {
+                  "dataset": {
+                    "parameter": "dataset"
+                  },
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Update item",
+        "tags": [
+          "CITableData"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tablesforget": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Lists tables for GET.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#lists-tables-for-get"
+        },
+        "operationId": "GetTablesForGetItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "dataset name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TablesList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Lists tables for GET",
+        "tags": [
+          "CITableAction"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tablesforpatch": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Lists tables for PATCH.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#lists-tables-for-patch"
+        },
+        "operationId": "GetTablesForPatchItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "dataset name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TablesList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Lists tables for PATCH",
+        "tags": [
+          "CITableAction"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/{dataset}/tablesforpost": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Lists tables for POST.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/customerinsights/#lists-tables-for-post"
+        },
+        "operationId": "GetTablesForPostItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name.",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDataSets",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "dataset name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TablesList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Lists tables for POST",
+        "tags": [
+          "CITableAction"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://dynamics.microsoft.com/ai/customer-insights/"
+    }
+  ]
+}

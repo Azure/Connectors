@@ -1,0 +1,451 @@
+{
+  "basePath": "/apim/microsoftforms",
+  "definitions": {
+    "FormsList": {
+      "items": {
+        "properties": {
+          "id": {
+            "description": "Unique id of the form.",
+            "type": "string",
+            "x-ms-summary": "Form Id"
+          },
+          "title": {
+            "description": "Title of the form.",
+            "type": "string",
+            "x-ms-summary": "Form title"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "GetFormResponseByIdResult": {
+      "description": "Form response details",
+      "type": "object",
+      "x-ms-dynamic-schema": {
+        "operationId": "GetQuestions",
+        "parameters": {
+          "form_id": {
+            "parameter": "form_id"
+          }
+        },
+        "value-path": "Schema"
+      }
+    },
+    "NewResponses": {
+      "description": "Form responses",
+      "items": {
+        "type": "object",
+        "x-ms-dynamic-schema": {
+          "operationId": "GetQuestions",
+          "parameters": {
+            "form_id": {
+              "parameter": "form_id"
+            }
+          },
+          "value-path": "Schema"
+        }
+      },
+      "type": "array"
+    },
+    "WebhookPayload": {
+      "properties": {
+        "value": {
+          "items": {
+            "properties": {
+              "resourceData": {
+                "properties": {
+                  "responseId": {
+                    "description": "Unique identifier of the response. Use with 'Get response details' action to fetch the content of the form response.",
+                    "type": "integer",
+                    "x-ms-summary": "Response Id"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "List of response notifications"
+        }
+      },
+      "type": "object"
+    },
+    "WebhookRequestBody": {
+      "properties": {
+        "eventType": {
+          "default": "responseAdded",
+          "description": "Webhook event",
+          "title": "Webhook event",
+          "type": "string",
+          "x-ms-visibility": "internal"
+        },
+        "notificationUrl": {
+          "description": "Webhook callback url",
+          "format": "uri",
+          "title": "Webhook callback url",
+          "type": "string",
+          "x-ms-notification-url": true,
+          "x-ms-visibility": "internal"
+        },
+        "source": {
+          "default": "ms-connector",
+          "description": "Source of webhook registration",
+          "title": "Source of webhook registration",
+          "type": "string",
+          "x-ms-visibility": "internal"
+        }
+      },
+      "required": [
+        "eventType",
+        "notificationUrl",
+        "source"
+      ],
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/microsoftforms"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Microsoft Forms is a new part of Office 365 Education that allows teachers and students to quickly and easily create custom quizzes, surveys, questionnaires, registrations and more.",
+    "title": "Microsoft Forms",
+    "version": "1.2.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    }
+  },
+  "paths": {
+    "/{connectionId}/formapi/api/forms": {
+      "get": {
+        "deprecated": false,
+        "description": "This operation returns a list of forms in your account.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/microsoftforms/#list-forms"
+        },
+        "operationId": "ListForms",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/FormsList"
+            }
+          },
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        },
+        "summary": "List forms",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/formapi/api/forms('{form_id}')/questions": {
+      "get": {
+        "deprecated": false,
+        "description": "Get questions definition in a form.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/microsoftforms/#get-questions"
+        },
+        "operationId": "GetQuestions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Unique id of the form.",
+            "in": "path",
+            "name": "form_id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListForms",
+              "value-path": "id",
+              "value-title": "title"
+            },
+            "x-ms-summary": "Form Id"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        },
+        "summary": "Get questions",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/formapi/api/forms('{form_id}')/responses": {
+      "get": {
+        "deprecated": false,
+        "description": "This action retrieves a form response",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/microsoftforms/#get-response-details"
+        },
+        "operationId": "GetFormResponseById",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Unique identifier of the form",
+            "in": "path",
+            "name": "form_id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListForms",
+              "value-path": "id",
+              "value-title": "title"
+            },
+            "x-ms-summary": "Form Id",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "Unique identifier of the response",
+            "format": "int32",
+            "in": "query",
+            "name": "response_id",
+            "required": true,
+            "type": "integer",
+            "x-ms-summary": "Response Id",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetFormResponseByIdResult"
+            }
+          },
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        },
+        "summary": "Get response details",
+        "x-ms-no-generic-test": true
+      }
+    },
+    "/{connectionId}/formapi/api/forms/{form_id}/webhooks": {
+      "post": {
+        "deprecated": false,
+        "description": "This operation triggers a flow when a new response is submitted.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/microsoftforms/#when-a-new-response-is-submitted"
+        },
+        "operationId": "CreateFormWebhook",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Pick a form.",
+            "in": "path",
+            "name": "form_id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListForms",
+              "value-path": "id",
+              "value-title": "title"
+            },
+            "x-ms-summary": "Form Id",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "This is the request body of the Webhook",
+            "in": "body",
+            "name": "Request body of webhook",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WebhookRequestBody"
+            },
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "default": {
+            "description": "Operation Failed"
+          }
+        },
+        "summary": "When a new response is submitted",
+        "x-ms-no-generic-test": true,
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, submit a new response to the selected form.",
+        "x-ms-visibility": "important"
+      },
+      "x-ms-notification-content": {
+        "description": "Details for Webhook",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "schema": {
+          "$ref": "#/definitions/WebhookPayload"
+        }
+      }
+    },
+    "/{connectionId}/formapi/api/forms/{form_id}/webhooks/{webhookId}": {
+      "delete": {
+        "deprecated": false,
+        "description": "Delete a webhook",
+        "operationId": "DeleteFormWebhook",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Pick a form.",
+            "in": "path",
+            "name": "form_id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Form title",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "ID of the webhook being deleted",
+            "in": "path",
+            "name": "webhookId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "default": {
+            "description": "Operation Failed"
+          }
+        },
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/trigger/formapi/api/forms('{form_id}')/responses": {
+      "get": {
+        "deprecated": true,
+        "description": "This operation triggers a flow when a new response is submitted.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/microsoftforms/#when-a-new-response-is-submitted-%5bdeprecated%5d"
+        },
+        "operationId": "GetFormResponses",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Pick a form.",
+            "in": "path",
+            "name": "form_id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListForms",
+              "value-path": "id",
+              "value-title": "title"
+            },
+            "x-ms-summary": "Form title",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/NewResponses"
+            }
+          },
+          "default": {
+            "description": "defaultdefault",
+            "schema": {}
+          }
+        },
+        "summary": "When a new response is submitted",
+        "x-ms-dev-queryfilterParamName": "$filter",
+        "x-ms-dev-triggerDateFormat": "iso",
+        "x-ms-dev-triggerType": "queryFilter",
+        "x-ms-dev-triggerValueCollection": "value",
+        "x-ms-dev-triggerValuePath": "submitDate",
+        "x-ms-no-generic-test": true,
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, submit a new response to the selected form."
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-capabilities": {
+    "testConnection": {
+      "operationId": "ListForms"
+    }
+  },
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://forms.office.com/"
+    }
+  ],
+  "x-ms-docs": [
+    {
+      "description": "Using the Forms Connector with Microsoft Flow",
+      "url": "https://go.microsoft.com/fwlink/?linkid=861427"
+    },
+    {
+      "description": "Building flows from scratch that handle Microsoft Forms responses",
+      "url": "https://go.microsoft.com/fwlink/?linkid=861430"
+    }
+  ]
+}

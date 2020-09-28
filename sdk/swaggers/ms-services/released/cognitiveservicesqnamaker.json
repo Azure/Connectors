@@ -1,0 +1,339 @@
+{
+  "basePath": "/apim/cognitiveservicesqnamaker",
+  "consumes": [],
+  "definitions": {
+    "DownloadKnowledgeBase_Response": {
+      "additionalProperties": true,
+      "description": "Response schema for CreateKb operation.",
+      "properties": {
+        "hostName": {
+          "description": "URL host name at which the knowledgebase is hosted.",
+          "type": "string"
+        },
+        "id": {
+          "description": "Unique id that identifies a knowledgebase.",
+          "type": "string"
+        },
+        "lastAccessedTimestamp": {
+          "description": "Time stamp at which the knowledgebase was last accessed (UTC).",
+          "type": "string"
+        },
+        "lastChangedTimestamp": {
+          "description": "Time stamp at which the knowledgebase was last modified (UTC).",
+          "type": "string"
+        },
+        "lastPublishedTimestamp": {
+          "description": "Time stamp at which the knowledgebase was last published (UTC).",
+          "type": "string"
+        },
+        "name": {
+          "description": "Friendly name of the knowledgebase.",
+          "type": "string"
+        },
+        "sources": {
+          "description": "Custom sources from which Q-A were extracted or explicitly added to the knowledgebase.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "urls": {
+          "description": "URL sources from which Q-A were extracted and added to the knowledgebase.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "userId": {
+          "description": "User who created / owns the knowledgebase.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "GenerateAnswer_Request": {
+      "properties": {
+        "question": {
+          "description": "Ask a question.",
+          "type": "string",
+          "x-ms-summary": "Question"
+        },
+        "top": {
+          "default": 1,
+          "description": "Number of ranked results you want in the output.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Top",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "required": [
+        "question"
+      ],
+      "type": "object",
+      "x-ms-test-value": {
+        "question": "votes"
+      }
+    },
+    "GenerateAnswer_Response": {
+      "properties": {
+        "answers": {
+          "description": "List of all answers.",
+          "items": {
+            "properties": {
+              "answer": {
+                "description": "Top ranking answer to the question.",
+                "type": "string",
+                "x-ms-summary": "Answer"
+              },
+              "id": {
+                "type": "number",
+                "x-ms-summary": "Id"
+              },
+              "questions": {
+                "description": "List of questions.",
+                "items": {
+                  "type": "string",
+                  "x-ms-summary": "Question"
+                },
+                "type": "array"
+              },
+              "score": {
+                "description": "Relative score of the answer.",
+                "format": "float",
+                "type": "number",
+                "x-ms-summary": "Score",
+                "x-ms-visibility": "advanced"
+              },
+              "source": {
+                "type": "string",
+                "x-ms-summary": "Source"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "Answers"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/cognitiveservicesqnamaker"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Distill information into an easy-to-navigate FAQ.",
+    "title": "QnA Maker",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    }
+  },
+  "parameters": {
+    "EndpointKey__in_header": {
+      "description": "This should be fetched from the QnAMaker portal.",
+      "in": "header",
+      "name": "EndpointKey",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "Endpoint Key",
+      "x-ms-test-value": "EndpointKey ad70c875-98d3-4116-a261-6691f6e62590"
+    },
+    "KnowledgeBaseId__in_path": {
+      "description": "This should be fetched from the QnAMaker portal.",
+      "in": "path",
+      "name": "KnowledgeBaseId",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "Knowledge Base Id",
+      "x-ms-test-value": "93ae9fdc-71c5-4c10-a0fa-ecb7c0518083"
+    },
+    "ServiceHost__in_header": {
+      "description": "This should be fetched from the QnAMaker portal.",
+      "in": "header",
+      "name": "ServiceHost",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "Service Host",
+      "x-ms-test-value": "https://qnatesticm68866029.azurewebsites.net/qnamaker"
+    }
+  },
+  "paths": {
+    "/{connectionId}/knowledgebases/{KnowledgeBaseId}/generateAnswer": {
+      "post": {
+        "deprecated": false,
+        "description": "This operation returns the top ranking answer for the given question.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicesqnamaker/#generate-answer"
+        },
+        "operationId": "GenerateAnswer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/KnowledgeBaseId__in_path"
+          },
+          {
+            "$ref": "#/parameters/ServiceHost__in_header"
+          },
+          {
+            "$ref": "#/parameters/EndpointKey__in_header"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GenerateAnswer_Request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/GenerateAnswer_Response"
+            }
+          }
+        },
+        "summary": "Generate answer",
+        "x-ms-no-generic-test": true
+      }
+    },
+    "/{connectionId}/qnamaker/v2.0/knowledgebases/{KnowledgeBaseId}": {
+      "get": {
+        "deprecated": true,
+        "description": "This operation downloads all the data associated wiht the specified knowledge base.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicesqnamaker/#download-knowledge-base-%5bdeprecated%5d"
+        },
+        "operationId": "DownloadKnowledgeBase",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/KnowledgeBaseId__in_path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/DownloadKnowledgeBase_Response"
+            }
+          }
+        },
+        "summary": "Download knowledge base"
+      }
+    },
+    "/{connectionId}/qnamaker/v2.0/knowledgebases/{KnowledgeBaseId}/generateAnswer": {
+      "post": {
+        "deprecated": true,
+        "description": "This operation returns the top ranking answer for the given question.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicesqnamaker/#generate-answer-%5bdeprecated%5d"
+        },
+        "operationId": "GenerateAnswerOld",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/KnowledgeBaseId__in_path"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GenerateAnswer_Request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/GenerateAnswer_Response"
+            }
+          }
+        },
+        "summary": "Generate answer",
+        "x-ms-no-generic-test": true
+      }
+    },
+    "/{connectionId}/qnamaker/v4.0/knowledgebases/{KnowledgeBaseId}": {
+      "get": {
+        "deprecated": false,
+        "description": "Gets details of a specific knowledgebase.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicesqnamaker/#download-knowledgebase-details"
+        },
+        "operationId": "DownloadKnowledgeBaseOld",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/KnowledgeBaseId__in_path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/DownloadKnowledgeBase_Response"
+            }
+          }
+        },
+        "summary": "Download knowledgebase details"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "responses": {},
+  "schemes": [
+    "https"
+  ],
+  "security": [],
+  "securityDefinitions": {
+    "api_key": {
+      "in": "header",
+      "name": "Ocp-Apim-Subscription-Key",
+      "type": "apiKey"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [],
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://www.qnamaker.ai/"
+    }
+  ]
+}

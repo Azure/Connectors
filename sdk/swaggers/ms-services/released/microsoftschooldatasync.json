@@ -1,0 +1,522 @@
+{
+  "basePath": "/apim/microsoftschooldatasync",
+  "consumes": [],
+  "definitions": {},
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/microsoftschooldatasync"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Simplify class management in Office 365. School Data Sync reads rosters from your SIS and creates classes and groups for Microsoft Teams, Intune for Education, and third party applications.\n\nConnect to School Data Sync to upload school and roster information, manage your sync profile.",
+    "title": "Microsoft School Data Sync",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    }
+  },
+  "parameters": {},
+  "paths": {
+    "/{connectionId}/synchronizationProfiles": {
+      "get": {
+        "deprecated": false,
+        "description": "Get all the synchronization profiles in a tenant",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/microsoftschooldatasync/#get-profiles"
+        },
+        "operationId": "GetSynchronizationprofiles",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "properties": {
+                "@odata.context": {
+                  "description": "@odata.context",
+                  "type": "string",
+                  "x-ms-summary": "@odata.context"
+                },
+                "value": {
+                  "description": "value",
+                  "items": {
+                    "properties": {
+                      "dataProvider": {
+                        "description": "data provider",
+                        "properties": {
+                          "@odata.type": {
+                            "description": "@odata.type",
+                            "type": "string",
+                            "x-ms-summary": "@odata.type"
+                          },
+                          "customizations": {
+                            "description": "customizations",
+                            "properties": {
+                              "school": {
+                                "description": "school",
+                                "properties": {
+                                  "allowDisplayNameUpdate": {
+                                    "description": "allow display name update",
+                                    "type": "boolean",
+                                    "x-ms-summary": "allow display name update"
+                                  },
+                                  "isSyncDeferred": {
+                                    "description": "is sync deferred",
+                                    "type": "boolean",
+                                    "x-ms-summary": "is sync deferred"
+                                  },
+                                  "optionalPropertiesToSync": {
+                                    "description": "optional properties to sync",
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "type": "array",
+                                    "x-ms-summary": "optional properties to sync"
+                                  },
+                                  "synchronizationStartDate": {
+                                    "description": "synchronization start date",
+                                    "format": "date-time",
+                                    "type": "string",
+                                    "x-ms-summary": "synchronization start date"
+                                  }
+                                },
+                                "type": "object",
+                                "x-ms-summary": "school"
+                              },
+                              "section": {
+                                "description": "section",
+                                "properties": {
+                                  "allowDisplayNameUpdate": {
+                                    "description": "allow display name update",
+                                    "type": "boolean",
+                                    "x-ms-summary": "allow display name update"
+                                  },
+                                  "isSyncDeferred": {
+                                    "description": "is sync deferred",
+                                    "type": "boolean",
+                                    "x-ms-summary": "is sync deferred"
+                                  },
+                                  "optionalPropertiesToSync": {
+                                    "description": "optional properties to sync",
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "type": "array",
+                                    "x-ms-summary": "optional properties to sync"
+                                  },
+                                  "synchronizationStartDate": {
+                                    "description": "synchronization start date",
+                                    "format": "date-time",
+                                    "type": "string",
+                                    "x-ms-summary": "synchronization start date"
+                                  }
+                                },
+                                "type": "object",
+                                "x-ms-summary": "section"
+                              },
+                              "student": {
+                                "description": "student",
+                                "properties": {
+                                  "allowDisplayNameUpdate": {
+                                    "description": "allow display name update",
+                                    "type": "boolean",
+                                    "x-ms-summary": "allow display name update"
+                                  },
+                                  "isSyncDeferred": {
+                                    "description": "is sync deferred",
+                                    "type": "boolean",
+                                    "x-ms-summary": "is sync deferred"
+                                  },
+                                  "optionalPropertiesToSync": {
+                                    "description": "optional properties to sync",
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "type": "array",
+                                    "x-ms-summary": "optional properties to sync"
+                                  },
+                                  "synchronizationStartDate": {
+                                    "description": "synchronization start date",
+                                    "format": "date-time",
+                                    "type": "string",
+                                    "x-ms-summary": "synchronization start date"
+                                  }
+                                },
+                                "type": "object",
+                                "x-ms-summary": "student"
+                              },
+                              "studentEnrollment": {
+                                "description": "student enrollment",
+                                "properties": {
+                                  "allowDisplayNameUpdate": {
+                                    "description": "allow display name update",
+                                    "type": "boolean",
+                                    "x-ms-summary": "allow display name update"
+                                  },
+                                  "isSyncDeferred": {
+                                    "description": "is sync deferred",
+                                    "type": "boolean",
+                                    "x-ms-summary": "is sync deferred"
+                                  },
+                                  "optionalPropertiesToSync": {
+                                    "description": "optional properties to sync",
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "type": "array",
+                                    "x-ms-summary": "optional properties to sync"
+                                  },
+                                  "synchronizationStartDate": {
+                                    "description": "synchronization start date",
+                                    "format": "date-time",
+                                    "type": "string",
+                                    "x-ms-summary": "synchronization start date"
+                                  }
+                                },
+                                "type": "object",
+                                "x-ms-summary": "student enrollment"
+                              },
+                              "teacher": {
+                                "description": "teacher",
+                                "properties": {
+                                  "allowDisplayNameUpdate": {
+                                    "description": "allow display name update",
+                                    "type": "boolean",
+                                    "x-ms-summary": "allow display name update"
+                                  },
+                                  "isSyncDeferred": {
+                                    "description": "is sync deferred",
+                                    "type": "boolean",
+                                    "x-ms-summary": "is sync deferred"
+                                  },
+                                  "optionalPropertiesToSync": {
+                                    "description": "optional properties to sync",
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "type": "array",
+                                    "x-ms-summary": "optional properties to sync"
+                                  },
+                                  "synchronizationStartDate": {
+                                    "description": "synchronization start date",
+                                    "format": "date-time",
+                                    "type": "string",
+                                    "x-ms-summary": "synchronization start date"
+                                  }
+                                },
+                                "type": "object",
+                                "x-ms-summary": "teacher"
+                              },
+                              "teacherRoster": {
+                                "description": "teacher roster",
+                                "properties": {
+                                  "allowDisplayNameUpdate": {
+                                    "description": "allow display name update",
+                                    "type": "boolean",
+                                    "x-ms-summary": "allow display name update"
+                                  },
+                                  "isSyncDeferred": {
+                                    "description": "is sync deferred",
+                                    "type": "boolean",
+                                    "x-ms-summary": "is sync deferred"
+                                  },
+                                  "optionalPropertiesToSync": {
+                                    "description": "optional properties to sync",
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "type": "array",
+                                    "x-ms-summary": "optional properties to sync"
+                                  },
+                                  "synchronizationStartDate": {
+                                    "description": "synchronization start date",
+                                    "format": "date-time",
+                                    "type": "string",
+                                    "x-ms-summary": "synchronization start date"
+                                  }
+                                },
+                                "type": "object",
+                                "x-ms-summary": "teacher roster"
+                              }
+                            },
+                            "type": "object",
+                            "x-ms-summary": "customizations"
+                          }
+                        },
+                        "type": "object",
+                        "x-ms-summary": "data provider"
+                      },
+                      "dateFormat": {
+                        "description": "date format",
+                        "type": "string",
+                        "x-ms-summary": "date format"
+                      },
+                      "displayName": {
+                        "description": "display name",
+                        "type": "string",
+                        "x-ms-summary": "display name"
+                      },
+                      "handleSpecialCharacterConstraint": {
+                        "description": "handle special character constraint",
+                        "type": "boolean",
+                        "x-ms-summary": "handle special character constraint"
+                      },
+                      "id": {
+                        "description": "id",
+                        "type": "string",
+                        "x-ms-summary": "id"
+                      },
+                      "identitySynchronizationConfiguration": {
+                        "description": "identity synchronization configuration",
+                        "properties": {
+                          "@odata.type": {
+                            "description": "@odata.type",
+                            "type": "string",
+                            "x-ms-summary": "@odata.type"
+                          },
+                          "matchingOptions": {
+                            "description": "matching options",
+                            "items": {
+                              "properties": {
+                                "appliesTo": {
+                                  "description": "applies to",
+                                  "type": "string",
+                                  "x-ms-summary": "applies to"
+                                },
+                                "sourcePropertyName": {
+                                  "description": "source property name",
+                                  "type": "string",
+                                  "x-ms-summary": "source property name"
+                                },
+                                "targetDomain": {
+                                  "description": "target domain",
+                                  "type": "string",
+                                  "x-ms-summary": "target domain"
+                                },
+                                "targetPropertyName": {
+                                  "description": "target property name",
+                                  "type": "string",
+                                  "x-ms-summary": "target property name"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array",
+                            "x-ms-summary": "matching options"
+                          },
+                          "userDomains": {
+                            "description": "user domains",
+                            "items": {
+                              "properties": {
+                                "appliesTo": {
+                                  "description": "applies to",
+                                  "type": "string",
+                                  "x-ms-summary": "applies to"
+                                },
+                                "name": {
+                                  "description": "name",
+                                  "type": "string",
+                                  "x-ms-summary": "name"
+                                }
+                              },
+                              "type": "object"
+                            },
+                            "type": "array",
+                            "x-ms-summary": "user domains"
+                          }
+                        },
+                        "type": "object",
+                        "x-ms-summary": "identity synchronization configuration"
+                      },
+                      "licensesToAssign": {
+                        "description": "licenses to assign",
+                        "items": {
+                          "properties": {
+                            "appliesTo": {
+                              "description": "applies to",
+                              "type": "string",
+                              "x-ms-summary": "applies to"
+                            },
+                            "skuIds": {
+                              "description": "sku Ids",
+                              "items": {
+                                "type": "string"
+                              },
+                              "type": "array",
+                              "x-ms-summary": "sku Ids"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "type": "array",
+                        "x-ms-summary": "licenses to assign"
+                      },
+                      "state": {
+                        "description": "state",
+                        "type": "string",
+                        "x-ms-summary": "state"
+                      },
+                      "termEndDate": {
+                        "description": "term end date",
+                        "type": "string",
+                        "x-ms-summary": "term end date"
+                      },
+                      "termStartDate": {
+                        "description": "term start date",
+                        "type": "string",
+                        "x-ms-summary": "term start date"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array",
+                  "x-ms-summary": "value"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Get Profiles"
+      }
+    },
+    "/{connectionId}/synchronizationProfiles/{instanceId}/start": {
+      "post": {
+        "deprecated": false,
+        "description": "Triggers validation of uploaded files and starts sync if no errors are found.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/microsoftschooldatasync/#verify-uploaded-files-and-start-sync"
+        },
+        "operationId": "PostStartSync",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The instanceId of a profile is the GUID portion of the URL found on the Profile Details page",
+            "in": "path",
+            "name": "instanceId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The GUID portion of the URL found on the Profile Details page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "properties": {
+                "@odata.context": {
+                  "description": "@odata.context",
+                  "type": "string",
+                  "x-ms-summary": "@odata.context"
+                },
+                "value": {
+                  "description": "value",
+                  "items": {
+                    "properties": {},
+                    "type": "object"
+                  },
+                  "type": "array",
+                  "x-ms-summary": "value"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Verify Uploaded Files and Start Sync"
+      }
+    },
+    "/{connectionId}/synchronizationProfiles/{instanceId}/uploadUrl": {
+      "get": {
+        "deprecated": false,
+        "description": "Gets the SAS Url for uploading csv files for a given profile",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/microsoftschooldatasync/#get-upload-url-for-csv-profle"
+        },
+        "operationId": "GetUploadUrl",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The instanceId of a profile is the GUID portion of the URL found on the Profile Details page",
+            "in": "path",
+            "name": "instanceId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The GUID portion of the URL found on the Profile Details page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "schema": {
+              "properties": {
+                "@odata.context": {
+                  "description": "@odata.context",
+                  "type": "string",
+                  "x-ms-summary": "@odata.context"
+                },
+                "value": {
+                  "description": "value",
+                  "type": "string",
+                  "x-ms-summary": "value"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Get Upload Url for CSV Profle"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "responses": {},
+  "schemes": [
+    "https"
+  ],
+  "security": [
+    {
+      "oauth2_auth": []
+    }
+  ],
+  "securityDefinitions": {
+    "oauth2_auth": {
+      "authorizationUrl": "https://login.windows.net/common/oauth2/authorize",
+      "flow": "accessCode",
+      "scopes": {},
+      "tokenUrl": "https://login.windows.net/common/oauth2/authorize",
+      "type": "oauth2"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [],
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://sds.microsoft.com/"
+    }
+  ]
+}

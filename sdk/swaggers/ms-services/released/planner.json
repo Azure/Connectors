@@ -1,0 +1,2819 @@
+{
+  "basePath": "/apim/planner",
+  "consumes": [],
+  "definitions": {
+    "CreateBucket_Response": {
+      "properties": {
+        "id": {
+          "description": "ID of the bucket",
+          "type": "string",
+          "x-ms-summary": "Id"
+        },
+        "name": {
+          "description": "Name of the bucket",
+          "type": "string",
+          "x-ms-summary": "Name"
+        },
+        "orderHint": {
+          "description": "Hint used to order items of this type in a list view",
+          "type": "string",
+          "x-ms-summary": "Order hint"
+        },
+        "planId": {
+          "description": "Plan ID to which the bucket belongs",
+          "type": "string",
+          "x-ms-summary": "Plan Id"
+        }
+      },
+      "type": "object"
+    },
+    "CreateTask_Request": {
+      "properties": {
+        "assignments": {
+          "description": "The id or email address of the user to assign this task to.",
+          "type": "string",
+          "x-ms-summary": "Assigned User Id"
+        },
+        "bucketId": {
+          "description": "The bucket to place this task in.",
+          "type": "string",
+          "x-ms-dynamic-list": {
+            "itemTitlePath": "name",
+            "itemValuePath": "id",
+            "itemsPath": "value",
+            "operationId": "ListBuckets_V2",
+            "parameters": {
+              "id": {
+                "parameterReference": "body/planId"
+              }
+            }
+          },
+          "x-ms-dynamic-values": {
+            "operationId": "ListBuckets_V2",
+            "parameters": {
+              "id": {
+                "parameter": "planId"
+              }
+            },
+            "value-collection": "value",
+            "value-path": "id",
+            "value-title": "name"
+          },
+          "x-ms-summary": "Bucket Id"
+        },
+        "dueDateTime": {
+          "description": "The datetime the task is due (Ex. '2018-04-13T00:42:19.284Z').",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Due Date Time"
+        },
+        "planId": {
+          "description": "The plan for the new task.",
+          "type": "string",
+          "x-ms-dynamic-values": {
+            "operationId": "ListMyPlans_V2",
+            "value-collection": "value",
+            "value-path": "id",
+            "value-title": "title"
+          },
+          "x-ms-summary": "Plan Id"
+        },
+        "startDateTime": {
+          "description": "The datetime the task starts (Ex. '2018-04-13T00:42:19.284Z').",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Start Date Time"
+        },
+        "title": {
+          "description": "The title of the new task.",
+          "type": "string",
+          "x-ms-summary": "Title"
+        }
+      },
+      "required": [
+        "planId",
+        "title"
+      ],
+      "type": "object",
+      "x-ms-test-value": {
+        "assignments": "9c7e8fab-f06d-4453-8a46-83f8e7c3d0c5",
+        "bucketId": "rsBLiy71QU6eFBap-TzIPGUACdpl",
+        "details": {
+          "description": "Here is a test description."
+        },
+        "dueDateTime": "2018-04-13T00:42:19.2848937Z",
+        "planId": "AyTvkgHzjkm6lLktZ2uzmmUAHQQh",
+        "startDateTime": "2018-04-13T00:42:19.2848937Z",
+        "title": "Test4141249"
+      }
+    },
+    "CreateTask_Request_V2": {
+      "properties": {
+        "assignments": {
+          "description": "Semi-colon seperated ids or email addresses of users to assign this task to.",
+          "type": "string",
+          "x-ms-summary": "Assigned User Ids"
+        },
+        "bucketId": {
+          "description": "The bucket to place this task in.",
+          "type": "string",
+          "x-ms-dynamic-list": {
+            "itemTitlePath": "name",
+            "itemValuePath": "id",
+            "itemsPath": "value",
+            "operationId": "ListBuckets_V2",
+            "parameters": {
+              "id": {
+                "parameterReference": "body/planId"
+              }
+            }
+          },
+          "x-ms-dynamic-values": {
+            "operationId": "ListBuckets_V2",
+            "parameters": {
+              "id": {
+                "parameter": "planId"
+              }
+            },
+            "value-collection": "value",
+            "value-path": "id",
+            "value-title": "name"
+          },
+          "x-ms-summary": "Bucket Id"
+        },
+        "dueDateTime": {
+          "description": "The datetime the task is due (Ex. '2018-04-13T00:42:19.284Z').",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Due Date Time"
+        },
+        "planId": {
+          "description": "The plan for the new task.",
+          "type": "string",
+          "x-ms-dynamic-values": {
+            "operationId": "ListMyPlans_V2",
+            "value-collection": "value",
+            "value-path": "id",
+            "value-title": "title"
+          },
+          "x-ms-summary": "Plan Id"
+        },
+        "startDateTime": {
+          "description": "The datetime the task starts (Ex. '2018-04-13T00:42:19.284Z').",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Start Date Time"
+        },
+        "title": {
+          "description": "The title of the new task.",
+          "type": "string",
+          "x-ms-summary": "Title"
+        }
+      },
+      "required": [
+        "planId",
+        "title"
+      ],
+      "type": "object",
+      "x-ms-test-value": {
+        "assignments": "9c7e8fab-f06d-4453-8a46-83f8e7c3d0c5",
+        "bucketId": "rsBLiy71QU6eFBap-TzIPGUACdpl",
+        "details": {
+          "description": "Here is a test description."
+        },
+        "dueDateTime": "2018-04-13T00:42:19.2848937Z",
+        "planId": "AyTvkgHzjkm6lLktZ2uzmmUAHQQh",
+        "startDateTime": "2018-04-13T00:42:19.2848937Z",
+        "title": "Test4141249"
+      }
+    },
+    "CreateTask_Request_V3": {
+      "properties": {
+        "assignments": {
+          "description": "Semi-colon seperated ids or email addresses of users to assign this task to.",
+          "type": "string",
+          "x-ms-summary": "Assigned User Ids"
+        },
+        "bucketId": {
+          "description": "The bucket to place this task in.",
+          "type": "string",
+          "x-ms-dynamic-list": {
+            "itemTitlePath": "name",
+            "itemValuePath": "id",
+            "itemsPath": "value",
+            "operationId": "ListBuckets_V3",
+            "parameters": {
+              "groupId": {
+                "parameterReference": "body/groupId"
+              },
+              "id": {
+                "parameterReference": "body/planId"
+              }
+            }
+          },
+          "x-ms-dynamic-values": {
+            "operationId": "ListBuckets_V3",
+            "parameters": {
+              "groupId": {
+                "parameter": "groupId"
+              },
+              "id": {
+                "parameter": "planId"
+              }
+            },
+            "value-collection": "value",
+            "value-path": "id",
+            "value-title": "name"
+          },
+          "x-ms-summary": "Bucket Id"
+        },
+        "dueDateTime": {
+          "description": "The datetime the task is due (Ex. '2018-04-13T00:42:19.284Z').",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Due Date Time"
+        },
+        "groupId": {
+          "description": "The group to retrieve the plan.",
+          "type": "string",
+          "x-ms-dynamic-values": {
+            "operationId": "ListGroups",
+            "value-collection": "value",
+            "value-path": "id",
+            "value-title": "displayName"
+          },
+          "x-ms-summary": "Group Id"
+        },
+        "planId": {
+          "description": "The plan for the new task.",
+          "type": "string",
+          "x-ms-dynamic-list": {
+            "itemTitlePath": "title",
+            "itemValuePath": "id",
+            "itemsPath": "value",
+            "operationId": "ListGroupPlans",
+            "parameters": {
+              "groupId": {
+                "parameterReference": "body/groupId"
+              }
+            }
+          },
+          "x-ms-dynamic-values": {
+            "operationId": "ListGroupPlans",
+            "parameters": {
+              "groupId": {
+                "parameter": "groupId"
+              }
+            },
+            "value-collection": "value",
+            "value-path": "id",
+            "value-title": "title"
+          },
+          "x-ms-summary": "Plan Id"
+        },
+        "startDateTime": {
+          "description": "The datetime the task starts (Ex. '2018-04-13T00:42:19.284Z').",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Start Date Time"
+        },
+        "title": {
+          "description": "The title of the new task (maximum of 255 chars).",
+          "maxLength": 255,
+          "type": "string",
+          "x-ms-summary": "Title"
+        }
+      },
+      "required": [
+        "groupId",
+        "planId",
+        "title"
+      ],
+      "type": "object"
+    },
+    "ErrorResponse": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "x-ms-summary": "Error code"
+        },
+        "message": {
+          "type": "string",
+          "x-ms-summary": "Error Message"
+        }
+      },
+      "type": "object"
+    },
+    "GetPlanDetails_Response": {
+      "properties": {
+        "categoryDescriptions": {
+          "properties": {
+            "category1": {
+              "description": "The category 1.",
+              "type": "string",
+              "x-ms-summary": "Category 1",
+              "x-ms-visibility": "advanced"
+            },
+            "category2": {
+              "description": "The category 2.",
+              "type": "string",
+              "x-ms-summary": "Category 2",
+              "x-ms-visibility": "advanced"
+            },
+            "category3": {
+              "description": "The category 3.",
+              "type": "string",
+              "x-ms-summary": "Category 3",
+              "x-ms-visibility": "advanced"
+            },
+            "category4": {
+              "description": "The category 4.",
+              "type": "string",
+              "x-ms-summary": "Category 4",
+              "x-ms-visibility": "advanced"
+            },
+            "category5": {
+              "description": "The category 5.",
+              "type": "string",
+              "x-ms-summary": "Category 5",
+              "x-ms-visibility": "advanced"
+            },
+            "category6": {
+              "description": "The category 6.",
+              "type": "string",
+              "x-ms-summary": "Category 6",
+              "x-ms-visibility": "advanced"
+            }
+          },
+          "type": "object",
+          "x-ms-summary": "Category descriptions"
+        },
+        "id": {
+          "description": "The ID of the plan details",
+          "type": "string",
+          "x-ms-summary": "Id",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "GetTaskDetails_Response": {
+      "properties": {
+        "description": {
+          "description": "The description of the task.",
+          "type": "string",
+          "x-ms-summary": "Description",
+          "x-ms-visibility": "important"
+        },
+        "id": {
+          "description": "The id of the task.",
+          "type": "string",
+          "x-ms-summary": "Id",
+          "x-ms-visibility": "important"
+        }
+      },
+      "type": "object"
+    },
+    "GetTask_Response": {
+      "properties": {
+        "bucketId": {
+          "description": "The id of the bucket this task belongs to.",
+          "type": "string",
+          "x-ms-summary": "Bucket Id",
+          "x-ms-visibility": "advanced"
+        },
+        "completedDateTime": {
+          "description": "The datetime the task was completed.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Completed Date Time"
+        },
+        "createdBy": {
+          "properties": {
+            "user": {
+              "properties": {
+                "displayName": {
+                  "description": "The display name of the user who created this task.",
+                  "type": "string",
+                  "x-ms-summary": "Display Name"
+                },
+                "id": {
+                  "description": "The id of the user who created this task.",
+                  "type": "string",
+                  "x-ms-summary": "Id"
+                }
+              },
+              "type": "object",
+              "x-ms-summary": "User"
+            }
+          },
+          "type": "object",
+          "x-ms-summary": "Created By"
+        },
+        "createdDateTime": {
+          "description": "The datetime the task was created.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Created Date Time"
+        },
+        "dueDateTime": {
+          "description": "The datetime the task is due.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Due Date Time"
+        },
+        "hasDescription": {
+          "description": "Set to true if the task has a description.",
+          "type": "boolean",
+          "x-ms-summary": "Has Description"
+        },
+        "id": {
+          "description": "The id of the task.",
+          "type": "string",
+          "x-ms-summary": "Id"
+        },
+        "percentComplete": {
+          "description": "The completion percentage of the task.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Percent Complete"
+        },
+        "planId": {
+          "description": "The id of the plan this task belongs to.",
+          "type": "string",
+          "x-ms-summary": "Plan Id",
+          "x-ms-visibility": "advanced"
+        },
+        "referenceCount": {
+          "description": "The number of external references that exist on the task.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Reference Count",
+          "x-ms-visibility": "advanced"
+        },
+        "startDateTime": {
+          "description": "The start datetime of the task.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Start Date Time"
+        },
+        "title": {
+          "description": "The title of the task.",
+          "type": "string",
+          "x-ms-summary": "Title"
+        }
+      },
+      "type": "object"
+    },
+    "GetTask_Response_V2": {
+      "properties": {
+        "_assignments": {
+          "items": {
+            "properties": {
+              "userId": {
+                "description": "The id of the user to whom this task was assigned to.",
+                "type": "string",
+                "x-ms-summary": "Assigned To User Id"
+              },
+              "value": {
+                "properties": {
+                  "assignedBy": {
+                    "properties": {
+                      "user": {
+                        "properties": {
+                          "id": {
+                            "description": "The id of the user who assigned this task.",
+                            "type": "string",
+                            "x-ms-summary": "Assigned By User Id"
+                          }
+                        },
+                        "type": "object"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "assignedDateTime": {
+                    "description": "The datetime the task was assigned.",
+                    "format": "date-time",
+                    "type": "string",
+                    "x-ms-summary": "Assigned Date Time"
+                  },
+                  "orderHint": {
+                    "description": "Order Hint",
+                    "type": "string",
+                    "x-ms-summary": "Order Hint"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "assignments"
+        },
+        "bucketId": {
+          "description": "The id of the bucket this task belongs to.",
+          "type": "string",
+          "x-ms-summary": "Bucket Id",
+          "x-ms-visibility": "advanced"
+        },
+        "completedDateTime": {
+          "description": "The datetime the task was completed.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Completed Date Time"
+        },
+        "createdBy": {
+          "properties": {
+            "user": {
+              "properties": {
+                "displayName": {
+                  "description": "The display name of the user who created this task.",
+                  "type": "string",
+                  "x-ms-summary": "Display Name"
+                },
+                "id": {
+                  "description": "The id of the user who created this task.",
+                  "type": "string",
+                  "x-ms-summary": "Id"
+                }
+              },
+              "type": "object",
+              "x-ms-summary": "User"
+            }
+          },
+          "type": "object",
+          "x-ms-summary": "Created By"
+        },
+        "createdDateTime": {
+          "description": "The datetime the task was created.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Created Date Time"
+        },
+        "dueDateTime": {
+          "description": "The datetime the task is due.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Due Date Time"
+        },
+        "hasDescription": {
+          "description": "Set to true if the task has a description.",
+          "type": "boolean",
+          "x-ms-summary": "Has Description"
+        },
+        "id": {
+          "description": "The id of the task.",
+          "type": "string",
+          "x-ms-summary": "Id"
+        },
+        "percentComplete": {
+          "description": "The completion percentage of the task.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Percent Complete"
+        },
+        "planId": {
+          "description": "The id of the plan this task belongs to.",
+          "type": "string",
+          "x-ms-summary": "Plan Id",
+          "x-ms-visibility": "advanced"
+        },
+        "referenceCount": {
+          "description": "The number of external references that exist on the task.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Reference Count",
+          "x-ms-visibility": "advanced"
+        },
+        "startDateTime": {
+          "description": "The start datetime of the task.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Start Date Time"
+        },
+        "title": {
+          "description": "The title of the task.",
+          "type": "string",
+          "x-ms-summary": "Title"
+        }
+      },
+      "type": "object"
+    },
+    "ListBuckets_Response": {
+      "properties": {
+        "value": {
+          "items": {
+            "properties": {
+              "id": {
+                "description": "The id of the bucket.",
+                "type": "string",
+                "x-ms-summary": "Id"
+              },
+              "name": {
+                "description": "The name of the bucket.",
+                "type": "string",
+                "x-ms-summary": "Name"
+              },
+              "planId": {
+                "description": "The id of the plan this bucket belongs to.",
+                "type": "string",
+                "x-ms-summary": "Plan Id"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "value"
+        }
+      },
+      "type": "object"
+    },
+    "ListGroups_Response": {
+      "properties": {
+        "value": {
+          "description": "value",
+          "items": {
+            "properties": {
+              "displayName": {
+                "description": "O365 group name.",
+                "type": "string",
+                "x-ms-summary": "Name"
+              },
+              "id": {
+                "description": "Unique identifier of the group.",
+                "type": "string",
+                "x-ms-summary": "Group Id",
+                "x-ms-visibility": "advanced"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "ListMyPlans_Response": {
+      "properties": {
+        "value": {
+          "items": {
+            "properties": {
+              "id": {
+                "description": "The id of the plan.",
+                "type": "string",
+                "x-ms-summary": "Id"
+              },
+              "title": {
+                "description": "The title of the Plan.",
+                "type": "string",
+                "x-ms-summary": "Title"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "value"
+        }
+      },
+      "type": "object"
+    },
+    "ListTasks_Response": {
+      "properties": {
+        "value": {
+          "items": {
+            "properties": {
+              "bucketId": {
+                "description": "The id of the bucket this task belongs to.",
+                "type": "string",
+                "x-ms-summary": "Bucket Id",
+                "x-ms-visibility": "advanced"
+              },
+              "completedBy": {
+                "description": "Information about who completed the task",
+                "properties": {
+                  "user": {
+                    "description": "user",
+                    "properties": {
+                      "displayName": {
+                        "description": "displayName",
+                        "type": "string",
+                        "x-ms-summary": "Completed By Display Name"
+                      },
+                      "id": {
+                        "description": "id",
+                        "type": "string",
+                        "x-ms-summary": "id",
+                        "x-ms-visibility": "advanced"
+                      }
+                    },
+                    "type": "object",
+                    "x-ms-summary": "user"
+                  }
+                },
+                "type": "object",
+                "x-ms-summary": "Completed By"
+              },
+              "completedDateTime": {
+                "description": "The date time that the task was completed.",
+                "format": "date-time",
+                "type": "string",
+                "x-ms-summary": "Completed Date Time"
+              },
+              "createdBy": {
+                "properties": {
+                  "user": {
+                    "properties": {
+                      "displayName": {
+                        "description": "The display name of the user who created this task.",
+                        "type": "string",
+                        "x-ms-summary": "Created by Display Name",
+                        "x-ms-visibility": "important"
+                      },
+                      "id": {
+                        "description": "The id of the user who created this task.",
+                        "type": "string",
+                        "x-ms-summary": "Id"
+                      }
+                    },
+                    "type": "object",
+                    "x-ms-summary": "User"
+                  }
+                },
+                "type": "object",
+                "x-ms-summary": "Created By"
+              },
+              "createdDateTime": {
+                "description": "The datetime the task was created.",
+                "format": "date-time",
+                "type": "string",
+                "x-ms-summary": "Created Date Time",
+                "x-ms-visibility": "important"
+              },
+              "dueDateTime": {
+                "description": "The datetime the task is due.",
+                "format": "date-time",
+                "type": "string",
+                "x-ms-summary": "Due Date Time",
+                "x-ms-visibility": "important"
+              },
+              "hasDescription": {
+                "description": "Set to True if the task has a description.",
+                "type": "boolean",
+                "x-ms-summary": "Has Description"
+              },
+              "id": {
+                "description": "The id of the task.",
+                "type": "string",
+                "x-ms-summary": "Id"
+              },
+              "percentComplete": {
+                "description": "The completion percentage of the task.",
+                "format": "int32",
+                "type": "integer",
+                "x-ms-summary": "Percent Complete"
+              },
+              "planId": {
+                "description": "The id of the plan this task belongs to.",
+                "type": "string",
+                "x-ms-summary": "Plan Id",
+                "x-ms-visibility": "advanced"
+              },
+              "referenceCount": {
+                "description": "The number of external references that exist on the task.",
+                "format": "int32",
+                "type": "integer",
+                "x-ms-summary": "Reference Count",
+                "x-ms-visibility": "advanced"
+              },
+              "startDateTime": {
+                "description": "The start datetime of the task.",
+                "format": "date-time",
+                "type": "string",
+                "x-ms-summary": "Start Date Time"
+              },
+              "title": {
+                "description": "The title of the task.",
+                "type": "string",
+                "x-ms-summary": "Title",
+                "x-ms-visibility": "important"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "value"
+        }
+      },
+      "type": "object"
+    },
+    "ListTasks_Response_V2": {
+      "properties": {
+        "value": {
+          "items": {
+            "$ref": "#/definitions/GetTask_Response_V2"
+          },
+          "type": "array",
+          "x-ms-summary": "value"
+        }
+      },
+      "type": "object"
+    },
+    "UpdateTaskDetails_Request": {
+      "properties": {
+        "description": {
+          "description": "The description of the task.",
+          "type": "string",
+          "x-ms-summary": "Description",
+          "x-ms-visibility": "important"
+        },
+        "references": {
+          "description": "The collection of references on the task",
+          "items": {
+            "properties": {
+              "alias": {
+                "description": "A name alias to describe the reference.",
+                "type": "string",
+                "x-ms-summary": "Alias",
+                "x-ms-visibility": "important"
+              },
+              "resourceLink": {
+                "description": "A valid URL based on the HTTP/HTTPS protocols.",
+                "format": "uri",
+                "type": "string",
+                "x-ms-summary": "Resource link",
+                "x-ms-visibility": "important"
+              },
+              "type": {
+                "description": "Used to describe the type of the reference.",
+                "enum": [
+                  "PowerPoint",
+                  "Word",
+                  "Excel",
+                  "OneNote",
+                  "Project",
+                  "Visio",
+                  "Pdf",
+                  "Other"
+                ],
+                "x-ms-summary": "Type of the reference"
+              }
+            },
+            "type": "object"
+          },
+          "required": [
+            "resourceLink"
+          ],
+          "type": "array",
+          "x-ms-summary": "References"
+        }
+      },
+      "type": "object",
+      "x-ms-test-value": {
+        "description": "This is a test description."
+      }
+    },
+    "UpdateTask_Request": {
+      "properties": {
+        "assignments": {
+          "description": "The id or email address of the user to assign this task to.",
+          "type": "string",
+          "x-ms-summary": "Assisgned User Id"
+        },
+        "dueDateTime": {
+          "description": "The datetime the task is due (Ex. '2018-04-13T00:42:19.284Z').",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Due Date-Time"
+        },
+        "percentComplete": {
+          "description": "The progress of the task.",
+          "enum": [
+            "Not Started",
+            "In Progress",
+            "Completed"
+          ],
+          "type": "string",
+          "x-ms-summary": "Progress"
+        },
+        "startDateTime": {
+          "description": "The datetime the task starts (Ex. '2018-04-13T00:42:19.284Z').",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Start Date-Time"
+        },
+        "title": {
+          "description": "The title of the plan.",
+          "type": "string",
+          "x-ms-summary": "Title"
+        }
+      },
+      "type": "object",
+      "x-ms-test-value": {
+        "assignments": "9c7e8fab-f06d-4453-8a46-83f8e7c3d0c5",
+        "dueDateTime": "2018-04-13T00:42:19.284Z",
+        "percentComplete": "In Progress",
+        "startDateTime": "2018-04-13T00:42:19.284Z",
+        "title": "Alpha"
+      }
+    },
+    "UpdateTask_Request_V2": {
+      "properties": {
+        "assignments": {
+          "description": "Semi-colon seperated ids or email addresses of users who should be assigned to this task.",
+          "type": "string",
+          "x-ms-summary": "Add assigned users"
+        },
+        "dueDateTime": {
+          "description": "The datetime the task is due (Ex. '2018-04-13T00:42:19.284Z').",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Due Date-Time"
+        },
+        "percentComplete": {
+          "description": "The progress of the task.",
+          "enum": [
+            "Not Started",
+            "In Progress",
+            "Completed"
+          ],
+          "type": "string",
+          "x-ms-summary": "Progress"
+        },
+        "startDateTime": {
+          "description": "The datetime the task starts (Ex. '2018-04-13T00:42:19.284Z').",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Start Date-Time"
+        },
+        "title": {
+          "description": "The title of the plan.",
+          "type": "string",
+          "x-ms-summary": "Title"
+        },
+        "unassignedUsers": {
+          "description": "Semi-colon seperated ids or email addresses of users who should be unassigned from this task.",
+          "type": "string",
+          "x-ms-summary": "Remove assigned users"
+        }
+      },
+      "type": "object",
+      "x-ms-test-value": {
+        "assignments": "9c7e8fab-f06d-4453-8a46-83f8e7c3d0c5",
+        "dueDateTime": "2018-04-13T00:42:19.284Z",
+        "percentComplete": "In Progress",
+        "startDateTime": "2018-04-13T00:42:19.284Z",
+        "title": "Alpha"
+      }
+    },
+    "UpdateTask_Request_V3": {
+      "properties": {
+        "dueDateTime": {
+          "description": "The datetime the task is due (Ex. '2018-04-13T00:42:19.284Z').",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Due Date-Time"
+        },
+        "percentComplete": {
+          "description": "The completion percentage of the task.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Percent Complete"
+        },
+        "startDateTime": {
+          "description": "The datetime the task starts (Ex. '2018-04-13T00:42:19.284Z').",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Start Date-Time"
+        },
+        "title": {
+          "description": "The title of the plan (maximum of 255 chars).",
+          "maxLength": 255,
+          "type": "string",
+          "x-ms-summary": "Title"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/planner"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "description": "Microsoft Planner lets you easily bring together teams, tasks, documents, and conversations for better results.",
+    "title": "Planner",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    },
+    "x-ms-deployment-version": "1.0.0"
+  },
+  "parameters": {
+    "group_id__in_query": {
+      "description": "The group to retrieve the plan.",
+      "in": "query",
+      "name": "groupId",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListGroups",
+        "value-collection": "value",
+        "value-path": "id",
+        "value-title": "displayName"
+      },
+      "x-ms-summary": "Group Id"
+    },
+    "plan_id__in_path": {
+      "description": "The unique identifier of the plan.",
+      "in": "path",
+      "name": "id",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListMyPlans_V2",
+        "value-collection": "value",
+        "value-path": "id",
+        "value-title": "title"
+      },
+      "x-ms-summary": "Plan Id",
+      "x-ms-test-value": "AyTvkgHzjkm6lLktZ2uzmmUAHQQh"
+    },
+    "plan_id__in_path_v2": {
+      "description": "The unique identifier of the plan.",
+      "in": "path",
+      "name": "id",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListGroupPlans",
+        "parameters": {
+          "groupId": {
+            "parameter": "groupId"
+          }
+        },
+        "value-collection": "value",
+        "value-path": "id",
+        "value-title": "title"
+      },
+      "x-ms-summary": "Plan Id",
+      "x-ms-test-value": "AyTvkgHzjkm6lLktZ2uzmmUAHQQh"
+    },
+    "prefer__in_header": {
+      "default": " return=representation",
+      "description": "prefer",
+      "in": "header",
+      "name": "prefer",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "prefer",
+      "x-ms-test-value": " return=representation",
+      "x-ms-visibility": "internal"
+    },
+    "task_id__in_path": {
+      "description": "The unique identifer of the task.",
+      "in": "path",
+      "name": "id",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "Task Id",
+      "x-ms-test-value": "0pPRbRkXJ0ebLNxqaYoA2mUANKD3"
+    }
+  },
+  "paths": {
+    "/{connectionId}/beta/me/planner/ontaskassignedtome_trigger/tasks": {
+      "get": {
+        "deprecated": true,
+        "description": "This operation triggers when a task is assigned to me.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#when-a-task-is-assigned-to-me-%5bdeprecated%5d"
+        },
+        "operationId": "OnTaskAssignedToMe",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListTasks_Response"
+            }
+          }
+        },
+        "summary": "When a task is assigned to me",
+        "x-ms-api-annotation": {
+          "family": "OnTaskAssignedToMe",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, assign a task to yourself.",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/beta/me/planner/plans": {
+      "get": {
+        "deprecated": true,
+        "description": "List the plans the user has subscribed to.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#list-my-plans-%5bdeprecated%5d"
+        },
+        "operationId": "ListMyPlans",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListMyPlans_Response"
+            }
+          }
+        },
+        "summary": "List my plans",
+        "x-ms-api-annotation": {
+          "family": "ListMyPlans",
+          "revision": 1,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/beta/me/planner/tasks": {
+      "get": {
+        "deprecated": true,
+        "description": "List the tasks assigned to me.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#list-my-tasks-%5bdeprecated%5d"
+        },
+        "operationId": "ListMyTasks",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListTasks_Response"
+            }
+          }
+        },
+        "summary": "List my tasks",
+        "x-ms-api-annotation": {
+          "family": "ListMyTasks",
+          "revision": 1,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/beta/planner/oncompletetask_trigger/plans/{id}/tasks": {
+      "get": {
+        "deprecated": true,
+        "description": "This operation triggers when a task is completed.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#when-a-task-is-completed-%5bdeprecated%5d"
+        },
+        "operationId": "OnCompleteTask",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/plan_id__in_path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListTasks_Response"
+            }
+          }
+        },
+        "summary": "When a task is completed",
+        "x-ms-api-annotation": {
+          "family": "OnCompleteTask",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, complete a task.",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/beta/planner/onnewtask_trigger/plans/{id}/tasks": {
+      "get": {
+        "deprecated": true,
+        "description": "This operation triggers when a new task is created.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#when-a-new-task-is-created-%5bdeprecated%5d"
+        },
+        "operationId": "OnNewTask",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/plan_id__in_path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListTasks_Response"
+            }
+          }
+        },
+        "summary": "When a new task is created",
+        "x-ms-api-annotation": {
+          "family": "OnNewTask",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, create a task.",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/beta/planner/plans/{id}/buckets": {
+      "get": {
+        "deprecated": true,
+        "description": "List the buckets in a plan.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#list-buckets-%5bdeprecated%5d"
+        },
+        "operationId": "ListBuckets",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/plan_id__in_path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListBuckets_Response"
+            }
+          }
+        },
+        "summary": "List buckets",
+        "x-ms-api-annotation": {
+          "family": "ListBuckets",
+          "revision": 1,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/beta/planner/plans/{id}/tasks": {
+      "get": {
+        "deprecated": true,
+        "description": "List the tasks in a plan.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#list-tasks-%5bdeprecated%5d"
+        },
+        "operationId": "ListTasks",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/plan_id__in_path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListTasks_Response"
+            }
+          }
+        },
+        "summary": "List tasks",
+        "x-ms-api-annotation": {
+          "family": "ListTasks",
+          "revision": 1,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/beta/planner/tasks": {
+      "post": {
+        "deprecated": true,
+        "description": "Create a new task in Planner.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#create-a-task-%5bdeprecated%5d"
+        },
+        "operationId": "CreateTask",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/prefer__in_header"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateTask_Request"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "201",
+            "schema": {
+              "$ref": "#/definitions/GetTask_Response"
+            }
+          }
+        },
+        "summary": "Create a task",
+        "x-ms-api-annotation": {
+          "family": "CreateTask",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/beta/planner/tasks/{id}": {
+      "get": {
+        "deprecated": true,
+        "description": "Get an existing Planner task.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#get-a-task-%5bdeprecated%5d"
+        },
+        "operationId": "GetTask",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/task_id__in_path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/GetTask_Response"
+            }
+          }
+        },
+        "summary": "Get a task",
+        "x-ms-api-annotation": {
+          "family": "GetTask",
+          "revision": 1,
+          "status": "Production"
+        }
+      },
+      "patch": {
+        "deprecated": true,
+        "description": "Update an existing Planner task.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#update-a-task-%5bdeprecated%5d"
+        },
+        "operationId": "UpdateTask",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The unique identifier of the tast to update.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListMyTasks",
+              "value-collection": "value",
+              "value-path": "id",
+              "value-title": "title"
+            },
+            "x-ms-summary": "Task Id",
+            "x-ms-test-value": "0zirFGEeCE-bMO_4C5Y33mUAG-eQ"
+          },
+          {
+            "$ref": "#/parameters/prefer__in_header"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateTask_Request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/GetTask_Response"
+            }
+          }
+        },
+        "summary": "Update a task",
+        "x-ms-api-annotation": {
+          "family": "UpdateTask",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-no-generic-test": true
+      }
+    },
+    "/{connectionId}/beta/planner/tasks/{id}/details": {
+      "get": {
+        "deprecated": true,
+        "description": "Get the task details for an existing task.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#get-task-details-%5bdeprecated%5d"
+        },
+        "operationId": "GetTaskDetails",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/task_id__in_path"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/GetTaskDetails_Response"
+            }
+          }
+        },
+        "summary": "Get task details",
+        "x-ms-api-annotation": {
+          "family": "GetTaskDetails",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-visibility": "advanced"
+      },
+      "patch": {
+        "deprecated": true,
+        "description": "Update the task details for an existing task.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#update-task-details-%5bdeprecated%5d"
+        },
+        "operationId": "UpdateTaskDetails",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/task_id__in_path"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateTaskDetails_Request"
+            },
+            "x-ms-summary": "body"
+          },
+          {
+            "$ref": "#/parameters/prefer__in_header"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/GetTaskDetails_Response"
+            }
+          }
+        },
+        "summary": "Update task details",
+        "x-ms-api-annotation": {
+          "family": "UpdateTaskDetails",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/v1.0/groups/{groupId}/planner/plans": {
+      "get": {
+        "deprecated": false,
+        "description": "List plans owned by the group specified.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#list-plans-for-a-group"
+        },
+        "operationId": "ListGroupPlans",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Id of the group.",
+            "in": "path",
+            "name": "groupId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListGroups",
+              "value-collection": "value",
+              "value-path": "id",
+              "value-title": "displayName"
+            },
+            "x-ms-summary": "Group Id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListMyPlans_Response"
+            }
+          }
+        },
+        "summary": "List plans for a group",
+        "x-ms-api-annotation": {
+          "family": "ListGroupPlans",
+          "revision": 1,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/v1.0/me/memberOf": {
+      "get": {
+        "deprecated": false,
+        "description": "Get groups that the user is a direct member of.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#list-groups-that-i-am-member-of"
+        },
+        "operationId": "ListGroups",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation Successful",
+            "schema": {
+              "$ref": "#/definitions/ListGroups_Response"
+            }
+          }
+        },
+        "summary": "List groups that I am member of",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v1.0/me/planner/ontaskassignedtome_trigger/tasks": {
+      "get": {
+        "deprecated": false,
+        "description": "This operation triggers when a task is assigned to me.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#when-a-task-is-assigned-to-me"
+        },
+        "operationId": "OnTaskAssignedToMe_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListTasks_Response_V2"
+            }
+          }
+        },
+        "summary": "When a task is assigned to me",
+        "x-ms-api-annotation": {
+          "family": "OnTaskAssignedToMe",
+          "revision": 2,
+          "status": "Production"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, assign a task to yourself.",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v1.0/me/planner/plans": {
+      "get": {
+        "deprecated": true,
+        "description": "List the plans the user has subscribed to.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#list-my-plans-%5bdeprecated%5d"
+        },
+        "operationId": "ListMyPlans_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListMyPlans_Response"
+            }
+          }
+        },
+        "summary": "List my plans",
+        "x-ms-api-annotation": {
+          "family": "ListMyPlans",
+          "revision": 2,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/v1.0/me/planner/tasks": {
+      "get": {
+        "deprecated": false,
+        "description": "List the tasks assigned to me.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#list-my-tasks"
+        },
+        "operationId": "ListMyTasks_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListTasks_Response_V2"
+            }
+          }
+        },
+        "summary": "List my tasks",
+        "x-ms-api-annotation": {
+          "family": "ListMyTasks",
+          "revision": 2,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/v1.0/planner/buckets": {
+      "post": {
+        "deprecated": true,
+        "description": "Create a bucket in Planner.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#create-a-bucket-%5bdeprecated%5d"
+        },
+        "operationId": "CreateBucket",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "name": {
+                  "description": "Name of the bucket",
+                  "type": "string",
+                  "x-ms-summary": "Name"
+                },
+                "planId": {
+                  "description": "The plan for the new bucket",
+                  "type": "string",
+                  "x-ms-dynamic-values": {
+                    "operationId": "ListMyPlans_V2",
+                    "value-collection": "value",
+                    "value-path": "id",
+                    "value-title": "title"
+                  },
+                  "x-ms-summary": "Plan Id"
+                }
+              },
+              "required": [
+                "name",
+                "planId"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/CreateBucket_Response"
+            }
+          }
+        },
+        "summary": "Create a bucket",
+        "x-ms-api-annotation": {
+          "family": "CreateBucket",
+          "revision": 1,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/v1.0/planner/oncompletetask_trigger/plans/{id}/tasks": {
+      "get": {
+        "deprecated": true,
+        "description": "This operation triggers when a task is completed.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#when-a-task-is-completed-%5bdeprecated%5d"
+        },
+        "operationId": "OnCompleteTask_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/plan_id__in_path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListTasks_Response_V2"
+            }
+          }
+        },
+        "summary": "When a task is completed",
+        "x-ms-api-annotation": {
+          "family": "OnCompleteTask",
+          "revision": 2,
+          "status": "Production"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, complete a task.",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v1.0/planner/onnewtask_trigger/plans/{id}/tasks": {
+      "get": {
+        "deprecated": true,
+        "description": "This operation triggers when a new task is created.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#when-a-new-task-is-created-%5bdeprecated%5d"
+        },
+        "operationId": "OnNewTask_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/plan_id__in_path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListTasks_Response_V2"
+            }
+          }
+        },
+        "summary": "When a new task is created",
+        "x-ms-api-annotation": {
+          "family": "OnNewTask",
+          "revision": 2,
+          "status": "Production"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, create a task.",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v1.0/planner/plans/{id}/buckets": {
+      "get": {
+        "deprecated": true,
+        "description": "List the buckets in a plan.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#list-buckets-%5bdeprecated%5d"
+        },
+        "operationId": "ListBuckets_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/plan_id__in_path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListBuckets_Response"
+            }
+          }
+        },
+        "summary": "List buckets",
+        "x-ms-api-annotation": {
+          "family": "ListBuckets",
+          "revision": 2,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/v1.0/planner/plans/{id}/details": {
+      "get": {
+        "deprecated": false,
+        "description": "Get plan details where the task belongs to",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#get-plan-details"
+        },
+        "operationId": "GetPlanDetails",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The unique plan id.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Plan Id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/GetPlanDetails_Response"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "405": {
+            "description": "Method not allowed",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get plan details",
+        "x-ms-api-annotation": {
+          "revision": 1,
+          "status": "Preview"
+        }
+      }
+    },
+    "/{connectionId}/v1.0/planner/plans/{id}/tasks": {
+      "get": {
+        "deprecated": true,
+        "description": "List the tasks in a plan.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#list-tasks-%5bdeprecated%5d"
+        },
+        "operationId": "ListTasks_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/plan_id__in_path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListTasks_Response_V2"
+            }
+          }
+        },
+        "summary": "List tasks",
+        "x-ms-api-annotation": {
+          "family": "ListTasks",
+          "revision": 2,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/v1.0/planner/tasks": {
+      "post": {
+        "deprecated": true,
+        "description": "Create a new task in Planner.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#create-a-task-%5bdeprecated%5d"
+        },
+        "operationId": "CreateTask_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/prefer__in_header"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateTask_Request_V2"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "201",
+            "schema": {
+              "$ref": "#/definitions/GetTask_Response_V2"
+            }
+          }
+        },
+        "summary": "Create a task",
+        "x-ms-api-annotation": {
+          "family": "CreateTask",
+          "revision": 2,
+          "status": "Production"
+        },
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v1.0/planner/tasks/{id}": {
+      "delete": {
+        "deprecated": false,
+        "description": "Deletes an existing Planner task.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#delete-a-task"
+        },
+        "operationId": "DeleteTask",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The unique identifier of the task to delete.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListMyTasks_V2",
+              "value-collection": "value",
+              "value-path": "id",
+              "value-title": "title"
+            },
+            "x-ms-summary": "Task Id"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "204"
+          }
+        },
+        "summary": "Delete a task",
+        "x-ms-api-annotation": {
+          "family": "DeleteTask",
+          "revision": 1,
+          "status": "Preview"
+        }
+      },
+      "get": {
+        "deprecated": false,
+        "description": "Get an existing Planner task.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#get-a-task"
+        },
+        "operationId": "GetTask_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The unique identifier of the task to update.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListMyTasks_V2",
+              "value-collection": "value",
+              "value-path": "id",
+              "value-title": "title"
+            },
+            "x-ms-summary": "Task Id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/GetTask_Response_V2"
+            }
+          }
+        },
+        "summary": "Get a task",
+        "x-ms-api-annotation": {
+          "family": "GetTask",
+          "revision": 2,
+          "status": "Production"
+        }
+      },
+      "patch": {
+        "deprecated": false,
+        "description": "Update an existing Planner task.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#update-a-task"
+        },
+        "operationId": "UpdateTask_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The unique identifier of the task to update.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListMyTasks_V2",
+              "value-collection": "value",
+              "value-path": "id",
+              "value-title": "title"
+            },
+            "x-ms-summary": "Task Id",
+            "x-ms-test-value": "0zirFGEeCE-bMO_4C5Y33mUAG-eQ"
+          },
+          {
+            "$ref": "#/parameters/prefer__in_header"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateTask_Request_V2"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/GetTask_Response_V2"
+            }
+          }
+        },
+        "summary": "Update a task",
+        "x-ms-api-annotation": {
+          "family": "UpdateTask",
+          "revision": 2,
+          "status": "Production"
+        },
+        "x-ms-no-generic-test": true
+      }
+    },
+    "/{connectionId}/v1.0/planner/tasks/{id}/assignusers": {
+      "patch": {
+        "deprecated": false,
+        "description": "Add assignees an existing Planner task.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#add-assignees-to-a-task"
+        },
+        "operationId": "AssignUsers",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The unique identifier of the task to update.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListMyTasks_V2",
+              "value-collection": "value",
+              "value-path": "id",
+              "value-title": "title"
+            },
+            "x-ms-summary": "Task Id"
+          },
+          {
+            "$ref": "#/parameters/prefer__in_header"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "assignments": {
+                  "description": "Semi-colon seperated ids or email addresses of users who should be assigned to this task.",
+                  "type": "string",
+                  "x-ms-summary": "Assigned User Ids"
+                }
+              },
+              "required": [
+                "assignments"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/GetTask_Response_V2"
+            }
+          }
+        },
+        "summary": "Add assignees to a task",
+        "x-ms-no-generic-test": true
+      }
+    },
+    "/{connectionId}/v1.0/planner/tasks/{id}/details": {
+      "get": {
+        "deprecated": false,
+        "description": "Get the task details for an existing task.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#get-task-details"
+        },
+        "operationId": "GetTaskDetails_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The unique identifier of the task to update.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListMyTasks_V2",
+              "value-collection": "value",
+              "value-path": "id",
+              "value-title": "title"
+            },
+            "x-ms-summary": "Task Id"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/GetTaskDetails_Response"
+            }
+          }
+        },
+        "summary": "Get task details",
+        "x-ms-api-annotation": {
+          "family": "GetTaskDetails",
+          "revision": 2,
+          "status": "Production"
+        },
+        "x-ms-visibility": "advanced"
+      },
+      "patch": {
+        "deprecated": false,
+        "description": "Update the task details for an existing task.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#update-task-details"
+        },
+        "operationId": "UpdateTaskDetails_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The unique identifier of the task to update.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListMyTasks_V2",
+              "value-collection": "value",
+              "value-path": "id",
+              "value-title": "title"
+            },
+            "x-ms-summary": "Task Id"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateTaskDetails_Request"
+            },
+            "x-ms-summary": "body"
+          },
+          {
+            "$ref": "#/parameters/prefer__in_header"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/GetTaskDetails_Response"
+            }
+          }
+        },
+        "summary": "Update task details",
+        "x-ms-api-annotation": {
+          "family": "UpdateTaskDetails",
+          "revision": 2,
+          "status": "Production"
+        },
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/v1.0/planner/tasks/{id}/unassignusers": {
+      "patch": {
+        "deprecated": false,
+        "description": "Unassign users from an existing Planner task.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#unassign-users-from-a-task"
+        },
+        "operationId": "UnassignUsers",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The unique identifier of the task to update.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListMyTasks_V2",
+              "value-collection": "value",
+              "value-path": "id",
+              "value-title": "title"
+            },
+            "x-ms-summary": "Task Id"
+          },
+          {
+            "$ref": "#/parameters/prefer__in_header"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "assignments": {
+                  "description": "Semi-colon seperated ids or email addresses of users who should be unassigned to this task.",
+                  "type": "string",
+                  "x-ms-summary": "Remove assigned users"
+                }
+              },
+              "required": [
+                "assignments"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/GetTask_Response_V2"
+            }
+          }
+        },
+        "summary": "Unassign users from a task",
+        "x-ms-no-generic-test": true
+      }
+    },
+    "/{connectionId}/v2/v1.0/planner/buckets": {
+      "post": {
+        "deprecated": false,
+        "description": "Create a bucket in Planner for the specified plan and group.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#create-a-bucket"
+        },
+        "operationId": "CreateBucket_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "groupId": {
+                  "description": "The group to retrieve the plan.",
+                  "type": "string",
+                  "x-ms-dynamic-values": {
+                    "operationId": "ListGroups",
+                    "value-collection": "value",
+                    "value-path": "id",
+                    "value-title": "displayName"
+                  },
+                  "x-ms-summary": "Group Id"
+                },
+                "name": {
+                  "description": "Name of the bucket",
+                  "type": "string",
+                  "x-ms-summary": "Name"
+                },
+                "planId": {
+                  "description": "The plan for the new bucket.",
+                  "type": "string",
+                  "x-ms-dynamic-list": {
+                    "itemTitlePath": "title",
+                    "itemValuePath": "id",
+                    "itemsPath": "value",
+                    "operationId": "ListGroupPlans",
+                    "parameters": {
+                      "groupId": {
+                        "parameterReference": "body/groupId"
+                      }
+                    }
+                  },
+                  "x-ms-dynamic-values": {
+                    "operationId": "ListGroupPlans",
+                    "parameters": {
+                      "groupId": {
+                        "parameter": "groupId"
+                      }
+                    },
+                    "value-collection": "value",
+                    "value-path": "id",
+                    "value-title": "title"
+                  },
+                  "x-ms-summary": "Plan Id"
+                }
+              },
+              "required": [
+                "name",
+                "groupId",
+                "planId"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/CreateBucket_Response"
+            }
+          }
+        },
+        "summary": "Create a bucket",
+        "x-ms-api-annotation": {
+          "family": "CreateBucket",
+          "revision": 2,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/v2/v1.0/planner/oncompletetask_trigger/plans/{id}/tasks": {
+      "get": {
+        "deprecated": false,
+        "description": "This operation triggers when a task is completed.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#when-a-task-is-completed"
+        },
+        "operationId": "OnCompleteTask_V3",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/group_id__in_query"
+          },
+          {
+            "$ref": "#/parameters/plan_id__in_path_v2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListTasks_Response_V2"
+            }
+          }
+        },
+        "summary": "When a task is completed",
+        "x-ms-api-annotation": {
+          "family": "OnCompleteTask",
+          "revision": 3,
+          "status": "Production"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, complete a task.",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v2/v1.0/planner/onnewtask_trigger/plans/{id}/tasks": {
+      "get": {
+        "deprecated": false,
+        "description": "This operation triggers when a new task is created.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#when-a-new-task-is-created"
+        },
+        "operationId": "OnNewTask_V3",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/group_id__in_query"
+          },
+          {
+            "$ref": "#/parameters/plan_id__in_path_v2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListTasks_Response_V2"
+            }
+          }
+        },
+        "summary": "When a new task is created",
+        "x-ms-api-annotation": {
+          "family": "OnNewTask",
+          "revision": 3,
+          "status": "Production"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, create a task.",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v2/v1.0/planner/plans/{id}/buckets": {
+      "get": {
+        "deprecated": false,
+        "description": "List the buckets in a plan.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#list-buckets"
+        },
+        "operationId": "ListBuckets_V3",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/group_id__in_query"
+          },
+          {
+            "$ref": "#/parameters/plan_id__in_path_v2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListBuckets_Response"
+            }
+          }
+        },
+        "summary": "List buckets",
+        "x-ms-api-annotation": {
+          "family": "ListBuckets",
+          "revision": 3,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/v2/v1.0/planner/plans/{id}/tasks": {
+      "get": {
+        "deprecated": false,
+        "description": "List the tasks in a plan.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#list-tasks"
+        },
+        "operationId": "ListTasks_V3",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/group_id__in_query"
+          },
+          {
+            "$ref": "#/parameters/plan_id__in_path_v2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/ListTasks_Response_V2"
+            }
+          }
+        },
+        "summary": "List tasks",
+        "x-ms-api-annotation": {
+          "family": "ListTasks",
+          "revision": 3,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/v2/v1.0/planner/tasks": {
+      "post": {
+        "deprecated": false,
+        "description": "Create a new task in Planner.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#create-a-task"
+        },
+        "operationId": "CreateTask_V3",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/prefer__in_header"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateTask_Request_V3"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "201",
+            "schema": {
+              "$ref": "#/definitions/GetTask_Response_V2"
+            }
+          }
+        },
+        "summary": "Create a task",
+        "x-ms-api-annotation": {
+          "family": "CreateTask",
+          "revision": 3,
+          "status": "Production"
+        },
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v2/v1.0/planner/tasks/{id}": {
+      "patch": {
+        "deprecated": false,
+        "description": "Update an existing Planner task.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/planner/#update-a-task-(v2)"
+        },
+        "operationId": "UpdateTask_V3",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The unique identifier of the task to update.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListMyTasks_V2",
+              "value-collection": "value",
+              "value-path": "id",
+              "value-title": "title"
+            },
+            "x-ms-summary": "Task Id"
+          },
+          {
+            "$ref": "#/parameters/prefer__in_header"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateTask_Request_V3"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "schema": {
+              "$ref": "#/definitions/GetTask_Response_V2"
+            }
+          }
+        },
+        "summary": "Update a task (V2)",
+        "x-ms-api-annotation": {
+          "family": "UpdateTask",
+          "revision": 3,
+          "status": "Preview"
+        },
+        "x-ms-no-generic-test": true
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-capabilities": {
+    "testConnection": {
+      "operationId": "ListMyTasks_V2"
+    }
+  }
+}

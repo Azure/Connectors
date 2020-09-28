@@ -1,0 +1,1284 @@
+{
+  "basePath": "/apim/azuredatafactory",
+  "consumes": [],
+  "definitions": {
+    "Activity": {
+      "description": "Pipeline activity.",
+      "type": "object"
+    },
+    "Activity-Full": {
+      "description": "Pipeline activity.",
+      "properties": {
+        "inputs": {
+          "description": "inputs",
+          "items": {
+            "properties": {
+              "referenceName": {
+                "description": "referenceName",
+                "type": "string",
+                "x-ms-summary": "referenceName"
+              },
+              "type": {
+                "description": "type",
+                "type": "string",
+                "x-ms-summary": "type"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "inputs"
+        },
+        "name": {
+          "description": "name",
+          "type": "string",
+          "x-ms-summary": "name"
+        },
+        "outputs": {
+          "description": "outputs",
+          "items": {
+            "properties": {
+              "referenceName": {
+                "description": "referenceName",
+                "type": "string",
+                "x-ms-summary": "referenceName"
+              },
+              "type": {
+                "description": "type",
+                "type": "string",
+                "x-ms-summary": "type"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "outputs"
+        },
+        "policy": {
+          "description": "policy",
+          "properties": {
+            "retry": {
+              "description": "retry",
+              "format": "int32",
+              "type": "integer",
+              "x-ms-summary": "retry"
+            },
+            "retryIntervalInSeconds": {
+              "description": "retryIntervalInSeconds",
+              "format": "int32",
+              "type": "integer",
+              "x-ms-summary": "retryIntervalInSeconds"
+            },
+            "timeout": {
+              "description": "timeout",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": "timeout"
+            }
+          },
+          "type": "object",
+          "x-ms-summary": "policy"
+        },
+        "type": {
+          "description": "type",
+          "type": "string",
+          "x-ms-summary": "type"
+        },
+        "typeProperties": {
+          "description": "typeProperties",
+          "properties": {
+            "sink": {
+              "description": "sink",
+              "properties": {
+                "copyBehavior": {
+                  "description": "copyBehavior",
+                  "type": "string",
+                  "x-ms-summary": "copyBehavior"
+                },
+                "type": {
+                  "description": "type",
+                  "type": "string",
+                  "x-ms-summary": "type"
+                }
+              },
+              "type": "object",
+              "x-ms-summary": "sink"
+            },
+            "source": {
+              "description": "source",
+              "properties": {
+                "recursive": {
+                  "description": "recursive",
+                  "type": "boolean",
+                  "x-ms-summary": "recursive"
+                },
+                "type": {
+                  "description": "type",
+                  "type": "string",
+                  "x-ms-summary": "type"
+                }
+              },
+              "type": "object",
+              "x-ms-summary": "source"
+            }
+          },
+          "type": "object",
+          "x-ms-summary": "typeProperties"
+        }
+      },
+      "type": "object"
+    },
+    "DataFactory": {
+      "description": "DataFactory information.",
+      "properties": {
+        "id": {
+          "description": "The resource identitfier.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Id"
+        },
+        "identity": {
+          "description": "Managed service identity of the factory.",
+          "properties": {
+            "principalId": {
+              "description": "The principal id of the identity.",
+              "readOnly": true,
+              "type": "string",
+              "x-ms-summary": "Principal Id",
+              "x-ms-visibility": "advanced"
+            },
+            "tenantId": {
+              "description": "The client tenant id of the identity.",
+              "readOnly": true,
+              "type": "string",
+              "x-ms-summary": "Tenant Id",
+              "x-ms-visibility": "advanced"
+            },
+            "type": {
+              "description": "The identity type.",
+              "readOnly": true,
+              "type": "string",
+              "x-ms-summary": "Type",
+              "x-ms-visibility": "advanced"
+            }
+          },
+          "readOnly": true,
+          "type": "object",
+          "x-ms-visibility": "advanced"
+        },
+        "location": {
+          "description": "The resource location",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Location",
+          "x-ms-visibility": "advanced"
+        },
+        "name": {
+          "description": "The resource name.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Name"
+        },
+        "properties": {
+          "description": "Data Factory additional properties.",
+          "properties": {
+            "createTime": {
+              "description": "Time the factory was created in ISO8601 format.",
+              "format": "date-time",
+              "readOnly": true,
+              "type": "string",
+              "x-ms-summary": "Create Time"
+            },
+            "provisioningState": {
+              "description": "Factory provisioning state.",
+              "readOnly": true,
+              "type": "string",
+              "x-ms-summary": "Provisioning State"
+            },
+            "version": {
+              "description": "Version of the factory.",
+              "readOnly": true,
+              "type": "string",
+              "x-ms-summary": "Version",
+              "x-ms-visibility": "advanced"
+            }
+          },
+          "readOnly": true,
+          "type": "object",
+          "x-ms-visibility": "advanced"
+        },
+        "tags": {
+          "description": "The resource tags.",
+          "properties": {},
+          "readOnly": true,
+          "type": "object",
+          "x-ms-summary": "Tags",
+          "x-ms-visibility": "advanced"
+        },
+        "type": {
+          "description": "The resource type.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Type",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "DataFactoryListResult": {
+      "description": "List of Data Factories.",
+      "properties": {
+        "nextLink": {
+          "description": "The URL to get the next set of results.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Next Link",
+          "x-ms-visibility": "advanced"
+        },
+        "value": {
+          "description": "The list of Data Factories.",
+          "items": {
+            "$ref": "#/definitions/DataFactory"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "ParameterValueSpecification": {
+      "additionalProperties": {
+        "type": "object",
+        "x-ms-summary": "Parameter specifications.",
+        "x-ms-visibility": "advanced"
+      },
+      "description": "An object mapping parameter names to argument values.",
+      "type": "object"
+    },
+    "Pipeline": {
+      "description": "Pipeline information.",
+      "properties": {
+        "etag": {
+          "description": "Etag identifies change in the resource.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "etag",
+          "x-ms-visibility": "advanced"
+        },
+        "id": {
+          "description": "The resource identifier.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Id"
+        },
+        "name": {
+          "description": "The resource name of the pipeline.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Name"
+        },
+        "properties": {
+          "description": "The pipeline properties.",
+          "properties": {
+            "activities": {
+              "description": "Pipeline activities.",
+              "items": {
+                "$ref": "#/definitions/Activity"
+              },
+              "readOnly": true,
+              "type": "array",
+              "x-ms-summary": "Activities"
+            },
+            "concurrency": {
+              "description": "The max number of concurrent runs for the pipeline.",
+              "readOnly": true,
+              "type": "integer",
+              "x-ms-summary": "Concurrency"
+            },
+            "description": {
+              "description": "The description of the pipeline.",
+              "readOnly": true,
+              "type": "string",
+              "x-ms-summary": "Description"
+            },
+            "parameters": {
+              "description": "The parameters of the pipeline.",
+              "properties": {
+                "defaultValue": {
+                  "description": "Default value of parameter.",
+                  "readOnly": true,
+                  "type": "object",
+                  "x-ms-summary": "Default Value"
+                },
+                "type": {
+                  "description": "Parameter type.",
+                  "enum": [
+                    "Array",
+                    "Bool",
+                    "Float",
+                    "Int",
+                    "Object",
+                    "String"
+                  ],
+                  "readOnly": true,
+                  "type": "string",
+                  "x-ms-summary": "Type"
+                }
+              },
+              "readOnly": true,
+              "type": "object",
+              "x-ms-summary": "Parameters"
+            }
+          },
+          "readOnly": true,
+          "type": "object",
+          "x-ms-summary": "Properties",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "PipelineListResult": {
+      "description": "List of pipelines.",
+      "properties": {
+        "nextLink": {
+          "description": "The URL to get the next set of results.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Next Link",
+          "x-ms-visibility": "advanced"
+        },
+        "value": {
+          "description": "The list of Data Factories.",
+          "items": {
+            "$ref": "#/definitions/Pipeline"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "PipelineRun": {
+      "description": "Information about a pipeline run.",
+      "properties": {
+        "annotations": {
+          "description": "The annotations for the pipeline run.",
+          "items": {
+            "type": "string"
+          },
+          "readOnly": true,
+          "type": "array",
+          "x-ms-summary": "Annotations",
+          "x-ms-visibility": "advanced"
+        },
+        "durationInMs": {
+          "description": "The duration of a pipeline run in milliseconds.",
+          "format": "int32",
+          "readOnly": true,
+          "type": "integer",
+          "x-ms-summary": "Duration"
+        },
+        "invokedBy": {
+          "description": "Entity that started the pipeline.",
+          "properties": {
+            "id": {
+              "description": "The ID of the entity that started the run.",
+              "readOnly": true,
+              "type": "string",
+              "x-ms-summary": "ID",
+              "x-ms-visibility": "advanced"
+            },
+            "name": {
+              "description": "Name of the entity that started the pipeline run.",
+              "readOnly": true,
+              "type": "string",
+              "x-ms-summary": "Name",
+              "x-ms-visibility": "advanced"
+            }
+          },
+          "readOnly": true,
+          "type": "object",
+          "x-ms-summary": "Invoked By",
+          "x-ms-visibility": "advanced"
+        },
+        "lastUpdated": {
+          "description": "The last updated timestamp for the pipeline run event in ISO8601 format.",
+          "format": "date-time",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Last Updated",
+          "x-ms-visibility": "advanced"
+        },
+        "message": {
+          "description": "The message from a pipeline run.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Message"
+        },
+        "parameters": {
+          "description": "The full of partial list of parameter name, value pair used in the pipeline run.",
+          "properties": {},
+          "readOnly": true,
+          "type": "object",
+          "x-ms-summary": "Parameters",
+          "x-ms-visibility": "advanced"
+        },
+        "pipelineName": {
+          "description": "The pipeline name",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Pipeline Name"
+        },
+        "runEnd": {
+          "description": "The end time of a pipeline run in ISO8601 format.",
+          "format": "date-time",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Run End",
+          "x-ms-visibility": "advanced"
+        },
+        "runId": {
+          "description": "Identifier of a run",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Run Id"
+        },
+        "runStart": {
+          "description": "The start time of a pipeline run in ISO8601 format.",
+          "format": "date-time",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Run Start",
+          "x-ms-visibility": "advanced"
+        },
+        "status": {
+          "description": "The status of the pipeline run.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Status"
+        }
+      },
+      "type": "object"
+    },
+    "ResourceGroup": {
+      "description": "Resource group information.",
+      "properties": {
+        "id": {
+          "description": "The ID of the resource group (e.g. /subscriptions/XXX/resourceGroups/YYY).",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Id",
+          "x-ms-visibility": "advanced"
+        },
+        "location": {
+          "description": "The location of the resource group. It cannot be changed after the resource group has been created. Has to be one of the supported Azure Locations, such as West US, East US, West Europe, East Asia, etc.",
+          "type": "string",
+          "x-ms-summary": "Location"
+        },
+        "managedBy": {
+          "description": "Id of the resource that manages this resource group.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Managed By",
+          "x-ms-visibility": "advanced"
+        },
+        "name": {
+          "description": "The Name of the resource group.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Name"
+        },
+        "properties": {
+          "$ref": "#/definitions/ResourceGroupProperties"
+        },
+        "tags": {
+          "additionalProperties": {
+            "description": "The additional properties. ",
+            "type": "string"
+          },
+          "description": "The tags attached to the resource group.",
+          "type": "object",
+          "x-ms-summary": "Tags"
+        }
+      },
+      "required": [
+        "location"
+      ],
+      "type": "object"
+    },
+    "ResourceGroupListResult": {
+      "description": "List of resource groups.",
+      "properties": {
+        "nextLink": {
+          "description": "The URL to get the next set of results.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Next Link",
+          "x-ms-visibility": "advanced"
+        },
+        "value": {
+          "description": "The list of resource groups.",
+          "items": {
+            "$ref": "#/definitions/ResourceGroup"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "ResourceGroupProperties": {
+      "description": "The resource group properties.",
+      "properties": {
+        "provisioningState": {
+          "description": "The provisioning state.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Provisioning State",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "readOnly": true,
+      "type": "object"
+    },
+    "Subscription": {
+      "description": "Subscription information.",
+      "properties": {
+        "authorizationSource": {
+          "description": "The authorization source of the request. Valid values are one or more combinations of Legacy, RoleBased, Bypassed, Direct and Management. For example, 'Legacy, RoleBased'.",
+          "type": "string",
+          "x-ms-summary": "Authorization Source",
+          "x-ms-visibility": "advanced"
+        },
+        "displayName": {
+          "description": "The subscription display name.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Display Name"
+        },
+        "id": {
+          "description": "The fully qualified Id. For example, /subscriptions/00000000-0000-0000-0000-000000000000.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Id"
+        },
+        "state": {
+          "description": "The subscription state.",
+          "enum": [
+            "Enabled",
+            "Warned",
+            "PastDue",
+            "Disabled",
+            "Deleted"
+          ],
+          "readOnly": true,
+          "type": "string",
+          "x-ms-enum": {
+            "modelAsString": false,
+            "name": "SubscriptionState"
+          },
+          "x-ms-summary": "State"
+        },
+        "subscriptionId": {
+          "description": "The subscription Id.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Subscription Id"
+        },
+        "subscriptionPolicies": {
+          "$ref": "#/definitions/SubscriptionPolicies"
+        },
+        "tenantId": {
+          "description": "The tenant Id.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Tenant Id"
+        }
+      },
+      "type": "object"
+    },
+    "SubscriptionListResult": {
+      "description": "Subscription list operation response.",
+      "properties": {
+        "nextLink": {
+          "description": "The URL to get the next set of results.",
+          "type": "string",
+          "x-ms-summary": "Next Link",
+          "x-ms-visibility": "advanced"
+        },
+        "value": {
+          "description": "The subscriptions.",
+          "items": {
+            "$ref": "#/definitions/Subscription"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "SubscriptionPolicies": {
+      "description": "Subscription policies.",
+      "properties": {
+        "locationPlacementId": {
+          "description": "The subscription location placement Id. The Id indicates which regions are visible for a subscription. For example, a subscription with a location placement Id of Public_2014-09-01 has access to Azure public regions.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Location Placement Id",
+          "x-ms-visibility": "advanced"
+        },
+        "quotaId": {
+          "description": "The subscription quota Id.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Quota Id",
+          "x-ms-visibility": "advanced"
+        },
+        "spendingLimit": {
+          "description": "The subscription spending limit.",
+          "enum": [
+            "On",
+            "Off",
+            "CurrentPeriodOff"
+          ],
+          "readOnly": true,
+          "type": "string",
+          "x-ms-enum": {
+            "modelAsString": false,
+            "name": "spendingLimit"
+          },
+          "x-ms-summary": "Spending Limit",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object",
+      "x-ms-summary": "Subscription Policies",
+      "x-ms-visibility": "advanced"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/azuredatafactory"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Azure Data Factory is a hybrid data integration service that allows you to create, schedule and orchestrate your ETL/ELT workflows at scale wherever your data lives, in cloud or self-hosted network.",
+    "title": "Azure Data Factory",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    },
+    "x-ms-deployment-version": "1.0.0"
+  },
+  "parameters": {
+    "ApiVersionParameter": {
+      "default": "2017-09-01-preview",
+      "description": "Client Api Version.",
+      "enum": [
+        "2017-09-01-preview"
+      ],
+      "in": "query",
+      "name": "x-ms-api-version",
+      "required": true,
+      "type": "string",
+      "x-ms-visibility": "internal"
+    },
+    "DataFactoryNameParameter": {
+      "description": "The name of the Data Factory.",
+      "in": "path",
+      "maxLength": 90,
+      "minLength": 1,
+      "name": "dataFactoryName",
+      "pattern": "^[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*$",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListDataFactories",
+        "parameters": {
+          "resourceGroupName": {
+            "parameter": "resourceGroupName"
+          },
+          "subscriptionId": {
+            "parameter": "subscriptionId"
+          },
+          "x-ms-api-version": "2017-09-01-preview"
+        },
+        "value-collection": "value",
+        "value-path": "name",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Data Factory Name"
+    },
+    "FilterParameter": {
+      "description": "The filter to apply on the operation.",
+      "in": "query",
+      "name": "$filter",
+      "required": false,
+      "type": "string",
+      "x-ms-summary": "Filter",
+      "x-ms-visibility": "advanced"
+    },
+    "PipelineNameParameter": {
+      "description": "The name of the Data Factory pipeline.",
+      "in": "path",
+      "maxLength": 90,
+      "minLength": 1,
+      "name": "pipelineName",
+      "pattern": "^[A-Za-z0-9_][^<>*#.%&:\\+?/]*$",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListPipelines",
+        "parameters": {
+          "dataFactoryName": {
+            "parameter": "dataFactoryName"
+          },
+          "resourceGroupName": {
+            "parameter": "resourceGroupName"
+          },
+          "subscriptionId": {
+            "parameter": "subscriptionId"
+          },
+          "x-ms-api-version": "2017-09-01-preview"
+        },
+        "value-collection": "value",
+        "value-path": "name",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Data Factory Pipeline Name"
+    },
+    "PipelineRunNameParameter": {
+      "description": "The id of the Data Factory pipeline run.",
+      "in": "path",
+      "maxLength": 90,
+      "minLength": 1,
+      "name": "pipelineRunName",
+      "pattern": "^[-\\w\\._\\(\\)]+$",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "Data Factory Pipeline Run Id"
+    },
+    "ResourceGroupNameParameter": {
+      "description": "Resource group name.",
+      "in": "path",
+      "maxLength": 90,
+      "minLength": 1,
+      "name": "resourceGroupName",
+      "pattern": "^[-\\w\\._\\(\\)]+$",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListResourceGroups",
+        "parameters": {
+          "subscriptionId": {
+            "parameter": "subscriptionId"
+          },
+          "x-ms-api-version": "2016-06-01"
+        },
+        "value-collection": "value",
+        "value-path": "name",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Resource Group"
+    },
+    "SubscriptionIdParameter": {
+      "description": "The unique identifier for the  Microsoft Azure subscription. The subscription ID forms part of the ID for every Azure resource.",
+      "in": "path",
+      "name": "subscriptionId",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListSubscriptions",
+        "parameters": {
+          "x-ms-api-version": "2016-06-01"
+        },
+        "value-collection": "value",
+        "value-path": "subscriptionId",
+        "value-title": "displayName"
+      },
+      "x-ms-summary": "Subscription"
+    },
+    "TopParameter": {
+      "description": "Query parameters. If nothing is passed returns all values.",
+      "format": "int32",
+      "in": "query",
+      "name": "$top",
+      "required": false,
+      "type": "integer",
+      "x-ms-summary": "Top",
+      "x-ms-visibility": "advanced"
+    }
+  },
+  "paths": {
+    "/{connectionId}/subscriptions": {
+      "get": {
+        "deprecated": false,
+        "description": "Gets a list of all the subscriptions to which the principal has access.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuredatafactory/#list-subscriptions"
+        },
+        "operationId": "ListSubscriptions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SubscriptionListResult"
+            }
+          }
+        },
+        "summary": "List subscriptions",
+        "tags": [
+          "Subscriptions"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/resourcegroups": {
+      "get": {
+        "deprecated": false,
+        "description": "Lists all the resource groups within the subscription. The results are paginated at 1,000+ records.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuredatafactory/#list-resource-groups"
+        },
+        "operationId": "ListResourceGroups",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/FilterParameter"
+          },
+          {
+            "$ref": "#/parameters/TopParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResourceGroupListResult"
+            }
+          }
+        },
+        "summary": "List resource groups",
+        "tags": [
+          "ResourceGroups"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories": {
+      "get": {
+        "deprecated": false,
+        "description": "Get the list of Data Factories",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuredatafactory/#list-factories"
+        },
+        "operationId": "ListDataFactories",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "default": "2017-09-01-preview",
+            "in": "query",
+            "name": "x-ms-api-version",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "API Version",
+            "x-ms-test-value": "2017-09-01-preview",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DataFactoryListResult"
+            }
+          }
+        },
+        "summary": "List Factories",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{dataFactoryName}": {
+      "get": {
+        "deprecated": false,
+        "description": "Get a particular Data Factory",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuredatafactory/#get-data-factory"
+        },
+        "operationId": "GetDataFactory",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DataFactoryNameParameter"
+          },
+          {
+            "default": "2017-09-01-preview",
+            "in": "query",
+            "name": "x-ms-api-version",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "API Version",
+            "x-ms-test-value": "2017-09-01-preview",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DataFactory"
+            }
+          }
+        },
+        "summary": "Get Data Factory",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{dataFactoryName}/cancelpipelineRun/{pipelineRunName}": {
+      "post": {
+        "deprecated": false,
+        "description": "This operation cancels a pipeline run by its run ID.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuredatafactory/#cancel-a-pipeline-run"
+        },
+        "operationId": "CancelPipelineRun",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DataFactoryNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PipelineRunNameParameter"
+          },
+          {
+            "default": "2017-09-01-preview",
+            "in": "query",
+            "name": "x-ms-api-version",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "API Version",
+            "x-ms-test-value": "2017-09-01-preview",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Cancel a pipeline run",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{dataFactoryName}/pipelineRuns/{pipelineRunName}": {
+      "get": {
+        "deprecated": false,
+        "description": "Get a particular pipeline run execution",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuredatafactory/#get-a-pipeline-run"
+        },
+        "operationId": "GetPipelineRun",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DataFactoryNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PipelineRunNameParameter"
+          },
+          {
+            "default": "2017-09-01-preview",
+            "in": "query",
+            "name": "x-ms-api-version",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "API Version",
+            "x-ms-test-value": "2017-09-01-preview",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/PipelineRun"
+            }
+          }
+        },
+        "summary": "Get a pipeline run"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{dataFactoryName}/pipelines": {
+      "get": {
+        "deprecated": false,
+        "description": "List the list of pipelines from a particular factory",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuredatafactory/#list-pipelines"
+        },
+        "operationId": "ListPipelines",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DataFactoryNameParameter"
+          },
+          {
+            "default": "2017-09-01-preview",
+            "in": "query",
+            "name": "x-ms-api-version",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "API Version",
+            "x-ms-test-value": "2017-09-01-preview",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/PipelineListResult"
+            }
+          }
+        },
+        "summary": "List pipelines",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{dataFactoryName}/pipelines/{pipelineName}": {
+      "get": {
+        "deprecated": false,
+        "description": "Get a particular pipeline",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuredatafactory/#get-pipeline"
+        },
+        "operationId": "GetPipeline",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DataFactoryNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PipelineNameParameter"
+          },
+          {
+            "default": "2017-09-01-preview",
+            "in": "query",
+            "name": "x-ms-api-version",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "API Version",
+            "x-ms-test-value": "2017-09-01-preview",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Pipeline"
+            }
+          }
+        },
+        "summary": "Get pipeline",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{dataFactoryName}/pipelines/{pipelineName}/CreateRun": {
+      "post": {
+        "deprecated": false,
+        "description": "This operation creates a new pipeline run in your factory",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuredatafactory/#create-a-pipeline-run"
+        },
+        "operationId": "CreatePipelineRun",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/DataFactoryNameParameter"
+          },
+          {
+            "$ref": "#/parameters/PipelineNameParameter"
+          },
+          {
+            "description": "The pipeline run identifier. If run ID is specified the parameters of the specified run will be used to create a new run.",
+            "in": "query",
+            "name": "referencePipelineRunId",
+            "required": false,
+            "type": "string",
+            "x-ms-parameter-location": "method",
+            "x-ms-summary": "Reference pipelineRunId.",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Parameters of the pipeline run. These parameters will be used only if the runId is not specified.",
+            "in": "body",
+            "name": "parameters",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/ParameterValueSpecification"
+            }
+          },
+          {
+            "default": "2017-09-01-preview",
+            "in": "query",
+            "name": "x-ms-api-version",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "API Version",
+            "x-ms-test-value": "2017-09-01-preview",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "properties": {
+                "runId": {
+                  "description": "runId",
+                  "type": "string",
+                  "x-ms-summary": "runId"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Create a pipeline run",
+        "x-ms-visibility": "important"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "responses": {},
+  "schemes": [
+    "https"
+  ],
+  "security": [],
+  "securityDefinitions": {
+    "oauth2_auth": {
+      "authorizationUrl": "https://login.windows.net/common/oauth2/authorize",
+      "flow": "accessCode",
+      "scopes": {},
+      "tokenUrl": "https://login.windows.net/common/oauth2/authorize",
+      "type": "oauth2"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [],
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://azure.microsoft.com/services/data-factory/"
+    }
+  ]
+}

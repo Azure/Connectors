@@ -1,0 +1,2740 @@
+{
+  "basePath": "/apim/documentdb",
+  "definitions": {
+    "DocumentsCollection": {
+      "description": "Array of documents that match the requested query and the related metadata.",
+      "properties": {
+        "ActivityId": {
+          "type": "string",
+          "x-ms-summary": "Activity Id"
+        },
+        "ContinuationToken": {
+          "type": "string",
+          "x-ms-summary": "Continuation Token"
+        },
+        "Count": {
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Number of Documents"
+        },
+        "RequestCharge": {
+          "format": "double",
+          "type": "number",
+          "x-ms-summary": "Request Charge"
+        },
+        "SessionToken": {
+          "type": "string",
+          "x-ms-summary": "Session Token"
+        },
+        "value": {
+          "items": {
+            "$ref": "#/definitions/ObjectWithoutType"
+          },
+          "type": "array",
+          "x-ms-summary": "Documents"
+        }
+      },
+      "type": "object"
+    },
+    "DocumentsQuery": {
+      "description": "Documents query parameters",
+      "properties": {
+        "QueryText": {
+          "description": "SQL Syntax Query over documents",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Object": {
+      "properties": {},
+      "type": "object"
+    },
+    "ObjectWithoutType": {},
+    "QueryDocumentsResponse": {
+      "description": "Array of documents that match the requested query and the related metadata.",
+      "properties": {
+        "ActivityId": {
+          "description": "Azure Cosmos DB service activity ID.",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Activity ID"
+        },
+        "Documents": {
+          "description": "Array of documents that match the request.",
+          "items": {
+            "$ref": "#/definitions/ObjectWithoutType"
+          },
+          "type": "array",
+          "x-ms-summary": "Documents"
+        },
+        "_count": {
+          "description": "Number of documents.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Number of Documents"
+        }
+      },
+      "type": "object"
+    },
+    "createStoredProcedureResponse": {
+      "properties": {
+        "_etag": {
+          "description": "_etag",
+          "type": "string",
+          "x-ms-summary": "_etag",
+          "x-ms-visibility": "advanced"
+        },
+        "_rid": {
+          "description": "_rid",
+          "type": "string",
+          "x-ms-summary": "_rid",
+          "x-ms-visibility": "advanced"
+        },
+        "_self": {
+          "description": "_self",
+          "type": "string",
+          "x-ms-summary": "_self",
+          "x-ms-visibility": "advanced"
+        },
+        "_ts": {
+          "description": "_ts",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "_ts",
+          "x-ms-visibility": "advanced"
+        },
+        "body": {
+          "description": "body",
+          "type": "string",
+          "x-ms-summary": "body",
+          "x-ms-visibility": "advanced"
+        },
+        "id": {
+          "description": "id",
+          "type": "string",
+          "x-ms-summary": "id",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "getAccountResponse": {
+      "properties": {
+        "_rid": {
+          "type": "string"
+        },
+        "_self": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "getCollectionResponse": {
+      "items": {
+        "properties": {
+          "_conflicts": {
+            "type": "string"
+          },
+          "_docs": {
+            "type": "string"
+          },
+          "_etag": {
+            "type": "string"
+          },
+          "_rid": {
+            "type": "string"
+          },
+          "_self": {
+            "type": "string"
+          },
+          "_sprocs": {
+            "type": "string"
+          },
+          "_triggers": {
+            "type": "string"
+          },
+          "_ts": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "_udfs": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "indexingPolicy": {
+            "properties": {
+              "automatic": {
+                "type": "string"
+              },
+              "excludedPaths": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "includedPaths": {
+                "items": {
+                  "properties": {
+                    "indexes": {
+                      "items": {
+                        "properties": {
+                          "dataType": {
+                            "type": "string"
+                          },
+                          "kind": {
+                            "type": "string"
+                          },
+                          "precision": {
+                            "format": "int32",
+                            "type": "integer"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "path": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "indexingMode": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "getCollectionsResponse": {
+      "properties": {
+        "DocumentCollections": {
+          "items": {
+            "properties": {
+              "_conflicts": {
+                "type": "string"
+              },
+              "_docs": {
+                "type": "string"
+              },
+              "_etag": {
+                "type": "string"
+              },
+              "_rid": {
+                "type": "string"
+              },
+              "_self": {
+                "type": "string"
+              },
+              "_sprocs": {
+                "type": "string"
+              },
+              "_triggers": {
+                "type": "string"
+              },
+              "_ts": {
+                "format": "int32",
+                "type": "integer"
+              },
+              "_udfs": {
+                "type": "string"
+              },
+              "id": {
+                "type": "string"
+              },
+              "indexingPolicy": {
+                "properties": {
+                  "automatic": {
+                    "type": "string"
+                  },
+                  "excludedPaths": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "includedPaths": {
+                    "items": {
+                      "properties": {
+                        "indexes": {
+                          "items": {
+                            "properties": {
+                              "dataType": {
+                                "type": "string"
+                              },
+                              "kind": {
+                                "type": "string"
+                              },
+                              "precision": {
+                                "format": "int32",
+                                "type": "integer"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "path": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "indexingMode": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "_count": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "_rid": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "getDatabaseResponse": {
+      "properties": {
+        "_colls": {
+          "type": "string"
+        },
+        "_etag": {
+          "type": "string"
+        },
+        "_rid": {
+          "type": "string"
+        },
+        "_self": {
+          "type": "string"
+        },
+        "_ts": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "_users": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "getDatabasesResponse": {
+      "properties": {
+        "Databases": {
+          "items": {
+            "properties": {
+              "_colls": {
+                "type": "string"
+              },
+              "_etag": {
+                "type": "string"
+              },
+              "_rid": {
+                "type": "string"
+              },
+              "_self": {
+                "type": "string"
+              },
+              "_ts": {
+                "format": "int32",
+                "type": "integer"
+              },
+              "_users": {
+                "type": "string"
+              },
+              "id": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "_count": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "_rid": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "getDocumentResponse": {
+      "properties": {},
+      "type": "object"
+    },
+    "getDocumentsResponse": {
+      "properties": {
+        "Documents": {
+          "items": {
+            "properties": {},
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "_rid": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "getStoredProceduresResponse": {
+      "properties": {
+        "StoredProcedures": {
+          "description": "StoredProcedures",
+          "items": {
+            "properties": {
+              "_etag": {
+                "description": "_etag",
+                "type": "string",
+                "x-ms-summary": "_etag",
+                "x-ms-visibility": "advanced"
+              },
+              "_rid": {
+                "description": "_rid",
+                "type": "string",
+                "x-ms-summary": "_rid",
+                "x-ms-visibility": "advanced"
+              },
+              "_self": {
+                "description": "_self",
+                "type": "string",
+                "x-ms-summary": "_self",
+                "x-ms-visibility": "advanced"
+              },
+              "_ts": {
+                "description": "_ts",
+                "format": "int32",
+                "type": "integer",
+                "x-ms-summary": "_ts",
+                "x-ms-visibility": "advanced"
+              },
+              "body": {
+                "description": "body",
+                "type": "string",
+                "x-ms-summary": "body",
+                "x-ms-visibility": "advanced"
+              },
+              "id": {
+                "description": "id",
+                "type": "string",
+                "x-ms-summary": "id",
+                "x-ms-visibility": "advanced"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "StoredProcedures",
+          "x-ms-visibility": "advanced"
+        },
+        "_count": {
+          "description": "_count",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "_count",
+          "x-ms-visibility": "advanced"
+        },
+        "_rid": {
+          "description": "_rid",
+          "type": "string",
+          "x-ms-summary": "_rid",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "postDocumentsRequest": {
+      "properties": {},
+      "type": "object"
+    },
+    "postDocumentsResponse": {
+      "properties": {
+        "_attachments": {
+          "type": "string"
+        },
+        "_etag": {
+          "type": "string"
+        },
+        "_rid": {
+          "type": "string"
+        },
+        "_self": {
+          "type": "string"
+        },
+        "_ts": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "putDocumentRequest": {
+      "properties": {},
+      "type": "object"
+    },
+    "putDocumentResponse": {
+      "properties": {
+        "_rid": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "queryRequest": {
+      "properties": {
+        "query": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "queryResponse": {
+      "properties": {
+        "Documents": {
+          "items": {},
+          "type": "array"
+        },
+        "_count": {
+          "type": "number"
+        },
+        "_rid": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/documentdb"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "description": "Azure Cosmos DB is a globally distributed multi-model database service designed to enable you to elastically and independently scale throughput and storage across any number of geographical regions with a comprehensive SLA.",
+    "title": "Azure Cosmos DB",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    }
+  },
+  "parameters": {
+    "msApiVersion": {
+      "description": "API version.",
+      "enum": [
+        "2017-05-03",
+        "2018-12-31"
+      ],
+      "in": "header",
+      "name": "x-ms-version",
+      "required": false,
+      "type": "string",
+      "x-ms-summary": "API version",
+      "x-ms-visibility": "advanced"
+    }
+  },
+  "paths": {
+    "/{connectionId}/dbs": {
+      "get": {
+        "deprecated": false,
+        "description": "Get all databases.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#get-all-databases"
+        },
+        "operationId": "GetDatabases",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-activity-id": {
+                "description": "Azure Cosmos DB service activity ID.",
+                "type": "string",
+                "x-ms-summary": "Activity ID"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/getDatabasesResponse"
+            }
+          }
+        },
+        "summary": "Get all databases",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/dbs/{databaseId}": {
+      "get": {
+        "deprecated": false,
+        "description": "Get a database.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#get-a-database"
+        },
+        "operationId": "GetDatabase",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The name of the database.",
+            "in": "path",
+            "name": "databaseId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDatabases",
+              "value-collection": "Databases",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Database ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-activity-id": {
+                "description": "Azure Cosmos DB service activity ID.",
+                "type": "string",
+                "x-ms-summary": "Activity ID"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/getDatabaseResponse"
+            }
+          }
+        },
+        "summary": "Get a database",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/dbs/{databaseId}/colls": {
+      "get": {
+        "deprecated": false,
+        "description": "Get all collections.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#get-all-collections"
+        },
+        "operationId": "GetCollections",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The name of the database.",
+            "in": "path",
+            "name": "databaseId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDatabases",
+              "value-collection": "Databases",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Database ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-activity-id": {
+                "description": "Azure Cosmos DB service activity ID.",
+                "type": "string",
+                "x-ms-summary": "Activity ID"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/getCollectionsResponse"
+            }
+          }
+        },
+        "summary": "Get all collections",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/dbs/{databaseId}/colls/{collectionId}": {
+      "get": {
+        "deprecated": false,
+        "description": "Get a collection.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#get-a-collection"
+        },
+        "operationId": "GetCollection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The name of the database.",
+            "in": "path",
+            "name": "databaseId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDatabases",
+              "value-collection": "Databases",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Database ID"
+          },
+          {
+            "description": "The name of the collection.",
+            "in": "path",
+            "name": "collectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetCollections",
+              "parameters": {
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "DocumentCollections",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Collection ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-activity-id": {
+                "description": "Azure Cosmos DB service activity ID.",
+                "type": "string",
+                "x-ms-summary": "Activity ID"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/getCollectionResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "summary": "Get a collection",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/dbs/{databaseId}/colls/{collectionId}/docs": {
+      "get": {
+        "deprecated": false,
+        "description": "Get all documents.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#get-all-documents"
+        },
+        "operationId": "GetDocuments",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The partition key value for the requested document or attachment operation.",
+            "in": "header",
+            "name": "x-ms-documentdb-raw-partitionkey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key value"
+          },
+          {
+            "description": "The partition key value for the requested document or attachment operation.",
+            "in": "header",
+            "name": "x-ms-documentdb-partitionkey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key value",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An integer indicating the maximum number of items to be returned per page.",
+            "in": "header",
+            "name": "x-ms-max-item-count",
+            "required": false,
+            "type": "number",
+            "x-ms-summary": "Max Item Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A string token returned for queries and read-feed operations if there are more results to be read.",
+            "in": "header",
+            "name": "x-ms-continuation",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Continuation Token",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "This is the consistency level override. The valid values are: Strong, Bounded, Session, or Eventual (in order of strongest to weakest).",
+            "enum": [
+              "Strong",
+              "Bounded",
+              "Session",
+              "Eventual"
+            ],
+            "in": "header",
+            "name": "x-ms-consistency-level",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Consistency Level",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A string token used with session level consistency.",
+            "in": "header",
+            "name": "x-ms-session-token",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session Token",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A client supplied identifier for the operation, which will be echoed in the server response.",
+            "in": "header",
+            "name": "x-ms-activity-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Activity id",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The name of the database.",
+            "in": "path",
+            "name": "databaseId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDatabases",
+              "value-collection": "Databases",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Database ID"
+          },
+          {
+            "description": "The name of the collection.",
+            "in": "path",
+            "name": "collectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetCollections",
+              "parameters": {
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "DocumentCollections",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Collection ID"
+          },
+          {
+            "$ref": "#/parameters/msApiVersion"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-activity-id": {
+                "description": "Azure Cosmos DB service activity ID.",
+                "type": "string",
+                "x-ms-summary": "Activity ID"
+              },
+              "x-ms-continuation": {
+                "description": "A token returned from the operation if there are more results to be read.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/getDocumentsResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "summary": "Get all documents"
+      },
+      "post": {
+        "deprecated": false,
+        "description": "Create or update document. When creating a document in DocumentDB, the body must include an id property.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#create-or-update-document"
+        },
+        "operationId": "CreateDocument",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The partition key value for the requested document or attachment operation.",
+            "in": "header",
+            "name": "x-ms-documentdb-raw-partitionkey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key value"
+          },
+          {
+            "description": "The partition key value for the requested document or attachment operation.",
+            "in": "header",
+            "name": "x-ms-documentdb-partitionkey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key value",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An integer indicating the maximum number of items to be returned per page.",
+            "in": "header",
+            "name": "x-ms-max-item-count",
+            "required": false,
+            "type": "number",
+            "x-ms-summary": "Max Item Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A string token returned for queries and read-feed operations if there are more results to be read.",
+            "in": "header",
+            "name": "x-ms-continuation",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Continuation Token",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "This is the consistency level override. The valid values are: Strong, Bounded, Session, or Eventual (in order of strongest to weakest).",
+            "enum": [
+              "Strong",
+              "Bounded",
+              "Session",
+              "Eventual"
+            ],
+            "in": "header",
+            "name": "x-ms-consistency-level",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Consistency Level",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A string token used with session level consistency.",
+            "in": "header",
+            "name": "x-ms-session-token",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session Token",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A client supplied identifier for the operation, which will be echoed in the server response.",
+            "in": "header",
+            "name": "x-ms-activity-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Activity id",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "If set to true, the document will be replaced if it exists else created.",
+            "in": "header",
+            "name": "x-ms-documentdb-is-upsert",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "IsUpsert"
+          },
+          {
+            "description": "Comma-separated list of trigger names to run before the document operation is executed.",
+            "in": "header",
+            "name": "x-ms-documentdb-pre-trigger-include",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Pre-Trigger",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Comma-separated list of trigger names to run after the document operation is executed.",
+            "in": "header",
+            "name": "x-ms-documentdb-post-trigger-include",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Post-Trigger",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The name of the database.",
+            "in": "path",
+            "name": "databaseId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDatabases",
+              "value-collection": "Databases",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Database ID"
+          },
+          {
+            "description": "The name of the collection.",
+            "in": "path",
+            "name": "collectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetCollections",
+              "parameters": {
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "DocumentCollections",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Collection ID"
+          },
+          {
+            "description": "The document to create.",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/postDocumentsRequest"
+            },
+            "x-ms-summary": "Document"
+          },
+          {
+            "$ref": "#/parameters/msApiVersion"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-activity-id": {
+                "description": "Azure Cosmos DB service activity ID.",
+                "type": "string",
+                "x-ms-summary": "Activity ID"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/postDocumentsResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "413": {
+            "description": "Entity Too Large"
+          }
+        },
+        "summary": "Create or update document"
+      }
+    },
+    "/{connectionId}/dbs/{databaseId}/colls/{collectionId}/docs/{documentId}": {
+      "delete": {
+        "deprecated": false,
+        "description": "Delete a document.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#delete-a-document"
+        },
+        "operationId": "DeleteDocument",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The partition key value for the requested document or attachment operation.",
+            "in": "header",
+            "name": "x-ms-documentdb-raw-partitionkey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key value"
+          },
+          {
+            "description": "The partition key value for the requested document or attachment operation.",
+            "in": "header",
+            "name": "x-ms-documentdb-partitionkey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key value",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An integer indicating the maximum number of items to be returned per page.",
+            "in": "header",
+            "name": "x-ms-max-item-count",
+            "required": false,
+            "type": "number",
+            "x-ms-summary": "Max Item Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A string token returned for queries and read-feed operations if there are more results to be read.",
+            "in": "header",
+            "name": "x-ms-continuation",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Continuation Token",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "This is the consistency level override. The valid values are: Strong, Bounded, Session, or Eventual (in order of strongest to weakest).",
+            "enum": [
+              "Strong",
+              "Bounded",
+              "Session",
+              "Eventual"
+            ],
+            "in": "header",
+            "name": "x-ms-consistency-level",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Consistency Level",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A string token used with session level consistency.",
+            "in": "header",
+            "name": "x-ms-session-token",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session Token",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A client supplied identifier for the operation, which will be echoed in the server response.",
+            "in": "header",
+            "name": "x-ms-activity-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Activity id",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Comma-separated list of trigger names to run before the document is deleted.",
+            "in": "header",
+            "name": "x-ms-documentdb-pre-trigger-include",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Pre-Trigger",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Comma-separated list of trigger names to run after the document id deleted.",
+            "in": "header",
+            "name": "x-ms-documentdb-post-trigger-include",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Post-Trigger",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The name of the document.",
+            "in": "path",
+            "name": "databaseId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDatabases",
+              "value-collection": "Databases",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Database ID"
+          },
+          {
+            "description": "The name of the collection.",
+            "in": "path",
+            "name": "collectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetCollections",
+              "parameters": {
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "DocumentCollections",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Collection ID"
+          },
+          {
+            "description": "The identifier of the document.",
+            "in": "path",
+            "name": "documentId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Document ID"
+          },
+          {
+            "$ref": "#/parameters/msApiVersion"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "summary": "Delete a document"
+      },
+      "get": {
+        "deprecated": false,
+        "description": "Get a document.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#get-a-document"
+        },
+        "operationId": "GetDocument",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The partition key value for the requested document or attachment operation.",
+            "in": "header",
+            "name": "x-ms-documentdb-raw-partitionkey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key value"
+          },
+          {
+            "description": "The partition key value for the requested document or attachment operation.",
+            "in": "header",
+            "name": "x-ms-documentdb-partitionkey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key value",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An integer indicating the maximum number of items to be returned per page.",
+            "in": "header",
+            "name": "x-ms-max-item-count",
+            "required": false,
+            "type": "number",
+            "x-ms-summary": "Max Item Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A string token returned for queries and read-feed operations if there are more results to be read.",
+            "in": "header",
+            "name": "x-ms-continuation",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Continuation Token",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "This is the consistency level override. The valid values are: Strong, Bounded, Session, or Eventual (in order of strongest to weakest).",
+            "enum": [
+              "Strong",
+              "Bounded",
+              "Session",
+              "Eventual"
+            ],
+            "in": "header",
+            "name": "x-ms-consistency-level",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Consistency Level",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A string token used with session level consistency.",
+            "in": "header",
+            "name": "x-ms-session-token",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session Token",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A client supplied identifier for the operation, which will be echoed in the server response.",
+            "in": "header",
+            "name": "x-ms-activity-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Activity id",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The name of the database.",
+            "in": "path",
+            "name": "databaseId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDatabases",
+              "value-collection": "Databases",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Database ID"
+          },
+          {
+            "description": "The name of the collection.",
+            "in": "path",
+            "name": "collectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetCollections",
+              "parameters": {
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "DocumentCollections",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Collection ID"
+          },
+          {
+            "description": "The identifier for the document.",
+            "in": "path",
+            "name": "documentId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Document ID"
+          },
+          {
+            "$ref": "#/parameters/msApiVersion"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-activity-id": {
+                "description": "Azure Cosmos DB service activity ID.",
+                "type": "string",
+                "x-ms-summary": "Activity ID"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/getDocumentResponse"
+            }
+          },
+          "304": {
+            "description": "Not Modified"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "summary": "Get a document"
+      },
+      "put": {
+        "deprecated": false,
+        "description": "Replace a document.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#replace-a-document"
+        },
+        "operationId": "ReplaceDocument",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The partition key value for the requested document or attachment operation.",
+            "in": "header",
+            "name": "x-ms-documentdb-raw-partitionkey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key value"
+          },
+          {
+            "description": "The partition key value for the requested document or attachment operation.",
+            "in": "header",
+            "name": "x-ms-documentdb-partitionkey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key value",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An integer indicating the maximum number of items to be returned per page.",
+            "in": "header",
+            "name": "x-ms-max-item-count",
+            "required": false,
+            "type": "number",
+            "x-ms-summary": "Max Item Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A string token returned for queries and read-feed operations if there are more results to be read.",
+            "in": "header",
+            "name": "x-ms-continuation",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Continuation Token",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "This is the consistency level override. The valid values are: Strong, Bounded, Session, or Eventual (in order of strongest to weakest).",
+            "enum": [
+              "Strong",
+              "Bounded",
+              "Session",
+              "Eventual"
+            ],
+            "in": "header",
+            "name": "x-ms-consistency-level",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Consistency Level",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A string token used with session level consistency.",
+            "in": "header",
+            "name": "x-ms-session-token",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session Token",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A client supplied identifier for the operation, which will be echoed in the server response.",
+            "in": "header",
+            "name": "x-ms-activity-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Activity id",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Comma-separated list of trigger names to run before replacing the document.",
+            "in": "header",
+            "name": "x-ms-documentdb-pre-trigger-include",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Pre-Trigger",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Comma-separated list of trigger names to run after replacing the document.",
+            "in": "header",
+            "name": "x-ms-documentdb-post-trigger-include",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Post-Trigger",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The name of the database.",
+            "in": "path",
+            "name": "databaseId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDatabases",
+              "value-collection": "Databases",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Database ID"
+          },
+          {
+            "description": "The name of the collection.",
+            "in": "path",
+            "name": "collectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetCollections",
+              "parameters": {
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "DocumentCollections",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Collection ID"
+          },
+          {
+            "description": "The identifier of the document.",
+            "in": "path",
+            "name": "documentId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Document ID"
+          },
+          {
+            "description": "The document to replace with.",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/putDocumentRequest"
+            },
+            "x-ms-summary": "Document"
+          },
+          {
+            "$ref": "#/parameters/msApiVersion"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-activity-id": {
+                "description": "Azure Cosmos DB service activity ID.",
+                "type": "string",
+                "x-ms-summary": "Activity ID"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/putDocumentResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "413": {
+            "description": "Entity Too Large"
+          }
+        },
+        "summary": "Replace a document"
+      }
+    },
+    "/{connectionId}/dbs/{databaseId}/colls/{collectionId}/query": {
+      "post": {
+        "deprecated": true,
+        "description": "Query documents.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#query-documents-%5bdeprecated%5d"
+        },
+        "operationId": "QueryDocuments",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The partition key value for the requested document or attachment operation.",
+            "in": "header",
+            "name": "x-ms-documentdb-raw-partitionkey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key value"
+          },
+          {
+            "description": "The partition key value for the requested document or attachment operation.",
+            "in": "header",
+            "name": "x-ms-documentdb-partitionkey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key value",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "An integer indicating the maximum number of items to be returned per page.",
+            "in": "header",
+            "name": "x-ms-max-item-count",
+            "required": false,
+            "type": "number",
+            "x-ms-summary": "Max Item Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A string token returned for queries and read-feed operations if there are more results to be read.",
+            "in": "header",
+            "name": "x-ms-continuation",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Continuation Token",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "If the collection is partitioned, this must be set to True to allow execution across multiple partitions.",
+            "in": "header",
+            "name": "x-ms-documentdb-query-enablecrosspartition",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Enable Cross Partition",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "This is the consistency level override. The valid values are: Strong, Bounded, Session, or Eventual (in order of strongest to weakest).",
+            "enum": [
+              "Strong",
+              "Bounded",
+              "Session",
+              "Eventual"
+            ],
+            "in": "header",
+            "name": "x-ms-consistency-level",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Consistency Level",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A string token used with session level consistency.",
+            "in": "header",
+            "name": "x-ms-session-token",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session Token",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A client supplied identifier for the operation, which will be echoed in the server response.",
+            "in": "header",
+            "name": "x-ms-activity-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Activity id",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The name of the database",
+            "in": "path",
+            "name": "databaseId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDatabases",
+              "value-collection": "Databases",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Database ID"
+          },
+          {
+            "description": "The name of the collection.",
+            "in": "path",
+            "name": "collectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetCollections",
+              "parameters": {
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "DocumentCollections",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Collection ID"
+          },
+          {
+            "description": "SQL Syntax Query over documents.",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/queryRequest"
+            },
+            "x-ms-summary": "Query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-activity-id": {
+                "description": "Azure Cosmos DB service activity ID.",
+                "type": "string",
+                "x-ms-summary": "Activity ID"
+              },
+              "x-ms-continuation": {
+                "type": "string"
+              },
+              "x-ms-request-charge": {
+                "type": "number"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/queryResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "summary": "Query documents",
+        "x-ms-api-annotation": {
+          "family": "QueryDocuments",
+          "revision": 1,
+          "status": "Production"
+        }
+      }
+    },
+    "/{connectionId}/dbs/{databaseId}/colls/{collectionId}/sprocs": {
+      "get": {
+        "deprecated": false,
+        "description": "Get stored procedures in the specified collection.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#get-stored-procedures"
+        },
+        "operationId": "GetStoredProcedures",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The name of the database.",
+            "in": "path",
+            "name": "databaseId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDatabases",
+              "value-collection": "Databases",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Database ID"
+          },
+          {
+            "description": "The name of the collection.",
+            "in": "path",
+            "name": "collectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetCollections",
+              "parameters": {
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "DocumentCollections",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Collection ID"
+          },
+          {
+            "$ref": "#/parameters/msApiVersion"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-activity-id": {
+                "description": "Azure Cosmos DB service activity ID.",
+                "type": "string",
+                "x-ms-summary": "Activity ID"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/getStoredProceduresResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "summary": "Get stored procedures"
+      },
+      "post": {
+        "deprecated": false,
+        "description": "Create stored procedure.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#create-stored-procedure"
+        },
+        "operationId": "CreateStoredProcedure",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The name of the database.",
+            "in": "path",
+            "name": "databaseId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDatabases",
+              "value-collection": "Databases",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Database ID"
+          },
+          {
+            "description": "The name of the collection.",
+            "in": "path",
+            "name": "collectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetCollections",
+              "parameters": {
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "DocumentCollections",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Collection ID"
+          },
+          {
+            "description": "The stored procedure to create.",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "body": {
+                  "description": "Function that defines the stored procedure, e.g. 'function(params){ ... }' ",
+                  "type": "string",
+                  "x-ms-summary": "Function definition"
+                },
+                "id": {
+                  "description": "New id of the stored procedure.",
+                  "type": "string",
+                  "x-ms-summary": "id"
+                }
+              },
+              "type": "object"
+            },
+            "x-ms-summary": "Stored procedure body definition"
+          },
+          {
+            "$ref": "#/parameters/msApiVersion"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/createStoredProcedureResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "summary": "Create stored procedure"
+      }
+    },
+    "/{connectionId}/dbs/{databaseId}/colls/{collectionId}/sprocs/{sprocId}": {
+      "delete": {
+        "deprecated": false,
+        "description": "Delete stored procedure.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#delete-stored-procedure"
+        },
+        "operationId": "DeleteStoredProcedure",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The name of the database.",
+            "in": "path",
+            "name": "databaseId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDatabases",
+              "value-collection": "Databases",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Database ID"
+          },
+          {
+            "description": "The name of the collection.",
+            "in": "path",
+            "name": "collectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetCollections",
+              "parameters": {
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "DocumentCollections",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Collection ID"
+          },
+          {
+            "description": "The name of the stored procedure.",
+            "in": "path",
+            "name": "sprocId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetStoredProcedures",
+              "parameters": {
+                "collectionId": {
+                  "parameter": "collectionId"
+                },
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "StoredProcedures",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Sproc ID"
+          },
+          {
+            "$ref": "#/parameters/msApiVersion"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "headers": {
+              "x-ms-activity-id": {
+                "description": "Azure Cosmos DB service activity ID.",
+                "type": "string",
+                "x-ms-summary": "Activity ID"
+              }
+            },
+            "schema": {
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "summary": "Delete stored procedure"
+      },
+      "post": {
+        "deprecated": false,
+        "description": "Execute stored procedure in specified collection.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#execute-stored-procedure"
+        },
+        "operationId": "ExecuteStoredProcedure",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The name of the database.",
+            "in": "path",
+            "name": "databaseId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDatabases",
+              "value-collection": "Databases",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Database ID"
+          },
+          {
+            "description": "The name of the collection.",
+            "in": "path",
+            "name": "collectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetCollections",
+              "parameters": {
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "DocumentCollections",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Collection ID"
+          },
+          {
+            "description": "The partition key value for the requested document or attachment operation.",
+            "in": "header",
+            "name": "x-ms-documentdb-raw-partitionkey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key value"
+          },
+          {
+            "description": "The partition key value for the requested document or attachment operation.",
+            "in": "header",
+            "name": "x-ms-documentdb-partitionkey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key value",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The name of the stored procedure.",
+            "in": "path",
+            "name": "sprocId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetStoredProcedures",
+              "parameters": {
+                "collectionId": {
+                  "parameter": "collectionId"
+                },
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "StoredProcedures",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Sproc ID"
+          },
+          {
+            "description": "Specify valid JSON for the parameters of the stored procedure, e.g. [\"param1\", \"param2\"].",
+            "in": "body",
+            "name": "parameters",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "x-ms-summary": "Parameters for the stored procedure"
+          },
+          {
+            "$ref": "#/parameters/msApiVersion"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "headers": {
+              "x-ms-activity-id": {
+                "description": "Azure Cosmos DB service activity ID.",
+                "type": "string",
+                "x-ms-summary": "Activity ID"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ObjectWithoutType"
+            }
+          }
+        },
+        "summary": "Execute stored procedure"
+      },
+      "put": {
+        "deprecated": false,
+        "description": "Replace stored procedure.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#replace-stored-procedure"
+        },
+        "operationId": "ReplaceStoredProcedure",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The name of the database.",
+            "in": "path",
+            "name": "databaseId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDatabases",
+              "value-collection": "Databases",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Database ID"
+          },
+          {
+            "description": "The name of the collection.",
+            "in": "path",
+            "name": "collectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetCollections",
+              "parameters": {
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "DocumentCollections",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Collection ID"
+          },
+          {
+            "description": "The name of the stored procedure.",
+            "in": "path",
+            "name": "sprocId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetStoredProcedures",
+              "parameters": {
+                "collectionId": {
+                  "parameter": "collectionId"
+                },
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "StoredProcedures",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Sproc ID"
+          },
+          {
+            "description": "The stored procedure to replace with.",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "body": {
+                  "description": "Function that defines the stored procedure, e.g. 'function(params){ ... }' ",
+                  "type": "string",
+                  "x-ms-summary": "Function definition"
+                },
+                "id": {
+                  "description": "Id of the existing stored procedure.",
+                  "type": "string",
+                  "x-ms-summary": "id"
+                }
+              },
+              "type": "object"
+            },
+            "x-ms-summary": "Stored procedure body definition"
+          },
+          {
+            "$ref": "#/parameters/msApiVersion"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-activity-id": {
+                "description": "Azure Cosmos DB service activity ID.",
+                "type": "string",
+                "x-ms-summary": "Activity ID"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/createStoredProcedureResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "summary": "Replace stored procedure"
+      }
+    },
+    "/{connectionId}/testConnection": {
+      "get": {
+        "deprecated": false,
+        "description": "Tests connection of the resource.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#test-connection"
+        },
+        "operationId": "TestConnection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-activity-id": {
+                "description": "Azure Cosmos DB service activity ID.",
+                "type": "string",
+                "x-ms-summary": "Activity ID"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/getAccountResponse"
+            }
+          }
+        },
+        "summary": "Test connection",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v2/dbs/{databaseId}/colls/{collectionId}/docs": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get all documents V2.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#get-all-documents-v2"
+        },
+        "operationId": "GetDocumentsV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The name of the database.",
+            "in": "path",
+            "name": "databaseId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDatabases",
+              "parameters": {},
+              "value-collection": "Databases",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Database ID",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "The name of the collection.",
+            "in": "path",
+            "name": "collectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetCollections",
+              "parameters": {
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "DocumentCollections",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Collection ID",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "If empty, all partitions will be used to search for documents.",
+            "in": "query",
+            "name": "partitionKey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key value",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "Maximum number of items to be returned.",
+            "format": "int32",
+            "in": "query",
+            "name": "maxItemCount",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Max Item Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A token to fetch additional results.",
+            "in": "query",
+            "name": "continuationToken",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Continuation Token",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Consistency level required for the feed (query/read feed) operation.",
+            "enum": [
+              "Strong",
+              "BoundedStaleness",
+              "Session",
+              "Eventual",
+              "ConsistentPrefix"
+            ],
+            "in": "query",
+            "name": "consistencyLevel",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Consistency Level",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The session token for use with session consistency.",
+            "in": "query",
+            "name": "sessionToken",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session Token",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DocumentsCollection"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get all documents V2",
+        "tags": [
+          "Documents"
+        ],
+        "x-ms-api-annotation": {
+          "family": "GetDocuments",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/v2/dbs/{databaseId}/colls/{collectionId}/query": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "deprecated": false,
+        "description": "Query documents V2.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#query-documents-v2"
+        },
+        "operationId": "QueryDocumentsV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The name of the database.",
+            "in": "path",
+            "name": "databaseId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDatabases",
+              "parameters": {},
+              "value-collection": "Databases",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Database ID",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "The name of the collection.",
+            "in": "path",
+            "name": "collectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetCollections",
+              "parameters": {
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "DocumentCollections",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Collection ID",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "SQL Syntax Query over documents.",
+            "in": "body",
+            "name": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DocumentsQuery"
+            },
+            "x-ms-summary": "SQL Syntax Query over documents."
+          },
+          {
+            "description": "Partition key value.",
+            "in": "query",
+            "name": "partitionKey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key value",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A token to fetch additional results from the operation.",
+            "in": "query",
+            "name": "continuationToken",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Continuation Token",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-continuation": {
+                "description": "x-ms-continuation",
+                "type": "string"
+              },
+              "x-ms-request-charge": {
+                "description": "x-ms-request-charge",
+                "format": "double",
+                "type": "number"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/QueryDocumentsResponse"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Query documents V2",
+        "tags": [
+          "Documents"
+        ],
+        "x-ms-api-annotation": {
+          "family": "QueryDocuments",
+          "revision": 2,
+          "status": "Production"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/v3/dbs/{databaseId}/colls/{collectionId}/query": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Query documents V3.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/documentdb/#query-documents-v3"
+        },
+        "operationId": "QueryDocumentsV3",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The name of the database.",
+            "in": "path",
+            "name": "databaseId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetDatabases",
+              "parameters": {},
+              "value-collection": "Databases",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Database ID",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "The name of the collection.",
+            "in": "path",
+            "name": "collectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetCollections",
+              "parameters": {
+                "databaseId": {
+                  "parameter": "databaseId"
+                }
+              },
+              "value-collection": "DocumentCollections",
+              "value-path": "id",
+              "value-title": "id"
+            },
+            "x-ms-summary": "Collection ID",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "SQL query.",
+            "in": "query",
+            "name": "queryText",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "SQL Syntax Query",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "If empty, all partitions will be used to search for documents.",
+            "in": "query",
+            "name": "partitionKey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition key value",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "Maximum number of items to be returned.",
+            "format": "int32",
+            "in": "query",
+            "name": "maxItemCount",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Max Item Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "A token to fetch additional results.",
+            "in": "query",
+            "name": "continuationToken",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Continuation Token",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Indicates whether user are enabled to send more than one request to execute the query.",
+            "in": "query",
+            "name": "enableCrossPartition",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Enable Cross Partition",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Consistency level required for the feed (query/read feed) operation.",
+            "enum": [
+              "Strong",
+              "BoundedStaleness",
+              "Session",
+              "Eventual",
+              "ConsistentPrefix"
+            ],
+            "in": "query",
+            "name": "consistencyLevel",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Consistency Level",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The session token for use with session consistency.",
+            "in": "query",
+            "name": "sessionToken",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Session Token",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DocumentsCollection"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Query documents V3",
+        "tags": [
+          "Documents"
+        ],
+        "x-ms-api-annotation": {
+          "family": "QueryDocuments",
+          "revision": 3,
+          "status": "Preview"
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-capabilities": {
+    "testConnection": {
+      "operationId": "TestConnection",
+      "parameters": {}
+    }
+  }
+}

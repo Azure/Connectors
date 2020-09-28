@@ -1,0 +1,2198 @@
+{
+  "basePath": "/apim/dynamicsnavision",
+  "definitions": {
+    "BlobDataSetsMetadata": {
+      "description": "Blob dataset metadata",
+      "properties": {
+        "displayName": {
+          "description": "Blob dataset display name",
+          "type": "string"
+        },
+        "source": {
+          "description": "Blob dataset source",
+          "type": "string"
+        },
+        "urlEncoding": {
+          "description": "Blob dataset url encoding",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "DataSet": {
+      "description": "Dataset",
+      "properties": {
+        "DisplayName": {
+          "description": "Dataset display name",
+          "type": "string"
+        },
+        "Name": {
+          "description": "Dataset name",
+          "type": "string"
+        },
+        "query": {
+          "description": "Pass-through Native Queries",
+          "items": {
+            "$ref": "#/definitions/PassThroughNativeQuery"
+          },
+          "readOnly": true,
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "DataSetsList": {
+      "description": "List of datasets",
+      "properties": {
+        "value": {
+          "description": "List of datasets",
+          "items": {
+            "$ref": "#/definitions/DataSet"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "DataSetsMetadata": {
+      "description": "Dataset metadata",
+      "properties": {
+        "blob": {
+          "$ref": "#/definitions/BlobDataSetsMetadata"
+        },
+        "tabular": {
+          "$ref": "#/definitions/TabularDataSetsMetadata"
+        }
+      },
+      "type": "object"
+    },
+    "Item": {
+      "additionalProperties": {
+        "$ref": "#/definitions/Object"
+      },
+      "description": "Table item entity",
+      "properties": {
+        "dynamicProperties": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Object"
+          },
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "x-ms-dynamic-schema": {
+        "operationId": "GetTable",
+        "parameters": {
+          "table": {
+            "parameter": "table"
+          }
+        },
+        "value-path": "Schema/Items"
+      }
+    },
+    "ItemsList": {
+      "description": "List of Items",
+      "properties": {
+        "value": {
+          "description": "List of Items",
+          "items": {
+            "$ref": "#/definitions/Item"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "Object": {
+      "properties": {},
+      "type": "object"
+    },
+    "PassThroughNativeQuery": {
+      "description": "static schema for pass-through native query execution",
+      "properties": {
+        "Language": {
+          "description": "Query language",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Procedure": {
+      "description": "Procedure",
+      "properties": {
+        "DisplayName": {
+          "description": "Procedure display name",
+          "type": "string"
+        },
+        "Name": {
+          "description": "Procedure name",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Table": {
+      "description": "Represents a table.",
+      "properties": {
+        "DisplayName": {
+          "description": "The display name of the table.",
+          "type": "string"
+        },
+        "DynamicProperties": {
+          "additionalProperties": {
+            "$ref": "#/definitions/Object"
+          },
+          "description": "Additional table properties provided by the connector to the clients.",
+          "readOnly": true,
+          "type": "object"
+        },
+        "Name": {
+          "description": "The name of the table. The name is used at runtime.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "TableCapabilitiesMetadata": {
+      "description": "Metadata for a table (capabilities)",
+      "properties": {
+        "filterFunctionSupport": {
+          "description": "List of supported filter capabilities",
+          "items": {
+            "enum": [
+              "eq",
+              "ne",
+              "gt",
+              "ge",
+              "lt",
+              "le",
+              "and",
+              "or",
+              "contains",
+              "startswith",
+              "endswith",
+              "length",
+              "indexof",
+              "replace",
+              "substring",
+              "substringof",
+              "tolower",
+              "toupper",
+              "trim",
+              "concat",
+              "year",
+              "month",
+              "day",
+              "hour",
+              "minute",
+              "second",
+              "date",
+              "time",
+              "now",
+              "totaloffsetminutes",
+              "totalseconds",
+              "floor",
+              "ceiling",
+              "round",
+              "not",
+              "negate",
+              "add",
+              "sub",
+              "mul",
+              "div",
+              "mod",
+              "sum",
+              "min",
+              "max",
+              "average",
+              "countdistinct",
+              "null"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "filterRestrictions": {
+          "$ref": "#/definitions/TableFilterRestrictionsMetadata"
+        },
+        "isOnlyServerPagable": {
+          "description": "Server paging restrictions",
+          "type": "boolean"
+        },
+        "selectRestrictions": {
+          "$ref": "#/definitions/TableSelectRestrictionsMetadata"
+        },
+        "serverPagingOptions": {
+          "description": "List of supported server-driven paging capabilities",
+          "items": {
+            "enum": [
+              "top",
+              "skiptoken"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "sortRestrictions": {
+          "$ref": "#/definitions/TableSortRestrictionsMetadata"
+        }
+      },
+      "type": "object"
+    },
+    "TableFilterRestrictionsMetadata": {
+      "description": "Metadata for a table (filter restrictions)",
+      "properties": {
+        "filterable": {
+          "description": "Indicates whether this table has filterable columns",
+          "type": "boolean"
+        },
+        "nonFilterableProperties": {
+          "description": "List of non filterable properties",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "requiredProperties": {
+          "description": "List of required properties",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "TableMetadata": {
+      "description": "Table metadata",
+      "properties": {
+        "name": {
+          "description": "Table name",
+          "type": "string"
+        },
+        "referencedEntities": {
+          "$ref": "#/definitions/Object"
+        },
+        "schema": {
+          "$ref": "#/definitions/Object"
+        },
+        "title": {
+          "description": "Table title",
+          "type": "string"
+        },
+        "webUrl": {
+          "description": "Url link",
+          "type": "string"
+        },
+        "x-ms-capabilities": {
+          "$ref": "#/definitions/TableCapabilitiesMetadata"
+        },
+        "x-ms-permission": {
+          "description": "Table permission",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "TableSelectRestrictionsMetadata": {
+      "description": "Metadata for a table (select restrictions)",
+      "properties": {
+        "selectable": {
+          "description": "Indicates whether this table has selectable columns",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "TableSortRestrictionsMetadata": {
+      "description": "Metadata for a table (sort restrictions)",
+      "properties": {
+        "ascendingOnlyProperties": {
+          "description": "List of properties which support ascending order only",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "sortable": {
+          "description": "Indicates whether this table has sortable columns",
+          "type": "boolean"
+        },
+        "unsortableProperties": {
+          "description": "List of unsortable properties",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "TablesList": {
+      "description": "Represents a list of tables.",
+      "properties": {
+        "value": {
+          "description": "List of Tables",
+          "items": {
+            "$ref": "#/definitions/Table"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "TabularDataSetsMetadata": {
+      "description": "Tabular dataset metadata",
+      "properties": {
+        "displayName": {
+          "description": "Dataset display name",
+          "type": "string"
+        },
+        "source": {
+          "description": "Dataset source",
+          "type": "string"
+        },
+        "tableDisplayName": {
+          "description": "Table display name",
+          "type": "string"
+        },
+        "tablePluralName": {
+          "description": "Table plural display name",
+          "type": "string"
+        },
+        "urlEncoding": {
+          "description": "Dataset url encoding",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/dynamicsnavision"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "description": "Dynamics NAV is a business management solution for small and mid-sized organizations that automates and streamlines business processes and helps you manage your business.",
+    "title": "Dynamics NAV",
+    "version": "1.0",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    }
+  },
+  "paths": {
+    "/{connectionId}/$metadata.json/datasets": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "GetDataSetsMetadata",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DataSetsMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "DynamicsNavisionMashupDataSetsMetadata"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/$metadata.json/datasets/default/tables/{table}": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Retrieves item metadata for DynamicsNavision object type.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#get-item-metadata"
+        },
+        "operationId": "GetTable",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics NAV table",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Table name",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TableMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get item metadata",
+        "tags": [
+          "DynamicsNavisionMashupTableMetadata"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/$metadata.json/datasets/default/tables/{table}/getitem": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "GetMetadataForGetItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TableMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "DynamicsNavisionMashupTableMetadata"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/$metadata.json/datasets/default/tables/{table}/patchitem": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "GetMetadataForPatchItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TableMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "DynamicsNavisionMashupTableMetadata"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/$metadata.json/datasets/default/tables/{table}/postitem": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "GetMetadataForPostItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TableMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "DynamicsNavisionMashupTableMetadata"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Retrieves all datasets available to the connection",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#gets-datasets"
+        },
+        "operationId": "GetDataSets",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DataSetsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Gets datasets",
+        "tags": [
+          "DynamicsNavisionMashupDataSet"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ODataStyleGetTables",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TablesList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "DynamicsNavisionMashupTable"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables({table})/items": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Retrieves DynamicsNavision items of a certain DynamicsNavision type (example: 'Suggestion')",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#get-items"
+        },
+        "operationId": "ODataStyleGetItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Dataset name"
+          },
+          {
+            "description": "DynamicsNavision item type (example: 'Suggestion')",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Table name"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Specific fields to retrieve from entries (default = all).",
+            "in": "query",
+            "name": "$select",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Select Query",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get items",
+        "tags": [
+          "DynamicsNavisionMashupTableData"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Creates a DynamicsNavision item",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#create-item"
+        },
+        "operationId": "ODataStylePostItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Dataset name"
+          },
+          {
+            "description": "DynamicsNavision item type (example: 'Suggestion')",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Table name"
+          },
+          {
+            "description": "DynamicsNavision item to create",
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Item"
+            },
+            "x-ms-summary": "Row"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Create item",
+        "tags": [
+          "DynamicsNavisionMashupTableData"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables({table})/items({id})": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Deletes a DynamicsNavision item",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#delete-item"
+        },
+        "operationId": "ODataStyleDeleteItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Dataset name"
+          },
+          {
+            "description": "DynamicsNavision item type (example: 'Suggestion')",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Table name"
+          },
+          {
+            "description": "Unique identifier of the item to delete",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Row id"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Delete item",
+        "tags": [
+          "DynamicsNavisionMashupTableData"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Retrieves a DynamicsNavision item",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#get-item"
+        },
+        "operationId": "ODataStyleGetItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Dataset name"
+          },
+          {
+            "description": "DynamicsNavision item type (example: 'Suggestion')",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Table name"
+          },
+          {
+            "description": "Unique identifier of the item to retrieve",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Row id"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get item",
+        "tags": [
+          "DynamicsNavisionMashupTableData"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "patch": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Updates an existing DynamicsNavision item",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#update-item"
+        },
+        "operationId": "ODataStylePatchItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Dataset name"
+          },
+          {
+            "description": "DynamicsNavision item type (example: 'Suggestion')",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Table name"
+          },
+          {
+            "description": "Unique identifier of the item to update",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Row id"
+          },
+          {
+            "description": "DynamicsNavision item with updated values",
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Item"
+            },
+            "x-ms-summary": "Row"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Item"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Update item",
+        "tags": [
+          "DynamicsNavisionMashupTableData"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables({table})/ondeleteditems": {
+      "get": {
+        "consumes": [],
+        "deprecated": true,
+        "description": "Triggers a flow when a record is deleted in Dynamics NAV",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#when-a-record-is-deleted-%5bdeprecated%5d"
+        },
+        "operationId": "ODataStyleGetOnDeletedItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "dataset name"
+          },
+          {
+            "description": "Name of Dynamics NAV table",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Name of Dynamics NAV table"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is deleted",
+        "tags": [
+          "DynamicsNavisionMashupTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables({table})/onnewitems": {
+      "get": {
+        "consumes": [],
+        "deprecated": true,
+        "description": "Triggers a flow when a record is created in Dynamics NAV",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#when-a-record-is-created-%5bdeprecated%5d"
+        },
+        "operationId": "ODataStyleGetOnNewItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Dataset name"
+          },
+          {
+            "description": "Name of Dynamics NAV table",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Table name"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is created",
+        "tags": [
+          "DynamicsNavisionMashupTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets({dataset})/tables({table})/onupdateditems": {
+      "get": {
+        "consumes": [],
+        "deprecated": true,
+        "description": "Triggers a flow when a record is modified in Dynamics NAV",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#when-a-record-is-modified-%5bdeprecated%5d"
+        },
+        "operationId": "ODataStyleGetOnUpdatedItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "dataset name",
+            "in": "path",
+            "name": "dataset",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Dataset name"
+          },
+          {
+            "description": "Name of Dynamics NAV table",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Table name"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is modified",
+        "tags": [
+          "DynamicsNavisionMashupTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/default/tables": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Retrieves Dynamics NAV item types",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#get-item-types"
+        },
+        "operationId": "GetTables",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/TablesList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get item types",
+        "tags": [
+          "DynamicsNavisionMashupTable"
+        ],
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/datasets/default/tables/{table}/items": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Retrieves DynamicsNavision items of a certain DynamicsNavision type (example: 'Suggestion')",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#get-items"
+        },
+        "operationId": "GetItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics NAV table",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Table name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Specific fields to retrieve from entries (default = all).",
+            "in": "query",
+            "name": "$select",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Select Query",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get items",
+        "tags": [
+          "DynamicsNavisionMashupTableData"
+        ],
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        },
+        "x-ms-visibility": "internal"
+      },
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Creates a DynamicsNavision item",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#create-item"
+        },
+        "operationId": "PostItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics NAV table",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Table name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Row to insert into the specified table in Dynamics NAV",
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetTable",
+                "parameters": {
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            },
+            "x-ms-summary": "Row"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetTable",
+                "parameters": {
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Create item",
+        "tags": [
+          "DynamicsNavisionMashupTableData"
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/datasets/default/tables/{table}/items/{id}": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Deletes a DynamicsNavision item",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#delete-item"
+        },
+        "operationId": "DeleteItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics NAV table",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Table name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Unique identifier of the row to delete",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Row id",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Delete item",
+        "tags": [
+          "DynamicsNavisionMashupTableData"
+        ]
+      },
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Retrieves a DynamicsNavision item",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#get-item"
+        },
+        "operationId": "GetItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics NAV table",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Table name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Unique identifier of the row to retrieve",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Row id",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetTable",
+                "parameters": {
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get item",
+        "tags": [
+          "DynamicsNavisionMashupTableData"
+        ],
+        "x-ms-visibility": "important"
+      },
+      "patch": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Updates an existing DynamicsNavision item",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#update-item"
+        },
+        "operationId": "PatchItem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics NAV table",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Table name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Unique identifier of the row to update",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Row id",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Row with updated values",
+            "in": "body",
+            "name": "item",
+            "required": true,
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetTable",
+                "parameters": {
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            },
+            "x-ms-summary": "Row"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Item"
+              },
+              "type": "object",
+              "x-ms-dynamic-schema": {
+                "operationId": "GetTable",
+                "parameters": {
+                  "table": {
+                    "parameter": "table"
+                  }
+                },
+                "value-path": "Schema/Items"
+              }
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Update item",
+        "tags": [
+          "DynamicsNavisionMashupTableData"
+        ]
+      }
+    },
+    "/{connectionId}/datasets/default/tables/{table}/ondeleteditems": {
+      "get": {
+        "consumes": [],
+        "deprecated": true,
+        "description": "Triggers a flow when a record is deleted in Dynamics NAV",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#when-a-record-is-deleted-%5bdeprecated%5d"
+        },
+        "operationId": "GetOnDeletedItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics NAV table",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Table name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is deleted",
+        "tags": [
+          "DynamicsNavisionMashupTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/datasets/default/tables/{table}/onnewitems": {
+      "get": {
+        "consumes": [],
+        "deprecated": true,
+        "description": "Triggers a flow when a record is created in Dynamics NAV",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#when-a-record-is-created-%5bdeprecated%5d"
+        },
+        "operationId": "GetOnNewItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics NAV table",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Table name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is created",
+        "tags": [
+          "DynamicsNavisionMashupTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/datasets/default/tables/{table}/onupdateditems": {
+      "get": {
+        "consumes": [],
+        "deprecated": true,
+        "description": "Triggers a flow when a record is modified in Dynamics NAV",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/dynamicsnavision/#when-a-record-is-modified-%5bdeprecated%5d"
+        },
+        "operationId": "GetOnUpdatedItems",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Name of Dynamics NAV table",
+            "in": "path",
+            "name": "table",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "parameters": {},
+              "value-collection": "value",
+              "value-path": "Name",
+              "value-title": "DisplayName"
+            },
+            "x-ms-summary": "Table name",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "An ODATA filter query to restrict the entries returned (e.g. stringColumn eq 'string' OR numberColumn lt 123).",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "An ODATA orderBy query for specifying the order of entries.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Order By",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Total number of entries to retrieve (default = all).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top Count",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "The number of entries to skip (default = 0).",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skip Count",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ItemsList"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a record is modified",
+        "tags": [
+          "DynamicsNavisionMashupTableDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/testconnection": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "TestConnection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "DynamicsNavisionMashupDiagnostic"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-capabilities": {
+    "testConnection": {
+      "operationId": "TestConnection",
+      "parameters": {}
+    }
+  },
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://dynamics.microsoft.com/nav-overview/"
+    }
+  ]
+}

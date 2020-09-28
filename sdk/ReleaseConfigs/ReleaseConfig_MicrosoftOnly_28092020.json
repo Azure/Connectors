@@ -1,0 +1,334 @@
+[
+	{
+		"name": "sql" ,
+		"friendlyName": "SQLServer",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "documentdb" ,
+		"friendlyName": "AzureCosmosDB",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "visualstudioteamservices" ,
+		"friendlyName": "AzureDevOps",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "kusto" ,
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "applicationinsights" ,
+		"friendlyName": "AzureApplicationInsights",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "servicebus" ,
+		"friendlyName": "ServiceBus",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "azureblob" ,
+		"friendlyName": "AzureBlobStorage",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "sharepointonline" ,
+		"friendlyName": "SharePoint",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "powerbi" ,
+		"friendlyName": "PowerBI",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "office365" ,
+		"friendlyName": "Office365Outlook",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "eventhubs" ,
+		"friendlyName": "EventHubs",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "azuretables" ,
+		"friendlyName": "AzureTableStorage",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "sftpwithssh" ,
+		"friendlyName": "SFTPSSH",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "commondataservice" ,
+		"friendlyName": "CommonDataService",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "azureloganalyticsdatacollector" ,
+		"friendlyName": "AzureLogAnalyticsDataCollector",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "ftp" ,
+		"friendlyName": "FTP",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "dynamicsax" ,
+		"friendlyName": "Dynamics365forFinOps",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "onedriveforbusiness" ,
+		"friendlyName": "OneDriveForBusiness",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "azurefile" ,
+		"friendlyName": "AzureFileStorage",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "keyvault" ,
+		"friendlyName": "AzureKeyVault",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "azureautomation" ,
+		"friendlyName": "AzureAutomation",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "teams" ,
+		"friendlyName": "MicrosoftTeams",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "excelonlinebusiness" ,
+		"friendlyName": "ExcelOnline",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "azurevm" ,
+		"friendlyName": "AzureVM",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "outlook" ,
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "aci" ,
+		"friendlyName":"AzureContainerInstance",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "onedrive" ,
+		"friendlyName": "OneDrive",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "office365users" ,
+		"friendlyName": "Office365Users",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "azureeventgridpublish" ,
+		"friendlyName": "AzureEventGridPublish",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "planner" ,
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "azuredatafactory" ,
+		"friendlyName": "AzureDataFactory",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "rss" ,
+		"friendlyName": "RSS",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "azuredatalake" ,
+		"friendlyName": "AzureDataLake",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "azuremonitorlogs" ,
+		"friendlyName": "AzureMonitorLogs",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "customerinsights",
+		"friendlyName": "Dynamics365CustomerInsights",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "dynamicsnavision",
+		"friendlyName": "DynamicsNAV",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "dynamicssmbsaas",
+		"friendlyName": "BusinessCentral",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "excelonline",
+		"friendlyName": "ExcelOnlineOneDrive",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name":"github",
+		"friendlyName":"GitHub",
+		"version":"0.0.4-alpha"
+	},
+	{
+		"name":"iotcentral",
+		"friendlyName":"AzureIoTCentral",
+		"version":"0.0.4-alpha"
+	},
+	{
+		"name":"linkedinv2",
+		"friendlyName":"LinkedInV2",
+		"version":"0.0.4-alpha"
+	},
+	{
+		"name":"luis",
+		"friendlyName":"LUIS",
+		"version":"0.0.4-alpha"
+	},
+	{
+		"name":"microsoftforms",
+		"friendlyName":"MicrosoftForms",
+		"version":"0.0.4-alpha"
+	},
+	{
+		"name":"microsoftformspro",
+		"friendlyName":"Dynamics365CustomerVoice",
+		"version":"0.0.4-alpha"
+	},
+	{
+		"name":"microsoftschooldatasync",
+		"friendlyName":"MicrosoftSchoolDataSync",
+		"version":"0.0.4-alpha"
+	},
+	{
+		"name":"msnweather",
+		"friendlyName":"MSNWeather",
+		"version":"0.0.4-alpha"
+	},
+	{
+		"name":"office365groups",
+		"friendlyName":"Office365Groups",
+		"version":"0.0.4-alpha"
+	},
+	{
+		"name":"office365groupsmail",
+		"friendlyName":"Office365GroupsMail",
+		"version":"0.0.4-alpha"
+	},
+	{
+		"name":"office365video",
+		"friendlyName":"Office365Video",
+		"version":"0.0.4-alpha"
+	},
+	{
+		"name":"onenote",
+		"friendlyName":"OneNote",
+		"version":"0.0.4-alpha"
+	},
+	{
+		"name":"skypeforbiz",
+		"friendlyName":"SkypeForBusinessOnline",
+		"version":"0.0.4-alpha"
+	},
+	{
+		"name":"todo",
+		"friendlyName":"MicrosoftToDo",
+		"version":"0.0.4-alpha"
+	},
+	{
+		"name":"translatorv2",
+		"friendlyName":"MicrosoftTranslatorV2",
+		"version":"0.0.4-alpha"
+	},
+	{
+		"name":"wdatp",
+		"friendlyName":"MicrosoftDefenderATP",
+		"version":"0.0.4-alpha"
+	},
+	{
+		"name":"wordonlinebusiness",
+		"friendlyName":"WordOnlineBusiness",
+		"version":"0.0.4-alpha"
+	},
+	{
+		"name": "azureadip",
+		"friendlyName": "AzureADIdentityProtection",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "azureappservice",
+		"friendlyName": "AzureAppService",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "bingmaps",
+		"friendlyName": "BingMaps",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "bingsearch",
+		"friendlyName": "BingSearch",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "biztalk",
+		"friendlyName": "BizTalkServer",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "cognitiveservicescomputervision",
+		"friendlyName": "ComputerVisionAPI",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "cognitiveservicescontentmoderator",
+		"friendlyName": "ContentModerator",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "cognitiveservicescustomvision",
+		"friendlyName": "CustomVision",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "cognitiveservicesqnamaker",
+		"friendlyName": "QnAMaker",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "faceapi",
+		"friendlyName": "FaceAPI",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "formrecognizer",
+		"friendlyName": "FormRecognizer",
+		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "cognitiveservicestextanalytics" ,
+		"friendlyName": "TextAnalytics",
+		"version": "0.0.4-alpha"
+	}
+]

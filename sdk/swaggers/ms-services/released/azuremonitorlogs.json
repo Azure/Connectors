@@ -1,0 +1,691 @@
+{
+  "basePath": "/apim/azuremonitorlogs",
+  "consumes": [],
+  "definitions": {
+    "Object": {
+      "type": "object"
+    },
+    "ResourceGroup": {
+      "description": "Resource group information. ",
+      "properties": {
+        "id": {
+          "description": "The ID of the resource group (e.g. /subscriptions/XXX/resourceGroups/YYY). ",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Id",
+          "x-ms-visibility": "advanced"
+        },
+        "name": {
+          "description": "The Name of the resource group. ",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Name"
+        }
+      },
+      "type": "object"
+    },
+    "ResourceGroupListResult": {
+      "description": "List of resource groups. ",
+      "properties": {
+        "nextLink": {
+          "description": "The URL to get the next set of results. ",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Next Link",
+          "x-ms-visibility": "advanced"
+        },
+        "value": {
+          "description": "The list of resource groups. ",
+          "items": {
+            "$ref": "#/definitions/ResourceGroup"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "ResourceItem": {
+      "description": "Resource item. ",
+      "properties": {
+        "id": {
+          "description": "The ID of the resource. ",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Id",
+          "x-ms-visibility": "advanced"
+        },
+        "name": {
+          "description": "The Name of the resource .",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Name"
+        }
+      },
+      "type": "object"
+    },
+    "ResourceItemListResult": {
+      "description": "List of resource items. ",
+      "properties": {
+        "nextLink": {
+          "description": "The URL to get the next set of results. ",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Next Link",
+          "x-ms-visibility": "advanced"
+        },
+        "value": {
+          "description": "The list of resource items. ",
+          "items": {
+            "$ref": "#/definitions/ResourceItem"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "Row": {
+      "properties": {},
+      "type": "object",
+      "x-ms-dynamic-schema": {
+        "operationId": "QuerySchema",
+        "parameters": {
+          "query": {
+            "parameter": "query"
+          },
+          "resourcegroups": {
+            "parameter": "resourcegroups"
+          },
+          "resourcename": {
+            "parameter": "resourcename"
+          },
+          "resourcetype": {
+            "parameter": "resourcetype"
+          },
+          "subscriptions": {
+            "parameter": "subscriptions"
+          },
+          "timerange": {
+            "parameter": "timerange"
+          }
+        },
+        "value-path": "Schema/Items"
+      }
+    },
+    "Subscription": {
+      "description": "Subscription information. ",
+      "properties": {
+        "authorizationSource": {
+          "description": "The authorization source of the request. Valid values are one or more combinations of Legacy, RoleBased, Bypassed, Direct and Management. For example, 'Legacy, RoleBased'. ",
+          "type": "string",
+          "x-ms-summary": "Authorization Source",
+          "x-ms-visibility": "advanced"
+        },
+        "id": {
+          "description": "The fully qualified Id. For example, /subscriptions/00000000-0000-0000-0000-000000000000. ",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Id"
+        },
+        "subscriptionId": {
+          "description": "The subscription Id. ",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Subscription Id. "
+        }
+      },
+      "type": "object"
+    },
+    "SubscriptionListResult": {
+      "description": "Subscription list operation response. ",
+      "properties": {
+        "nextLink": {
+          "description": "The URL to get the next set of results. ",
+          "type": "string",
+          "x-ms-summary": "Next Link",
+          "x-ms-visibility": "advanced"
+        },
+        "value": {
+          "description": "The subscriptions .",
+          "items": {
+            "$ref": "#/definitions/Subscription"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "Table": {
+      "properties": {
+        "value": {
+          "items": {
+            "$ref": "#/definitions/Row"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "TimeRangeItem": {
+      "description": "Time range item. ",
+      "properties": {
+        "id": {
+          "description": "The ID of the item. ",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Id",
+          "x-ms-visibility": "advanced"
+        },
+        "name": {
+          "description": "The Name of the item. ",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Name"
+        }
+      },
+      "type": "object"
+    },
+    "TimeRangeListResult": {
+      "description": "List of time range types. ",
+      "properties": {
+        "nextLink": {
+          "description": "The URL to get the next set of results. ",
+          "readOnly": true,
+          "type": "string",
+          "x-ms-summary": "Next Link",
+          "x-ms-visibility": "advanced"
+        },
+        "value": {
+          "description": "The list of time range. ",
+          "items": {
+            "$ref": "#/definitions/TimeRangeItem"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "VisualizeResults": {
+      "properties": {
+        "attachmentContent": {
+          "format": "byte",
+          "type": "string",
+          "x-ms-summary": "Attachment Content"
+        },
+        "attachmentName": {
+          "type": "string",
+          "x-ms-summary": "Attachment Name"
+        },
+        "body": {
+          "format": "byte",
+          "type": "string",
+          "x-ms-summary": "Body"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/azuremonitorlogs"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Use this connector to query your Azure Monitor Logs across Log Analytics workspace and Application Insights component, to list or visualize results.",
+    "title": "Azure Monitor Logs",
+    "version": "3.0.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    }
+  },
+  "parameters": {
+    "QueryParameter": {
+      "description": "Specify the query you would like to run",
+      "in": "body",
+      "name": "query",
+      "required": true,
+      "schema": {
+        "type": "string"
+      },
+      "x-ms-summary": "Query"
+    },
+    "ResourceGroupNameParameter": {
+      "description": "Select resource group",
+      "in": "query",
+      "maxLength": 90,
+      "minLength": 1,
+      "name": "resourcegroups",
+      "pattern": "^[-\\w\\._\\(\\)]+$",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListResourceGroups",
+        "parameters": {
+          "subscriptions": {
+            "parameter": "subscriptions"
+          }
+        },
+        "value-collection": "value",
+        "value-path": "name",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Resource Group"
+    },
+    "ResourceNameParameter": {
+      "description": "Select Resource",
+      "in": "query",
+      "name": "resourcename",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListResources",
+        "parameters": {
+          "resourcegroups": {
+            "parameter": "resourcegroups"
+          },
+          "resourcetype": {
+            "parameter": "resourcetype"
+          },
+          "subscriptions": {
+            "parameter": "subscriptions"
+          }
+        },
+        "value-collection": "value",
+        "value-path": "name",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Resource Name"
+    },
+    "ResourceTypeParameter": {
+      "description": "Select Resource Type",
+      "enum": [
+        "Log Analytics Workspace",
+        "Application Insights"
+      ],
+      "in": "query",
+      "name": "resourcetype",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "Resource Type"
+    },
+    "SubscriptionIdParameter": {
+      "description": "Select subscription",
+      "in": "query",
+      "name": "subscriptions",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListSubscriptions",
+        "value-collection": "value",
+        "value-path": "subscriptionId",
+        "value-title": "displayName"
+      },
+      "x-ms-summary": "Subscription"
+    },
+    "TimeRangeParameter": {
+      "description": "Select Time Range",
+      "in": "query",
+      "name": "timerange",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListTimeRangeTypes",
+        "parameters": {
+          "query": {
+            "parameter": "query"
+          },
+          "resourcetype": {
+            "parameter": "resourcetype"
+          }
+        },
+        "value-collection": "value",
+        "value-path": "name",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Time Range"
+    }
+  },
+  "paths": {
+    "/{connectionId}/listResourceGroups": {
+      "get": {
+        "description": "Lists all the resource groups within the subscription. ",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuremonitorlogs/#list-resource-groups"
+        },
+        "operationId": "ListResourceGroups",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. ",
+            "schema": {
+              "$ref": "#/definitions/ResourceGroupListResult"
+            }
+          },
+          "400": {
+            "description": "Operation has failed. User input is invalid. Please check Azure Monitor Logs parameters data. "
+          },
+          "default": {
+            "description": "Operation has failed. If issue persists please contact Azure support. "
+          }
+        },
+        "summary": "List resource groups",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/listResources": {
+      "get": {
+        "description": "Lists all the resource groups within the resource group. ",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuremonitorlogs/#list-resources"
+        },
+        "operationId": "ListResources",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceTypeParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. ",
+            "schema": {
+              "$ref": "#/definitions/ResourceItemListResult"
+            }
+          },
+          "400": {
+            "description": "Operation has failed. User input is invalid. Please check Azure Monitor Logs parameters data. "
+          },
+          "default": {
+            "description": "Operation has failed. If issue persists please contact Azure support. "
+          }
+        },
+        "summary": "List resources",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/listSubscriptions": {
+      "get": {
+        "description": "Gets a list of all the subscriptions to which the principal has access. ",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuremonitorlogs/#list-subscriptions"
+        },
+        "operationId": "ListSubscriptions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. ",
+            "schema": {
+              "$ref": "#/definitions/SubscriptionListResult"
+            }
+          },
+          "default": {
+            "description": "Operation has failed. If issue persists please contact Azure support. "
+          }
+        },
+        "summary": "List subscriptions",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/listTimeRangeTypes": {
+      "post": {
+        "description": "Gets a list of time range types. ",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuremonitorlogs/#list-time-range-types"
+        },
+        "operationId": "ListTimeRangeTypes",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/ResourceTypeParameter"
+          },
+          {
+            "$ref": "#/parameters/QueryParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. ",
+            "schema": {
+              "$ref": "#/definitions/TimeRangeListResult"
+            }
+          },
+          "400": {
+            "description": "Operation has failed. User input is invalid. Please check Azure Monitor Logs parameters data. "
+          },
+          "default": {
+            "description": "Operation has failed. If issue persists please contact Azure support. "
+          }
+        },
+        "summary": "List time range types",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/queryData": {
+      "post": {
+        "description": "Returns each row as its own object. Use this action when you want to work with each row separately in the rest of the workflow. ",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuremonitorlogs/#run-query-and-list-results"
+        },
+        "operationId": "QueryData",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceTypeParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/QueryParameter"
+          },
+          {
+            "$ref": "#/parameters/TimeRangeParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. ",
+            "schema": {
+              "$ref": "#/definitions/Table"
+            }
+          },
+          "400": {
+            "description": "Operation has failed. User input is invalid. Please check query syntax or other parameters data. "
+          },
+          "default": {
+            "description": "Operation has failed. If issue persists please contact Azure support. "
+          }
+        },
+        "summary": "Run query and list results",
+        "x-ms-no-generic-test": true
+      }
+    },
+    "/{connectionId}/querySchema": {
+      "post": {
+        "description": "Gets the schema for a specific query. ",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuremonitorlogs/#get-query-schema"
+        },
+        "operationId": "QuerySchema",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceTypeParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/QueryParameter"
+          },
+          {
+            "$ref": "#/parameters/TimeRangeParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. ",
+            "schema": {
+              "$ref": "#/definitions/Object"
+            }
+          },
+          "400": {
+            "description": "Operation has failed. User input is invalid. Please check query syntax or other parameters data. "
+          },
+          "default": {
+            "description": "Operation has failed. If issue persists please contact Azure support. "
+          }
+        },
+        "summary": "Get query schema",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/visualizeQuery": {
+      "post": {
+        "description": "Returns all rows in the result set as a single formatted object. Use this action when you want to use the result set together in the rest of the workflow. ",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuremonitorlogs/#run-query-and-visualize-results"
+        },
+        "operationId": "VisualizeQuery",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/SubscriptionIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceGroupNameParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceTypeParameter"
+          },
+          {
+            "$ref": "#/parameters/ResourceNameParameter"
+          },
+          {
+            "$ref": "#/parameters/QueryParameter"
+          },
+          {
+            "$ref": "#/parameters/TimeRangeParameter"
+          },
+          {
+            "description": "Specify the resulting chart type",
+            "enum": [
+              "Html Table",
+              "Pie Chart",
+              "Time Chart",
+              "Bar Chart"
+            ],
+            "in": "query",
+            "name": "visType",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Chart Type"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. ",
+            "schema": {
+              "$ref": "#/definitions/VisualizeResults"
+            }
+          },
+          "400": {
+            "description": "Operation has failed. User input is invalid. Please check query syntax, chart type that is valid for the query schema or other parameters data. "
+          },
+          "default": {
+            "description": "Operation has failed. If issue persists please contact Azure support. "
+          }
+        },
+        "summary": "Run query and visualize results",
+        "x-ms-no-generic-test": true
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "responses": {},
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "tags": [],
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://azure.microsoft.com/services/monitor/"
+    }
+  ]
+}

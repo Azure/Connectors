@@ -1,0 +1,244 @@
+{
+  "basePath": "/apim/skypeforbiz",
+  "definitions": {
+    "ClientReceiveMeeting": {
+      "description": "Response from creating a meeting",
+      "properties": {
+        "ConferenceId": {
+          "description": "The conference ID for the online meeting. Attendees who dial into the online meeting by using a PSTN phone use the conference ID.",
+          "type": "string",
+          "x-ms-summary": "Conference ID"
+        },
+        "Description": {
+          "description": "Meeting description",
+          "type": "string",
+          "x-ms-summary": "Description"
+        },
+        "DialInDirectoryUrl": {
+          "description": "Web page that contains dial-in information",
+          "type": "string",
+          "x-ms-summary": "Dial-in directory URL"
+        },
+        "DialInTollNumber": {
+          "description": "The toll number to connect to the Audio Conference Provider.",
+          "type": "string",
+          "x-ms-summary": "Dial-in toll number"
+        },
+        "Id": {
+          "description": "Unique identifier for the meeting",
+          "type": "string",
+          "x-ms-summary": "Meeting ID"
+        },
+        "JoinUrl": {
+          "description": "The URL that is used when the online meeting is joined from the web.",
+          "type": "string",
+          "x-ms-summary": "Join meeting URL"
+        },
+        "Subject": {
+          "description": "Meeting subject",
+          "type": "string",
+          "x-ms-summary": "Subject"
+        }
+      },
+      "type": "object"
+    },
+    "ClientSendMeeting": {
+      "description": "Meeting details sent by the client",
+      "properties": {
+        "Attendees": {
+          "description": "Semi-colon separated list of email or SIP addresses",
+          "type": "string"
+        },
+        "Description": {
+          "description": "Meeting description",
+          "type": "string"
+        },
+        "ExpirationDateTime": {
+          "description": "The time after which the online meeting expires. The time must be between one year before and ten years after the current time on the server. (ex: '2017-01-01T00:00:00Z')",
+          "type": "string",
+          "x-ms-summary": "Expiration Date Time",
+          "x-ms-visibility": "advanced"
+        },
+        "PhoneUserAdmission": {
+          "default": false,
+          "description": "If set to true, participants can join the online meeting over the phone.",
+          "type": "boolean",
+          "x-ms-summary": "Allow phone dial-in?",
+          "x-ms-visibility": "advanced"
+        },
+        "Subject": {
+          "description": "Meeting subject",
+          "type": "string"
+        }
+      },
+      "required": [
+        "Subject"
+      ],
+      "type": "object"
+    },
+    "ClientSendMessage": {
+      "description": "Message sent by the client",
+      "properties": {
+        "Message": {
+          "description": "Plaintext message to send",
+          "type": "string"
+        },
+        "Subject": {
+          "description": "Subject of the conversation",
+          "type": "string"
+        },
+        "To": {
+          "description": "Email or SIP address of the message recipient (ex: annie@contoso.com)",
+          "type": "string",
+          "x-ms-dynamic-values": {
+            "builtInOperation": "AadGraph.GetUsers",
+            "value-path": "mail"
+          }
+        }
+      },
+      "required": [
+        "To",
+        "Message"
+      ],
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/skypeforbiz"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "description": "Messaging, meetings, and screen sharing all in one app that works with Office.",
+    "title": "Skype for Business Online",
+    "version": "1.0",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    }
+  },
+  "paths": {
+    "/{connectionId}/v1/createmeeting": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "deprecated": false,
+        "description": "Create an online meeting",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/skypeforbiz/#create-an-online-meeting"
+        },
+        "operationId": "CreateMeeting",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Meeting details sent from the client",
+            "in": "body",
+            "name": "clientSendMeeting",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ClientSendMeeting"
+            },
+            "x-ms-summary": "Meeting details sent from the client"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ClientReceiveMeeting"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Create an online meeting",
+        "tags": [
+          "Meeting"
+        ]
+      }
+    },
+    "/{connectionId}/v1/sendmessage": {
+      "post": {
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "deprecated": false,
+        "description": "Send an instant message",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/skypeforbiz/#send-an-instant-message"
+        },
+        "operationId": "SendMessage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Message sent from the client",
+            "in": "body",
+            "name": "clientSendMessage",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ClientSendMessage"
+            },
+            "x-ms-summary": "Message sent from the client"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Send an instant message",
+        "tags": [
+          "Conversation"
+        ]
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://www.skype.com/business/"
+    }
+  ]
+}

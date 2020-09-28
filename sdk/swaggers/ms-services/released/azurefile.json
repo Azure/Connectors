@@ -1,0 +1,3019 @@
+{
+  "basePath": "/apim/azurefile",
+  "definitions": {
+    "BlobDataSetsMetadata": {
+      "description": "Blob dataset metadata",
+      "properties": {
+        "displayName": {
+          "description": "Blob dataset display name",
+          "type": "string"
+        },
+        "source": {
+          "description": "Blob dataset source",
+          "type": "string"
+        },
+        "urlEncoding": {
+          "description": "Blob dataset url encoding",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "BlobMetadata": {
+      "description": "Blob metadata",
+      "properties": {
+        "DisplayName": {
+          "description": "The display name of the file or folder.",
+          "type": "string"
+        },
+        "ETag": {
+          "description": "The etag of the file or folder.",
+          "type": "string"
+        },
+        "FileLocator": {
+          "description": "The filelocator of the file or folder.",
+          "type": "string"
+        },
+        "Id": {
+          "description": "The unique id of the file or folder.",
+          "type": "string"
+        },
+        "IsFolder": {
+          "description": "A boolean value (true, false) to indicate whether or not the blob is a folder.",
+          "type": "boolean"
+        },
+        "LastModified": {
+          "description": "The date and time the file or folder was last modified.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "MediaType": {
+          "description": "The media type of the file or folder.",
+          "type": "string"
+        },
+        "Name": {
+          "description": "The name of the file or folder.",
+          "type": "string"
+        },
+        "Path": {
+          "description": "The path of the file or folder.",
+          "type": "string"
+        },
+        "Size": {
+          "description": "The size of the file or folder.",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "BlobMetadataPage": {
+      "description": "Represents a page of blob metadata.",
+      "properties": {
+        "value": {
+          "description": "Blob metadata collection.",
+          "items": {
+            "$ref": "#/definitions/BlobMetadata"
+          },
+          "readOnly": true,
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "BlobMetadataResponse": {
+      "description": "Represents blob datasets metadata response",
+      "properties": {
+        "DisplayName": {
+          "description": "The display name of the file or folder.",
+          "type": "string"
+        },
+        "ETag": {
+          "description": "The etag of the file or folder.",
+          "type": "string"
+        },
+        "FileLocator": {
+          "description": "The filelocator of the file or folder.",
+          "type": "string"
+        },
+        "Id": {
+          "description": "The unique id of the file or folder.",
+          "type": "string"
+        },
+        "IsFolder": {
+          "description": "A boolean value (true, false) to indicate whether or not the blob is a folder.",
+          "type": "boolean"
+        },
+        "LastModified": {
+          "description": "The date and time the file or folder was last modified.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "MediaType": {
+          "description": "The media type of the file or folder.",
+          "type": "string"
+        },
+        "Name": {
+          "description": "The name of the file or folder.",
+          "type": "string"
+        },
+        "Path": {
+          "description": "The path of the file or folder.",
+          "type": "string"
+        },
+        "Size": {
+          "description": "The size of the file or folder.",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "DataSetsMetadata": {
+      "description": "Dataset metadata",
+      "properties": {
+        "blob": {
+          "$ref": "#/definitions/BlobDataSetsMetadata"
+        },
+        "tabular": {
+          "$ref": "#/definitions/TabularDataSetsMetadata"
+        }
+      },
+      "type": "object"
+    },
+    "Object": {
+      "properties": {},
+      "type": "object"
+    },
+    "TabularDataSetsMetadata": {
+      "description": "Tabular dataset metadata",
+      "properties": {
+        "displayName": {
+          "description": "Dataset display name",
+          "type": "string"
+        },
+        "source": {
+          "description": "Dataset source",
+          "type": "string"
+        },
+        "tableDisplayName": {
+          "description": "Table display name",
+          "type": "string"
+        },
+        "tablePluralName": {
+          "description": "Table plural display name",
+          "type": "string"
+        },
+        "urlEncoding": {
+          "description": "Dataset url encoding",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/azurefile"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Microsoft Azure Storage provides a massively scalable, durable, and highly available storage for data on the cloud, and serves as the data storage solution for modern applications. Connect to File Storage to perform various operations such as create, update, get and delete on files in your Azure Storage account.",
+    "title": "Azure File Storage",
+    "version": "1.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    }
+  },
+  "paths": {
+    "/{connectionId}/$metadata.json/datasets": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "GetDataSetsMetadata",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DataSetsMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferDataSetsMetadata"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/api/blob/GetFileByPath": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "GetFileMetadataByPath_Old",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "query",
+            "name": "path",
+            "required": true,
+            "type": "string",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BlobMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFileData"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/api/blob/GetFileContentByPath": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "GetFileContentByPath_Old",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "query",
+            "name": "path",
+            "required": true,
+            "type": "string",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFileData"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/api/blob/copyFile": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "CopyFile_Old",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "query",
+            "name": "source",
+            "required": true,
+            "type": "string",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "in": "query",
+            "name": "destination",
+            "required": true,
+            "type": "string",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "default": false,
+            "in": "query",
+            "name": "overwrite",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BlobMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFileData"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/api/blob/extractFolder": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ExtractFolder_Old",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "query",
+            "name": "source",
+            "required": true,
+            "type": "string",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "in": "query",
+            "name": "destination",
+            "required": true,
+            "type": "string",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "default": false,
+            "in": "query",
+            "name": "overwrite",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFolderData"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/api/blob/files": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "CreateFile_Old",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "query",
+            "name": "folderPath",
+            "required": true,
+            "type": "string",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "required": true,
+            "type": "string",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            }
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BlobMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFileData"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/api/blob/files/{id}": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "DeleteFile_Old",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFileData"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "GetFileMetadata_Old",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BlobMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFileData"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "put": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "UpdateFile_Old",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            }
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BlobMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFileData"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/api/blob/files/{id}/content": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "GetFileContent_Old",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFileData"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/api/blob/folders": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ListRootFolder_Old",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/BlobMetadata"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFolderData"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/api/blob/folders/{id}": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ListFolder_Old",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/BlobMetadata"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFolderData"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/api/trigger/onnewfile": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "OnNewFile_Old",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "query",
+            "name": "folderId",
+            "required": true,
+            "type": "string",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "description": "File content type",
+                "type": "string"
+              },
+              "x-ms-file-etag": {
+                "description": "File entity tag",
+                "type": "string"
+              },
+              "x-ms-file-id": {
+                "description": "File identifier",
+                "type": "string"
+              },
+              "x-ms-file-name": {
+                "description": "File name",
+                "type": "string"
+              },
+              "x-ms-file-path": {
+                "description": "File path",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFileDataTrigger"
+        ],
+        "x-ms-trigger": "single",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/api/trigger/onupdatedfile": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "OnUpdatedFile_Old",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "query",
+            "name": "folderId",
+            "required": true,
+            "type": "string",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "description": "File content type",
+                "type": "string"
+              },
+              "x-ms-file-etag": {
+                "description": "File entity tag",
+                "type": "string"
+              },
+              "x-ms-file-id": {
+                "description": "File identifier",
+                "type": "string"
+              },
+              "x-ms-file-name": {
+                "description": "File name",
+                "type": "string"
+              },
+              "x-ms-file-path": {
+                "description": "File path",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFileDataTrigger"
+        ],
+        "x-ms-trigger": "single",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/default/GetFileByPath": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation retrieves file metadata using path.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurefile/#get-file-metadata-using-path"
+        },
+        "operationId": "GetFileMetadataByPath",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify unique path to the file",
+            "in": "query",
+            "name": "path",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Path",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                }
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Path",
+                "operationId": "ListAllRootFolders"
+              },
+              "settings": {
+                "canSelectLeafNodes": true,
+                "canSelectParentNodes": false
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [],
+                "isFolder": false
+              },
+              "value-path": "Path"
+            },
+            "x-ms-summary": "File path"
+          },
+          {
+            "default": true,
+            "in": "query",
+            "name": "queryParametersSingleEncoded",
+            "required": false,
+            "type": "boolean",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BlobMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get file metadata using path",
+        "tags": [
+          "FileTransferFileData"
+        ],
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/datasets/default/GetFileContentByPath": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation retrieves file contents using path",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurefile/#get-file-content-using-path"
+        },
+        "operationId": "GetFileContentByPath",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify unique path to the file",
+            "in": "query",
+            "name": "path",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Path",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                }
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Path",
+                "operationId": "ListAllRootFolders"
+              },
+              "settings": {
+                "canSelectLeafNodes": true,
+                "canSelectParentNodes": false
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [],
+                "isFolder": false
+              },
+              "value-path": "Path"
+            },
+            "x-ms-summary": "File path"
+          },
+          {
+            "default": true,
+            "description": "Infer content-type based on extension",
+            "in": "query",
+            "name": "inferContentType",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Infer Content Type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": true,
+            "in": "query",
+            "name": "queryParametersSingleEncoded",
+            "required": false,
+            "type": "boolean",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "The content of the file.",
+              "format": "binary",
+              "type": "string",
+              "x-ms-summary": "File Content"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get file content using path",
+        "tags": [
+          "FileTransferFileData"
+        ]
+      }
+    },
+    "/{connectionId}/datasets/default/copyFile": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation copies a file.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurefile/#copy-file"
+        },
+        "operationId": "CopyFile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the Url to source file",
+            "in": "query",
+            "name": "source",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Source url"
+          },
+          {
+            "description": "Specify the destination file path, including target filename",
+            "in": "query",
+            "name": "destination",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Destination file path"
+          },
+          {
+            "default": false,
+            "description": "Should the destination file be overwritten (true/false)?",
+            "in": "query",
+            "name": "overwrite",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Overwrite?"
+          },
+          {
+            "default": true,
+            "in": "query",
+            "name": "queryParametersSingleEncoded",
+            "required": false,
+            "type": "boolean",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": true,
+            "description": "Get all file metadata from the SFTP server after file creation is complete. If this is false, some metadata properties may not be returned such as last modified time, etc.",
+            "in": "header",
+            "name": "ReadFileMetadataFromServer",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "ReadFileMetadataFromServer",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BlobMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Copy file",
+        "tags": [
+          "FileTransferFileData"
+        ],
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/datasets/default/extractFolderV2": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation extracts an archive file into a folder (example: .zip).",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurefile/#extract-archive-to-folder"
+        },
+        "operationId": "ExtractFolderV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the path to the archive file",
+            "in": "query",
+            "name": "source",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Path",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                },
+                "selectableFilter": "(MediaType eq 'application/zip' or MediaType eq 'application/x-zip-compressed')"
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Path",
+                "operationId": "ListAllRootFolders",
+                "selectableFilter": "(MediaType eq 'application/zip' or MediaType eq 'application/x-zip-compressed')"
+              },
+              "settings": {
+                "canSelectLeafNodes": true,
+                "canSelectParentNodes": false
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [
+                  "application/zip",
+                  "application/x-zip-compressed"
+                ],
+                "isFolder": false
+              },
+              "value-path": "Path"
+            },
+            "x-ms-summary": "Source archive file path"
+          },
+          {
+            "description": "Specify the path in Azure File Storage to extract the archive contents",
+            "in": "query",
+            "name": "destination",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Path",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                }
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Path",
+                "operationId": "ListAllRootFolders"
+              },
+              "settings": {
+                "canSelectLeafNodes": false,
+                "canSelectParentNodes": true
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [],
+                "isFolder": true
+              },
+              "value-path": "Path"
+            },
+            "x-ms-summary": "Destination folder path"
+          },
+          {
+            "default": false,
+            "description": "Should destination file be overwritten (true/false)?",
+            "in": "query",
+            "name": "overwrite",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Overwrite?"
+          },
+          {
+            "default": true,
+            "in": "query",
+            "name": "queryParametersSingleEncoded",
+            "required": false,
+            "type": "boolean",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/BlobMetadata"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Extract archive to folder",
+        "tags": [
+          "FileTransferFolderData"
+        ],
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/datasets/default/files": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation uploads a file to Azure File Storage.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurefile/#create-file"
+        },
+        "operationId": "CreateFile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify folder path to upload",
+            "in": "query",
+            "name": "folderPath",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Path",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                }
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Path",
+                "operationId": "ListAllRootFolders"
+              },
+              "settings": {
+                "canSelectLeafNodes": false,
+                "canSelectParentNodes": true
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [],
+                "isFolder": true
+              },
+              "value-path": "Path"
+            },
+            "x-ms-summary": "Folder path"
+          },
+          {
+            "description": "Specify name of the file to create",
+            "in": "query",
+            "name": "name",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "File name"
+          },
+          {
+            "description": "Specify content of the file to upload",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            },
+            "x-ms-summary": "File content"
+          },
+          {
+            "default": true,
+            "in": "query",
+            "name": "queryParametersSingleEncoded",
+            "required": false,
+            "type": "boolean",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": true,
+            "description": "Get all file metadata from the SFTP server after file creation is complete. If this is false, some metadata properties may not be returned such as last modified time, etc.",
+            "in": "header",
+            "name": "ReadFileMetadataFromServer",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "ReadFileMetadataFromServer",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BlobMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Create file",
+        "tags": [
+          "FileTransferFileData"
+        ],
+        "x-ms-capabilities": {
+          "chunkTransfer": true
+        },
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/datasets/default/files/{id}": {
+      "delete": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation deletes a file.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurefile/#delete-file"
+        },
+        "operationId": "DeleteFile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the file to delete",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                }
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListAllRootFolders"
+              },
+              "settings": {
+                "canSelectLeafNodes": true,
+                "canSelectParentNodes": false
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [],
+                "isFolder": false
+              },
+              "value-path": "Id"
+            },
+            "x-ms-summary": "File",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "default": false,
+            "description": "Skips the deletion if a file is not found on the server.",
+            "in": "header",
+            "name": "SkipDeleteIfFileNotFoundOnServer",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "SkipDeleteIfFileNotFoundOnServer",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Delete file",
+        "tags": [
+          "FileTransferFileData"
+        ]
+      },
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation retrieves file metadata using file id.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurefile/#get-file-metadata"
+        },
+        "operationId": "GetFileMetadata",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the file to get metadata",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                }
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListAllRootFolders"
+              },
+              "settings": {
+                "canSelectLeafNodes": true,
+                "canSelectParentNodes": false
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [],
+                "isFolder": false
+              },
+              "value-path": "Id"
+            },
+            "x-ms-summary": "File",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BlobMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get file metadata",
+        "tags": [
+          "FileTransferFileData"
+        ],
+        "x-ms-visibility": "advanced"
+      },
+      "patch": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation appends to a file.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurefile/#append-file"
+        },
+        "operationId": "AppendFile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the file to append to",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                }
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListAllRootFolders"
+              },
+              "settings": {
+                "canSelectLeafNodes": true,
+                "canSelectParentNodes": false
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [],
+                "isFolder": false
+              },
+              "value-path": "Id"
+            },
+            "x-ms-summary": "File",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Specify the content to append to the file",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            },
+            "x-ms-summary": "File content"
+          },
+          {
+            "default": true,
+            "description": "Get all file metadata from the SFTP server after file creation is complete. If this is false, some metadata properties may not be returned such as last modified time, etc.",
+            "in": "header",
+            "name": "ReadFileMetadataFromServer",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "ReadFileMetadataFromServer",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BlobMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Append file",
+        "tags": [
+          "FileTransferFileData"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "put": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation updates a file in Azure File Storage.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurefile/#update-file"
+        },
+        "operationId": "UpdateFile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the file to update",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                }
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListAllRootFolders"
+              },
+              "settings": {
+                "canSelectLeafNodes": true,
+                "canSelectParentNodes": false
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [],
+                "isFolder": false
+              },
+              "value-path": "Id"
+            },
+            "x-ms-summary": "File",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "Specify the content to update the file with",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "format": "binary",
+              "type": "string"
+            },
+            "x-ms-summary": "File content"
+          },
+          {
+            "default": true,
+            "description": "Get all file metadata from the SFTP server after file creation is complete. If this is false, some metadata properties may not be returned such as last modified time, etc.",
+            "in": "header",
+            "name": "ReadFileMetadataFromServer",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "ReadFileMetadataFromServer",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BlobMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Update file",
+        "tags": [
+          "FileTransferFileData"
+        ]
+      }
+    },
+    "/{connectionId}/datasets/default/files/{id}/content": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation retrieves file contents using id.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurefile/#get-file-content"
+        },
+        "operationId": "GetFileContent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the file to get contents",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                }
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListAllRootFolders"
+              },
+              "settings": {
+                "canSelectLeafNodes": true,
+                "canSelectParentNodes": false
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [],
+                "isFolder": false
+              },
+              "value-path": "Id"
+            },
+            "x-ms-summary": "File",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "default": true,
+            "description": "Infer content-type based on extension",
+            "in": "query",
+            "name": "inferContentType",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Infer Content Type",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "The content of the file.",
+              "format": "binary",
+              "type": "string",
+              "x-ms-summary": "File Content"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get file content",
+        "tags": [
+          "FileTransferFileData"
+        ]
+      }
+    },
+    "/{connectionId}/datasets/default/files/{id}/rename": {
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "RenameFile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                }
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListAllRootFolders"
+              },
+              "settings": {
+                "canSelectLeafNodes": true,
+                "canSelectParentNodes": false
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [],
+                "isFolder": false
+              },
+              "value-path": "Id"
+            },
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "in": "query",
+            "name": "newName",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "default": true,
+            "description": "Get all file metadata from the SFTP server after file creation is complete. If this is false, some metadata properties may not be returned such as last modified time, etc.",
+            "in": "header",
+            "name": "ReadFileMetadataFromServer",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "ReadFileMetadataFromServer",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BlobMetadataResponse"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFileData"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/default/folders": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation lists files in the Azure File Storage root folder.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurefile/#list-files-in-root-folder"
+        },
+        "operationId": "ListRootFolder",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/BlobMetadata"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "List files in root folder",
+        "tags": [
+          "FileTransferFolderData"
+        ],
+        "x-ms-api-annotation": {
+          "family": "ListRootFolder",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      },
+      "post": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "CreateFolder",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "query",
+            "name": "folderPath",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Path",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                }
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Path",
+                "operationId": "ListAllRootFolders"
+              },
+              "settings": {
+                "canSelectLeafNodes": false,
+                "canSelectParentNodes": true
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [],
+                "isFolder": true
+              },
+              "value-path": "Path"
+            }
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BlobMetadata"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFolderData"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/default/folders/{id}": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation lists files in a directory.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurefile/#list-files-in-directory"
+        },
+        "operationId": "ListFolder",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the folder to list contents",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                }
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListAllRootFolders"
+              },
+              "settings": {
+                "canSelectLeafNodes": false,
+                "canSelectParentNodes": true
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [],
+                "isFolder": true
+              },
+              "value-path": "Id"
+            },
+            "x-ms-summary": "Folder",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/BlobMetadata"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "List files in directory",
+        "tags": [
+          "FileTransferFolderData"
+        ],
+        "x-ms-api-annotation": {
+          "family": "ListFolder",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/default/foldersV2": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ListRootFolderV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": "",
+            "in": "query",
+            "name": "nextPageMarker",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Paging Marker",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": false,
+            "in": "query",
+            "name": "useFlatListing",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Flat Listing",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BlobMetadataPage"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFolderData"
+        ],
+        "x-ms-api-annotation": {
+          "family": "ListRootFolder",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/default/foldersV2/{id}": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation lists files in a folder.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurefile/#list-files"
+        },
+        "operationId": "ListFolderV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the folder",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                }
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListAllRootFolders"
+              },
+              "settings": {
+                "canSelectLeafNodes": false,
+                "canSelectParentNodes": true
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [],
+                "isFolder": true
+              },
+              "value-path": "Id"
+            },
+            "x-ms-summary": "Folder",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "default": "",
+            "in": "query",
+            "name": "nextPageMarker",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Paging Marker",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": false,
+            "description": "Whether or not to list files in flat listing",
+            "in": "query",
+            "name": "useFlatListing",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Flat Listing",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BlobMetadataPage"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "List files",
+        "tags": [
+          "FileTransferFolderData"
+        ],
+        "x-ms-api-annotation": {
+          "family": "ListFolder",
+          "revision": 2,
+          "status": "Production"
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/datasets/default/rootfolders": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ListAllRootFolders",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/BlobMetadata"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFolderData"
+        ],
+        "x-ms-api-annotation": {
+          "family": "ListAllRootFolders",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/default/rootfoldersV2": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "ListAllRootFoldersV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": "",
+            "in": "query",
+            "name": "nextPageMarker",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Paging Marker",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/BlobMetadataPage"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFolderData"
+        ],
+        "x-ms-api-annotation": {
+          "family": "ListAllRootFolders",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/default/triggers/batch/onnewfile": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "OnNewFiles",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "query",
+            "name": "folderId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                }
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListAllRootFolders"
+              },
+              "settings": {
+                "canSelectLeafNodes": false,
+                "canSelectParentNodes": true
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [],
+                "isFolder": true
+              },
+              "value-path": "Id"
+            }
+          },
+          {
+            "default": 10,
+            "format": "int32",
+            "in": "query",
+            "name": "maxFileCount",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Number of files to return from the trigger",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/BlobMetadata"
+              },
+              "type": "array",
+              "x-ms-summary": "List of Files"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "FileTransferFileDataTrigger"
+        ],
+        "x-ms-trigger": "batch",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/default/triggers/batch/onupdatedfile": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation triggers a flow when one or more files are added or modified in a directory.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurefile/#when-a-file-is-added-or-modified-(properties-only)"
+        },
+        "operationId": "OnUpdatedFiles",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Select a directory",
+            "in": "query",
+            "name": "folderId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                }
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListAllRootFolders"
+              },
+              "settings": {
+                "canSelectLeafNodes": false,
+                "canSelectParentNodes": true
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [],
+                "isFolder": true
+              },
+              "value-path": "Id"
+            },
+            "x-ms-summary": "Directory"
+          },
+          {
+            "default": 10,
+            "description": "Max file count (1-100)",
+            "format": "int32",
+            "in": "query",
+            "name": "maxFileCount",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Number of files",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/BlobMetadata"
+              },
+              "type": "array",
+              "x-ms-summary": "List of Files"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a file is added or modified (properties only)",
+        "tags": [
+          "FileTransferFileDataTrigger"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, add or change files in the directory you selected.",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/default/triggers/onnewfile": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation triggers a flow when a file is added in a directory.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurefile/#when-a-file-is-added"
+        },
+        "operationId": "OnNewFile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Select a directory",
+            "in": "query",
+            "name": "folderId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                }
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListAllRootFolders"
+              },
+              "settings": {
+                "canSelectLeafNodes": false,
+                "canSelectParentNodes": true
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [],
+                "isFolder": true
+              },
+              "value-path": "Id"
+            },
+            "x-ms-summary": "Directory"
+          },
+          {
+            "default": true,
+            "description": "Infer content-type based on extension",
+            "in": "query",
+            "name": "inferContentType",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Infer Content Type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": true,
+            "in": "query",
+            "name": "queryParametersSingleEncoded",
+            "required": false,
+            "type": "boolean",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "description": "File content type",
+                "type": "string"
+              },
+              "x-ms-file-etag": {
+                "description": "File entity tag",
+                "type": "string"
+              },
+              "x-ms-file-id": {
+                "description": "File identifier",
+                "type": "string"
+              },
+              "x-ms-file-name": {
+                "description": "File name",
+                "type": "string",
+                "x-ms-visibility": "internal"
+              },
+              "x-ms-file-name-encoded": {
+                "description": "File name",
+                "format": "byte",
+                "type": "string"
+              },
+              "x-ms-file-path": {
+                "description": "File path",
+                "type": "string",
+                "x-ms-visibility": "internal"
+              },
+              "x-ms-file-path-encoded": {
+                "description": "File path",
+                "format": "byte",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "description": "The content of the file.",
+              "format": "binary",
+              "type": "string",
+              "x-ms-summary": "File Content"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a file is added",
+        "tags": [
+          "FileTransferFileDataTrigger"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-trigger": "single",
+        "x-ms-trigger-hint": "To see it work now, add a file in the directory you selected.",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/datasets/default/triggers/onupdatedfile": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "This operation triggers a flow when a file is added or modified in a directory.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurefile/#when-a-file-is-added-or-modified"
+        },
+        "operationId": "OnUpdatedFile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Select a directory",
+            "in": "query",
+            "name": "folderId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-tree": {
+              "browse": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListFolder",
+                "parameters": {
+                  "id": {
+                    "selectedItemValuePath": "Id"
+                  }
+                }
+              },
+              "open": {
+                "itemFullTitlePath": "Path",
+                "itemIsParent": "(IsFolder eq true)",
+                "itemTitlePath": "DisplayName",
+                "itemValuePath": "Id",
+                "operationId": "ListAllRootFolders"
+              },
+              "settings": {
+                "canSelectLeafNodes": false,
+                "canSelectParentNodes": true
+              }
+            },
+            "x-ms-dynamic-values": {
+              "capability": "file-picker",
+              "parameters": {
+                "dataset": null,
+                "fileFilter": [],
+                "isFolder": true
+              },
+              "value-path": "Id"
+            },
+            "x-ms-summary": "Directory"
+          },
+          {
+            "default": true,
+            "description": "If set to true, file content will also be retrieved along with the trigger response",
+            "in": "query",
+            "name": "includeFileContent",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Include file content",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": true,
+            "description": "Infer content-type based on extension",
+            "in": "query",
+            "name": "inferContentType",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Infer Content Type",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "default": true,
+            "in": "query",
+            "name": "queryParametersSingleEncoded",
+            "required": false,
+            "type": "boolean",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Content-Type": {
+                "description": "File content type",
+                "type": "string"
+              },
+              "x-ms-file-etag": {
+                "description": "File entity tag",
+                "type": "string"
+              },
+              "x-ms-file-id": {
+                "description": "File identifier",
+                "type": "string"
+              },
+              "x-ms-file-name": {
+                "description": "File name",
+                "type": "string",
+                "x-ms-visibility": "internal"
+              },
+              "x-ms-file-name-encoded": {
+                "description": "File name",
+                "format": "byte",
+                "type": "string"
+              },
+              "x-ms-file-path": {
+                "description": "File path",
+                "type": "string",
+                "x-ms-visibility": "internal"
+              },
+              "x-ms-file-path-encoded": {
+                "description": "File path",
+                "format": "byte",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "description": "The content of the file.",
+              "format": "binary",
+              "type": "string",
+              "x-ms-summary": "File Content"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "When a file is added or modified",
+        "tags": [
+          "FileTransferFileDataTrigger"
+        ],
+        "x-ms-api-annotation": {
+          "status": "Preview"
+        },
+        "x-ms-trigger": "single",
+        "x-ms-trigger-hint": "To see it works now, add or change a file in the directory you selected.",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/testconnection": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "operationId": "TestConnection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "tags": [
+          "AzureFileDiagnostic"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-capabilities": {
+    "file-picker": {
+      "browse": {
+        "operationId": "ListFolder",
+        "parameters": {
+          "id": {
+            "value-property": "Id"
+          }
+        }
+      },
+      "open": {
+        "operationId": "ListAllRootFolders"
+      },
+      "value-folder-property": "IsFolder",
+      "value-media-property": "MediaType",
+      "value-title": "DisplayName"
+    },
+    "testConnection": {
+      "operationId": "TestConnection",
+      "parameters": {}
+    }
+  },
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://azure.microsoft.com/services/storage/files/"
+    }
+  ]
+}

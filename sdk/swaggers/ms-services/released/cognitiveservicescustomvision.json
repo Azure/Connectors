@@ -1,0 +1,950 @@
+{
+  "basePath": "/apim/cognitiveservicescustomvision",
+  "definitions": {
+    "PredictImageURL_Request": {
+      "properties": {
+        "Url": {
+          "description": "The URL of the image to analyze.",
+          "type": "string",
+          "x-ms-summary": "Image URL",
+          "x-ms-visibility": "important"
+        }
+      },
+      "required": [
+        "Url"
+      ],
+      "type": "object",
+      "x-ms-test-value": {
+        "Url": "https://connectorteststore.blob.core.windows.net/testfiles/dog.jpg"
+      }
+    },
+    "PredictImageURL_Response": {
+      "properties": {
+        "Created": {
+          "description": "The date-time the prediction was created.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Created",
+          "x-ms-visibility": "advanced"
+        },
+        "Id": {
+          "description": "The unique identifier of the prediction.",
+          "type": "string",
+          "x-ms-summary": "Id",
+          "x-ms-visibility": "advanced"
+        },
+        "Iteration": {
+          "description": "The iteration the prediction was evaluated against.",
+          "type": "string",
+          "x-ms-summary": "Iteration",
+          "x-ms-visibility": "advanced"
+        },
+        "Predictions": {
+          "description": "Predictions",
+          "items": {
+            "properties": {
+              "Probability": {
+                "description": "The probability of the prediction.",
+                "format": "float",
+                "type": "number",
+                "x-ms-summary": "Probability",
+                "x-ms-visibility": "advanced"
+              },
+              "Tag": {
+                "description": "The tag from the prediction.",
+                "type": "string",
+                "x-ms-summary": "Tag",
+                "x-ms-visibility": "advanced"
+              },
+              "TagId": {
+                "description": "The unique identifier of the tag.",
+                "type": "string",
+                "x-ms-summary": "TagId",
+                "x-ms-visibility": "advanced"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "Predictions",
+          "x-ms-visibility": "advanced"
+        },
+        "Project": {
+          "description": "The project the prediction was evaluated against.",
+          "type": "string",
+          "x-ms-summary": "Project",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "PredictImage_Request": {
+      "format": "binary",
+      "type": "string"
+    },
+    "PredictImage_ResponseV2": {
+      "properties": {
+        "Predictions": {
+          "description": "Predictions",
+          "items": {
+            "properties": {
+              "boundingBox": {
+                "description": "The bounding box.",
+                "properties": {
+                  "height": {
+                    "description": "The height of the bounding box.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Height",
+                    "x-ms-visibility": "advanced"
+                  },
+                  "left": {
+                    "description": "The x-coordinate of the left-top corner.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Left",
+                    "x-ms-visibility": "advanced"
+                  },
+                  "top": {
+                    "description": "The y-coordinate of the left-top corner.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Top",
+                    "x-ms-visibility": "advanced"
+                  },
+                  "width": {
+                    "description": "The width of the bounding box.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Width",
+                    "x-ms-visibility": "advanced"
+                  }
+                },
+                "type": "object"
+              },
+              "probability": {
+                "description": "The probability of the prediction.",
+                "format": "float",
+                "type": "number",
+                "x-ms-summary": "Probability",
+                "x-ms-visibility": "advanced"
+              },
+              "tagId": {
+                "description": "The unique identifier of the tag.",
+                "type": "string",
+                "x-ms-summary": "TagId",
+                "x-ms-visibility": "advanced"
+              },
+              "tagName": {
+                "description": "The tag from the prediction.",
+                "type": "string",
+                "x-ms-summary": "Tag",
+                "x-ms-visibility": "advanced"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "Predictions",
+          "x-ms-visibility": "advanced"
+        },
+        "created": {
+          "description": "The date-time the prediction was created.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Created",
+          "x-ms-visibility": "advanced"
+        },
+        "id": {
+          "description": "The unique identifier of the prediction.",
+          "type": "string",
+          "x-ms-summary": "Id",
+          "x-ms-visibility": "advanced"
+        },
+        "iteration": {
+          "description": "The iteration the prediction was evaluated against.",
+          "type": "string",
+          "x-ms-summary": "Iteration",
+          "x-ms-visibility": "advanced"
+        },
+        "project": {
+          "description": "The project the prediction was evaluated against.",
+          "type": "string",
+          "x-ms-summary": "Project",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    },
+    "PredictImage_ResponseV3": {
+      "properties": {
+        "created": {
+          "description": "The date-time the prediction was created.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-summary": "Created",
+          "x-ms-visibility": "advanced"
+        },
+        "id": {
+          "description": "The unique identifier of the prediction.",
+          "type": "string",
+          "x-ms-summary": "Id",
+          "x-ms-visibility": "advanced"
+        },
+        "iteration": {
+          "description": "The iteration the prediction was evaluated against.",
+          "type": "string",
+          "x-ms-summary": "Iteration",
+          "x-ms-visibility": "advanced"
+        },
+        "predictions": {
+          "description": "Predictions",
+          "items": {
+            "properties": {
+              "boundingBox": {
+                "description": "The bounding box.",
+                "properties": {
+                  "height": {
+                    "description": "The height of the bounding box.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Height",
+                    "x-ms-visibility": "advanced"
+                  },
+                  "left": {
+                    "description": "The x-coordinate of the left-top corner.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Left",
+                    "x-ms-visibility": "advanced"
+                  },
+                  "top": {
+                    "description": "The y-coordinate of the left-top corner.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Top",
+                    "x-ms-visibility": "advanced"
+                  },
+                  "width": {
+                    "description": "The width of the bounding box.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Width",
+                    "x-ms-visibility": "advanced"
+                  }
+                },
+                "type": "object"
+              },
+              "probability": {
+                "description": "The probability of the prediction.",
+                "format": "float",
+                "type": "number",
+                "x-ms-summary": "Probability",
+                "x-ms-visibility": "advanced"
+              },
+              "tagId": {
+                "description": "The unique identifier of the tag.",
+                "type": "string",
+                "x-ms-summary": "TagId",
+                "x-ms-visibility": "advanced"
+              },
+              "tagName": {
+                "description": "The tag from the prediction.",
+                "type": "string",
+                "x-ms-summary": "Tag",
+                "x-ms-visibility": "advanced"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "Predictions",
+          "x-ms-visibility": "advanced"
+        },
+        "project": {
+          "description": "The project the prediction was evaluated against.",
+          "type": "string",
+          "x-ms-summary": "Project",
+          "x-ms-visibility": "advanced"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/cognitiveservicescustomvision"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Azure Custom Vision Service is a Microsoft Cognitive Services product for tagging images using your custom computer vision model.",
+    "title": "Custom Vision",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    }
+  },
+  "paths": {
+    "/{connectionId}/customvision/v1.0/Prediction/{projectId}/image": {
+      "post": {
+        "deprecated": true,
+        "description": "Predict the tags for an image based on image content.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescustomvision/#predict-tags-from-image-%5bdeprecated%5d"
+        },
+        "operationId": "PredictImage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the Custom Vision Project.",
+            "in": "path",
+            "name": "projectId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Project ID"
+          },
+          {
+            "description": "The id of a particular iteration to evaluate against. The default iteration for the project will be used when not specified.",
+            "in": "query",
+            "name": "iterationId",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Iteration ID"
+          },
+          {
+            "default": " application/octet-stream",
+            "in": "header",
+            "name": "Content-Type",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Content-Type",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The image you wish to analyze.",
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PredictImage_Request"
+            },
+            "x-ms-summary": "Image Content"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/PredictImageURL_Response"
+            }
+          }
+        },
+        "summary": "Predict tags from image",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/customvision/v1.0/Prediction/{projectId}/url": {
+      "post": {
+        "deprecated": true,
+        "description": "Predict the tags for an image located at the specified URL.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescustomvision/#predict-tags-from-image-url-%5bdeprecated%5d"
+        },
+        "operationId": "PredictImageURL",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the Custom Vision Project.",
+            "in": "path",
+            "name": "projectId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Project ID",
+            "x-ms-test-value": "8e228211-9d43-45dd-945f-6f940582698f"
+          },
+          {
+            "description": "The id of a particular iteration to evaluate against. The default iteration for the project will be used when not specified.",
+            "in": "query",
+            "name": "iterationId",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Iteration ID",
+            "x-ms-test-value": "ceeed249-a567-40f2-9e34-7a530bd43e2d"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PredictImageURL_Request"
+            },
+            "x-ms-summary": "body"
+          },
+          {
+            "default": " application/json",
+            "in": "header",
+            "name": "Content-Type",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Content-Type",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/PredictImageURL_Response"
+            }
+          }
+        },
+        "summary": "Predict tags from image URL",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/customvision/v3.0/Prediction/{projectId}/classify/iterations/{publishedName}/image": {
+      "post": {
+        "deprecated": true,
+        "description": "Classify an image based on image content.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescustomvision/#classify-an-image-%5bdeprecated%5d"
+        },
+        "operationId": "ClassifyImage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the Custom Vision Project.",
+            "in": "path",
+            "name": "projectId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Project ID"
+          },
+          {
+            "description": "The name of the model to evaluate against.",
+            "in": "path",
+            "name": "publishedName",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Published Name"
+          },
+          {
+            "default": " application/octet-stream",
+            "in": "header",
+            "name": "Content-Type",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Content-Type",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The image you wish to analyze.",
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PredictImage_Request"
+            },
+            "x-ms-summary": "Image Content"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/PredictImage_ResponseV2"
+            }
+          }
+        },
+        "summary": "Classify an image",
+        "x-ms-api-annotation": {
+          "family": "ClassifyImage",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/customvision/v3.0/Prediction/{projectId}/classify/iterations/{publishedName}/url": {
+      "post": {
+        "deprecated": true,
+        "description": "Classify an image located at the specified URL.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescustomvision/#classify-an-image-url-%5bdeprecated%5d"
+        },
+        "operationId": "ClassifyImageUrl",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the Custom Vision Project.",
+            "in": "path",
+            "name": "projectId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Project ID"
+          },
+          {
+            "description": "The name of the model to evaluate against.",
+            "in": "path",
+            "name": "publishedName",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Published Name"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PredictImageURL_Request"
+            },
+            "x-ms-summary": "body"
+          },
+          {
+            "default": " application/json",
+            "in": "header",
+            "name": "Content-Type",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Content-Type",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/PredictImage_ResponseV2"
+            }
+          }
+        },
+        "summary": "Classify an image url",
+        "x-ms-api-annotation": {
+          "family": "ClassifyImageUrl",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/customvision/v3.0/Prediction/{projectId}/detect/iterations/{publishedName}/image": {
+      "post": {
+        "deprecated": true,
+        "description": "Detect objects in an image based on image content.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescustomvision/#detect-objects-in-an-image-%5bdeprecated%5d"
+        },
+        "operationId": "DetectImage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the Custom Vision Project.",
+            "in": "path",
+            "name": "projectId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Project ID"
+          },
+          {
+            "description": "The name of the model to evaluate against.",
+            "in": "path",
+            "name": "publishedName",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Published Name"
+          },
+          {
+            "default": " application/octet-stream",
+            "in": "header",
+            "name": "Content-Type",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Content-Type",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The image you wish to analyze.",
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PredictImage_Request"
+            },
+            "x-ms-summary": "Image Content"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/PredictImage_ResponseV2"
+            }
+          }
+        },
+        "summary": "Detect objects in an image",
+        "x-ms-api-annotation": {
+          "family": "DetectImage",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/customvision/v3.0/Prediction/{projectId}/detect/iterations/{publishedName}/url": {
+      "post": {
+        "deprecated": true,
+        "description": "Detect objects in an image located at the specified URL.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescustomvision/#detect-objects-in-an-image-url-%5bdeprecated%5d"
+        },
+        "operationId": "DetectImageUrl",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the Custom Vision Project.",
+            "in": "path",
+            "name": "projectId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Project ID"
+          },
+          {
+            "description": "The name of the model to evaluate against.",
+            "in": "path",
+            "name": "publishedName",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Published Name"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PredictImageURL_Request"
+            },
+            "x-ms-summary": "body"
+          },
+          {
+            "default": " application/json",
+            "in": "header",
+            "name": "Content-Type",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Content-Type",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/PredictImage_ResponseV2"
+            }
+          }
+        },
+        "summary": "Detect objects in an image url",
+        "x-ms-api-annotation": {
+          "family": "DetectImageUrl",
+          "revision": 1,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/v2/customvision/v3.0/Prediction/{projectId}/classify/iterations/{publishedName}/image": {
+      "post": {
+        "deprecated": false,
+        "description": "Classify an image based on image content (V2).",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescustomvision/#classify-an-image-(v2)"
+        },
+        "operationId": "ClassifyImageV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the Custom Vision Project.",
+            "in": "path",
+            "name": "projectId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Project ID"
+          },
+          {
+            "description": "The name of the model to evaluate against.",
+            "in": "path",
+            "name": "publishedName",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Published Name"
+          },
+          {
+            "description": "The image you wish to analyze.",
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PredictImage_Request"
+            },
+            "x-ms-summary": "Image Content"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/PredictImage_ResponseV3"
+            }
+          }
+        },
+        "summary": "Classify an image (V2)",
+        "x-ms-api-annotation": {
+          "family": "ClassifyImage",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v2/customvision/v3.0/Prediction/{projectId}/classify/iterations/{publishedName}/url": {
+      "post": {
+        "deprecated": false,
+        "description": "Classify an image located at the specified URL (V2).",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescustomvision/#classify-an-image-url-(v2)"
+        },
+        "operationId": "ClassifyImageUrlV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the Custom Vision Project.",
+            "in": "path",
+            "name": "projectId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Project ID"
+          },
+          {
+            "description": "The name of the model to evaluate against.",
+            "in": "path",
+            "name": "publishedName",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Published Name"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PredictImageURL_Request"
+            },
+            "x-ms-summary": "body"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/PredictImage_ResponseV3"
+            }
+          }
+        },
+        "summary": "Classify an image url (V2)",
+        "x-ms-api-annotation": {
+          "family": "ClassifyImageUrl",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/v2/customvision/v3.0/Prediction/{projectId}/detect/iterations/{publishedName}/image": {
+      "post": {
+        "deprecated": false,
+        "description": "Detect objects in an image based on image content (V2).",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescustomvision/#detect-objects-in-an-image-(v2)"
+        },
+        "operationId": "DetectImageV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the Custom Vision Project.",
+            "in": "path",
+            "name": "projectId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Project ID"
+          },
+          {
+            "description": "The name of the model to evaluate against.",
+            "in": "path",
+            "name": "publishedName",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Published Name"
+          },
+          {
+            "description": "The image you wish to analyze.",
+            "in": "body",
+            "name": "Image",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PredictImage_Request"
+            },
+            "x-ms-summary": "Image Content"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/PredictImage_ResponseV3"
+            }
+          }
+        },
+        "summary": "Detect objects in an image (V2)",
+        "x-ms-api-annotation": {
+          "family": "DetectImage",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v2/customvision/v3.0/Prediction/{projectId}/detect/iterations/{publishedName}/url": {
+      "post": {
+        "deprecated": false,
+        "description": "Detect objects in an image located at the specified URL (V2).",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicescustomvision/#detect-objects-in-an-image-url-(v2)"
+        },
+        "operationId": "DetectImageUrlV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the Custom Vision Project.",
+            "in": "path",
+            "name": "projectId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Project ID"
+          },
+          {
+            "description": "The name of the model to evaluate against.",
+            "in": "path",
+            "name": "publishedName",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Published Name"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PredictImageURL_Request"
+            },
+            "x-ms-summary": "body"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {
+              "$ref": "#/definitions/PredictImage_ResponseV3"
+            }
+          }
+        },
+        "summary": "Detect objects in an image url (V2)",
+        "x-ms-api-annotation": {
+          "family": "DetectImageUrl",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://azure.microsoft.com/services/cognitive-services/custom-vision-service/"
+    }
+  ]
+}

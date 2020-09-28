@@ -1,0 +1,10 @@
+{
+  "bindings": [
+    {
+      "name": "events",
+      "type": "activityTrigger",
+      "direction": "in"
+    }
+  ],
+  "scriptFile": "../dist/NotifyMe/index.js"
+}

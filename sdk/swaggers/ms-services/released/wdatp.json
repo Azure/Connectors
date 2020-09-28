@@ -1,0 +1,2373 @@
+{
+  "basePath": "/apim/wdatp",
+  "consumes": [],
+  "definitions": {
+    "Alert": {
+      "description": "A single alert entity",
+      "properties": {
+        "alertCreationTime": {
+          "description": "The time at which the alert was created",
+          "format": "date-time",
+          "title": "Alert creation time",
+          "type": "string"
+        },
+        "assignedTo": {
+          "description": "Person to whom the alert was assigned",
+          "title": "Assigned to",
+          "type": "string"
+        },
+        "category": {
+          "description": "Alert category",
+          "title": "Category",
+          "type": "string"
+        },
+        "classification": {
+          "description": "Alert classification",
+          "enum": [
+            "Unknown",
+            "FalsePositive",
+            "TruePositive"
+          ],
+          "title": "Classification",
+          "type": "string"
+        },
+        "description": {
+          "description": "Alert description",
+          "title": "Description",
+          "type": "string"
+        },
+        "detectionSource": {
+          "description": "Detection source",
+          "title": "Detection source",
+          "type": "string"
+        },
+        "determination": {
+          "description": "Alert determination",
+          "enum": [
+            "NotAvailable",
+            "Apt",
+            "Malware",
+            "SecurityPersonnel",
+            "SecurityTesting",
+            "UnwantedSoftware",
+            "Other"
+          ],
+          "title": "Determination",
+          "type": "string"
+        },
+        "firstEventTime": {
+          "description": "The time of the first event related to the alert",
+          "format": "date-time",
+          "title": "First event time",
+          "type": "string"
+        },
+        "id": {
+          "description": "Alert identifier",
+          "title": "Alert ID",
+          "type": "string"
+        },
+        "incidentId": {
+          "description": "The ID of the incident",
+          "format": "int32",
+          "title": "Incident ID",
+          "type": "integer"
+        },
+        "investigationId": {
+          "description": "The Id of the investigation",
+          "format": "int32",
+          "title": "Investigation ID",
+          "type": "integer"
+        },
+        "lastEventTime": {
+          "description": "The time of the last event related to the alert",
+          "format": "date-time",
+          "title": "Last event time",
+          "type": "string"
+        },
+        "machineId": {
+          "description": "The identifier of the machine related to the alert",
+          "title": "Machine ID",
+          "type": "string"
+        },
+        "resolvedTime": {
+          "description": "The time at which the alert was resolved",
+          "title": "Resolved time",
+          "type": "string"
+        },
+        "severity": {
+          "description": "Alert severity",
+          "enum": [
+            "Informational",
+            "Low",
+            "Medium",
+            "High"
+          ],
+          "title": "Alert severity",
+          "type": "string"
+        },
+        "status": {
+          "description": "Status of the alert",
+          "enum": [
+            "Unspecified",
+            "New",
+            "InProgress",
+            "Resolved",
+            "Hidden"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "threatFamilyName": {
+          "description": "Threat family name",
+          "title": "Threat family name",
+          "type": "string"
+        },
+        "title": {
+          "description": "Alert title",
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "title": "Alert",
+      "type": "object"
+    },
+    "Investigation": {
+      "description": "A single investigation entity",
+      "properties": {
+        "computerDnsName": {
+          "description": "The computer name",
+          "title": "Computer name",
+          "type": "string"
+        },
+        "dndTime": {
+          "description": "The UTC time at which investigation was completed",
+          "format": "date-time",
+          "title": "End time",
+          "type": "string"
+        },
+        "id": {
+          "description": "The ID of the investigation",
+          "title": "ID",
+          "type": "string"
+        },
+        "machineId": {
+          "description": "The machine ID",
+          "title": "Machine ID",
+          "type": "string"
+        },
+        "startTime": {
+          "description": "The UTC time at which investigation was started",
+          "format": "date-time",
+          "title": "Start time",
+          "type": "string"
+        },
+        "statusDetails": {
+          "description": "Details on the status",
+          "title": "Status details",
+          "type": "string"
+        },
+        "type": {
+          "description": "The state of the investigation (e.g. 'Benign', 'Running', etc..)",
+          "enum": [
+            "Unknown",
+            "Terminated",
+            "TerminatedByUser",
+            "TerminatedBySystem",
+            "SuccessfullyRemediated",
+            "Benign",
+            "Failed",
+            "PartiallyRemediated",
+            "Running",
+            "PendingApproval",
+            "PendingResource",
+            "PartiallyInvestigated",
+            "Disabled",
+            "Queued",
+            "InnerFailure",
+            "PreexistingAlert",
+            "UnsupportedOs",
+            "UnsupportedAlertType",
+            "SuppressedAlert"
+          ],
+          "title": "Investigation state",
+          "type": "string"
+        }
+      },
+      "title": "Investigation",
+      "type": "object"
+    },
+    "Machine": {
+      "description": "A single machine entity",
+      "properties": {
+        "aadDeviceId": {
+          "description": "aadDeviceId",
+          "title": "AAD device ID",
+          "type": "string"
+        },
+        "agentVersion": {
+          "description": "The agent version",
+          "title": "Agent version",
+          "type": "string"
+        },
+        "computerDnsName": {
+          "description": "The computer name",
+          "title": "Computer name",
+          "type": "string"
+        },
+        "firstSeen": {
+          "description": "The time of the first event received by the machine",
+          "format": "date-time",
+          "title": "First seen",
+          "type": "string"
+        },
+        "healthStatus": {
+          "description": "The health status of the machine",
+          "enum": [
+            "Active",
+            "Inactive",
+            "ImpairedCommunication",
+            "NoSensorData",
+            "NoSensorDataImpairedCommunication",
+            "Unknown"
+          ],
+          "title": "Health status",
+          "type": "string"
+        },
+        "id": {
+          "description": "The machine identifier",
+          "title": "Machine ID",
+          "type": "string"
+        },
+        "isAadJoined": {
+          "description": "A flag indicating whether the machine is joined to AAD",
+          "title": "Is AAD joined",
+          "type": "boolean"
+        },
+        "lastExternalIpAddress": {
+          "description": "The last external IP address of the machine",
+          "title": "Last external IP address",
+          "type": "string"
+        },
+        "lastIpAddress": {
+          "description": "The last IP address of the machine",
+          "title": "Last IP address",
+          "type": "string"
+        },
+        "lastSeen": {
+          "description": "The time of the last event received by the machine",
+          "format": "date-time",
+          "title": "Last seen",
+          "type": "string"
+        },
+        "machineTags": {
+          "description": "The tags associated to the machine",
+          "items": {
+            "type": "string"
+          },
+          "title": "Machine tags",
+          "type": "array"
+        },
+        "osBuild": {
+          "description": "The OS build of the machine",
+          "format": "int32",
+          "title": "OS build",
+          "type": "integer"
+        },
+        "osPlatform": {
+          "description": "The OS platform of the machine",
+          "title": "OS platform",
+          "type": "string"
+        },
+        "osVersion": {
+          "description": "The OS version of the machine",
+          "title": "OS version",
+          "type": "string"
+        },
+        "rbacGroupId": {
+          "description": "The ID of the RBAC group to which the machine belongs",
+          "format": "int32",
+          "title": "RBAC group ID",
+          "type": "integer"
+        },
+        "rbacGroupName": {
+          "description": "The name of the RBAC group to which the machine belongs",
+          "title": "RBAC group name",
+          "type": "string"
+        },
+        "riskScore": {
+          "description": "A score indicating how much the machine is at risk",
+          "enum": [
+            "None",
+            "Low",
+            "Medium",
+            "High"
+          ],
+          "title": "Risk score",
+          "type": "string"
+        },
+        "systemProductName": {
+          "description": "systemProductName",
+          "format": "date-time",
+          "title": "System product name",
+          "type": "string"
+        }
+      },
+      "title": "Machine",
+      "type": "object"
+    },
+    "MachineAction": {
+      "description": "A single machine action entity",
+      "properties": {
+        "creationDateTimeUtc": {
+          "description": "The UTC time at which the action has been requested",
+          "format": "date-time",
+          "title": "Creation time",
+          "type": "string"
+        },
+        "id": {
+          "description": "The ID of the machine action",
+          "title": "Action ID",
+          "type": "string"
+        },
+        "lastUpdateDateTimeUtc": {
+          "description": "The last UTC time at which the action has been updated",
+          "format": "date-time",
+          "title": "Last update time",
+          "type": "string"
+        },
+        "machineId": {
+          "description": "The ID of the machine on which the action has been performed",
+          "title": "ID",
+          "type": "string"
+        },
+        "relatedFileInfo": {
+          "description": "relatedFileInfo",
+          "properties": {
+            "fileIdentifier": {
+              "description": "The hash of the file associated to this action",
+              "title": "File hash",
+              "type": "string"
+            },
+            "fileIdentifierType": {
+              "description": "The type of the hash of the file associated to this action",
+              "enum": [
+                "Sha1",
+                "Sha256",
+                "Md5"
+              ],
+              "title": "File hash type",
+              "type": "string"
+            }
+          },
+          "type": "object",
+          "x-ms-visibility": "internal"
+        },
+        "requestor": {
+          "description": "The person that requested the machine action",
+          "title": "Requestor",
+          "type": "string"
+        },
+        "requestorComment": {
+          "description": "The comment associated to the machine action",
+          "title": "Comment",
+          "type": "string"
+        },
+        "status": {
+          "description": "The status of the machine action (e.g., 'InProgress')",
+          "enum": [
+            "Pending",
+            "Cancelled",
+            "TimeOut",
+            "Failed",
+            "InProgress",
+            "Succeeded"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "type": {
+          "description": "The type of the action (e.g. 'Isolate', 'CollectInvestigationPackage', ...)",
+          "enum": [
+            "Unknown",
+            "RequestSample",
+            "RunAntiVirusScan",
+            "Offboard",
+            "CollectInvestigationPackage",
+            "Isolate",
+            "Unisolate",
+            "StopAndQuarantineFile",
+            "RestrictCodeExecution",
+            "UnrestrictCodeExecution"
+          ],
+          "title": "Action type",
+          "type": "string"
+        }
+      },
+      "title": "Machine Action",
+      "type": "object"
+    },
+    "WebHookNotification": {
+      "properties": {
+        "id": {
+          "title": "Alert Id",
+          "type": "string"
+        },
+        "machineId": {
+          "title": "Machine Id",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "WebHookSubscriptionRequest": {
+      "properties": {
+        "changeType": {
+          "default": "created",
+          "description": "Indicates the type of change in the subscribed resource that will raise a notification.",
+          "type": "string",
+          "x-ms-visibility": "internal"
+        },
+        "clientState": {
+          "default": "flow",
+          "description": "Gets or sets the client state.",
+          "type": "string",
+          "x-ms-visibility": "internal"
+        },
+        "expirationDateTime": {
+          "default": "2038-09-20T12:00:00Z",
+          "description": "Specifies the date and time when the webhook subscription expires.",
+          "format": "date-time",
+          "type": "string",
+          "x-ms-visibility": "internal"
+        },
+        "notificationUrl": {
+          "description": "Gets or sets the web hook callback URL.",
+          "type": "string",
+          "x-ms-notification-url": true,
+          "x-ms-visibility": "internal"
+        },
+        "resource": {
+          "default": "alerts",
+          "description": "Specifies the resource that will be monitored for changes.",
+          "type": "string",
+          "x-ms-visibility": "internal"
+        }
+      },
+      "required": [
+        "clientState",
+        "changeType",
+        "resource",
+        "expirationDateTime",
+        "notificationUrl"
+      ],
+      "type": "object"
+    },
+    "WebHookSubscriptionTableEntity": {
+      "properties": {
+        "clientState": {
+          "title": "Client State",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "notificationUrl": {
+          "description": "Gets or sets the web hook subscription notification URL.",
+          "title": "Notification Url",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/wdatp"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Microsoft Defender ATP is a unified platform for preventative protection, post-breach detection, automated investigation, and response. Read more about it here: http://aka.ms/wdatp",
+    "title": "Microsoft Defender ATP",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    }
+  },
+  "parameters": {},
+  "paths": {
+    "/{connectionId}/api/advancedqueries/run": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Run a custom query in Windows Defender ATP",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#advanced-hunting"
+        },
+        "operationId": "AdvancedHunting",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "Query": {
+                  "description": "The query to run",
+                  "title": "Query",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                }
+              },
+              "required": [
+                "Query"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "properties": {
+                "Results": {
+                  "items": {
+                    "properties": {},
+                    "type": "object",
+                    "x-ms-dynamic-properties": {
+                      "operationId": "AdvancedHuntingSchema",
+                      "parameters": {
+                        "body/Query": {
+                          "parameterReference": "body/Query"
+                        }
+                      }
+                    },
+                    "x-ms-dynamic-schema": {
+                      "operationId": "AdvancedHuntingSchema",
+                      "parameters": {
+                        "Query": {
+                          "parameter": "Query"
+                        }
+                      },
+                      "value-path": "properties"
+                    }
+                  },
+                  "type": "array"
+                },
+                "Stats": {
+                  "description": "Stats",
+                  "properties": {
+                    "dataset_statistics": {
+                      "description": "dataset_statistics",
+                      "items": {
+                        "properties": {
+                          "table_row_count": {
+                            "description": "The number of results that were returned from the query",
+                            "format": "int32",
+                            "title": "Count",
+                            "type": "integer",
+                            "x-ms-visibility": "important"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array",
+                      "x-ms-visibility": "internal"
+                    }
+                  },
+                  "type": "object",
+                  "x-ms-visibility": "internal"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Advanced Hunting",
+        "tags": [
+          "AdvancedHunting"
+        ],
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/api/advancedqueries/schema": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Gets the schema for a Windows Defender ATP custom query",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#advanced-hunting-schema"
+        },
+        "operationId": "AdvancedHuntingSchema",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "Query": {
+                  "description": "The query to run",
+                  "title": "Query",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "Query"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Advanced Hunting Schema",
+        "tags": [
+          "AdvancedHunting"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/api/alerts": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Retrieve from Windows Defender ATP the most recent alerts",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#alerts---get-list-of-alerts"
+        },
+        "operationId": "GetAlerts",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Expands related entities inline.",
+            "in": "query",
+            "name": "$expand",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Expands entities",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Filters the results, using OData syntax.",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filters results",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "Selects which properties to include in the response, defaults to all.",
+            "in": "query",
+            "name": "$select",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Selects properties",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Sorts the results.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Sorts results",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Returns only the first n results.",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Returns first results",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Skips the first n results.",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skips first results",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Includes a count of the matching results in the response.",
+            "in": "query",
+            "name": "$count",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Includes count",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "properties": {
+                "@odata.count": {
+                  "description": "The number of available alerts by this query",
+                  "format": "int32",
+                  "title": "Alerts count",
+                  "type": "integer"
+                },
+                "@odata.nextLink": {
+                  "description": "A link to get the next results in case there are more results than requested",
+                  "title": "Next link",
+                  "type": "string"
+                },
+                "value": {
+                  "description": "The alerts returned",
+                  "items": {
+                    "$ref": "#/definitions/Alert"
+                  },
+                  "title": "Alerts",
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Alerts - Get list of alerts",
+        "tags": [
+          "Alerts"
+        ]
+      }
+    },
+    "/{connectionId}/api/alerts/createAlertByReference": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Create Alert based on specific Event",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#alerts---create-alert"
+        },
+        "operationId": "CreateAlertByReference",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "category": {
+                  "description": "Category of the alert",
+                  "enum": [
+                    "General",
+                    "CommandAndControl",
+                    "Collection",
+                    "CredentialAccess",
+                    "DefenseEvasion",
+                    "Discovery",
+                    "Exfiltration",
+                    "Exploit",
+                    "Execution",
+                    "InitialAccess",
+                    "LateralMovement",
+                    "Malware",
+                    "Persistence",
+                    "PrivilegeEscalation",
+                    "Ransomware",
+                    "SuspiciousActivity"
+                  ],
+                  "title": "Category",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                },
+                "description": {
+                  "description": "Description of the Alert",
+                  "title": "Description",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                },
+                "eventTime": {
+                  "description": "Time of the event as string, e.g. 2018-08-03T16:45:21.7115183Z",
+                  "format": "date-time",
+                  "title": "Event Time",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                },
+                "machineId": {
+                  "description": "ID of the machine on which the event was identified",
+                  "title": "Machine ID",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                },
+                "recommendedAction": {
+                  "description": "Recommended action for the Alert",
+                  "title": "Recommended Action",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                },
+                "reportId": {
+                  "description": "Report Id of the event",
+                  "format": "int32",
+                  "title": "Report ID",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                },
+                "severity": {
+                  "description": "Severity of the alert.",
+                  "enum": [
+                    "Low",
+                    "Medium",
+                    "High"
+                  ],
+                  "title": "Severity",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                },
+                "title": {
+                  "description": "Title of the Alert",
+                  "title": "Title",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                }
+              },
+              "required": [
+                "eventTime",
+                "machineId",
+                "reportId",
+                "severity",
+                "category",
+                "title",
+                "description",
+                "recommendedAction"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Alert"
+            }
+          }
+        },
+        "summary": "Alerts - Create alert",
+        "tags": [
+          "Alerts"
+        ]
+      }
+    },
+    "/{connectionId}/api/alerts/{Alert ID}": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Retrieve from Windows Defender ATP a specific alert",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#alerts---get-single-alert"
+        },
+        "operationId": "GetSingleAlert",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The identifier of the alert to retrieve",
+            "in": "path",
+            "name": "Alert ID",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "ID of the alert",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Alert"
+            }
+          }
+        },
+        "summary": "Alerts - Get single alert",
+        "tags": [
+          "Alerts"
+        ]
+      },
+      "patch": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Update a Windows Defender ATP alert",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#alerts---update-alert"
+        },
+        "operationId": "PatchAlert",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The identifier of the alert to update",
+            "in": "path",
+            "name": "Alert ID",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "ID of the alert",
+            "x-ms-visibility": "important"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "assignedTo": {
+                  "description": "Person to assign the alert to",
+                  "title": "Assigned to",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                },
+                "classification": {
+                  "description": "Classification of the alert. One of 'Unknown', 'FalsePositive', 'TruePositive'",
+                  "enum": [
+                    "Unknown",
+                    "FalsePositive",
+                    "TruePositive"
+                  ],
+                  "title": "Classification",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                },
+                "determination": {
+                  "description": "The determination of the alert. One of 'NotAvailable', 'Apt', 'Malware', 'SecurityPersonnel', 'SecurityTesting', 'UnwantedSoftware', 'Other'",
+                  "enum": [
+                    "NotAvailable",
+                    "Apt",
+                    "Malware",
+                    "SecurityPersonnel",
+                    "SecurityTesting",
+                    "UnwantedSoftware",
+                    "Other"
+                  ],
+                  "title": "Determination",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                },
+                "status": {
+                  "description": "Status of the alert. One of 'New', 'InProgress' and 'Resolved'",
+                  "enum": [
+                    "New",
+                    "InProgress",
+                    "Resolved"
+                  ],
+                  "title": "Status",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                }
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Alert"
+            }
+          }
+        },
+        "summary": "Alerts - Update alert",
+        "tags": [
+          "Alerts"
+        ]
+      }
+    },
+    "/{connectionId}/api/investigations": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Retrieve from Microsoft Defender ATP the most recent investigations",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#actions---get-list-of-investigation"
+        },
+        "operationId": "GetInvestigations",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Filters the results, using OData syntax.",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filters results",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "Selects which properties to include in the response, defaults to all.",
+            "in": "query",
+            "name": "$select",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Selects properties",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Sorts the results.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Sorts results",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Returns only the first n results.",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Returns first results",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Skips the first n results.",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skips first results",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Includes a count of the matching results in the response.",
+            "in": "query",
+            "name": "$count",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Includes count",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "properties": {
+                "@odata.count": {
+                  "description": "The number of available investigations by this query",
+                  "format": "int32",
+                  "title": "Investigations count",
+                  "type": "integer"
+                },
+                "@odata.nextLink": {
+                  "description": "A link to get the next results in case there are more results than requested",
+                  "title": "Next link",
+                  "type": "string"
+                },
+                "value": {
+                  "description": "The investigations returned",
+                  "items": {
+                    "$ref": "#/definitions/Investigation"
+                  },
+                  "title": "Investigations",
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Actions - Get list of investigation",
+        "tags": [
+          "Investigations"
+        ]
+      }
+    },
+    "/{connectionId}/api/investigations/{Investigation ID}": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Retrieve from Microsoft Defender ATP a specific investigation",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#actions---get-single-investigation"
+        },
+        "operationId": "GetSingleInvestigation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The identifier of the investigation to retrieve",
+            "in": "path",
+            "name": "Investigation ID",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "ID of the investigation",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Investigation"
+            }
+          }
+        },
+        "summary": "Actions - Get single investigation",
+        "tags": [
+          "Investigations"
+        ]
+      }
+    },
+    "/{connectionId}/api/machineactions": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Retrieve from Windows Defender ATP the most recent machine actions",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#actions---get-list-of-machine-actions"
+        },
+        "operationId": "GetMachineActions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Filters the results, using OData syntax.",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filters results",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "Selects which properties to include in the response, defaults to all.",
+            "in": "query",
+            "name": "$select",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Selects properties",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Sorts the results.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Sorts results",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Returns only the first n results.",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Returns first results",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Skips the first n results.",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skips first results",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Includes a count of the matching results in the response.",
+            "in": "query",
+            "name": "$count",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Includes count",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "properties": {
+                "@odata.count": {
+                  "description": "The number of available machine actions by this query",
+                  "format": "int32",
+                  "title": "Machine Actions count",
+                  "type": "integer"
+                },
+                "@odata.nextLink": {
+                  "description": "A link to get the next results in case there are more results than requested",
+                  "title": "Next link",
+                  "type": "string"
+                },
+                "value": {
+                  "description": "The machine actions returned",
+                  "items": {
+                    "$ref": "#/definitions/MachineAction"
+                  },
+                  "title": "Machine Actions",
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Actions - Get list of machine actions",
+        "tags": [
+          "Machine Actions"
+        ]
+      }
+    },
+    "/{connectionId}/api/machineactions/{Machine Action ID}": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Retrieve from Windows Defender ATP a specific machine action",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#actions---get-single-machine-action"
+        },
+        "operationId": "GetSingleMachineAction",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The identifier of the machine action to retrieve",
+            "in": "path",
+            "name": "Machine Action ID",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "ID of the machine action",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MachineAction"
+            }
+          }
+        },
+        "summary": "Actions - Get single machine action",
+        "tags": [
+          "Machine Actions"
+        ]
+      }
+    },
+    "/{connectionId}/api/machineactions/{Machine action ID}/getPackageUri": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Get a URI that allows downloading of an investigation package",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#actions---get-investigation-package-download-uri"
+        },
+        "operationId": "GetInvestigationPackageUri",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the investigation package collection",
+            "in": "path",
+            "name": "Machine action ID",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Action ID",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "properties": {
+                "value": {
+                  "description": "The investigation package SAS URI",
+                  "title": "Package SAS URI",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Actions - Get investigation package download URI",
+        "tags": [
+          "Machine Action"
+        ]
+      }
+    },
+    "/{connectionId}/api/machines": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Retrieve from Windows Defender ATP the most recent machines",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#machines---get-list-of-machines"
+        },
+        "operationId": "GetMachines",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Filters the results, using OData syntax.",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filters results",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "Selects which properties to include in the response, defaults to all.",
+            "in": "query",
+            "name": "$select",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Selects properties",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Sorts the results.",
+            "in": "query",
+            "name": "$orderby",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Sorts results",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Returns only the first n results.",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Returns first results",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Skips the first n results.",
+            "format": "int32",
+            "in": "query",
+            "name": "$skip",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Skips first results",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Includes a count of the matching results in the response.",
+            "in": "query",
+            "name": "$count",
+            "required": false,
+            "type": "boolean",
+            "x-ms-summary": "Includes count",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "properties": {
+                "@odata.count": {
+                  "description": "The number of available machines by this query",
+                  "format": "int32",
+                  "title": "Machines count",
+                  "type": "integer"
+                },
+                "@odata.nextLink": {
+                  "description": "A link to get the next results in case there are more results than requested",
+                  "title": "Next link",
+                  "type": "string"
+                },
+                "value": {
+                  "description": "The machines returned",
+                  "items": {
+                    "$ref": "#/definitions/Machine"
+                  },
+                  "title": "Machines",
+                  "type": "array"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Machines - Get list of machines",
+        "tags": [
+          "Machines"
+        ]
+      }
+    },
+    "/{connectionId}/api/machines/{Machine ID}": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Retrieve from Windows Defender ATP a specific machine",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#machines---get-single-machine"
+        },
+        "operationId": "GetSingleMachine",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The identifier of the machine to retrieve",
+            "in": "path",
+            "name": "Machine ID",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "ID of the machine",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Machine"
+            }
+          }
+        },
+        "summary": "Machines - Get single machine",
+        "tags": [
+          "Machines"
+        ]
+      }
+    },
+    "/{connectionId}/api/machines/{Machine ID}/collectInvestigationPackage": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Collect investigation package from a machine",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#actions---collect-investigation-package"
+        },
+        "operationId": "CollectInvestigationPackage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the machine to collect the investigation from",
+            "in": "path",
+            "name": "Machine ID",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Machine ID",
+            "x-ms-visibility": "important"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "Comment": {
+                  "description": "A comment to associate to the collection",
+                  "title": "Comment",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                }
+              },
+              "required": [
+                "Comment"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MachineAction"
+            }
+          }
+        },
+        "summary": "Actions - Collect investigation package",
+        "tags": [
+          "Machine Action"
+        ]
+      }
+    },
+    "/{connectionId}/api/machines/{Machine ID}/initiateInvestigation": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "deprecated": false,
+        "description": "Initiate investigation on a machine",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#actions---initiate-investigation-on-a-machine-(to-be-deprecated)"
+        },
+        "operationId": "InitiateInvestigation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the machine to investigate",
+            "in": "path",
+            "name": "Machine ID",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Machine ID",
+            "x-ms-visibility": "important"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "Comment": {
+                  "description": "A comment to associate to the investigation",
+                  "title": "Comment",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                }
+              },
+              "required": [
+                "Comment"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "properties": {
+                "value": {
+                  "description": "The ID of the investigation",
+                  "title": "Investigation ID",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "summary": "Actions - Initiate investigation on a machine (to be deprecated)",
+        "tags": [
+          "Investigation"
+        ],
+        "x-ms-api-annotation": {
+          "family": "Investigation",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/api/machines/{Machine ID}/isolate": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Isolate a machine from network",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#actions---isolate-machine"
+        },
+        "operationId": "IsolateMachine",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the machine to isolate",
+            "in": "path",
+            "name": "Machine ID",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Machine ID",
+            "x-ms-visibility": "important"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "Comment": {
+                  "description": "A comment to associate to the isolation",
+                  "title": "Comment",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                },
+                "IsolationType": {
+                  "default": "Full",
+                  "description": "Type of the isolation. Allowed values are 'Full' (for full isolation) or 'Selective' (to restrict only limited set of applications from accessing the network)",
+                  "enum": [
+                    "Full",
+                    "Selective"
+                  ],
+                  "title": "Isolation Type",
+                  "type": "string",
+                  "x-ms-visibility": "advanced"
+                }
+              },
+              "required": [
+                "Comment",
+                "IsolationType"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MachineAction"
+            }
+          }
+        },
+        "summary": "Actions - Isolate machine",
+        "tags": [
+          "Machine Action"
+        ]
+      }
+    },
+    "/{connectionId}/api/machines/{Machine ID}/restrictCodeExecution": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Restrict execution of all applications on the machine except a predefined set",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#actions---restrict-app-execution"
+        },
+        "operationId": "RestrictAppExecution",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the machine to restrict",
+            "in": "path",
+            "name": "Machine ID",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Machine ID",
+            "x-ms-visibility": "important"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "Comment": {
+                  "description": "A comment to associate to the restriction",
+                  "title": "Comment",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                }
+              },
+              "required": [
+                "Comment"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MachineAction"
+            }
+          }
+        },
+        "summary": "Actions - Restrict app execution",
+        "tags": [
+          "Machine Action"
+        ]
+      }
+    },
+    "/{connectionId}/api/machines/{Machine ID}/runAntiVirusScan": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Initiate Windows Defender Antivirus scan on a machine",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#actions---run-antivirus-scan"
+        },
+        "operationId": "RunAntivirusScan",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the machine to scan",
+            "in": "path",
+            "name": "Machine ID",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Machine ID",
+            "x-ms-visibility": "important"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "Comment": {
+                  "description": "A comment to associate to the scan request",
+                  "title": "Comment",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                },
+                "ScanType": {
+                  "description": "Type of scan to perform. Allowed values are 'Quick' or 'Full'",
+                  "enum": [
+                    "Quick",
+                    "Full"
+                  ],
+                  "title": "Scan Type",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                }
+              },
+              "required": [
+                "Comment",
+                "ScanType"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MachineAction"
+            }
+          }
+        },
+        "summary": "Actions - Run antivirus scan",
+        "tags": [
+          "Machine Action"
+        ]
+      }
+    },
+    "/{connectionId}/api/machines/{Machine ID}/startInvestigation": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "deprecated": false,
+        "description": "Start automated investigation on a machine",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#actions---start-automated-investigation-on-a-machine"
+        },
+        "operationId": "StartInvestigation",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the machine to investigate",
+            "in": "path",
+            "name": "Machine ID",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Machine ID",
+            "x-ms-visibility": "important"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "Comment": {
+                  "description": "A comment to associate to the investigation",
+                  "title": "Comment",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                }
+              },
+              "required": [
+                "Comment"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Investigation"
+            }
+          }
+        },
+        "summary": "Actions - Start automated investigation on a machine",
+        "tags": [
+          "Investigation"
+        ],
+        "x-ms-api-annotation": {
+          "family": "Investigation",
+          "revision": 2,
+          "status": "Preview"
+        }
+      }
+    },
+    "/{connectionId}/api/machines/{Machine ID}/tags": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Add or remove a tag to/from a machine",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#machines---tag-machine"
+        },
+        "operationId": "MachineTag",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the machine to which the tag should be added or removed",
+            "in": "path",
+            "name": "Machine ID",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "ID of the machine",
+            "x-ms-visibility": "important"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "Action": {
+                  "description": "The action to perform. Value should be one of 'Add' (to add a tag) or 'Remove' (to remove a tag)",
+                  "enum": [
+                    "Add",
+                    "Remove"
+                  ],
+                  "title": "Action",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                },
+                "Value": {
+                  "description": "The tag to add or remove",
+                  "title": "Value",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                }
+              },
+              "required": [
+                "Action",
+                "Value"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Machine"
+            }
+          }
+        },
+        "summary": "Machines - Tag machine",
+        "tags": [
+          "Machines"
+        ]
+      }
+    },
+    "/{connectionId}/api/machines/{Machine ID}/unisolate": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Unisolate a machine from network",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#actions---unisolate-machine"
+        },
+        "operationId": "UnisolateMachine",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the machine to unisolate",
+            "in": "path",
+            "name": "Machine ID",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Machine ID",
+            "x-ms-visibility": "important"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "Comment": {
+                  "description": "A comment to associate to the unisolation",
+                  "title": "Comment",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                }
+              },
+              "required": [
+                "Comment"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MachineAction"
+            }
+          }
+        },
+        "summary": "Actions - Unisolate machine",
+        "tags": [
+          "Machine Action"
+        ]
+      }
+    },
+    "/{connectionId}/api/machines/{Machine ID}/unrestrictCodeExecution": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Enable execution of any application on the machine",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#actions---remove-app-execution-restriction"
+        },
+        "operationId": "UnrestrictAppExecution",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The ID of the machine to unrestrict",
+            "in": "path",
+            "name": "Machine ID",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Machine ID",
+            "x-ms-visibility": "important"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "Comment": {
+                  "description": "A comment to associate to the restriction removal",
+                  "title": "Comment",
+                  "type": "string",
+                  "x-ms-visibility": "important"
+                }
+              },
+              "required": [
+                "Comment"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MachineAction"
+            }
+          }
+        },
+        "summary": "Actions - Remove app execution restriction",
+        "tags": [
+          "Machine Action"
+        ]
+      }
+    },
+    "/{connectionId}/subscriptions": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Subscribe for Windows Defender ATP alerts",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#triggers---trigger-when-new-wdatp-alert-occurs"
+        },
+        "operationId": "WebHooks_CreateWebHook",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The web hook creation parameters.",
+            "in": "body",
+            "name": "request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/WebHookSubscriptionRequest"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/WebHookSubscriptionTableEntity"
+            }
+          }
+        },
+        "summary": "Triggers - Trigger when new WDATP alert occurs",
+        "tags": [
+          "Subscriptions"
+        ],
+        "x-ms-trigger": "single"
+      },
+      "x-ms-notification-content": {
+        "description": "Details for web hook subscription",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "schema": {
+          "$ref": "#/definitions/WebHookNotification"
+        }
+      }
+    },
+    "/{connectionId}/subscriptions/{hookId}": {
+      "delete": {
+        "consumes": [],
+        "description": "Deletes Windows Defender ATP registered alert hook",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#deletes-a-registered-alert-hook"
+        },
+        "operationId": "WebHooks_DeleteWebHook",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "hookId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "summary": "Deletes a registered alert hook",
+        "tags": [
+          "Subscriptions"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "get": {
+        "consumes": [],
+        "description": "Get Windows Defender ATP registered alert web hook subscription",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/wdatp/#get-a-registered-alert-web-hook-subscription"
+        },
+        "operationId": "WebHooks_GetWebHook",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "hookId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/WebHookSubscriptionTableEntity"
+            }
+          }
+        },
+        "summary": "Get a registered alert web hook subscription",
+        "tags": [
+          "Subscriptions"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "responses": {},
+  "schemes": [
+    "https"
+  ],
+  "security": [],
+  "securityDefinitions": {
+    "AAD": {
+      "authorizationUrl": "https://login.windows.net/common/oauth2/authorize",
+      "flow": "implicit",
+      "scopes": {},
+      "type": "oauth2"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [],
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://www.microsoft.com/microsoft-365/windows/microsoft-defender-atp"
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "basePath": "/apim/azureloganalyticsdatacollector",
+  "definitions": {},
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/azureloganalyticsdatacollector"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Azure Log Analytics Data Collector will send data to any Azure Log Analytics workspace.",
+    "title": "Azure Log Analytics Data Collector",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    }
+  },
+  "paths": {
+    "/{connectionId}/api/logs": {
+      "post": {
+        "deprecated": false,
+        "description": "Send data to Azure Log Analytics workspace.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azureloganalyticsdatacollector/#send-data"
+        },
+        "operationId": "SendData",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-ms-summary": "JSON Request body",
+            "x-ms-test-value": [
+              {
+                "BooleanValue": true,
+                "DateValue": "2016-05-12T20:00:00.625Z",
+                "GUIDValue": "9909ED01-A74C-4874-8ABF-D2678E3AE23D",
+                "NumberValue": 42,
+                "StringValue": "Sample test data from connector"
+              },
+              {
+                "BooleanValue": false,
+                "DateValue": "2016-05-12T20:00:00.625Z",
+                "GUIDValue": "8809ED01-A74C-4874-8ABF-D2678E3AE23D",
+                "NumberValue": 43,
+                "StringValue": "Sample test data from Azure Log Analytics connector"
+              }
+            ]
+          },
+          {
+            "description": "Name of the custom log.",
+            "in": "header",
+            "name": "Log-Type",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Custom Log Name",
+            "x-ms-test-value": "SampleTestConnector"
+          },
+          {
+            "description": "Represents the original date and time of the record.",
+            "in": "header",
+            "name": "time-generated-field",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Time-generated-field",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "schema": {}
+          }
+        },
+        "summary": "Send Data",
+        "x-ms-visibility": "advanced"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "Authorization": {
+      "type": "basic"
+    }
+  },
+  "swagger": "2.0",
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://azure.microsoft.com/services/monitor/"
+    }
+  ],
+  "x-ms-docs": [
+    {
+      "description": "Azure Log Analytics HTTP Data Collector API",
+      "url": "https://docs.microsoft.com/azure/log-analytics/log-analytics-data-collector-api"
+    }
+  ]
+}

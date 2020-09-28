@@ -1,0 +1,1343 @@
+{
+  "basePath": "/apim/office365groups",
+  "consumes": [],
+  "definitions": {
+    "CreateCalendarEvent_Response": {
+      "properties": {
+        "body": {
+          "description": "body",
+          "properties": {
+            "content": {
+              "description": "The content of the body of this event.",
+              "type": "string",
+              "x-ms-summary": "Content",
+              "x-ms-visibility": "advanced"
+            },
+            "contentType": {
+              "description": "Text or Html.",
+              "type": "string",
+              "x-ms-summary": "Content Type",
+              "x-ms-visibility": "advanced"
+            }
+          },
+          "type": "object",
+          "x-ms-summary": "Body"
+        },
+        "end": {
+          "description": "end",
+          "properties": {
+            "dateTime": {
+              "description": "End time of the event (example: '2016-11-01T15:30:00-07:00').",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": "Date Time"
+            },
+            "timeZone": {
+              "default": "UTC",
+              "description": "Time zone of the event, specified as a time zone index value (example: 'Pacific Standard Time').",
+              "type": "string",
+              "x-ms-summary": "Time Zone",
+              "x-ms-visibility": "advanced"
+            }
+          },
+          "type": "object",
+          "x-ms-summary": "End"
+        },
+        "id": {
+          "description": "Unique id of the event.",
+          "type": "string",
+          "x-ms-summary": "Id",
+          "x-ms-visibility": "advanced"
+        },
+        "importance": {
+          "description": "The importance of the event: Low, Normal, or High.",
+          "type": "string",
+          "x-ms-summary": "Importance"
+        },
+        "isAllDay": {
+          "description": "True if the event is an all day event.",
+          "type": "boolean",
+          "x-ms-summary": "Is All Day",
+          "x-ms-visibility": "advanced"
+        },
+        "isReminderOn": {
+          "description": "Set to true if the event has a reminder.",
+          "type": "boolean",
+          "x-ms-summary": "Is Reminder On",
+          "x-ms-visibility": "advanced"
+        },
+        "location": {
+          "description": "location",
+          "properties": {
+            "displayName": {
+              "description": "The display name for the location of the event.",
+              "type": "string",
+              "x-ms-summary": "Name",
+              "x-ms-visibility": "advanced"
+            }
+          },
+          "type": "object",
+          "x-ms-summary": "Location"
+        },
+        "reminderMinutesBeforeStart": {
+          "description": "Time in minutes before event starts to remind.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Reminder Start Duration",
+          "x-ms-visibility": "advanced"
+        },
+        "responseRequested": {
+          "description": "True if a response was requested for the event.",
+          "type": "boolean",
+          "x-ms-summary": "Response Requested",
+          "x-ms-visibility": "advanced"
+        },
+        "showAs": {
+          "description": "Status to show during the event.",
+          "type": "string",
+          "x-ms-summary": "Show As",
+          "x-ms-visibility": "advanced"
+        },
+        "start": {
+          "description": "start",
+          "properties": {
+            "dateTime": {
+              "description": "Start time of the event (example: '2016-11-01T14:30:00-07:00').",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": "Date Time"
+            },
+            "timeZone": {
+              "default": "UTC",
+              "description": "Time zone of the event, specified as a time zone index value (example: 'Pacific Standard Time').",
+              "type": "string",
+              "x-ms-summary": "Time Zone",
+              "x-ms-visibility": "advanced"
+            }
+          },
+          "type": "object",
+          "x-ms-summary": "Start"
+        },
+        "subject": {
+          "description": "Title of the event.",
+          "type": "string",
+          "x-ms-summary": "Subject"
+        }
+      },
+      "type": "object"
+    },
+    "ListGroupMembers_Response": {
+      "properties": {
+        "value": {
+          "description": "value",
+          "items": {
+            "properties": {
+              "displayName": {
+                "description": "User's display name.",
+                "type": "string",
+                "x-ms-summary": "Display Name"
+              },
+              "givenName": {
+                "description": "User's first name.",
+                "type": "string",
+                "x-ms-summary": "Given Name"
+              },
+              "id": {
+                "description": "Unique id of the user.",
+                "type": "string",
+                "x-ms-summary": "User Id",
+                "x-ms-visibility": "advanced"
+              },
+              "jobTitle": {
+                "description": "User's job title.",
+                "type": "string",
+                "x-ms-summary": "Job Title"
+              },
+              "mail": {
+                "description": "User's email address.",
+                "type": "string",
+                "x-ms-summary": "Mail"
+              },
+              "mobilePhone": {
+                "description": "User's mobile number.",
+                "type": "string",
+                "x-ms-summary": "Mobile Phone",
+                "x-ms-visibility": "advanced"
+              },
+              "officeLocation": {
+                "description": "User's office address.",
+                "type": "string",
+                "x-ms-summary": "Office Location",
+                "x-ms-visibility": "advanced"
+              },
+              "surname": {
+                "description": "User's last name.",
+                "type": "string",
+                "x-ms-summary": "Surname"
+              },
+              "userPrincipalName": {
+                "description": "UPN id of the user.",
+                "type": "string",
+                "x-ms-summary": "User Principal Name",
+                "x-ms-visibility": "advanced"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "ListOwnedGroups_Response": {
+      "properties": {
+        "@odata.context": {
+          "description": "The OData context.",
+          "type": "string",
+          "x-ms-summary": "OData context",
+          "x-ms-visibility": "internal"
+        },
+        "value": {
+          "description": "value",
+          "items": {
+            "properties": {
+              "classification": {
+                "description": "O365 group classification.",
+                "type": "string",
+                "x-ms-summary": "Classification",
+                "x-ms-visibility": "advanced"
+              },
+              "createdDateTime": {
+                "description": "yyyy-MM-ddTHH:mm:ss.fffZ (ISO8601 format, UTC timezone)",
+                "format": "date-time",
+                "type": "string",
+                "x-ms-summary": "Created Date-Time",
+                "x-ms-visibility": "advanced"
+              },
+              "deletedDateTime": {
+                "description": "yyyy-MM-ddTHH:mm:ss.fffZ (ISO8601 format, UTC timezone)",
+                "type": "string",
+                "x-ms-summary": "Deleted Date-Time",
+                "x-ms-visibility": "advanced"
+              },
+              "description": {
+                "description": "More information about the group.",
+                "type": "string",
+                "x-ms-summary": "Description"
+              },
+              "displayName": {
+                "description": "O365 group name.",
+                "type": "string",
+                "x-ms-summary": "Name"
+              },
+              "id": {
+                "description": "Unique identifier of the group.",
+                "type": "string",
+                "x-ms-summary": "Group Id",
+                "x-ms-visibility": "advanced"
+              },
+              "mail": {
+                "description": "Email address of the group.",
+                "type": "string",
+                "x-ms-summary": "Email"
+              },
+              "mailEnabled": {
+                "description": "True if mail is enabled for the group.",
+                "type": "boolean",
+                "x-ms-summary": "Mail Enabled",
+                "x-ms-visibility": "advanced"
+              },
+              "mailNickname": {
+                "description": "Group nickname.",
+                "type": "string",
+                "x-ms-summary": "Nickname",
+                "x-ms-visibility": "advanced"
+              },
+              "onPremisesLastSyncDateTime": {
+                "description": "yyyy-MM-ddTHH:mm:ss.fffZ (ISO8601 format, UTC timezone)",
+                "type": "string",
+                "x-ms-summary": "On-Premises Last Sync Date-Time",
+                "x-ms-visibility": "advanced"
+              },
+              "onPremisesSecurityIdentifier": {
+                "description": "The on-premises security identifier.",
+                "type": "string",
+                "x-ms-summary": "On-Premises Security Identifier",
+                "x-ms-visibility": "advanced"
+              },
+              "onPremisesSyncEnabled": {
+                "description": "True if on-premises sync is enabled for the group.",
+                "type": "string",
+                "x-ms-summary": "On-Premises Sync Enabled",
+                "x-ms-visibility": "advanced"
+              },
+              "renewedDateTime": {
+                "description": "yyyy-MM-ddTHH:mm:ss.fffZ (ISO8601 format, UTC timezone)",
+                "format": "date-time",
+                "type": "string",
+                "x-ms-summary": "Renewed Date-Time",
+                "x-ms-visibility": "advanced"
+              },
+              "securityEnabled": {
+                "description": "True if the owner is security enabled.",
+                "type": "boolean",
+                "x-ms-summary": "Security Enabled",
+                "x-ms-visibility": "advanced"
+              },
+              "visibility": {
+                "description": "The owner's visibility.",
+                "type": "string",
+                "x-ms-summary": "Visibility",
+                "x-ms-visibility": "advanced"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "ListOwnedGroups_V2_Response": {
+      "properties": {
+        "@odata.context": {
+          "description": "The OData context.",
+          "type": "string",
+          "x-ms-summary": "OData context",
+          "x-ms-visibility": "internal"
+        },
+        "value": {
+          "description": "value",
+          "items": {
+            "properties": {
+              "classification": {
+                "description": "O365 group classification.",
+                "type": "string",
+                "x-ms-summary": "Classification",
+                "x-ms-visibility": "advanced"
+              },
+              "createdDateTime": {
+                "description": "yyyy-MM-ddTHH:mm:ss.fffZ (ISO8601 format, UTC timezone)",
+                "format": "date-time",
+                "type": "string",
+                "x-ms-summary": "Created Date-Time",
+                "x-ms-visibility": "advanced"
+              },
+              "description": {
+                "description": "More information about the group.",
+                "type": "string",
+                "x-ms-summary": "Description"
+              },
+              "displayName": {
+                "description": "O365 group name.",
+                "type": "string",
+                "x-ms-summary": "Name"
+              },
+              "id": {
+                "description": "Unique identifier of the group.",
+                "type": "string",
+                "x-ms-summary": "Group Id",
+                "x-ms-visibility": "advanced"
+              },
+              "mail": {
+                "description": "Email address of the group.",
+                "type": "string",
+                "x-ms-summary": "Email"
+              },
+              "mailEnabled": {
+                "description": "True if mail is enabled for the group.",
+                "type": "boolean",
+                "x-ms-summary": "Mail Enabled",
+                "x-ms-visibility": "advanced"
+              },
+              "mailNickname": {
+                "description": "Group nickname.",
+                "type": "string",
+                "x-ms-summary": "Nickname",
+                "x-ms-visibility": "advanced"
+              },
+              "onPremisesLastSyncDateTime": {
+                "description": "yyyy-MM-ddTHH:mm:ss.fffZ (ISO8601 format, UTC timezone)",
+                "type": "string",
+                "x-ms-summary": "On-Premises Last Sync Date-Time",
+                "x-ms-visibility": "advanced"
+              },
+              "onPremisesSecurityIdentifier": {
+                "description": "The on-premises security identifier.",
+                "type": "string",
+                "x-ms-summary": "On-Premises Security Identifier",
+                "x-ms-visibility": "advanced"
+              },
+              "onPremisesSyncEnabled": {
+                "description": "True if on-premises sync is enabled for the group.",
+                "type": "string",
+                "x-ms-summary": "On-Premises Sync Enabled",
+                "x-ms-visibility": "advanced"
+              },
+              "renewedDateTime": {
+                "description": "yyyy-MM-ddTHH:mm:ss.fffZ (ISO8601 format, UTC timezone)",
+                "format": "date-time",
+                "type": "string",
+                "x-ms-summary": "Renewed Date-Time",
+                "x-ms-visibility": "advanced"
+              },
+              "securityEnabled": {
+                "description": "True if the owner is security enabled.",
+                "type": "boolean",
+                "x-ms-summary": "Security Enabled",
+                "x-ms-visibility": "advanced"
+              },
+              "visibility": {
+                "description": "The owner's visibility.",
+                "type": "string",
+                "x-ms-summary": "Visibility",
+                "x-ms-visibility": "advanced"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "OnGroupMemberAddedOrRemoved_Response": {
+      "description": "value",
+      "items": {
+        "properties": {
+          "@removed": {
+            "properties": {
+              "reason": {
+                "description": "Reason that caused the user to be removed from the group.",
+                "type": "string",
+                "x-ms-summary": "Reason"
+              }
+            },
+            "type": "object"
+          },
+          "id": {
+            "description": "Unique id of the user.",
+            "type": "string",
+            "x-ms-summary": "User Id",
+            "x-ms-visibility": "advanced"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "OnNewEvent_Response": {
+      "description": "value",
+      "items": {
+        "properties": {
+          "body": {
+            "description": "body",
+            "properties": {
+              "content": {
+                "description": "Pick the content type: Text or Html.",
+                "type": "string",
+                "x-ms-summary": "Content",
+                "x-ms-visibility": "advanced"
+              },
+              "contentType": {
+                "description": "Body of the message associated with the event.",
+                "type": "string",
+                "x-ms-summary": "Content Type",
+                "x-ms-visibility": "advanced"
+              }
+            },
+            "type": "object",
+            "x-ms-summary": "Body"
+          },
+          "end": {
+            "description": "end",
+            "properties": {
+              "dateTime": {
+                "description": "End time of the event (example: '2016-11-01T15:30:00-07:00').",
+                "format": "date-time",
+                "type": "string",
+                "x-ms-summary": "Date Time"
+              },
+              "timeZone": {
+                "description": "Time zone of the event, specified as a time zone index value (example: 'Pacific Standard Time').",
+                "type": "string",
+                "x-ms-summary": "Time Zone",
+                "x-ms-visibility": "advanced"
+              }
+            },
+            "type": "object",
+            "x-ms-summary": "End"
+          },
+          "id": {
+            "description": "Unique id of the event.",
+            "type": "string",
+            "x-ms-summary": "Id",
+            "x-ms-visibility": "advanced"
+          },
+          "importance": {
+            "description": "The importance of the event: Low, Normal, or High.",
+            "type": "string",
+            "x-ms-summary": "Importance"
+          },
+          "isAllDay": {
+            "description": "Set to true if the event lasts all day.",
+            "type": "boolean",
+            "x-ms-summary": "Is All Day",
+            "x-ms-visibility": "advanced"
+          },
+          "isReminderOn": {
+            "description": "Set to true if the event has a reminder.",
+            "type": "boolean",
+            "x-ms-summary": "Is Reminder On",
+            "x-ms-visibility": "advanced"
+          },
+          "location": {
+            "description": "location",
+            "properties": {
+              "displayName": {
+                "description": "The display name for the location of the event.",
+                "type": "string",
+                "x-ms-summary": "Name",
+                "x-ms-visibility": "advanced"
+              }
+            },
+            "type": "object",
+            "x-ms-summary": "Location"
+          },
+          "reminderMinutesBeforeStart": {
+            "description": "The number of minutes before the start of the event the reminder will fire.",
+            "format": "int32",
+            "type": "integer",
+            "x-ms-summary": "Reminder Start Duration",
+            "x-ms-visibility": "advanced"
+          },
+          "responseRequested": {
+            "description": "Set to true if the sender would like a response when the event is accepted or declined.",
+            "type": "boolean",
+            "x-ms-summary": "Response Requested",
+            "x-ms-visibility": "advanced"
+          },
+          "showAs": {
+            "description": "Status to show during the event.",
+            "type": "string",
+            "x-ms-summary": "Show As",
+            "x-ms-visibility": "advanced"
+          },
+          "start": {
+            "description": "start",
+            "properties": {
+              "dateTime": {
+                "description": "Start time of the event (example: '2016-11-01T14:30:00-07:00').",
+                "format": "date-time",
+                "type": "string",
+                "x-ms-summary": "Date Time"
+              },
+              "timeZone": {
+                "description": "Time zone of the event, specified as a time zone index value (example: 'Pacific Standard Time').",
+                "type": "string",
+                "x-ms-summary": "Time Zone",
+                "x-ms-visibility": "advanced"
+              }
+            },
+            "type": "object",
+            "x-ms-summary": "Start"
+          },
+          "subject": {
+            "description": "Title of the event.",
+            "type": "string",
+            "x-ms-summary": "Subject"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array",
+      "x-ms-summary": "value"
+    },
+    "UpdateCalendarEvent_HTMLRequest": {
+      "properties": {
+        "body": {
+          "properties": {
+            "content": {
+              "description": "Body of the message associated with the event.",
+              "format": "html",
+              "type": "string",
+              "x-ms-summary": "Body",
+              "x-ms-visibility": "advanced"
+            },
+            "contentType": {
+              "default": "Html",
+              "description": "Pick the content type: Text or Html.",
+              "type": "string",
+              "x-ms-summary": "Body Content Type",
+              "x-ms-visibility": "internal"
+            }
+          },
+          "required": [
+            "contentType"
+          ],
+          "type": "object"
+        },
+        "end": {
+          "properties": {
+            "dateTime": {
+              "description": "End time of the event (example: '2016-11-01T15:30:00').",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": "End Time"
+            },
+            "timeZone": {
+              "default": "UTC",
+              "description": "Time zone of the event, specified as a time zone index value (example: 'Pacific Standard Time').",
+              "type": "string",
+              "x-ms-summary": "Time zone",
+              "x-ms-visibility": "internal"
+            }
+          },
+          "required": [
+            "dateTime",
+            "timeZone"
+          ],
+          "type": "object"
+        },
+        "importance": {
+          "description": "The importance of the event: Low, Normal, or High.",
+          "enum": [
+            "Low",
+            "Normal",
+            "High"
+          ],
+          "type": "string",
+          "x-ms-summary": "Importance",
+          "x-ms-visibility": "advanced"
+        },
+        "isAllDay": {
+          "description": "Set to true if the event lasts all day.",
+          "type": "boolean",
+          "x-ms-summary": "Is All Day",
+          "x-ms-visibility": "advanced"
+        },
+        "isReminderOn": {
+          "description": "Set to true if the event has a reminder.",
+          "type": "boolean",
+          "x-ms-summary": "Is Reminder On",
+          "x-ms-visibility": "advanced"
+        },
+        "location": {
+          "properties": {
+            "displayName": {
+              "description": "Location of the event.",
+              "type": "string",
+              "x-ms-summary": "Location",
+              "x-ms-visibility": "advanced"
+            }
+          },
+          "type": "object"
+        },
+        "reminderMinutesBeforeStart": {
+          "description": "Time in minutes before event start to remind.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Reminder Start Duration",
+          "x-ms-visibility": "advanced"
+        },
+        "responseRequested": {
+          "description": "Set to true if the sender would like a response when the event is accepted or declined.",
+          "type": "boolean",
+          "x-ms-summary": "Response Requested",
+          "x-ms-visibility": "advanced"
+        },
+        "showAs": {
+          "description": "Status to show during the event.",
+          "enum": [
+            "Free",
+            "Tentative",
+            "Busy",
+            "Oof",
+            "WorkingElsewhere",
+            "Unknown"
+          ],
+          "type": "string",
+          "x-ms-summary": "Show As",
+          "x-ms-visibility": "advanced"
+        },
+        "start": {
+          "properties": {
+            "dateTime": {
+              "description": "Start time of the event (example: '2016-11-01T14:30:00').",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": "Start Time"
+            },
+            "timeZone": {
+              "default": "UTC",
+              "description": "Time zone of the event, specified as a time zone index value (example: 'Pacific Standard Time').",
+              "type": "string",
+              "x-ms-summary": "Time zone",
+              "x-ms-visibility": "internal"
+            }
+          },
+          "required": [
+            "dateTime",
+            "timeZone"
+          ],
+          "type": "object"
+        },
+        "subject": {
+          "description": "Title of the event.",
+          "type": "string",
+          "x-ms-summary": "Subject"
+        }
+      },
+      "required": [
+        "subject",
+        "start",
+        "end"
+      ],
+      "type": "object",
+      "x-ms-test-value": {
+        "body": {
+          "content": "Test Body"
+        },
+        "end": {
+          "dateTime": "2017-12-31T15:30:00",
+          "timeZone": "UTC"
+        },
+        "importance": "normal",
+        "isAllDay": false,
+        "isReminderOn": true,
+        "location": {
+          "displayName": "Redmond"
+        },
+        "originalEndTimeZone": "Pacific Standard Time",
+        "originalStartTimeZone": "Pacific Standard Time",
+        "reminderMinutesBeforeStart": 99,
+        "responseRequested": true,
+        "showAs": "busy",
+        "start": {
+          "dateTime": "2017-12-31T15:00:00",
+          "timeZone": "UTC"
+        },
+        "subject": "Test Event from Postman"
+      }
+    },
+    "UpdateCalendarEvent_Request": {
+      "properties": {
+        "body": {
+          "properties": {
+            "content": {
+              "description": "Body of the message associated with the event.",
+              "type": "string",
+              "x-ms-summary": "Body",
+              "x-ms-visibility": "advanced"
+            },
+            "contentType": {
+              "description": "Pick the content type: Text or Html.",
+              "enum": [
+                "Text",
+                "Html"
+              ],
+              "type": "string",
+              "x-ms-summary": "Body Content Type",
+              "x-ms-visibility": "advanced"
+            }
+          },
+          "type": "object"
+        },
+        "end": {
+          "properties": {
+            "dateTime": {
+              "description": "End time of the event (example: '2016-11-01T15:30:00').",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": "End Time"
+            },
+            "timeZone": {
+              "default": "UTC",
+              "description": "Time zone of the event, specified as a time zone index value (example: 'Pacific Standard Time').",
+              "type": "string",
+              "x-ms-summary": "Time zone",
+              "x-ms-visibility": "internal"
+            }
+          },
+          "required": [
+            "dateTime",
+            "timeZone"
+          ],
+          "type": "object"
+        },
+        "importance": {
+          "description": "The importance of the event: Low, Normal, or High.",
+          "enum": [
+            "Low",
+            "Normal",
+            "High"
+          ],
+          "type": "string",
+          "x-ms-summary": "Importance",
+          "x-ms-visibility": "advanced"
+        },
+        "isAllDay": {
+          "description": "Set to true if the event lasts all day.",
+          "type": "boolean",
+          "x-ms-summary": "Is All Day",
+          "x-ms-visibility": "advanced"
+        },
+        "isReminderOn": {
+          "description": "Set to true if the event has a reminder.",
+          "type": "boolean",
+          "x-ms-summary": "Is Reminder On",
+          "x-ms-visibility": "advanced"
+        },
+        "location": {
+          "properties": {
+            "displayName": {
+              "description": "Location of the event.",
+              "type": "string",
+              "x-ms-summary": "Location",
+              "x-ms-visibility": "advanced"
+            }
+          },
+          "type": "object"
+        },
+        "reminderMinutesBeforeStart": {
+          "description": "Time in minutes before event start to remind.",
+          "format": "int32",
+          "type": "integer",
+          "x-ms-summary": "Reminder Start Duration",
+          "x-ms-visibility": "advanced"
+        },
+        "responseRequested": {
+          "description": "Set to true if the sender would like a response when the event is accepted or declined.",
+          "type": "boolean",
+          "x-ms-summary": "Response Requested",
+          "x-ms-visibility": "advanced"
+        },
+        "showAs": {
+          "description": "Status to show during the event.",
+          "enum": [
+            "Free",
+            "Tentative",
+            "Busy",
+            "Oof",
+            "WorkingElsewhere",
+            "Unknown"
+          ],
+          "type": "string",
+          "x-ms-summary": "Show As",
+          "x-ms-visibility": "advanced"
+        },
+        "start": {
+          "properties": {
+            "dateTime": {
+              "description": "Start time of the event (example: '2016-11-01T14:30:00').",
+              "format": "date-time",
+              "type": "string",
+              "x-ms-summary": "Start Time"
+            },
+            "timeZone": {
+              "default": "UTC",
+              "description": "Time zone of the event, specified as a time zone index value (example: 'Pacific Standard Time').",
+              "type": "string",
+              "x-ms-summary": "Time zone",
+              "x-ms-visibility": "internal"
+            }
+          },
+          "required": [
+            "dateTime",
+            "timeZone"
+          ],
+          "type": "object"
+        },
+        "subject": {
+          "description": "Title of the event.",
+          "type": "string",
+          "x-ms-summary": "Subject"
+        }
+      },
+      "required": [
+        "subject",
+        "start",
+        "end"
+      ],
+      "type": "object",
+      "x-ms-test-value": {
+        "body": {
+          "content": "Test Body",
+          "contentType": "text"
+        },
+        "end": {
+          "dateTime": "2017-12-31T14:30:00",
+          "timeZone": "UTC"
+        },
+        "importance": "normal",
+        "isAllDay": false,
+        "isReminderOn": true,
+        "location": {
+          "displayName": "Redmond"
+        },
+        "originalEndTimeZone": "Pacific Standard Time",
+        "originalStartTimeZone": "Pacific Standard Time",
+        "reminderMinutesBeforeStart": 99,
+        "responseRequested": true,
+        "showAs": "busy",
+        "start": {
+          "dateTime": "2017-12-31T14:00:00",
+          "timeZone": "UTC"
+        },
+        "subject": "Test Event from Postman"
+      }
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/office365groups"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "description": "Office 365 Groups lets you manage group membership and calendar events in your organization using your Office 365 account. You can perform various actions such as get group roster, add or remove members and create group events.",
+    "title": "Office 365 Groups",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    }
+  },
+  "parameters": {
+    "groupId__in_path": {
+      "description": "Pick a group from the drop down or enter group id.",
+      "format": "guid",
+      "in": "path",
+      "name": "groupId",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListOwnedGroups_V2",
+        "value-collection": "value",
+        "value-path": "id",
+        "value-title": "displayName"
+      },
+      "x-ms-summary": "Group Id",
+      "x-ms-visibility": "important"
+    },
+    "groupId__in_query": {
+      "description": "Pick a group from the drop down or enter group id.",
+      "format": "guid",
+      "in": "query",
+      "name": "groupId",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListOwnedGroups_V2",
+        "value-collection": "value",
+        "value-path": "id",
+        "value-title": "displayName"
+      },
+      "x-ms-summary": "Group Id",
+      "x-ms-visibility": "important"
+    }
+  },
+  "paths": {
+    "/{connectionId}/trigger/v1.0/groups/delta": {
+      "get": {
+        "deprecated": false,
+        "description": "This operation triggers when a member is added to or removed from the given group.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groups/#when-a-group-member-is-added-or-removed"
+        },
+        "operationId": "OnGroupMembershipChange",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_query"
+          },
+          {
+            "default": "members",
+            "in": "query",
+            "name": "$select",
+            "type": "string",
+            "x-ms-summary": "Select",
+            "x-ms-test-value": "members",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation Successful",
+            "schema": {
+              "$ref": "#/definitions/OnGroupMemberAddedOrRemoved_Response"
+            }
+          }
+        },
+        "summary": "When a group member is added or removed",
+        "x-ms-dev-queryfilterParamName": "$deltatoken",
+        "x-ms-dev-triggerType": "DeltaLink",
+        "x-ms-dev-triggerValueCollection": "value[0].members@delta",
+        "x-ms-dev-triggerValuePath": "@odata.deltaLink",
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        },
+        "x-ms-test-value": "ee115782-220d-4acc-92c4-e261619d63cd",
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, add a member to the group.",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/trigger/v1.0/groups/{groupId}/events": {
+      "get": {
+        "deprecated": false,
+        "description": "This operation triggers when a new event is added to a group calendar.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groups/#when-there-is-a-new-event"
+        },
+        "operationId": "OnNewEvent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation Successful",
+            "schema": {
+              "$ref": "#/definitions/OnNewEvent_Response"
+            }
+          }
+        },
+        "summary": "When there is a new event",
+        "x-ms-dev-queryfilterParamName": "$filter",
+        "x-ms-dev-triggerDateFormat": "iso",
+        "x-ms-dev-triggerType": "QueryFilter",
+        "x-ms-dev-triggerValueCollection": "value",
+        "x-ms-dev-triggerValuePath": "createdDateTime",
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, create an event in Office 365 Groups.",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v1.0/groups/{groupId}/events": {
+      "post": {
+        "deprecated": true,
+        "description": "This operation is used to create a new event in a group calendar.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groups/#create-a-group-event-%5bdeprecated%5d"
+        },
+        "operationId": "CreateCalendarEvent",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateCalendarEvent_Request"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Operation Successful",
+            "schema": {
+              "$ref": "#/definitions/CreateCalendarEvent_Response"
+            }
+          }
+        },
+        "summary": "Create a group event",
+        "x-ms-api-annotation": {
+          "family": "CreateCalendarEvent",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-no-generic-test": true
+      }
+    },
+    "/{connectionId}/v1.0/groups/{groupId}/members": {
+      "get": {
+        "deprecated": false,
+        "description": "This operation returns a list of all members in the given group and their details such as name, title, email, etc.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groups/#list-group-members"
+        },
+        "operationId": "ListGroupMembers",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "description": "Number of group members to retrieve (from 1 to 999, default is 100).",
+            "format": "int32",
+            "in": "query",
+            "name": "$top",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Top",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation Successful",
+            "schema": {
+              "$ref": "#/definitions/ListGroupMembers_Response"
+            }
+          }
+        },
+        "summary": "List group members",
+        "x-ms-pageable": {
+          "nextLinkName": "@odata.nextLink"
+        },
+        "x-ms-test-value": "ee115782-220d-4acc-92c4-e261619d63cd",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/v1.0/groups/{groupId}/members/$ref": {
+      "post": {
+        "deprecated": false,
+        "description": "This operation is used to add a member to an O365 group, using a UPN.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groups/#add-member-to-group"
+        },
+        "operationId": "AddMemberToGroup",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "description": "The user principal name (UPN) of the user.",
+            "in": "query",
+            "name": "userUpn",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "User Principal Name"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Operation Successful"
+          }
+        },
+        "summary": "Add member to group",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v1.0/groups/{groupId}/members/memberId/$ref": {
+      "delete": {
+        "deprecated": false,
+        "description": "This operation is used to remove a member from an O365 group, using a UPN.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groups/#remove-member-from-group"
+        },
+        "operationId": "RemoveMemberFromGroup",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "description": "The user principal name (UPN) of the user",
+            "in": "query",
+            "name": "userUpn",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "User Principal Name"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Operation Successful"
+          }
+        },
+        "summary": "Remove member from group",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v1.0/me/memberOf/$/microsoft.graph.group": {
+      "get": {
+        "deprecated": false,
+        "description": "This operation returns a list of all groups that you own.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groups/#list-my-owned-groups"
+        },
+        "operationId": "ListOwnedGroups",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation Successful",
+            "schema": {
+              "$ref": "#/definitions/ListOwnedGroups_Response"
+            }
+          }
+        },
+        "summary": "List my owned groups",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/v1.0/me/ownedObjects/$/microsoft.graph.group": {
+      "get": {
+        "deprecated": false,
+        "description": "This operation returns a list of all groups that you own.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groups/#list-my-owned-groups-(v2)"
+        },
+        "operationId": "ListOwnedGroups_V2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation Successful",
+            "schema": {
+              "$ref": "#/definitions/ListOwnedGroups_V2_Response"
+            }
+          }
+        },
+        "summary": "List my owned groups (V2)",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/v2/v1.0/groups/{groupId}/events": {
+      "post": {
+        "deprecated": false,
+        "description": "This operation is used to create a new event in a group calendar.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groups/#create-a-group-event-(v2)"
+        },
+        "operationId": "CreateCalendarEventV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/groupId__in_path"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateCalendarEvent_HTMLRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Operation Successful",
+            "schema": {
+              "$ref": "#/definitions/CreateCalendarEvent_Response"
+            }
+          }
+        },
+        "summary": "Create a group event (V2)",
+        "x-ms-api-annotation": {
+          "family": "CreateCalendarEvent",
+          "revision": 2,
+          "status": "Production"
+        },
+        "x-ms-no-generic-test": true
+      }
+    },
+    "/{connectionId}/v2/v1.0/me/memberOf/$/microsoft.graph.group": {
+      "get": {
+        "deprecated": false,
+        "description": "This operation returns a list of all groups that you own and belong to.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365groups/#list-groups-that-i-own-and-belong-to"
+        },
+        "operationId": "ListOwnedGroups_V3",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation Successful",
+            "schema": {
+              "$ref": "#/definitions/ListOwnedGroups_Response"
+            }
+          }
+        },
+        "summary": "List groups that I own and belong to",
+        "x-ms-visibility": "advanced"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "security": [],
+  "securityDefinitions": {},
+  "swagger": "2.0",
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://www.office.com/"
+    }
+  ]
+}

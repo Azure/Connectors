@@ -1,0 +1,1225 @@
+{
+  "basePath": "/apim/azuretables",
+  "definitions": {
+    "InsertEntityResponse": {
+      "description": "Data for a single entity",
+      "properties": {
+        "PartitionKey": {
+          "description": "Partition Key",
+          "type": "string",
+          "x-ms-summary": "Partition Key"
+        },
+        "RowKey": {
+          "description": "Row Key",
+          "type": "string",
+          "x-ms-summary": "Row Key"
+        },
+        "additionalProperties": {
+          "description": "The unique columns for the entity",
+          "type": "string",
+          "x-ms-summary": "Entity data"
+        },
+        "odata.metadata": {
+          "description": "Entity Metadata location",
+          "type": "string",
+          "x-ms-summary": "Entity Metadata location"
+        }
+      },
+      "type": "object",
+      "x-ms-summary": "Entity"
+    },
+    "Item": {
+      "description": "An entity",
+      "properties": {
+        "PartitionKey": {
+          "description": "Partition Key",
+          "type": "string",
+          "x-ms-summary": "Partition Key"
+        },
+        "RowKey": {
+          "description": "Row Key",
+          "type": "string",
+          "x-ms-summary": "Row Key"
+        },
+        "additionalProperties": {
+          "description": "The unique columns for the entity",
+          "type": "string",
+          "x-ms-summary": "Entity data"
+        }
+      },
+      "type": "object",
+      "x-ms-summary": "An entity"
+    },
+    "getEntitiesResponse": {
+      "description": "Entity Response Object",
+      "properties": {
+        "odata.metadata": {
+          "description": "Table Metadata location",
+          "type": "string",
+          "x-ms-summary": "Table Metadata location"
+        },
+        "value": {
+          "description": "List of Entities",
+          "items": {
+            "$ref": "#/definitions/Item"
+          },
+          "type": "array",
+          "x-ms-summary": "List of Entities"
+        }
+      },
+      "type": "object",
+      "x-ms-summary": "Get entities result"
+    },
+    "getEntityResponse": {
+      "description": "An entity",
+      "properties": {
+        "PartitionKey": {
+          "description": "Partition Key",
+          "type": "string",
+          "x-ms-summary": "Partition Key"
+        },
+        "RowKey": {
+          "description": "Row Key",
+          "type": "string",
+          "x-ms-summary": "Row Key"
+        },
+        "additionalProperties": {
+          "description": "The unique columns for the entity",
+          "type": "string",
+          "x-ms-summary": "Entity data"
+        },
+        "odata.metadata": {
+          "description": "Table Metadata location",
+          "type": "string",
+          "x-ms-summary": "Table Metadata location"
+        }
+      },
+      "type": "object",
+      "x-ms-summary": "An entity"
+    },
+    "getTableResponse": {
+      "description": "The metadata for the table",
+      "properties": {
+        "TableName": {
+          "description": "Table Name",
+          "type": "string",
+          "x-ms-summary": "Table Name"
+        },
+        "odata.id": {
+          "description": "URL to the Table data",
+          "type": "string",
+          "x-ms-summary": "Table location"
+        }
+      },
+      "type": "object",
+      "x-ms-summary": "Table metadata"
+    },
+    "getTablesResponse": {
+      "description": "Table query response object",
+      "properties": {
+        "odata.metadata": {
+          "description": "URL to the account metadata",
+          "type": "string",
+          "x-ms-summary": "Account metadata location"
+        },
+        "value": {
+          "description": "List of tables",
+          "items": {
+            "description": "The metadata for the table",
+            "properties": {
+              "TableName": {
+                "description": "Table Name",
+                "type": "string",
+                "x-ms-summary": "Table Name"
+              },
+              "odata.id": {
+                "description": "URL to the Table data",
+                "type": "string",
+                "x-ms-summary": "Table location"
+              }
+            },
+            "type": "object",
+            "x-ms-summary": "Table metadata"
+          },
+          "type": "array",
+          "x-ms-summary": "List of tables"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/azuretables"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Azure Table storage is a service that stores structured NoSQL data in the cloud, providing a key/attribute store with a schemaless design. Sign into your Storage account to create, update, and query tables and more.",
+    "title": "Azure Table Storage",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    },
+    "x-ms-deployment-version": "1.0.0"
+  },
+  "paths": {
+    "/{connectionId}/Tables": {
+      "get": {
+        "deprecated": false,
+        "description": "This operation lists the tables in the account.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuretables/#list-tables"
+        },
+        "operationId": "GetTables",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Unique identifier for tracking the request.",
+            "in": "header",
+            "name": "x-ms-client-request-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Client Request Id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-request-id": {
+                "description": "Unique identifier for tracking the request",
+                "type": "string",
+                "x-ms-summary": "Client Request Id"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/getTablesResponse"
+            }
+          }
+        },
+        "summary": "List tables"
+      },
+      "post": {
+        "deprecated": false,
+        "description": "This operation adds a table to the storage account.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuretables/#create-table"
+        },
+        "operationId": "CreateTable",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the new table",
+            "in": "body",
+            "name": "TableName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-ms-summary": "Table"
+          },
+          {
+            "description": "Unique identifier for tracking the request.",
+            "in": "header",
+            "name": "x-ms-client-request-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Client Request Id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-request-id": {
+                "description": "Unique identifier for tracking the request",
+                "type": "string",
+                "x-ms-summary": "Client Request Id"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/getTableResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "409": {
+            "description": "Conflict"
+          }
+        },
+        "summary": "Create table",
+        "x-ms-no-generic-test": true
+      }
+    },
+    "/{connectionId}/Tables/{tableName}": {
+      "delete": {
+        "deprecated": false,
+        "description": "Delete a table.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuretables/#delete-a-table"
+        },
+        "operationId": "DeleteTable",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the table.",
+            "in": "path",
+            "name": "tableName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "value-collection": "value",
+              "value-path": "TableName",
+              "value-title": "TableName"
+            },
+            "x-ms-summary": "Table"
+          },
+          {
+            "description": "Unique identifier for tracking the request.",
+            "in": "header",
+            "name": "x-ms-client-request-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Client Request Id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "headers": {
+              "x-ms-request-id": {
+                "description": "Unique identifier for tracking the request",
+                "type": "string",
+                "x-ms-summary": "Client Request Id"
+              }
+            }
+          },
+          "default": {
+            "description": "No Content",
+            "headers": {
+              "x-ms-request-id": {
+                "description": "Unique identifier for tracking the request",
+                "type": "string",
+                "x-ms-summary": "Client Request Id"
+              }
+            }
+          }
+        },
+        "summary": "Delete a table",
+        "x-ms-no-generic-test": true
+      },
+      "get": {
+        "deprecated": false,
+        "description": "This operation gets the metadata of a table.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuretables/#get-a-table"
+        },
+        "operationId": "GetTable",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the table.",
+            "in": "path",
+            "name": "tableName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "value-collection": "value",
+              "value-path": "TableName",
+              "value-title": "TableName"
+            },
+            "x-ms-summary": "Table",
+            "x-ms-test-value": "testtable"
+          },
+          {
+            "description": "Unique identifier for tracking the request.",
+            "in": "header",
+            "name": "x-ms-client-request-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Client Request Id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-request-id": {
+                "description": "Unique identifier for tracking the request.",
+                "type": "string",
+                "x-ms-summary": "Client Request Id"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/getTableResponse"
+            }
+          }
+        },
+        "summary": "Get a table"
+      }
+    },
+    "/{connectionId}/Tables/{tableName}/entities": {
+      "get": {
+        "deprecated": false,
+        "description": "This operation queries the entities in a table.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuretables/#get-entities"
+        },
+        "operationId": "GetEntities",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the table.",
+            "in": "path",
+            "name": "tableName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "value-collection": "value",
+              "value-path": "TableName",
+              "value-title": "TableName"
+            },
+            "x-ms-summary": "Table",
+            "x-ms-test-value": "testtable"
+          },
+          {
+            "description": "The next partition key returned for queries and read-feed operations if there are more results to be read.",
+            "in": "query",
+            "name": "NextPartitionKey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Partition Continuation Token",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The next row key returned for queries and read-feed operations if there are more results to be read.",
+            "in": "query",
+            "name": "NextRowKey",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Row Continuation Token",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Unique identifier for tracking the request.",
+            "in": "header",
+            "name": "x-ms-client-request-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Client Request Id",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "OData filter query for which entities to return. Example: Column eq 'Value' and Column2 ne 2. Invalid OData queries, such as not wrapping string values in quotes will return 501.",
+            "in": "query",
+            "name": "$filter",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Filter Query",
+            "x-ms-test-value": "City eq 'Redmond'",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "OData select query for the columns to be returned. Example: Column, PartitionKey",
+            "in": "query",
+            "name": "$select",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Select Query",
+            "x-ms-test-value": "City",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-request-id": {
+                "description": "Unique identifier for tracking the request",
+                "type": "string",
+                "x-ms-summary": "Client Request Id"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/getEntitiesResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "summary": "Get entities",
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink"
+        },
+        "x-ms-visibility": "important"
+      },
+      "post": {
+        "deprecated": false,
+        "description": "Operation to add an entity to a table.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuretables/#insert-entity"
+        },
+        "operationId": "CreateEntity",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the table.",
+            "in": "path",
+            "name": "tableName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "value-collection": "value",
+              "value-path": "TableName",
+              "value-title": "TableName"
+            },
+            "x-ms-summary": "Table"
+          },
+          {
+            "description": "Entity to insert into the specified table. This entity must contain entries for a PartitionKey and a RowKey. Example: {\"PartitionKey\" : \"Partition\", \"RowKey\" : \"Row\", \"StringField\" : \"Value\", \"IntegerField\" : 1}",
+            "in": "body",
+            "name": "entity",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object"
+            },
+            "x-ms-summary": "Entity"
+          },
+          {
+            "description": "A client supplied identifier for the operation, which will be echoed in the server response.",
+            "in": "header",
+            "name": "x-ms-client-request-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Client Request Id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "default",
+            "headers": {
+              "ETag": {
+                "description": "ETag of the new entity",
+                "type": "string",
+                "x-ms-summary": "Entity ETag"
+              },
+              "x-ms-request-id": {
+                "description": "Unique identifier for tracking the request",
+                "type": "string",
+                "x-ms-summary": "Client Request Id"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/InsertEntityResponse"
+            }
+          }
+        },
+        "summary": "Insert Entity",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/Tables/{tableName}/entities(PartitionKey='{PartitionKey}',RowKey='{RowKey}')": {
+      "get": {
+        "deprecated": false,
+        "description": "This operation gets the entity in a table based on the partition and row key.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuretables/#get-entity"
+        },
+        "operationId": "GetEntity",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the table.",
+            "in": "path",
+            "name": "tableName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "value-collection": "value",
+              "value-path": "TableName",
+              "value-title": "TableName"
+            },
+            "x-ms-summary": "Table",
+            "x-ms-test-value": "testtable"
+          },
+          {
+            "description": "The partition id containing this entity",
+            "in": "path",
+            "name": "PartitionKey",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Partition Key",
+            "x-ms-test-value": "1",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "The row id containing this entity",
+            "in": "path",
+            "name": "RowKey",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Row Key",
+            "x-ms-test-value": "1",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "Unique identifier for tracking the request.",
+            "in": "header",
+            "name": "x-ms-client-request-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Client Request Id",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "OData select query for the columns to be returned. Example: Column, PartitionKey",
+            "in": "query",
+            "name": "$select",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Select Query",
+            "x-ms-test-value": "City",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "x-ms-request-id": {
+                "description": "Unique identifier for tracking the request",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/getEntityResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "summary": "Get entity",
+        "x-ms-visibility": "important"
+      },
+      "patch": {
+        "deprecated": false,
+        "description": "Operation to merge data with an entity in a table, creating a new entity if needed.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuretables/#insert-or-merge-entity"
+        },
+        "operationId": "InsertMergeEntity",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the table.",
+            "in": "path",
+            "name": "tableName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "value-collection": "value",
+              "value-path": "TableName",
+              "value-title": "TableName"
+            },
+            "x-ms-summary": "Table",
+            "x-ms-test-value": "testtable"
+          },
+          {
+            "description": "The partition id containing this entity",
+            "in": "path",
+            "name": "PartitionKey",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Partition Key",
+            "x-ms-test-value": "1",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "The row id containing this entity",
+            "in": "path",
+            "name": "RowKey",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Row Key",
+            "x-ms-test-value": "1",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "JSON Entity to insert or merge into the specified table. If you specify Row or Partition Keys in this field, they must match the corresponding field value. Example: {\"FieldName\" : \"Value\", \"IntegerField\" : 1}",
+            "in": "body",
+            "name": "entity",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object"
+            },
+            "x-ms-summary": "Entity",
+            "x-ms-test-value": "{\"City\":\"Redmond\"}"
+          },
+          {
+            "description": "A client supplied identifier for the operation, which will be echoed in the server response.",
+            "in": "header",
+            "name": "x-ms-client-request-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Client Request Id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "headers": {
+              "ETag": {
+                "description": "ETag of the updated entity",
+                "type": "string",
+                "x-ms-summary": "Entity ETag"
+              },
+              "x-ms-request-id": {
+                "description": "Unique identifier for tracking the request",
+                "type": "string",
+                "x-ms-summary": "Client Request Id"
+              }
+            }
+          },
+          "default": {
+            "description": "default",
+            "headers": {
+              "ETag": {
+                "description": "ETag of the updated entity",
+                "type": "string",
+                "x-ms-summary": "Entity ETag"
+              },
+              "x-ms-request-id": {
+                "description": "Unique identifier for tracking the request",
+                "type": "string",
+                "x-ms-summary": "Client Request Id"
+              }
+            }
+          }
+        },
+        "summary": "Insert or Merge Entity"
+      },
+      "put": {
+        "deprecated": false,
+        "description": "Operation to replace an entity in a table, creating a new entity if needed.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuretables/#insert-or-replace-entity"
+        },
+        "operationId": "InsertReplaceEntity",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the table.",
+            "in": "path",
+            "name": "tableName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "value-collection": "value",
+              "value-path": "TableName",
+              "value-title": "TableName"
+            },
+            "x-ms-summary": "Table",
+            "x-ms-test-value": "testtable"
+          },
+          {
+            "description": "The partition id containing this entity",
+            "in": "path",
+            "name": "PartitionKey",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Partition Key",
+            "x-ms-test-value": "1",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "The row id containing this entity",
+            "in": "path",
+            "name": "RowKey",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Row Key",
+            "x-ms-test-value": "1",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "JSON Entity to insert into the specified table. If you specify Row or Partition Keys in this field, they must match the corresponding field value. Example: {\"FieldName\" : \"Value\", \"IntegerField\" : 1}",
+            "in": "body",
+            "name": "entity",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object"
+            },
+            "x-ms-summary": "Entity",
+            "x-ms-test-value": "{\"City\":\"Redmond\"}"
+          },
+          {
+            "description": "Unique identifier for tracking the request..",
+            "in": "header",
+            "name": "x-ms-client-request-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Client Request Id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "headers": {
+              "ETag": {
+                "description": "ETag of the update entity",
+                "type": "string",
+                "x-ms-summary": "Entity ETag"
+              },
+              "x-ms-request-id": {
+                "description": "Unique identifier for tracking the request",
+                "type": "string",
+                "x-ms-summary": "Client Request Id"
+              }
+            }
+          },
+          "default": {
+            "description": "default",
+            "headers": {
+              "ETag": {
+                "description": "ETag of the updated entity",
+                "type": "string",
+                "x-ms-summary": "Entity ETag"
+              },
+              "x-ms-request-id": {
+                "description": "Unique identifier for tracking the request",
+                "type": "string",
+                "x-ms-summary": "Client Request Id"
+              }
+            }
+          }
+        },
+        "summary": "Insert or Replace Entity"
+      }
+    },
+    "/{connectionId}/Tables/{tableName}/entities/etag(PartitionKey='{PartitionKey}',RowKey='{RowKey}')": {
+      "delete": {
+        "deprecated": false,
+        "description": "Operation to delete an entity.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuretables/#delete-entity"
+        },
+        "operationId": "DeleteEntity",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the table.",
+            "in": "path",
+            "name": "tableName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "value-collection": "value",
+              "value-path": "TableName",
+              "value-title": "TableName"
+            },
+            "x-ms-summary": "Table"
+          },
+          {
+            "description": "The partition id containing this entity",
+            "in": "path",
+            "name": "PartitionKey",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Partition Key",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "The row id containing this entity",
+            "in": "path",
+            "name": "RowKey",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Row Key",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "A client supplied identifier for the operation, which will be echoed in the server response.",
+            "in": "header",
+            "name": "x-ms-client-request-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Client Request Id",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "description": "Etag to match for concurrency. * to match all values.",
+            "in": "header",
+            "name": "If-Match",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "ETag"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "headers": {
+              "x-ms-request-id": {
+                "description": "Unique identifier for the request",
+                "type": "string",
+                "x-ms-summary": "Client Request Id"
+              }
+            }
+          },
+          "default": {
+            "description": "default",
+            "headers": {
+              "x-ms-request-id": {
+                "description": "Unique identifier for tracking the request",
+                "type": "string",
+                "x-ms-summary": "Client Request Id"
+              }
+            }
+          }
+        },
+        "summary": "Delete Entity",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      },
+      "patch": {
+        "deprecated": false,
+        "description": "Operation to merge data with an entity in a table.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuretables/#merge-entity"
+        },
+        "operationId": "MergeEntity",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the table.",
+            "in": "path",
+            "name": "tableName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "value-collection": "value",
+              "value-path": "TableName",
+              "value-title": "TableName"
+            },
+            "x-ms-summary": "Table",
+            "x-ms-test-value": "testtable"
+          },
+          {
+            "description": "The partition id containing this entity",
+            "in": "path",
+            "name": "PartitionKey",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Partition Key",
+            "x-ms-test-value": "1",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "The row id containing this entity",
+            "in": "path",
+            "name": "RowKey",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Row Key",
+            "x-ms-test-value": "1",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "JSON Entity to merge with the specified entity. If you specify Row or Partition Keys in this field, they must match the corresponding field value. Example: {\"FieldName\" : \"Value\", \"IntegerField\" : 1}",
+            "in": "body",
+            "name": "entity",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object"
+            },
+            "x-ms-summary": "Entity",
+            "x-ms-test-value": "{\"City\":\"Redmond\"}"
+          },
+          {
+            "description": "Etag to match for concurrency. * to match all values.",
+            "in": "header",
+            "name": "If-Match",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "ETag",
+            "x-ms-test-value": "*"
+          },
+          {
+            "description": "Unique identifier for tracking the request.",
+            "in": "header",
+            "name": "x-ms-client-request-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Client Request Id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "headers": {
+              "ETag": {
+                "description": "ETag of the updated entity",
+                "type": "string",
+                "x-ms-summary": "Entity ETag"
+              },
+              "x-ms-request-id": {
+                "description": "Unique identifier for tracking the request.",
+                "type": "string",
+                "x-ms-summary": "Client Request Id"
+              }
+            }
+          },
+          "default": {
+            "description": "default",
+            "headers": {
+              "ETag": {
+                "description": "ETag of the updated entity",
+                "type": "string",
+                "x-ms-summary": "Entity ETag"
+              },
+              "x-ms-request-id": {
+                "description": "Unique identifier for tracking the request",
+                "type": "string",
+                "x-ms-summary": "Client Request Id"
+              }
+            }
+          }
+        },
+        "summary": "Merge Entity"
+      },
+      "put": {
+        "deprecated": false,
+        "description": "Operation to replace an entity in a table.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azuretables/#replace-entity"
+        },
+        "operationId": "ReplaceEntity",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the table.",
+            "in": "path",
+            "name": "tableName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetTables",
+              "value-collection": "value",
+              "value-path": "TableName",
+              "value-title": "TableName"
+            },
+            "x-ms-summary": "Table",
+            "x-ms-test-value": "testtable"
+          },
+          {
+            "description": "The partition id containing this entity",
+            "in": "path",
+            "name": "PartitionKey",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Partition Key",
+            "x-ms-test-value": "1",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "The row id containing this entity",
+            "in": "path",
+            "name": "RowKey",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Row Key",
+            "x-ms-test-value": "1",
+            "x-ms-visibility": "important"
+          },
+          {
+            "default": "*",
+            "description": "ETag to match for concurrency. * to match all values.",
+            "in": "header",
+            "name": "If-Match",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "ETag",
+            "x-ms-test-value": "*"
+          },
+          {
+            "description": "JSON Entity to replace the specified entity. If you specify Row or Partition Keys in this field, they must match the corresponding field value. Example: {\"FieldName\" : \"Value\", \"IntegerField\" : 1}",
+            "in": "body",
+            "name": "entity",
+            "required": true,
+            "schema": {
+              "properties": {},
+              "type": "object"
+            },
+            "x-ms-summary": "Entity",
+            "x-ms-test-value": "{\"City\":\"Redmond\"}"
+          },
+          {
+            "description": "A client supplied identifier for the operation, which will be echoed in the server response.",
+            "in": "header",
+            "name": "x-ms-client-request-id",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Client Request Id",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "headers": {
+              "ETag": {
+                "description": "ETag of the updated entity",
+                "type": "string",
+                "x-ms-summary": "Entity ETag"
+              },
+              "x-ms-request-id": {
+                "description": "Unique identifier for tracking the request",
+                "type": "string",
+                "x-ms-summary": "Client Request Id"
+              }
+            }
+          },
+          "default": {
+            "description": "default",
+            "headers": {
+              "ETag": {
+                "description": "ETag of the updated entity",
+                "type": "string",
+                "x-ms-summary": "Entity ETag"
+              },
+              "x-ms-request-id": {
+                "description": "Unique identifier for tracking the request",
+                "type": "string",
+                "x-ms-summary": "Client Request Id"
+              }
+            }
+          }
+        },
+        "summary": "Replace Entity"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-capabilities": {
+    "testConnection": {
+      "operationId": "GetTables"
+    }
+  },
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://azure.microsoft.com/services/storage/tables/"
+    }
+  ]
+}

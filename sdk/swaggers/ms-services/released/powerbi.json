@@ -1,0 +1,1441 @@
+{
+  "basePath": "/apim/powerbi",
+  "definitions": {
+    "Alert": {
+      "properties": {
+        "alertId": {
+          "description": "The ID of the alert.",
+          "type": "string",
+          "x-ms-summary": "Alert ID"
+        },
+        "alertTitle": {
+          "description": "The title of the alert.",
+          "type": "string",
+          "x-ms-summary": "Alert title"
+        },
+        "groupId": {
+          "description": "The ID of the group.",
+          "type": "string",
+          "x-ms-summary": "Group ID"
+        }
+      },
+      "type": "object"
+    },
+    "Columns": {
+      "properties": {
+        "schema": {
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "Datasets": {
+      "properties": {
+        "value": {
+          "items": {
+            "properties": {
+              "addRowsAPIEnabled": {
+                "description": "A boolean value (true, false) determining whether or not this dataset supports programmatic adding of rows.",
+                "type": "boolean",
+                "x-ms-summary": "Add Rows API Enabled"
+              },
+              "id": {
+                "description": "The ID of the dataset.",
+                "type": "string",
+                "x-ms-summary": "Dataset ID"
+              },
+              "name": {
+                "description": "The display name of the dataset.",
+                "type": "string",
+                "x-ms-summary": "Dataset name"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "DynamicPowerBiButtonClickedTriggerResult": {
+      "properties": {},
+      "type": "object",
+      "x-ms-dynamic-schema": {
+        "operationId": "GetPowerBiButtonClickedOutputs",
+        "parameters": {
+          "body": {
+            "parameter": "inputsPowerBiData"
+          }
+        },
+        "value-path": "schema"
+      }
+    },
+    "EffectiveIdentity": {
+      "description": "Defines the user identity and roles, for more details see this [article](https://docs.microsoft.com/power-bi/developer/embedded-row-level-security)",
+      "properties": {
+        "customData": {
+          "description": "The value of customdata to be used for applying RLS rules. Only supported for live connections to Azure Analysis Services.",
+          "title": "CustomData",
+          "type": "string"
+        },
+        "datasets": {
+          "description": "An array of datasets for which this identity applies",
+          "items": {
+            "description": "Dataset for which this identity applies",
+            "title": "Dataset",
+            "type": "string"
+          },
+          "title": "Datasets",
+          "type": "array"
+        },
+        "identityBlob": {
+          "$ref": "#/definitions/IdentityBlob",
+          "description": "A blob for specifying the identity. Only supported for datasets with Direct Query connection to SQL Azure",
+          "title": "IdentityBlob"
+        },
+        "reports": {
+          "description": "An array of reports for which this identity applies, Only supported for paginated reports",
+          "items": {
+            "description": "Report for which this identity applies, Only supported for paginated reports",
+            "type": "string"
+          },
+          "title": "Reports",
+          "type": "array"
+        },
+        "roles": {
+          "description": "An array of RLS roles reflected by a token when applying RLS rules (identity can contain up to 50 roles, role can be composed of any character besides ',' and must be up to 50 characters)",
+          "items": {
+            "description": "RLS role",
+            "type": "string"
+          },
+          "title": "Roles",
+          "type": "array"
+        },
+        "username": {
+          "description": "The effective username reflected by a token for applying RLS rules (For OnPrem model, username can be composed of alpha-numerical characters or any of the following characters  '.', '-', '_', '!', '#', '^', '~', '\\\\', '@', also username cannot contain spaces. For Cloud model, username can be composed of all ASCII characters. username must be up to 256 characters)",
+          "title": "Username",
+          "type": "string"
+        }
+      },
+      "required": [
+        "username"
+      ],
+      "type": "object"
+    },
+    "EvaluatedAlert": {
+      "properties": {
+        "alertThreshold": {
+          "description": "The threshold at which the alert is triggered.",
+          "type": "number",
+          "x-ms-summary": "Alert threshold"
+        },
+        "alertTitle": {
+          "description": "The title of the alert.",
+          "type": "string",
+          "x-ms-summary": "Alert title"
+        },
+        "isAlertTriggered": {
+          "description": "A boolean value (true, false) determining Whether or not the alert was triggered.",
+          "type": "boolean",
+          "x-ms-summary": "Is alert triggered"
+        },
+        "tileUrl": {
+          "description": "URL linking to the dashboard tile where the alert is set up.",
+          "type": "string",
+          "x-ms-summary": "Tile URL"
+        },
+        "tileValue": {
+          "description": "The value of the tile.",
+          "x-ms-summary": "Tile value"
+        }
+      },
+      "type": "object"
+    },
+    "ExportPayloadPaginatedReport": {
+      "properties": {
+        "format": {
+          "default": "PDF",
+          "description": "format in which the Paginated report needs to be exported in",
+          "enum": [
+            "PDF",
+            "CSV",
+            "DOCX",
+            "IMAGE",
+            "MHTML",
+            "PPTX",
+            "XLSX",
+            "XML"
+          ],
+          "title": "Export Format",
+          "type": "string"
+        },
+        "paginatedReportConfiguration": {
+          "description": "paginatedReportConfiguration",
+          "properties": {
+            "formatSettings": {
+              "additionalProperties": {
+                "description": "Dictionary of format settings. The keys are the device info property names for the requested file format.",
+                "title": "AdditionalProperties",
+                "type": "string"
+              },
+              "description": "Dictionary of format settings. The keys are the device info property names for the requested file format.",
+              "title": "FormatSettings",
+              "type": "object"
+            },
+            "identities": {
+              "description": "A single identity to use when exporting a report. Required when a report uses a Power BI dataset or an Azure AS datasource.",
+              "items": {
+                "$ref": "#/definitions/EffectiveIdentity"
+              },
+              "title": "Identities",
+              "type": "array"
+            },
+            "parameterValues": {
+              "description": "List of report parameters",
+              "items": {
+                "properties": {
+                  "name": {
+                    "description": "The report parameter name",
+                    "type": "string"
+                  },
+                  "value": {
+                    "description": "The report parameter value",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "title": "ParameterValues",
+              "type": "array"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "format"
+      ],
+      "type": "object"
+    },
+    "ExportPayloadPowerBIReport": {
+      "properties": {
+        "PowerBIReportExportConfiguration": {
+          "description": "Power BI report Export to file configuration",
+          "properties": {
+            "defaultBookmark": {
+              "$ref": "#/definitions/PageBookmark",
+              "description": "The default bookmark to apply on all pages which don't have a specific bookmark"
+            },
+            "identities": {
+              "description": "List of identities to use for RLS rules",
+              "items": {
+                "$ref": "#/definitions/EffectiveIdentity"
+              },
+              "title": "Identities",
+              "type": "array"
+            },
+            "pages": {
+              "description": "List of pages to export and their properties",
+              "items": {
+                "$ref": "#/definitions/ExportReportPage"
+              },
+              "title": "Pages",
+              "type": "array"
+            },
+            "settings": {
+              "$ref": "#/definitions/ExportReportSettings",
+              "description": "The settings to be applied in this Export to file job"
+            }
+          },
+          "type": "object"
+        },
+        "format": {
+          "default": "PDF",
+          "description": "format in which the Power BI report needs to be exported in",
+          "enum": [
+            "PDF",
+            "PPTX",
+            "PNG"
+          ],
+          "title": "Export Format",
+          "type": "string"
+        }
+      },
+      "required": [
+        "format"
+      ],
+      "type": "object"
+    },
+    "ExportReportPage": {
+      "description": "A single page configuration for the export request",
+      "properties": {
+        "bookmark": {
+          "$ref": "#/definitions/PageBookmark",
+          "description": "(Optional) The bookmark to be applied on the page"
+        },
+        "pageName": {
+          "description": "The page name",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ExportReportSettings": {
+      "description": "Export to file request settings",
+      "properties": {
+        "includeHiddenPages": {
+          "description": "A flag indicating whether to include hidden pages when exporting the entire report (when passing specific pages this property will be ignored). If not provided, the default behavior is to exclude hidden pages",
+          "title": "Include Hidden Pages",
+          "type": "boolean"
+        },
+        "locale": {
+          "description": "The locale to apply",
+          "title": "Locale",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Groups": {
+      "properties": {
+        "value": {
+          "items": {
+            "properties": {
+              "id": {
+                "description": "The ID of the group.",
+                "type": "string",
+                "x-ms-summary": "Group ID"
+              },
+              "name": {
+                "description": "The display name of the group.",
+                "type": "string",
+                "x-ms-summary": "Group name"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "IdentityBlob": {
+      "description": "A blob for specifying the identity. Only supported for datasets with Direct Query connection to SQL Azure",
+      "properties": {
+        "value": {
+          "description": "OAuth2 access token for SQL Azure",
+          "title": "Blob Value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "PageBookmark": {
+      "description": "The bookmark to apply on a single page. Provide name or state, but not both.",
+      "properties": {
+        "name": {
+          "description": "The bookmark name. Currently not supported",
+          "title": "Bookmark Name",
+          "type": "string"
+        },
+        "state": {
+          "description": "The bookmark state",
+          "title": "Bookmark State",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Payload": {
+      "properties": {},
+      "type": "object",
+      "x-ms-dynamic-schema": {
+        "operationId": "GetColumns",
+        "parameters": {
+          "datasetid": {
+            "parameter": "datasetid"
+          },
+          "groupid": {
+            "parameter": "groupid"
+          },
+          "tablename": {
+            "parameter": "tablename"
+          }
+        },
+        "value-path": "schema"
+      }
+    },
+    "PowerBiButtonClickedOutputs": {
+      "description": "Tokens coming from Power Bi input data",
+      "properties": {
+        "PowerBiInputs": {
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "x-ms-visibility": "advanced"
+    },
+    "Reports": {
+      "description": "Odata response wrapper for a Power BI report collection",
+      "properties": {
+        "odata.context": {
+          "description": "OData context",
+          "type": "string"
+        },
+        "value": {
+          "description": "The report collection",
+          "items": {
+            "description": "A Power BI report",
+            "properties": {
+              "datasetId": {
+                "description": "The dataset id",
+                "type": "string"
+              },
+              "embedUrl": {
+                "description": "The report embed url",
+                "type": "string"
+              },
+              "id": {
+                "description": "The report id",
+                "format": "uuid",
+                "type": "string"
+              },
+              "name": {
+                "description": "The report name",
+                "type": "string"
+              },
+              "webUrl": {
+                "description": "The report web url",
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "type": "array"
+        }
+      }
+    },
+    "Tables": {
+      "properties": {
+        "value": {
+          "items": {
+            "properties": {
+              "name": {
+                "description": "The display name of the table.",
+                "type": "string",
+                "x-ms-summary": "Table name"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/powerbi"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Power BI is a suite of business analytics tools to analyze data and share insights. Connect to get easy access to the data in your Power BI dashboards, reports and datasets.",
+    "title": "Power BI",
+    "version": "v1",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    },
+    "x-ms-deployment-version": "1.0.0"
+  },
+  "parameters": {
+    "DatasetIdParameter": {
+      "description": "The unique identifier of the dataset.",
+      "in": "path",
+      "name": "datasetid",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListDatasets",
+        "parameters": {
+          "groupid": {
+            "parameter": "groupid"
+          }
+        },
+        "value-collection": "value",
+        "value-path": "id",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Dataset"
+    },
+    "DatasetIdParameterRefresh": {
+      "description": "The unique identifier of the dataset.",
+      "in": "path",
+      "name": "datasetid",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListDatasets",
+        "parameters": {
+          "groupid": {
+            "parameter": "groupid"
+          },
+          "refreshDatasetsFilter": true
+        },
+        "value-collection": "value",
+        "value-path": "id",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Dataset"
+    },
+    "ExportIdParameter": {
+      "description": "The export id",
+      "in": "path",
+      "name": "exportid",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "Export ID"
+    },
+    "GroupIdParameter": {
+      "description": "The unique identifier of the workspace.",
+      "in": "path",
+      "name": "groupid",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListGroups",
+        "value-collection": "value",
+        "value-path": "id",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Workspace"
+    },
+    "MyWSReportIdParameter": {
+      "description": "The my workspace report id",
+      "in": "path",
+      "name": "reportid",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "Report ID"
+    },
+    "PaginatedReportIdParameter": {
+      "description": "The unique identifier of a paginated report.",
+      "in": "path",
+      "name": "reportid",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "GetReportsInGroup",
+        "parameters": {
+          "groupid": {
+            "parameter": "groupid"
+          },
+          "reportType": "PaginatedReport"
+        },
+        "value-collection": "value",
+        "value-path": "id",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Report"
+    },
+    "PbiReportIdParameter": {
+      "description": "The unique identifier of a pbi report.",
+      "in": "path",
+      "name": "reportid",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "GetReportsInGroup",
+        "parameters": {
+          "groupid": {
+            "parameter": "groupid"
+          },
+          "reportType": "PowerBIReport"
+        },
+        "value-collection": "value",
+        "value-path": "id",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Report"
+    },
+    "RefreshDatasetsFilter": {
+      "description": "Filter out streaming datasets",
+      "in": "header",
+      "name": "refreshDatasetsFilter",
+      "required": false,
+      "type": "boolean",
+      "x-ms-visibility": "internal"
+    },
+    "ReportIdParameter": {
+      "description": "The unique identifier of a report.",
+      "in": "path",
+      "name": "reportid",
+      "required": true,
+      "type": "string",
+      "x-ms-summary": "Report ID"
+    },
+    "ReportTypeParameter": {
+      "description": "Type of report",
+      "in": "header",
+      "name": "reportType",
+      "required": false,
+      "type": "string",
+      "x-ms-visibility": "internal"
+    },
+    "TableIdParameter": {
+      "description": "The name of the table.",
+      "in": "path",
+      "name": "tablename",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "ListTables",
+        "parameters": {
+          "datasetid": {
+            "parameter": "datasetid"
+          },
+          "groupid": {
+            "parameter": "groupid"
+          }
+        },
+        "value-collection": "value",
+        "value-path": "name",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Table"
+    },
+    "TracingQueryParameter": {
+      "default": "powerAutomate",
+      "description": "Source of the call for tracing",
+      "in": "query",
+      "name": "pbi_source",
+      "required": false,
+      "type": "string",
+      "x-ms-summary": "pbi_source",
+      "x-ms-visibility": "internal"
+    }
+  },
+  "paths": {
+    "/{connectionId}/hybridtriggers/powerBiButtonClicked": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "For internal use with the visual button hybrid trigger.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/powerbi/#when-a-power-bi-visual-button-is-clicked"
+        },
+        "operationId": "PowerBiButtonClicked",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "query",
+            "name": "inputsPowerBiData",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Input data from Power BI"
+          },
+          {
+            "$ref": "#/parameters/TracingQueryParameter"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {}
+          },
+          "default": {
+            "description": "Operation Failed",
+            "schema": {}
+          }
+        },
+        "summary": "When a power BI visual button is clicked",
+        "tags": [
+          "PowerBiButtonClicked"
+        ],
+        "x-ms-visibility": "internal"
+      },
+      "x-ms-notification-content": {
+        "description": "Tokens parsed out of the Power BI data object",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "schema": {
+          "$ref": "#/definitions/DynamicPowerBiButtonClickedTriggerResult"
+        }
+      }
+    },
+    "/{connectionId}/metadata/v201606/alerts": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Return a list of alerts for a signed in user.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/powerbi/#get-alerts-from-power-bi"
+        },
+        "operationId": "GetAlerts",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/TracingQueryParameter"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successful.",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/Alert"
+              },
+              "type": "array"
+            }
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "security": [
+          {
+            "AAD": [
+              "Dataset.Read.All"
+            ]
+          }
+        ],
+        "summary": "Get alerts from Power BI",
+        "tags": [
+          "GetAlerts"
+        ],
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/metadata/v201606/alerts/{alertId}/status": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Return the details of the specified data driven alert from Power BI when the alert triggered.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/powerbi/#when-a-data-driven-alert-is-triggered"
+        },
+        "operationId": "CheckAlertStatus",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The alert id to track.",
+            "in": "path",
+            "name": "alertId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetAlerts",
+              "value-path": "alertId",
+              "value-title": "alertTitle"
+            },
+            "x-ms-summary": "Alert Id",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "$ref": "#/parameters/TracingQueryParameter"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/EvaluatedAlert"
+            }
+          },
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "$ref": "#/definitions/EvaluatedAlert"
+            }
+          }
+        },
+        "security": [
+          {
+            "AAD": [
+              "Dataset.Read.All"
+            ]
+          }
+        ],
+        "summary": "When a data driven alert is triggered",
+        "tags": [
+          "Alerts"
+        ],
+        "x-ms-trigger": "single",
+        "x-ms-trigger-hint": "Evaluate the alert."
+      }
+    },
+    "/{connectionId}/powerbihybridtriggeroutput/triggers/PowerBiButtonClicked/PowerBiButtonClickedOutputs": {
+      "post": {
+        "description": "Get the schema information for the PowerBi Button Clicked hybrid trigger output.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/powerbi/#get-powerbi-button-clicked-hybrid-trigger-output"
+        },
+        "operationId": "GetPowerBiButtonClickedOutputs",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The body for parsing the output of the trigger",
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "default": "{}",
+              "type": "string",
+              "x-ms-summary": "inputsPowerBiData"
+            },
+            "x-ms-summary": "Inputs from Power Bi"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/PowerBiButtonClickedOutputs"
+            }
+          },
+          "default": {
+            "description": "Operation Failed",
+            "schema": {}
+          }
+        },
+        "summary": "Get PowerBi Button Clicked hybrid trigger output",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v1.0/myorg/groups": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Get Groups for Power BI.",
+        "operationId": "ListGroups",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/TracingQueryParameter"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Groups"
+            }
+          }
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v1.0/myorg/groups/{groupid}/datasets": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Get datasets for Power BI group.",
+        "operationId": "ListDatasets",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/GroupIdParameter"
+          },
+          {
+            "$ref": "#/parameters/RefreshDatasetsFilter"
+          },
+          {
+            "$ref": "#/parameters/TracingQueryParameter"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Datasets"
+            }
+          }
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v1.0/myorg/groups/{groupid}/datasets/{datasetid}/refreshes": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Use Power BI REST API to refresh a powerbi dataset.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/powerbi/#refresh-a-dataset"
+        },
+        "operationId": "RefreshDataset",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/GroupIdParameter"
+          },
+          {
+            "$ref": "#/parameters/DatasetIdParameterRefresh"
+          },
+          {
+            "$ref": "#/parameters/TracingQueryParameter"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Refresh a dataset",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v1.0/myorg/groups/{groupid}/datasets/{datasetid}/tables": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Get tables for Power BI dataset.",
+        "operationId": "ListTables",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/GroupIdParameter"
+          },
+          {
+            "$ref": "#/parameters/DatasetIdParameter"
+          },
+          {
+            "$ref": "#/parameters/TracingQueryParameter"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Tables"
+            }
+          }
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v1.0/myorg/groups/{groupid}/datasets/{datasetid}/tables/{tablename}/columns": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Get columns for Power BI dataset table.",
+        "operationId": "GetColumns",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/GroupIdParameter"
+          },
+          {
+            "$ref": "#/parameters/DatasetIdParameter"
+          },
+          {
+            "$ref": "#/parameters/TableIdParameter"
+          },
+          {
+            "$ref": "#/parameters/TracingQueryParameter"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Columns"
+            }
+          }
+        },
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v1.0/myorg/groups/{groupid}/datasets/{datasetid}/tables/{tablename}/rows": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Use Power BI REST API to add rows to a dataset.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/powerbi/#add-rows-to-a-dataset"
+        },
+        "operationId": "AddRows",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/GroupIdParameter"
+          },
+          {
+            "$ref": "#/parameters/DatasetIdParameter"
+          },
+          {
+            "$ref": "#/parameters/TableIdParameter"
+          },
+          {
+            "in": "body",
+            "name": "Payload",
+            "schema": {
+              "$ref": "#/definitions/Payload"
+            },
+            "x-ms-summary": "Payload to send"
+          },
+          {
+            "$ref": "#/parameters/TracingQueryParameter"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Add rows to a dataset",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v1.0/myorg/groups/{groupid}/reports": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Returns a list of reports from the specified workspace.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/powerbi/#get-reports-in-group"
+        },
+        "operationId": "GetReportsInGroup",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/GroupIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ReportTypeParameter"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Reports"
+            }
+          }
+        },
+        "summary": "Get Reports in Group",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v1.0/myorg/groups/{groupid}/reports/{reportid}/ExportTo": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Use Power BI Rest API to inititate export for Power BI reports",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/powerbi/#export-to-file-for-power-bi-reports"
+        },
+        "operationId": "InitiateExportToFileForPbiReports",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/GroupIdParameter"
+          },
+          {
+            "$ref": "#/parameters/PbiReportIdParameter"
+          },
+          {
+            "in": "body",
+            "name": "ExportPayloadPowerBIReport",
+            "schema": {
+              "$ref": "#/definitions/ExportPayloadPowerBIReport"
+            },
+            "x-ms-summary": "Payload to send for Power BI report export"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "The content of the file.",
+              "format": "binary",
+              "type": "string",
+              "x-ms-summary": "File Content"
+            }
+          }
+        },
+        "summary": "Export To File for Power BI Reports",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v1.0/myorg/groups/{groupid}/reports/{reportid}/ExportToPaginatedReports": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Use Power BI Rest API to inititate export for paginated reports",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/powerbi/#export-to-file-for-paginated-reports"
+        },
+        "operationId": "InitiateExportToFileForPaginatedReports",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/GroupIdParameter"
+          },
+          {
+            "$ref": "#/parameters/PaginatedReportIdParameter"
+          },
+          {
+            "in": "body",
+            "name": "ExportPayloadPaginatedReport",
+            "schema": {
+              "$ref": "#/definitions/ExportPayloadPaginatedReport"
+            },
+            "x-ms-summary": "Payload to send for paginated report export"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "The content of the file.",
+              "format": "binary",
+              "type": "string",
+              "x-ms-summary": "File Content"
+            }
+          }
+        },
+        "summary": "Export To File for Paginated Reports",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v1.0/myorg/groups/{groupid}/reports/{reportid}/exports/{exportid}": {
+      "get": {
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/powerbi/#check-export-status"
+        },
+        "operationId": "ExportStatus",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/GroupIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ReportIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ExportIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "The content of the file.",
+              "format": "binary",
+              "type": "string",
+              "x-ms-summary": "File Content"
+            }
+          }
+        },
+        "summary": "Check Export Status",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v1.0/myorg/groups/{groupid}/reports/{reportid}/exports/{exportid}/file": {
+      "get": {
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/powerbi/#get-export-file"
+        },
+        "operationId": "GetExportFile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/GroupIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ReportIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ExportIdParameter"
+          }
+        ],
+        "produces": [
+          "application/*",
+          "image/*",
+          "text/csv",
+          "text/xml",
+          "multipart/related"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "The content of the file.",
+              "format": "binary",
+              "type": "string",
+              "x-ms-summary": "File Content"
+            }
+          }
+        },
+        "summary": "Get Export File",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v1.0/myorg/reports/{reportid}/exports/{exportid}": {
+      "get": {
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/powerbi/#check-export-status-for-my-workspace"
+        },
+        "operationId": "MyWSExportStatus",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/MyWSReportIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ExportIdParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "The content of the file.",
+              "format": "binary",
+              "type": "string",
+              "x-ms-summary": "File Content"
+            }
+          }
+        },
+        "summary": "Check Export Status for My Workspace",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/v1.0/myorg/reports/{reportid}/exports/{exportid}/file": {
+      "get": {
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/powerbi/#get-export-file-for-myworkspace"
+        },
+        "operationId": "MyWSGetExportFile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/MyWSReportIdParameter"
+          },
+          {
+            "$ref": "#/parameters/ExportIdParameter"
+          }
+        ],
+        "produces": [
+          "application/*",
+          "image/*",
+          "text/csv",
+          "text/xml",
+          "multipart/related"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "The content of the file.",
+              "format": "binary",
+              "type": "string",
+              "x-ms-summary": "File Content"
+            }
+          }
+        },
+        "summary": "Get Export File for MyWorkspace",
+        "x-ms-visibility": "internal"
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-capabilities": {
+    "testConnection": {
+      "operationId": "GetAlerts"
+    }
+  },
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://powerbi.microsoft.com/"
+    }
+  ],
+  "x-ms-docs": [
+    {
+      "description": "A fun guide to using Power BI with Microsoft Flow",
+      "url": "https://ms.flow.microsoft.com/en-us/blog/a-fun-guide-to-using-power-bi-with-microsoft-flow/"
+    },
+    {
+      "description": "Using Flow and Power BI to track social listening through Twitter",
+      "url": "https://ms.flow.microsoft.com/en-us/blog/using-flow-and-power-bi-to-track-social-listening-through-twitter/"
+    },
+    {
+      "description": "Show real-time weather data in Power BI",
+      "url": "https://ms.flow.microsoft.com/en-us/blog/fotw-weather-in-powerbi/"
+    }
+  ]
+}

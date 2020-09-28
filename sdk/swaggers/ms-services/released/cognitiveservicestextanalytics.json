@@ -1,0 +1,911 @@
+{
+  "basePath": "/apim/cognitiveservicestextanalytics",
+  "consumes": [
+    "application/json"
+  ],
+  "definitions": {
+    "DetectedLanguageV2": {
+      "properties": {
+        "iso6391Name": {
+          "description": "A two letter representation of the detected language according to the ISO 639-1 standard (e.g. en, fr).",
+          "type": "string",
+          "x-ms-summary": "Language Code"
+        },
+        "name": {
+          "description": "The long name of a detected language (e.g. English, French).",
+          "type": "string",
+          "x-ms-summary": "Name"
+        },
+        "score": {
+          "description": "A confidence score between 0 and 1. Scores close to 1 indicate 100% certainty that the identified language is true.",
+          "format": "double",
+          "type": "number",
+          "x-ms-summary": "Score"
+        }
+      },
+      "type": "object"
+    },
+    "EntitiesResult": {
+      "properties": {
+        "entities": {
+          "description": "A list of disambiguated entities with links to more information on the web (Wikipedia and Bing).",
+          "items": {
+            "properties": {
+              "bingId": {
+                "description": "Bing Id of the entity.",
+                "type": "string",
+                "x-ms-summary": "Bing Id"
+              },
+              "matches": {
+                "description": "A list of matches for the entity.",
+                "items": {
+                  "type": "object"
+                },
+                "type": "array",
+                "x-ms-summary": "Matches"
+              },
+              "name": {
+                "description": "Name of the entity.",
+                "type": "string",
+                "x-ms-summary": "Name"
+              },
+              "subType": {
+                "description": "Subtype of the entity.",
+                "type": "string",
+                "x-ms-summary": "Subtype"
+              },
+              "type": {
+                "description": "Type of the entity.",
+                "type": "string",
+                "x-ms-summary": "Type"
+              },
+              "wikipediaId": {
+                "description": "Wikipedia Id of the entity.",
+                "type": "string",
+                "x-ms-summary": "Wikipedia Id"
+              },
+              "wikipediaLanguage": {
+                "description": "Wikipedia language of the entity.",
+                "type": "string",
+                "x-ms-summary": "Wikipedia Language"
+              },
+              "wikipediaUrl": {
+                "description": "Wikipedia url of the entity.",
+                "type": "string",
+                "x-ms-summary": "Wikipedia Url"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "Entities"
+        },
+        "id": {
+          "description": "The unique document identifier.",
+          "type": "string",
+          "x-ms-summary": "Id"
+        }
+      },
+      "type": "object"
+    },
+    "EntitiesResults": {
+      "properties": {
+        "documents": {
+          "items": {
+            "$ref": "#/definitions/EntitiesResult"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "KeyPhraseResult": {
+      "properties": {
+        "id": {
+          "description": "The unique document identifier.",
+          "type": "string",
+          "x-ms-summary": "Id"
+        },
+        "keyPhrases": {
+          "description": "A list of representative words or phrases. The number of key phrases returned is proportional to the number of words in the input document.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "x-ms-summary": "Key Phrases"
+        }
+      },
+      "type": "object"
+    },
+    "KeyPhraseResults": {
+      "properties": {
+        "documents": {
+          "items": {
+            "$ref": "#/definitions/KeyPhraseResult"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "LanguageInput": {
+      "properties": {
+        "text": {
+          "description": "The text to analyze.",
+          "type": "string",
+          "x-ms-summary": "Text"
+        }
+      },
+      "type": "object",
+      "x-ms-test-value": {
+        "text": "bonjour"
+      }
+    },
+    "LanguageInputV2": {
+      "properties": {
+        "id": {
+          "description": "Unique, non-empty document identifier.",
+          "type": "string",
+          "x-ms-summary": "Id"
+        },
+        "text": {
+          "description": "The text to analyze.",
+          "type": "string",
+          "x-ms-summary": "Text"
+        }
+      },
+      "required": [
+        "id",
+        "text"
+      ],
+      "type": "object"
+    },
+    "LanguageInputs": {
+      "properties": {
+        "documents": {
+          "items": {
+            "$ref": "#/definitions/LanguageInputV2"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "LanguageResult": {
+      "properties": {
+        "detectedLanguages": {
+          "description": "A list of extracted languages.",
+          "items": {
+            "$ref": "#/definitions/DetectedLanguageV2"
+          },
+          "type": "array"
+        },
+        "id": {
+          "description": "The unique document identifier.",
+          "type": "string",
+          "x-ms-summary": "Id"
+        }
+      },
+      "type": "object"
+    },
+    "LanguageResults": {
+      "properties": {
+        "documents": {
+          "items": {
+            "$ref": "#/definitions/LanguageResult"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "MultiLanguageInput": {
+      "properties": {
+        "language": {
+          "description": "This is the 2 letter ISO 639-1 representation of a language.\r\n            For example, use \"en\" for English; \"es\" for Spanish etc.,",
+          "enum": [
+            "da",
+            "de",
+            "en",
+            "es",
+            "fi",
+            "fr",
+            "it",
+            "ja",
+            "nl",
+            "no",
+            "pl",
+            "pt",
+            "ru",
+            "sv"
+          ],
+          "type": "string",
+          "x-ms-summary": "Language",
+          "x-ms-visibility": "advanced"
+        },
+        "text": {
+          "description": "The text to analyze.",
+          "type": "string",
+          "x-ms-summary": "Text"
+        }
+      },
+      "type": "object",
+      "x-ms-test-value": {
+        "language": "fr",
+        "text": "bonjour"
+      }
+    },
+    "MultiLanguageInputV2": {
+      "properties": {
+        "id": {
+          "description": "Unique, non-empty document identifier.",
+          "type": "string",
+          "x-ms-summary": "Id"
+        },
+        "language": {
+          "default": "en",
+          "description": "This is the 2 letter ISO 639-1 representation of a language.\r\n            For example, use \"en\" for English; \"es\" for Spanish etc.,",
+          "enum": [
+            "da",
+            "de",
+            "en",
+            "es",
+            "fi",
+            "fr",
+            "it",
+            "ja",
+            "nl",
+            "no",
+            "pl",
+            "pt",
+            "ru",
+            "sv"
+          ],
+          "type": "string",
+          "x-ms-summary": "Language",
+          "x-ms-visibility": "advanced"
+        },
+        "text": {
+          "description": "The text to analyze.",
+          "type": "string",
+          "x-ms-summary": "Text"
+        }
+      },
+      "required": [
+        "id",
+        "text"
+      ],
+      "type": "object"
+    },
+    "MultiLanguageInputs": {
+      "properties": {
+        "documents": {
+          "items": {
+            "$ref": "#/definitions/MultiLanguageInputV2"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "SentimentResult": {
+      "properties": {
+        "id": {
+          "description": "The unique document identifier.",
+          "type": "string",
+          "x-ms-summary": "Id"
+        },
+        "score": {
+          "description": "A decimal number between 0 and 1 denoting the sentiment of the document.  A score above 0.7 usually refers to a positive document while a score below 0.3 normally has a negative connotation. Mid values refer to neutral text.",
+          "format": "double",
+          "type": "number",
+          "x-ms-summary": "Score"
+        }
+      },
+      "type": "object"
+    },
+    "SentimentResults": {
+      "properties": {
+        "documents": {
+          "items": {
+            "$ref": "#/definitions/SentimentResult"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/cognitiveservicestextanalytics"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "email": "mlapi@microsoft.com",
+      "name": "Microsoft",
+      "url": "https://gallery.cortanaanalytics.com/MachineLearningAPI/Text-Analytics-2"
+    },
+    "description": "Microsoft Cognitive Services Text Analytics detects language, sentiment and more of the text you provide.",
+    "title": "Text Analytics",
+    "version": "v2.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    }
+  },
+  "paths": {
+    "/{connectionId}/keyPhrases": {
+      "post": {
+        "deprecated": true,
+        "description": "Returns a list of strings denoting the key talking points in the input text. Currently, the following languages are supported: English, German, Spanish and Japanese.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicestextanalytics/#key-phrases-%5bdeprecated%5d"
+        },
+        "operationId": "KeyPhrases",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The document to analyze. Documents can contain a language field to indicate the text language.",
+            "in": "body",
+            "name": "input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MultiLanguageInput"
+            },
+            "x-ms-summary": "Document"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/KeyPhraseResult"
+            }
+          }
+        },
+        "summary": "Key Phrases",
+        "tags": [
+          "Key Phrases"
+        ],
+        "x-ms-api-annotation": {
+          "family": "KeyPhrases",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-safe-operation": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/languages": {
+      "post": {
+        "deprecated": true,
+        "description": "Returns the detected language and a numeric score between 0 and 1. Scores close to 1 indicate 100% certainty that the identified language is true. A total of 120 languages are supported.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicestextanalytics/#detect-language-%5bdeprecated%5d"
+        },
+        "operationId": "DetectLanguage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The document to analyze.",
+            "in": "body",
+            "name": "input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LanguageInput"
+            },
+            "x-ms-summary": "Document"
+          },
+          {
+            "description": "The number of languages to detect. Set to 1 by default.",
+            "format": "int32",
+            "in": "query",
+            "name": "numberOfLanguagesToDetect",
+            "required": false,
+            "type": "integer",
+            "x-ms-summary": "Number of languages",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/LanguageResult"
+            }
+          }
+        },
+        "summary": "Detect Language",
+        "tags": [
+          "Detect Language"
+        ],
+        "x-ms-api-annotation": {
+          "family": "DetectLanguage",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-safe-operation": true
+      }
+    },
+    "/{connectionId}/sentiment": {
+      "post": {
+        "deprecated": true,
+        "description": "Returns a numeric score between 0 and 1. Scores close to 1 indicate positive sentiment, while scores close to 0 indicate negative sentiment. Currently, the following languages are supported: English, Spanish, French, Portuguese.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicestextanalytics/#detect-sentiment-%5bdeprecated%5d"
+        },
+        "operationId": "DetectSentiment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The document to analyze.",
+            "in": "body",
+            "name": "input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MultiLanguageInput"
+            },
+            "x-ms-summary": "Document"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SentimentResult"
+            }
+          }
+        },
+        "summary": "Detect Sentiment",
+        "tags": [
+          "Sentiment"
+        ],
+        "x-ms-api-annotation": {
+          "family": "DetectSentiment",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-safe-operation": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/testConnection": {
+      "get": {
+        "description": "Tests the connection",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicestextanalytics/#test-connection"
+        },
+        "operationId": "TestConnection",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Test Connection",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/text/analytics/v2.1/entities": {
+      "post": {
+        "deprecated": false,
+        "description": "Returns a list of known entities and general named entities (\"Person\", \"Location\", \"Organization\" etc) in a given document.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicestextanalytics/#entities"
+        },
+        "operationId": "DetectEntities",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The document to analyze.",
+            "in": "body",
+            "name": "input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MultiLanguageInput"
+            },
+            "x-ms-summary": "Document"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResult"
+            }
+          }
+        },
+        "summary": "Entities",
+        "tags": [
+          "Entities"
+        ],
+        "x-ms-api-annotation": {
+          "family": "DetectEntities",
+          "revision": 1,
+          "status": "Production"
+        },
+        "x-ms-safe-operation": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/text/analytics/v2.1/keyPhrases": {
+      "post": {
+        "deprecated": false,
+        "description": "Returns a list of strings denoting the key talking points in the input text.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicestextanalytics/#key-phrases"
+        },
+        "operationId": "KeyPhrasesV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The document to analyze. Documents can contain a language field to indicate the text language.",
+            "in": "body",
+            "name": "input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MultiLanguageInput"
+            },
+            "x-ms-summary": "Document"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/KeyPhraseResult"
+            }
+          }
+        },
+        "summary": "Key Phrases",
+        "tags": [
+          "Key Phrases"
+        ],
+        "x-ms-api-annotation": {
+          "family": "KeyPhrases",
+          "revision": 2,
+          "status": "Production"
+        },
+        "x-ms-safe-operation": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/text/analytics/v2.1/languages": {
+      "post": {
+        "deprecated": false,
+        "description": "Returns the detected language and a numeric score between 0 and 1. Scores close to 1 indicate 100% certainty that the identified language is true. A total of 120 languages are supported.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicestextanalytics/#detect-language"
+        },
+        "operationId": "DetectLanguageV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The document to analyze.",
+            "in": "body",
+            "name": "input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LanguageInput"
+            },
+            "x-ms-summary": "Document"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/LanguageResult"
+            }
+          }
+        },
+        "summary": "Detect Language",
+        "tags": [
+          "Detect Language"
+        ],
+        "x-ms-api-annotation": {
+          "family": "DetectLanguage",
+          "revision": 2,
+          "status": "Production"
+        },
+        "x-ms-safe-operation": true
+      }
+    },
+    "/{connectionId}/text/analytics/v2.1/sentiment": {
+      "post": {
+        "deprecated": false,
+        "description": "Returns a numeric score between 0 and 1. Scores close to 1 indicate positive sentiment, while scores close to 0 indicate negative sentiment. ",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicestextanalytics/#detect-sentiment"
+        },
+        "operationId": "DetectSentimentV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The document to analyze.",
+            "in": "body",
+            "name": "input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MultiLanguageInput"
+            },
+            "x-ms-summary": "Document"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SentimentResult"
+            }
+          }
+        },
+        "summary": "Detect Sentiment",
+        "tags": [
+          "Sentiment"
+        ],
+        "x-ms-api-annotation": {
+          "family": "DetectSentiment",
+          "revision": 2,
+          "status": "Production"
+        },
+        "x-ms-safe-operation": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v2/text/analytics/v2.1/entities": {
+      "post": {
+        "deprecated": false,
+        "description": "Returns a list of known entities and general named entities (\"Person\", \"Location\", \"Organization\" etc) in a given document.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicestextanalytics/#detect-entities-(v2)"
+        },
+        "operationId": "DetectEntitiesV2",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The documents to analyze.",
+            "in": "body",
+            "name": "input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MultiLanguageInputs"
+            },
+            "x-ms-summary": "Documents"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/EntitiesResults"
+            }
+          }
+        },
+        "summary": "Detect Entities (V2)",
+        "tags": [
+          "Entities"
+        ],
+        "x-ms-api-annotation": {
+          "family": "DetectEntities",
+          "revision": 2,
+          "status": "Preview"
+        },
+        "x-ms-safe-operation": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v2/text/analytics/v2.1/keyPhrases": {
+      "post": {
+        "deprecated": false,
+        "description": "Returns a list of strings denoting the key talking points in the input text for each document.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicestextanalytics/#key-phrases-(v2)"
+        },
+        "operationId": "KeyPhrasesV3",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The documents to analyze. Documents can contain a language field to indicate the text language.",
+            "in": "body",
+            "name": "input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MultiLanguageInputs"
+            },
+            "x-ms-summary": "Documents"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/KeyPhraseResults"
+            }
+          }
+        },
+        "summary": "Key Phrases (V2)",
+        "tags": [
+          "Key Phrases"
+        ],
+        "x-ms-api-annotation": {
+          "family": "KeyPhrases",
+          "revision": 3,
+          "status": "Preview"
+        },
+        "x-ms-safe-operation": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/v2/text/analytics/v2.1/languages": {
+      "post": {
+        "deprecated": false,
+        "description": "Returns the detected language and a numeric score between 0 and 1 for each document. Scores close to 1 indicate 100% certainty that the identified language is true. A total of 120 languages are supported.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicestextanalytics/#detect-language-(v2)"
+        },
+        "operationId": "DetectLanguageV3",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The documents to analyze.",
+            "in": "body",
+            "name": "input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LanguageInputs"
+            },
+            "x-ms-summary": "Documents"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/LanguageResults"
+            }
+          }
+        },
+        "summary": "Detect Language (V2)",
+        "tags": [
+          "Detect Language"
+        ],
+        "x-ms-api-annotation": {
+          "family": "DetectLanguage",
+          "revision": 3,
+          "status": "Preview"
+        },
+        "x-ms-safe-operation": true
+      }
+    },
+    "/{connectionId}/v2/text/analytics/v2.1/sentiment": {
+      "post": {
+        "deprecated": false,
+        "description": "Returns a numeric score between 0 and 1 for each document. Scores close to 1 indicate positive sentiment, while scores close to 0 indicate negative sentiment. ",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/cognitiveservicestextanalytics/#detect-sentiment-(v2)"
+        },
+        "operationId": "DetectSentimentV3",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The documents to analyze.",
+            "in": "body",
+            "name": "input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MultiLanguageInputs"
+            },
+            "x-ms-summary": "Documents"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SentimentResults"
+            }
+          }
+        },
+        "summary": "Detect Sentiment (V2)",
+        "tags": [
+          "Sentiment"
+        ],
+        "x-ms-api-annotation": {
+          "family": "DetectSentiment",
+          "revision": 3,
+          "status": "Preview"
+        },
+        "x-ms-safe-operation": true,
+        "x-ms-visibility": "important"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://azure.microsoft.com/services/cognitive-services/text-analytics/"
+    }
+  ]
+}

@@ -1,0 +1,1676 @@
+{
+  "basePath": "/apim/faceapi",
+  "definitions": {
+    "AddPersonFaceResponse": {
+      "properties": {
+        "persistedFaceId": {
+          "type": "string",
+          "x-ms-summary": "Persisted Face Id"
+        }
+      },
+      "type": "object"
+    },
+    "CreatePersonResponse": {
+      "properties": {
+        "personId": {
+          "type": "string",
+          "x-ms-summary": "Person Id"
+        }
+      },
+      "type": "object"
+    },
+    "DetectResponse": {
+      "items": {
+        "properties": {
+          "faceAttributes": {
+            "properties": {
+              "age": {
+                "description": "Age of person.",
+                "format": "float",
+                "type": "number",
+                "x-ms-summary": "Age"
+              },
+              "facialHair": {
+                "properties": {
+                  "beard": {
+                    "description": "Intensity between [0,1].",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Beard"
+                  },
+                  "moustache": {
+                    "description": "Intensity between [0,1].",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Moustache"
+                  },
+                  "sideburns": {
+                    "description": "Intensity between [0,1].",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Sideburns"
+                  }
+                },
+                "type": "object"
+              },
+              "gender": {
+                "description": "Male for female.",
+                "type": "string",
+                "x-ms-summary": "Gender"
+              },
+              "glasses": {
+                "description": "Type of glasses.",
+                "type": "string",
+                "x-ms-summary": "Glasses"
+              },
+              "headPose": {
+                "properties": {
+                  "pitch": {
+                    "description": "Reserved field, always returns 0.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Head Pose Pitch"
+                  },
+                  "roll": {
+                    "description": "Roll of the head pose.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Head Pose Roll"
+                  },
+                  "yaw": {
+                    "description": "Yaw of the head pose.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Head Pose Yaw"
+                  }
+                },
+                "type": "object",
+                "x-ms-visibility": "advanced"
+              },
+              "smile": {
+                "description": "Intensity between [0,1].",
+                "format": "float",
+                "type": "number",
+                "x-ms-summary": "Smile"
+              }
+            },
+            "type": "object"
+          },
+          "faceId": {
+            "description": "Unique faceId of the detected face. Will expire 24 hours after detection call.",
+            "type": "string",
+            "x-ms-summary": "Face Id"
+          },
+          "faceLandmarks": {
+            "properties": {
+              "eyeLeftBottom": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for the bottom of the left eye.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Bottom of Left Eye X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for the bottom of the left eye.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Bottom of Left Eye Y"
+                  }
+                },
+                "type": "object"
+              },
+              "eyeLeftInner": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for the inner side of the left eye.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Inner Left Eye X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for the inner side of the left eye.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Inner Left Eye Y"
+                  }
+                },
+                "type": "object"
+              },
+              "eyeLeftOuter": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for the outer side of the left eye.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Outer Left Eye X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for the outer side of the left eye.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Outer Left Eye Y"
+                  }
+                },
+                "type": "object"
+              },
+              "eyeLeftTop": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for the top of the left eye.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Top of Left Eye X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for the top of the left eye.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Top of Left Eye Y"
+                  }
+                },
+                "type": "object"
+              },
+              "eyeRightBottom": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for the bottom of the right eye.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Bottom of Right Eye X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for the bottom of the right eye.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Bottom of Right Eye Y"
+                  }
+                },
+                "type": "object"
+              },
+              "eyeRightInner": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for the inner side of the right eye.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Inner Right Eye X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for the inner side of the right eye.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Inner Right Eye Y"
+                  }
+                },
+                "type": "object"
+              },
+              "eyeRightOuter": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for the outer side of the right eye.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Outer Right Eye X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for the outer side of the right eye.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Outer Right Eye Y"
+                  }
+                },
+                "type": "object"
+              },
+              "eyeRightTop": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for the top of the right eye.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Top of Right Eye X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for the top of the right eye.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Top of Right Eye Y"
+                  }
+                },
+                "type": "object"
+              },
+              "eyebrowLeftInner": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for the inner side of the left eyebrow.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Inner Left Eybrow X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for the inner side of the left eyebrow.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Inner Left Eyebrow Y"
+                  }
+                },
+                "type": "object"
+              },
+              "eyebrowLeftOuter": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for the outer side of the left eyebrow.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Outer Left Eyebrow X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for the outer side of the left eyebrow.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Outer Left Eyebrow Y"
+                  }
+                },
+                "type": "object"
+              },
+              "eyebrowRightInner": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for the inner side of the right eyebrow.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Inner Right Eybrow X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for the inner side of the right eyebrow.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Inner Right Eyebrow Y"
+                  }
+                },
+                "type": "object"
+              },
+              "eyebrowRightOuter": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for the outer side of the right eyebrow.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Outer Right Eyebrow X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for the outer side of the right eyebrow.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Outer Right Eyebrow Y"
+                  }
+                },
+                "type": "object"
+              },
+              "mouthLeft": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for the left side of the mouth.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Mouth Left X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for the left side of the mouth.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Mouth Left Y"
+                  }
+                },
+                "type": "object"
+              },
+              "mouthRight": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for the right side of the mouth.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Mouth Right X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for the right side of the mouth.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Mouth Right Y"
+                  }
+                },
+                "type": "object"
+              },
+              "noseLeftAlarOutTip": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for tip of the left nose altar.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Tip of Left Nose Altar Out X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for tip of the left nose altar/",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Tip of Left Nose Altar Out Y"
+                  }
+                },
+                "type": "object"
+              },
+              "noseLeftAlarTop": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for top of the left nose altar.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Top of Left Nose Altar X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for top of the left nose altar.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Top of Left Nose Altar Y"
+                  }
+                },
+                "type": "object"
+              },
+              "noseRightAlarOutTip": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for tip of the right nose altar.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Tip of Right Nose Altar Out X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for tip of the right nose altar.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Tip of Right Nose Altar Out Y"
+                  }
+                },
+                "type": "object"
+              },
+              "noseRightAlarTop": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for top of the right nose altar.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Top of Right Nose Altar X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for top of the right nose altar.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Top of Right Nose Altar Y"
+                  }
+                },
+                "type": "object"
+              },
+              "noseRootLeft": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for left side of the nose root.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Left Nose Root X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for left side of the nose root.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Left Nose Root Y"
+                  }
+                },
+                "type": "object"
+              },
+              "noseRootRight": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for right side of the nose root.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Right Nose Root X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for right side of the nose root.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Right Nose Root Y"
+                  }
+                },
+                "type": "object"
+              },
+              "noseTip": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate of the nose tip.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Nose Tip X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate of the nose tip.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Nose Tip Y"
+                  }
+                },
+                "type": "object"
+              },
+              "pupilLeft": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate of the left pupil.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Left Pupil X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate of the left pupil.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Left Pupil Y"
+                  }
+                },
+                "type": "object"
+              },
+              "pupilRight": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate of the right pupil.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Right Pupil X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate of the right pupil.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Right Pupil Y"
+                  }
+                },
+                "type": "object"
+              },
+              "underLipBottom": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for bottom of under lip.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Bottom of Under Lip X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for bottom of under lip.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Bottom of Under Lip Y"
+                  }
+                },
+                "type": "object"
+              },
+              "underLipTop": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for top of under lip.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Top of Under Lip X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for top of under lip.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Top of Under Lip Y"
+                  }
+                },
+                "type": "object"
+              },
+              "upperLipBottom": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for bottom of upper lip.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Bottom of Upper Lip X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for bottom of upper lip.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Bottom of Upper Lip Y"
+                  }
+                },
+                "type": "object"
+              },
+              "upperLipTop": {
+                "properties": {
+                  "x": {
+                    "description": "The x-coordinate for top of upper lip.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Top of Upper Lip X"
+                  },
+                  "y": {
+                    "description": "The y-coordinate for top of upper lip.",
+                    "format": "float",
+                    "type": "number",
+                    "x-ms-summary": "Top of Upper Lip Y"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object",
+            "x-ms-summary": "Face Landmarks",
+            "x-ms-visibility": "advanced"
+          },
+          "faceRectangle": {
+            "properties": {
+              "height": {
+                "description": "Parameters of a rectangle area for the face location on image.",
+                "format": "int32",
+                "type": "integer",
+                "x-ms-summary": "Height"
+              },
+              "left": {
+                "description": "Parameters of a rectangle area for the face location on image.",
+                "format": "int32",
+                "type": "integer",
+                "x-ms-summary": "Left"
+              },
+              "top": {
+                "description": "Parameters of a rectangle area for the face location on image.",
+                "format": "int32",
+                "type": "integer",
+                "x-ms-summary": "Top"
+              },
+              "width": {
+                "description": "Parameters of a rectangle area for the face location on image.",
+                "format": "int32",
+                "type": "integer",
+                "x-ms-summary": "Width"
+              }
+            },
+            "type": "object",
+            "x-ms-summary": "Face Rectangle"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "GetFaceListInternalResponse": {
+      "items": {
+        "properties": {
+          "faceListId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "userData": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "GetFaceListResponse": {
+      "properties": {
+        "faceListId": {
+          "description": "faceListId of the target face list.",
+          "type": "string",
+          "x-ms-summary": "Face List Id"
+        },
+        "name": {
+          "description": "Face list's display name.",
+          "type": "string",
+          "x-ms-summary": "Name"
+        },
+        "persistedFaces": {
+          "items": {
+            "properties": {
+              "persistedFaceId": {
+                "description": "Id of the face.",
+                "type": "string",
+                "x-ms-summary": "Persisted Face Id"
+              },
+              "userData": {
+                "description": "User-provided data attached to each face.",
+                "type": "string",
+                "x-ms-summary": "User Data"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "Persisted Faces"
+        },
+        "userData": {
+          "description": "User-provided data attached to the face list.",
+          "type": "string",
+          "x-ms-summary": "User Data"
+        }
+      },
+      "type": "object"
+    },
+    "GetPersonFaceResponse": {
+      "properties": {
+        "persistedFaceId": {
+          "type": "string",
+          "x-ms-summary": "Persisted Face Id"
+        },
+        "userData": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "GetPersonGroupResponse": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "x-ms-summary": "Name"
+        },
+        "personGroupId": {
+          "type": "string",
+          "x-ms-summary": "Person Group Id"
+        },
+        "userData": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "GetPersonGroupsInternalResponse": {
+      "items": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "personGroupId": {
+            "type": "string"
+          },
+          "userData": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "GetPersonResponse": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "x-ms-summary": "Name"
+        },
+        "persistedFaceIds": {
+          "items": {
+            "properties": {
+              "persistedFaceId": {
+                "type": "string",
+                "x-ms-summary": "Persisted Face Id"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "Persisted Face Ids"
+        },
+        "personId": {
+          "type": "string",
+          "x-ms-summary": "Person Id"
+        },
+        "userData": {
+          "type": "string",
+          "x-ms-summary": "User Data"
+        }
+      },
+      "type": "object"
+    },
+    "GetPersonsInternalResponse": {
+      "items": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "persistedFaceIds": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "personId": {
+            "type": "string"
+          },
+          "userData": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "IdentifyResponse": {
+      "properties": {
+        "candidates": {
+          "items": {
+            "properties": {
+              "confidence": {
+                "description": "A float number between 0.0 and 1.0.",
+                "format": "float",
+                "type": "number",
+                "x-ms-summary": "Confidence"
+              },
+              "personId": {
+                "description": "personId of candidate person.",
+                "type": "string",
+                "x-ms-summary": "Person Id"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array",
+          "x-ms-summary": "Candidates"
+        },
+        "faceId": {
+          "description": "faceId of the query face.",
+          "type": "string",
+          "x-ms-summary": "Face Id"
+        }
+      },
+      "type": "object"
+    },
+    "VerifyResponse": {
+      "properties": {
+        "confidence": {
+          "description": "A number indicates the similarity confidence of whether two faces belong to the same person, or whether the face belongs to the person. ",
+          "format": "float",
+          "type": "number",
+          "x-ms-summary": "Confidence"
+        },
+        "isIdentical": {
+          "description": "True if the two faces belong to the same person or the face belongs to the person, otherwise false.",
+          "type": "boolean",
+          "x-ms-summary": "Is Identical"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/faceapi"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Microsoft Cognitive Services Face API allows you to detect, identify, analyze, organize and tag faces in photos.",
+    "title": "Face API",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    },
+    "x-ms-deployment-version": "1.0.0"
+  },
+  "parameters": {
+    "personGroupId__in_path": {
+      "description": "Specifying the person group containing the target person.",
+      "in": "path",
+      "name": "personGroupId",
+      "required": true,
+      "type": "string",
+      "x-ms-dynamic-values": {
+        "operationId": "GetPersonGroupsInternal",
+        "value-path": "personGroupId",
+        "value-title": "name"
+      },
+      "x-ms-summary": "Person Group Id"
+    },
+    "targetFace__in_query": {
+      "description": "A face rectangle to specify the target face to be added to a person, in the format of targetFace=left,top,width,height",
+      "in": "query",
+      "name": "targetFace",
+      "required": false,
+      "type": "string",
+      "x-ms-summary": "Target Face",
+      "x-ms-visibility": "advanced"
+    },
+    "url__in_body": {
+      "in": "body",
+      "name": "body",
+      "required": true,
+      "schema": {
+        "properties": {
+          "url": {
+            "description": "Image must be JPEG, PNG, GIF(the first frame), or BMP",
+            "type": "string",
+            "x-ms-summary": "Image Url"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "type": "object"
+      }
+    },
+    "userData__in_query": {
+      "description": "User-specified data about the target face to add for any purpose. The maximum length is 1KB.",
+      "in": "query",
+      "name": "userData",
+      "required": false,
+      "type": "string",
+      "x-ms-summary": "User Data",
+      "x-ms-visibility": "advanced"
+    }
+  },
+  "paths": {
+    "/{connectionId}/face/v1.0/detect": {
+      "post": {
+        "deprecated": false,
+        "description": "Detect human faces in an image and returns face locations, and optionally with faceIds, landmarks, and attributes.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/faceapi/#detect-faces"
+        },
+        "operationId": "Detect",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": "true",
+            "in": "query",
+            "name": "returnFaceId",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "returnFaceIds",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/url__in_body"
+          },
+          {
+            "default": "age,gender,headPose,smile,facialHair,glasses",
+            "in": "query",
+            "name": "returnFaceAttributes",
+            "required": false,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "default": "true",
+            "in": "query",
+            "name": "returnFaceLandmarks",
+            "required": false,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/DetectResponse"
+            }
+          }
+        },
+        "summary": "Detect faces",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/face/v1.0/facelists/": {
+      "get": {
+        "deprecated": false,
+        "description": "",
+        "operationId": "GetFaceListInternal",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "properties": {
+                  "faceListId": {
+                    "type": "string",
+                    "x-ms-summary": "Face List Id"
+                  },
+                  "name": {
+                    "type": "string",
+                    "x-ms-summary": "Name"
+                  },
+                  "userData": {
+                    "type": "string",
+                    "x-ms-summary": "User Data"
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "summary": "",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/face/v1.0/facelists/{faceListId}/": {
+      "get": {
+        "deprecated": false,
+        "description": "Retrieve a face list's information, including faceListId, name, userData and faces in the face list.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/faceapi/#get-a-face-list"
+        },
+        "operationId": "GetFaceList",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "faceListId of the target face list.",
+            "in": "path",
+            "name": "faceListId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetFaceListInternal",
+              "value-path": "faceListId",
+              "value-title": "name"
+            },
+            "x-ms-summary": "Face List Id",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetFaceListResponse"
+            }
+          }
+        },
+        "summary": "Get a face list",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "advanced"
+      },
+      "put": {
+        "deprecated": false,
+        "description": "Create an empty face list with user-specified faceListId, name and an optional userData.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/faceapi/#create-a-face-list"
+        },
+        "operationId": "CreateFaceList",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Valid character is letter in lower case or digit or '-' or '_', maximum length is 64",
+            "in": "path",
+            "name": "faceListId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Face List Id"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "name": {
+                  "description": "Name of the created face list, maximum length is 128.",
+                  "type": "string",
+                  "x-ms-summary": "Face List Name"
+                },
+                "userData": {
+                  "description": "Optional user defined data for the face list. Length should not exceed 16KB.",
+                  "type": "string",
+                  "x-ms-summary": "User Data",
+                  "x-ms-visibility": "advanced"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Create a face list",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/face/v1.0/facelists/{faceListId}/persistedFaces": {
+      "post": {
+        "deprecated": false,
+        "description": "Add face to face list.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/faceapi/#add-face-to-face-list"
+        },
+        "operationId": "AddFaceToFaceList",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "url": {
+                  "description": "Image must be JPEG, PNG, GIF(the first frame), or BMP",
+                  "type": "string",
+                  "x-ms-summary": "Image Url"
+                }
+              },
+              "type": "object"
+            },
+            "x-ms-summary": "body",
+            "x-ms-visibility": "advanced"
+          },
+          {
+            "$ref": "#/parameters/targetFace__in_query"
+          },
+          {
+            "$ref": "#/parameters/userData__in_query"
+          },
+          {
+            "description": "Valid character is letter in lower case or digit or '-' or '_', maximum length is 64.",
+            "in": "path",
+            "name": "faceListId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetFaceListInternal",
+              "value-path": "faceListId",
+              "value-title": "name"
+            },
+            "x-ms-summary": "Face List Id",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AddPersonFaceResponse"
+            }
+          }
+        },
+        "summary": "Add face to face list",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/face/v1.0/persongroups/": {
+      "get": {
+        "deprecated": false,
+        "description": "",
+        "operationId": "GetPersonGroupsInternal",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "items": {
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "personGroupId": {
+                    "type": "string"
+                  },
+                  "userData": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array"
+            }
+          }
+        },
+        "summary": "",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/face/v1.0/persongroups/{personGroupId}": {
+      "get": {
+        "deprecated": false,
+        "description": "Retrieve the information of a person group, including its name and userData.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/faceapi/#get-a-person-group"
+        },
+        "operationId": "GetPersonGroup",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Target Person Group Id.",
+            "in": "path",
+            "name": "personGroupId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetPersonGroupsInternal",
+              "value-path": "personGroupId",
+              "value-title": "name"
+            },
+            "x-ms-summary": "Person Group Id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetPersonGroupResponse"
+            }
+          }
+        },
+        "summary": "Get a person group",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "advanced"
+      },
+      "put": {
+        "deprecated": false,
+        "description": "Create a new person group with specified personGroupId, name and user-provided userData. ",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/faceapi/#create-a-person-group"
+        },
+        "operationId": "CreatePersonGroup",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "New Person Group Id (valid characters include numbers, English letters in lower case, '-' and '_')",
+            "in": "path",
+            "name": "personGroupId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Person Group Id"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "name": {
+                  "description": "Person group display name. The maximum length is 128.",
+                  "type": "string",
+                  "x-ms-summary": "Name"
+                },
+                "userData": {
+                  "description": "User-provided data attached to the person group. The size limit is 16KB.",
+                  "type": "string",
+                  "x-ms-summary": "User Data",
+                  "x-ms-visibility": "advanced"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "summary": "Create a person group",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/face/v1.0/persongroups/{personGroupId}/persons": {
+      "get": {
+        "deprecated": false,
+        "description": "",
+        "operationId": "GetPersonsInternal",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "path",
+            "name": "personGroupId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "personGroupId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetPersonsInternalResponse"
+            }
+          }
+        },
+        "summary": "",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "internal"
+      },
+      "post": {
+        "deprecated": false,
+        "description": "Create a new person in a specified person group.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/faceapi/#create-a-person"
+        },
+        "operationId": "CreatePerson",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specifying the target person group to create the person.",
+            "in": "path",
+            "name": "personGroupId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetPersonGroupsInternal",
+              "value-path": "personGroupId",
+              "value-title": "name"
+            },
+            "x-ms-summary": "Person Group Id"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "name": {
+                  "description": "Display name of the target person. The maximum length is 128.",
+                  "type": "string",
+                  "x-ms-summary": "Name"
+                },
+                "userData": {
+                  "description": "Optional fields for user-provided data attached to a person. Size limit is 16KB.",
+                  "type": "string",
+                  "x-ms-summary": "User Data",
+                  "x-ms-visibility": "advanced"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            },
+            "x-ms-summary": "body"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CreatePersonResponse"
+            }
+          }
+        },
+        "summary": "Create a person",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/face/v1.0/persongroups/{personGroupId}/persons/{personId}/": {
+      "get": {
+        "deprecated": false,
+        "description": "Retrieve a person's information, including registered persisted faces, name and userData.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/faceapi/#get-a-person"
+        },
+        "operationId": "GetPerson",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/personGroupId__in_path"
+          },
+          {
+            "description": "Specifying the target person.",
+            "in": "path",
+            "name": "personId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetPersonsInternal",
+              "parameters": {
+                "personGroupId": {
+                  "parameter": "personGroupId"
+                }
+              },
+              "value-path": "personId",
+              "value-title": "name"
+            },
+            "x-ms-summary": "Person Id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetPersonResponse"
+            }
+          }
+        },
+        "summary": "Get a person",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/face/v1.0/persongroups/{personGroupId}/persons/{personId}/persistedFaces": {
+      "post": {
+        "deprecated": false,
+        "description": "Add a representative face to a person for identification.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/faceapi/#add-a-person-face"
+        },
+        "operationId": "AddPersonFace",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Person group",
+            "in": "path",
+            "name": "personGroupId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetPersonGroupsInternal",
+              "value-path": "personGroupId",
+              "value-title": "name"
+            },
+            "x-ms-summary": "Person Group Id"
+          },
+          {
+            "description": "Target person that the face is added to.",
+            "in": "path",
+            "name": "personId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetPersonsInternal",
+              "parameters": {
+                "personGroupId": {
+                  "parameter": "personGroupId"
+                }
+              },
+              "value-path": "personId",
+              "value-title": "name"
+            },
+            "x-ms-summary": "Person Id"
+          },
+          {
+            "$ref": "#/parameters/url__in_body"
+          },
+          {
+            "$ref": "#/parameters/targetFace__in_query"
+          },
+          {
+            "$ref": "#/parameters/userData__in_query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AddPersonFaceResponse"
+            }
+          }
+        },
+        "summary": "Add a person face",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/face/v1.0/persongroups/{personGroupId}/persons/{personId}/persistedFaces/{persistedFaceId}": {
+      "get": {
+        "deprecated": false,
+        "description": "Retrieve information about a persisted face specified by persistedFaceId, personId and its belonging personGroupId.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/faceapi/#get-a-person-face"
+        },
+        "operationId": "GetPersonFace",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "$ref": "#/parameters/personGroupId__in_path"
+          },
+          {
+            "description": "Specifying the target person that the face belongs to.",
+            "in": "path",
+            "name": "personId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetPersonsInternal",
+              "parameters": {
+                "personGroupId": {
+                  "parameter": "personGroupId"
+                }
+              },
+              "value-path": "personId",
+              "value-title": "name"
+            },
+            "x-ms-summary": "Person Id"
+          },
+          {
+            "description": "The persistedFaceId of the target persisted face of the person.",
+            "in": "path",
+            "name": "persistedFaceId",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "GetPerson",
+              "parameters": {
+                "personGroupId": {
+                  "parameter": "personGroupId"
+                },
+                "personId": {
+                  "parameter": "personId"
+                }
+              },
+              "value-collection": "persistedFaceIds",
+              "value-path": "persistedFaceId",
+              "value-title": "persistedFaceId"
+            },
+            "x-ms-summary": "Persisted Face Id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetPersonFaceResponse"
+            }
+          }
+        },
+        "summary": "Get a person face",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/face/v1.0/verify": {
+      "post": {
+        "deprecated": false,
+        "description": "Verify whether two faces belong to a same person or whether one face belongs to a person.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/faceapi/#find-person-from-face"
+        },
+        "operationId": "Verify",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "properties": {
+                "faceId": {
+                  "description": "Unique faceId of the detected face. Will expire 24 hours after detection call.",
+                  "type": "string",
+                  "x-ms-summary": "Face Id"
+                },
+                "personGroupId": {
+                  "description": "Person Group Id created in Face API - Create Person Group action.",
+                  "type": "string",
+                  "x-ms-dynamic-values": {
+                    "operationId": "GetPersonGroupsInternal",
+                    "value-path": "personGroupId",
+                    "value-title": "name"
+                  },
+                  "x-ms-summary": "Person Group Id"
+                },
+                "personId": {
+                  "description": "Person Id created in Face API - Create Person action.",
+                  "type": "string",
+                  "x-ms-dynamic-list": {
+                    "itemTitlePath": "name",
+                    "itemValuePath": "personId",
+                    "operationId": "GetPersonsInternal",
+                    "parameters": {
+                      "personGroupId": {
+                        "parameterReference": "body/personGroupId"
+                      }
+                    }
+                  },
+                  "x-ms-dynamic-values": {
+                    "operationId": "GetPersonsInternal",
+                    "parameters": {
+                      "personGroupId": {
+                        "parameter": "personGroupId"
+                      }
+                    },
+                    "value-path": "personId",
+                    "value-title": "name"
+                  },
+                  "x-ms-summary": "Person Id"
+                }
+              },
+              "required": [
+                "faceId",
+                "personGroupId",
+                "personId"
+              ],
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/VerifyResponse"
+            }
+          }
+        },
+        "summary": "Find person from face",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "advanced"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://azure.microsoft.com/services/cognitive-services/face/"
+    }
+  ]
+}

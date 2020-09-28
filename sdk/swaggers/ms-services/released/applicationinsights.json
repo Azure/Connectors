@@ -1,0 +1,279 @@
+{
+  "basePath": "/apim/applicationinsights",
+  "definitions": {
+    "Object": {
+      "type": "object"
+    },
+    "Row": {
+      "properties": {},
+      "type": "object",
+      "x-ms-dynamic-schema": {
+        "operationId": "listDraftQueryResultsSchema",
+        "parameters": {
+          "query": {
+            "parameter": "query"
+          }
+        },
+        "value-path": "Schema/Items"
+      }
+    },
+    "Table": {
+      "properties": {
+        "value": {
+          "items": {
+            "$ref": "#/definitions/Row"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "VisualizeResults": {
+      "properties": {
+        "attachmentContent": {
+          "format": "byte",
+          "type": "string",
+          "x-ms-summary": "Attachment Content"
+        },
+        "attachmentName": {
+          "type": "string",
+          "x-ms-summary": "Attachment Name"
+        },
+        "body": {
+          "format": "byte",
+          "type": "string",
+          "x-ms-summary": "Body"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/applicationinsights"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "contact": {
+      "name": "Microsoft"
+    },
+    "description": "Azure Application Insights is an extensible analytics service that helps you understand the performance and usage of your live web application. Connect to your Application Insights resource to run and visualize various Analytics queries.",
+    "title": "Azure Application Insights",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    },
+    "x-ms-deployment-version": "1.0.0"
+  },
+  "paths": {
+    "/{connectionId}/api/GetDraftQueryResultSchema": {
+      "post": {
+        "description": "Gets the schema for a query",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/applicationinsights/#query-schema"
+        },
+        "operationId": "listDraftQueryResultsSchema",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Query to run (e.g. requests | summarize count() by timestamp).",
+            "in": "body",
+            "name": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-ms-summary": "Query",
+            "x-ms-test-value": "requests | limit 1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Object"
+            }
+          },
+          "default": {
+            "description": "Operation Failed"
+          }
+        },
+        "summary": "Query schema",
+        "x-ms-visibility": "internal"
+      }
+    },
+    "/{connectionId}/api/QueryDraft": {
+      "post": {
+        "description": "Runs an Analytics query on the specified Application Insights resource",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/applicationinsights/#run-analytics-query"
+        },
+        "operationId": "RunQuery",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Query to run (e.g. requests | summarize count() by timestamp).",
+            "in": "body",
+            "name": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-ms-summary": "Query",
+            "x-ms-test-value": "requests | limit 1"
+          },
+          {
+            "default": "Last hour",
+            "description": "Time Range",
+            "enum": [
+              "Last hour",
+              "Last 4 hours",
+              "Last 12 hours",
+              "Last 24 hours",
+              "Last 48 hours",
+              "Last 3 days",
+              "Last 7 days",
+              "Set in query"
+            ],
+            "in": "query",
+            "name": "timerange",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Time Range",
+            "x-ms-test-value": "Last hour"
+          },
+          {
+            "default": "2",
+            "description": "Version",
+            "in": "query",
+            "name": "version",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "version",
+            "x-ms-test-value": "2",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "$ref": "#/definitions/Table"
+            }
+          }
+        },
+        "summary": "Run Analytics query"
+      }
+    },
+    "/{connectionId}/api/VisualizeQueryDraft": {
+      "post": {
+        "description": "Creates a visualization from the results of an Analytics query",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/applicationinsights/#visualize-analytics-query"
+        },
+        "operationId": "VisualizeQuery",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Query to run (e.g. requests | summarize count() by timestamp).",
+            "in": "body",
+            "name": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-ms-summary": "Query",
+            "x-ms-test-value": "requests | limit 1"
+          },
+          {
+            "default": "Last hour",
+            "description": "Time Range",
+            "enum": [
+              "Last hour",
+              "Last 4 hours",
+              "Last 12 hours",
+              "Last 24 hours",
+              "Last 48 hours",
+              "Last 3 days",
+              "Last 7 days",
+              "Set in query"
+            ],
+            "in": "query",
+            "name": "timerange",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Time Range",
+            "x-ms-test-value": "Last hour"
+          },
+          {
+            "default": "2",
+            "description": "Version",
+            "in": "query",
+            "name": "version",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "version",
+            "x-ms-test-value": "2",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "Specify the resulting chart type",
+            "enum": [
+              "Html Table",
+              "Pie Chart",
+              "Time Chart",
+              "Bar Chart"
+            ],
+            "in": "query",
+            "name": "chartType",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Chart Type",
+            "x-ms-test-value": "Html Table"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/VisualizeResults"
+            }
+          },
+          "default": {
+            "description": "Operation Failed"
+          }
+        },
+        "summary": "Visualize Analytics query"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "Basic": {
+      "type": "basic"
+    }
+  },
+  "swagger": "2.0"
+}

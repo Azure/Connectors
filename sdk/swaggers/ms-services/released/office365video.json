@@ -1,0 +1,538 @@
+{
+  "basePath": "/apim/office365video",
+  "definitions": {
+    "Channel": {
+      "description": "Channel class",
+      "properties": {
+        "Description": {
+          "description": "Channel description",
+          "type": "string"
+        },
+        "Id": {
+          "description": "Channel Id",
+          "type": "string"
+        },
+        "Title": {
+          "description": "Channel title",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Video": {
+      "description": "Video class",
+      "properties": {
+        "CreationDate": {
+          "description": "creation date of the video",
+          "type": "string"
+        },
+        "Description": {
+          "description": "video description",
+          "type": "string"
+        },
+        "Id": {
+          "description": "Video id",
+          "type": "string"
+        },
+        "Owner": {
+          "description": "video owner",
+          "type": "string"
+        },
+        "ThumbnailUrl": {
+          "description": "Thumbnail url",
+          "type": "string"
+        },
+        "Title": {
+          "description": "video title",
+          "type": "string"
+        },
+        "VideoDuration": {
+          "description": "video duration",
+          "format": "int64",
+          "type": "integer"
+        },
+        "VideoProcessingStatus": {
+          "description": "video processing status",
+          "format": "int32",
+          "type": "integer"
+        },
+        "VideoUrl": {
+          "description": "video url",
+          "type": "string"
+        },
+        "ViewCount": {
+          "description": "video view count",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/office365video"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "description": "Video for Office 365 offers a highly scalable, easy-to-use portal for uploading and sharing your corporate videos",
+    "title": "Office 365 Video",
+    "version": "1.0",
+    "x-ms-api-annotation": {
+      "status": "Preview"
+    }
+  },
+  "paths": {
+    "/{connectionId}/{tenant}/Channels": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Gets all the channels the user has viewing access to",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365video/#get-all-viewable-channels"
+        },
+        "operationId": "ListViewableChannels",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The tenant name for the directory the user is part of",
+            "in": "path",
+            "name": "tenant",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The tenant name for the directory the user is part of",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successful",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/Channel"
+              },
+              "type": "array"
+            }
+          },
+          "400": {
+            "description": "BadRequest"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get all viewable Channels",
+        "tags": [
+          "Office365Video"
+        ]
+      }
+    },
+    "/{connectionId}/{tenant}/Channels/{channelId}/Videos": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Lists all the office365 videos present in a channel",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365video/#lists-all-the-office365-videos-present-in-a-channel"
+        },
+        "operationId": "ListVideos",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The tenant name for the directory the user is part of",
+            "in": "path",
+            "name": "tenant",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The tenant name for the directory the user is part of",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "The channel id from which videos need to be fetched",
+            "in": "path",
+            "name": "channelId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The channel id from which videos need to be fetched"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successful",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/Video"
+              },
+              "type": "array"
+            }
+          },
+          "400": {
+            "description": "BadRequest"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Lists all the office365 videos present in a channel",
+        "tags": [
+          "Office365Video"
+        ]
+      }
+    },
+    "/{connectionId}/{tenant}/Channels/{channelId}/Videos/{videoId}": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Gets information about a particular office365 video",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365video/#gets-information-about-a-particular-office365-video"
+        },
+        "operationId": "GetVideo",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The tenant name for the directory the user is part of",
+            "in": "path",
+            "name": "tenant",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The tenant name for the directory the user is part of",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "The channel id",
+            "in": "path",
+            "name": "channelId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The channel id"
+          },
+          {
+            "description": "The video id",
+            "in": "path",
+            "name": "videoId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The video id"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successful",
+            "schema": {
+              "$ref": "#/definitions/Video"
+            }
+          },
+          "400": {
+            "description": "BadRequest"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Gets information about a particular office365 video",
+        "tags": [
+          "Office365Video"
+        ]
+      }
+    },
+    "/{connectionId}/{tenant}/Channels/{channelId}/Videos/{videoId}/playbackurl": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get playback url of the Azure Media Services manifest for a video",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365video/#get-playback-url-of-the-azure-media-services-manifest-for-a-video"
+        },
+        "operationId": "GetPlaybackUrl",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The tenant name for the directory the user is part of",
+            "in": "path",
+            "name": "tenant",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The tenant name for the directory the user is part of",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "The channel id",
+            "in": "path",
+            "name": "channelId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The channel id"
+          },
+          {
+            "description": "The video id",
+            "in": "path",
+            "name": "videoId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The video id"
+          },
+          {
+            "description": "Streaming format type. 1 - Smooth Streaming or MPEG-DASH. 0 - HLS Streaming",
+            "in": "query",
+            "name": "streamingFormatType",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Streaming format type. 1 - Smooth Streaming or MPEG-DASH. 0 - HLS Streaming"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successful",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "BadRequest"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get playback url of the Azure Media Services manifest for a video",
+        "tags": [
+          "Office365Video"
+        ]
+      }
+    },
+    "/{connectionId}/{tenant}/Channels/{channelId}/Videos/{videoId}/token": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Get the bearer token to get access to decrypt the video",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365video/#get-the-bearer-token-to-get-access-to-decrypt-the-video"
+        },
+        "operationId": "GetStreamingKeyAccessToken",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The tenant name for the directory the user is part of",
+            "in": "path",
+            "name": "tenant",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The tenant name for the directory the user is part of",
+            "x-ms-url-encoding": "double"
+          },
+          {
+            "description": "The channel id",
+            "in": "path",
+            "name": "channelId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The channel id"
+          },
+          {
+            "description": "The video id",
+            "in": "path",
+            "name": "videoId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The video id"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successful",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "BadRequest"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Get the bearer token to get access to decrypt the video",
+        "tags": [
+          "Office365Video"
+        ]
+      }
+    },
+    "/{connectionId}/{tenant}/IsEnabled": {
+      "get": {
+        "consumes": [],
+        "deprecated": false,
+        "description": "Checks the video portal status to see if video services are enabled",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/office365video/#checks-video-portal-status"
+        },
+        "operationId": "IsVideoPortalEnabled",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The tenant name for the directory the user is part of",
+            "in": "path",
+            "name": "tenant",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "The tenant name for the directory the user is part of",
+            "x-ms-url-encoding": "double"
+          }
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation was successful",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          "400": {
+            "description": "BadRequest"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "default": {
+            "description": "Operation Failed."
+          }
+        },
+        "summary": "Checks video portal status",
+        "tags": [
+          "Office365Video"
+        ]
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://products.office.com/microsoft-stream"
+    }
+  ]
+}

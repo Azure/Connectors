@@ -1,0 +1,126 @@
+on:
+  workflow_dispatch:
+    inputs:
+      connectorName:
+        description: 'Connector Name'
+        required: true
+        default: 'dropbox'
+      versionName:
+        description: 'Version'
+        required: true
+        default: '0.0.1-alpha'
+      autoRestConfigFile:
+        description: 'AutoRest Config File'
+        required: false
+        default: '.\sdk\autorest\readme.md'
+      friendlyName:
+        description: 'Friendly Name'
+        required: false
+        default: ''
+      publishToGPR:
+        description: 'Publish to github package registry '
+        required: false
+        default: 'false'
+env:
+  MAJOR_VERSION: '1.0'
+  NODE_VERSION: '10.x'                # set this to the node version to use
+  NUGET_PROJECT_PREFIX: 'Azure.Connectors' # prefix for nuget c# library name
+
+jobs: 
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Login via Az module
+      uses: azure/login@v1.1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        enable-AzPSSession: true 
+    - name: Download Swagger from logic apps
+      run: |
+        $connectorName = "${{ github.event.inputs.connectorName }}";
+        .\sdk\Scripts\DownloadSwaggers.ps1 -subscriptionId "a39747ec-b5c4-45de-82a1-935083247170" -location "westcentralus" -connectorName $connectorName
+      shell: pwsh
+    - name: Use Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        registry-url: 'https://registry.npmjs.org'
+    - name: Install auto rest and Run autorest
+      run: |
+        $connectorName = "${{ github.event.inputs.connectorName }}";
+        $config = "${{ github.event.inputs.autoRestConfigFile }}";
+        $friendlyName = "${{ github.event.inputs.friendlyName }}";
+        
+        # Run Autorest
+        .\sdk\CSharp\Scripts\RunAutoRestDotNet.ps1 -connectorName $connectorName -config $config -friendlyName $friendlyName
+      shell: pwsh
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} 
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '2.2.401'
+        source-url: https://nuget.pkg.github.com/Azure/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+    - name: Build csharp and create nuget package
+      run: |
+        # generate dot net build and create nuget package
+        $connectorName = "${{ github.event.inputs.connectorName }}";
+        $version = "${{ github.event.inputs.versionName }}";
+        $friendlyName = "${{ github.event.inputs.friendlyName }}";
+        
+        # Compile C Sharp
+        .\sdk\CSharp\Scripts\CompileDotNet.ps1 -connectorName $connectorName -friendlyName $friendlyName -version $version -nugetProjectPrefix "${{env.NUGET_PROJECT_PREFIX}}"
+      shell: pwsh
+    - name: Move package artifacts to out folder
+      run: |
+        # create out folder if it does not exist
+        if(-not (Test-Path .\out -PathType Container))
+        {
+            New-Item -Path "." -Name "out" -ItemType "directory"
+        }
+        $connectorName = "${{ github.event.inputs.connectorName }}";
+        $config = "${{ github.event.inputs.autoRestConfigFile }}";
+        $friendlyName = "${{ github.event.inputs.friendlyName }}";
+        $version = "${{ github.event.inputs.versionName }}";
+        
+        Write-Output "running autorest with name:$($connectorName) using config:$($config)"
+        $TextInfo = (Get-Culture).TextInfo
+        $capitalizedName = if (($friendlyName -eq $null) -or ($friendlyName -eq "")) { $TextInfo.ToTitleCase($connectorName) } else { $friendlyName }
+
+        # copy over .nuget and .snuget package for nuget to out folder (out/azure-apihub/csharp/$($version)/Microsoft.Azure.Connectors.$($capitalizedName).$($version).nupkg and Microsoft.Azure.Connectors.$($capitalizedName).$($version).snupkg)
+        Write-Output "copying over nuget package from ScriptGenerated/$($connectorName)/csharp/bin/Release/${{env.NUGET_PROJECT_PREFIX}}.$($capitalizedName).$($version).nupkg to ./out/azure-apihub/csharp/$($version)/${{env.NUGET_PROJECT_PREFIX}}.$($capitalizedName).$($version).nupkg"
+        New-Item -ItemType File -Path "./out/azure-apihub/csharp/$($version)/${{env.NUGET_PROJECT_PREFIX}}.$($capitalizedName).$($version).nupkg" -Force
+        Copy-Item -Path "./ScriptGenerated/$($connectorName)/csharp/bin/Release/${{env.NUGET_PROJECT_PREFIX}}.$($capitalizedName).$($version).nupkg" -Destination "./out/azure-apihub/csharp/$($version)/${{env.NUGET_PROJECT_PREFIX}}.$($capitalizedName).$($version).nupkg" -Force
+        
+        Write-Output "copying over nuget package from ScriptGenerated/$($connectorName)/csharp/bin/Release/${{env.NUGET_PROJECT_PREFIX}}.$($capitalizedName).$($version).snupkg to ./out/azure-apihub/csharp/$($version)/${{env.NUGET_PROJECT_PREFIX}}.$($capitalizedName).$($version).snupkg"
+        New-Item -ItemType File -Path "./out/azure-apihub/csharp/$($version)/${{env.NUGET_PROJECT_PREFIX}}.$($capitalizedName).$($version).snupkg" -Force
+        Copy-Item -Path "./ScriptGenerated/$($connectorName)/csharp/bin/Release/${{env.NUGET_PROJECT_PREFIX}}.$($capitalizedName).$($version).snupkg" -Destination "./out/azure-apihub/csharp/$($version)/${{env.NUGET_PROJECT_PREFIX}}.$($capitalizedName).$($version).snupkg" -Force
+        
+        Write-Output "copying over swagger file from /RetrievedSwaggers/$($connectorName).json to ./out/azure-apihub/swaggers/$($connectorName).json"
+        New-Item -ItemType File -Path "./out/azure-apihub/swaggers/$($connectorName).json" -Force
+        Copy-Item -Path "./RetrievedSwaggers/$($connectorName).json" -Destination "./out/azure-apihub/swaggers/$($connectorName).json" -Force
+      shell: pwsh
+    - name: Upload output
+      uses: actions/upload-artifact@v2
+      with:
+        name: out
+        path: out
+    - name: Push generated package to GitHub registry
+      run: |
+        $version = "${{ github.event.inputs.versionName }}";
+        $publishToGPRString = "${{ github.event.inputs.publishToGPR }}";
+        $publishToGPR = $publishToGPRString.ToLower() -eq "true"
+        if($publishToGPR)
+        {
+            Write-Output "Publishing package"
+            dotnet nuget push ./out/azure-apihub/csharp/$($version)/*.nupkg --no-symbols true
+        } 
+        else 
+        {
+            Write-Output "Skip Publishing package"
+        }
+      shell: pwsh
