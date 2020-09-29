@@ -17,10 +17,6 @@ on:
         description: 'Friendly Name'
         required: false
         default: ''
-      copyToAzureSdkDrop:
-        description: 'Do AzCopy to Azure SDK build drop'
-        required: false
-        default: 'false'
       publishToGPR:
         description: 'Publish to github package registry '
         required: false
@@ -98,21 +94,6 @@ jobs:
       with:
         name: out
         path: out
-    - name: Use azcopy install
-      uses: kheiakiyama/install-azcopy-action@v1
-      with:
-       version: 'v10'
-    - name: Run AzCopy to move packages to azure-sdk drop
-      run: |
-       $copyToAzureSdkDropString = "${{ github.event.inputs.copyToAzureSdkDrop }}";
-       $copyToAzureSdkDrop = $copyToAzureSdkDropString.ToLower() -eq "true"
-       if($copyToAzureSdkDrop)
-       {
-            $env:AZCOPY_SPA_CLIENT_SECRET="${{secrets.AZURE_SDK_DROP_SPA_CLIENT_SECRET}}"
-            azcopy_v10 login --service-principal --application-id cfb5fe52-8bb2-4901-9056-70449fa2df96
-            azcopy_v10 copy "./out/azure-apihub" "${{secrets.AZURE_SDK_DROP_URL}}" --recursive
-       }
-      shell: pwsh
     - name: Use Node.js ${{ env.NODE_VERSION }} with github npm registry
       uses: actions/setup-node@v1
       with:
