@@ -1,4 +1,4 @@
-# Team Sentiment Score Function App
+# Teams Sentiment Score Function App
 
 This directory contains samples of Azure Function Apps that use Azure Text Analytics to calculate the sentiment score of last message tweets from teams channel.
 
