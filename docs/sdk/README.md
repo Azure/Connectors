@@ -13,7 +13,7 @@ List of **[TypeScript/JavaScript connectors](https://github.com/Azure/Connectors
 Follow **[NPM Instructions](npm.md)** to use the packages in code.
 
 ## Samples
-Check out the [**SAMPLES**](https://github.com/Azure/Connectors/tree/main/samples) folder on how to leverage the supported connector packages in Azure Functions and WebApps. 
+Check out the [**SAMPLES**](https://github.com/Azure/Connectors/tree/preview/samples) folder on how to leverage the supported connector packages in Azure Functions and WebApps. 
 
 ## Current Supported Connectors
 
