@@ -10,8 +10,8 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
-    "@azure/connectors-textanalytics": "0.0.1-alpha",
-    "@azure/connectors-twitter": "0.0.1-alpha"
+    "@azure/connectors-textanalytics": "0.0.4-alpha",
+    "@azure/connectors-twitter": "0.0.4-alpha"
   },
   "devDependencies": {
     "@azure/functions": "^1.0.2-beta2",

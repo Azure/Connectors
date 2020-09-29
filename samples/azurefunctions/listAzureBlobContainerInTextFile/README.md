@@ -1,6 +1,6 @@
 # Azure Blob Paging Function App
 
-This directory contains samples of Azure Function Apps that retrieves container names from Azure Blob Storage. This sample demostrates paging. 
+This directory contains samples of Azure Function Apps that retrieves container names from Azure Blob Storage and creates a list of them in a file. This sample demostrates paging. 
 
 ## Required connectors
 - AzureBlobStorage

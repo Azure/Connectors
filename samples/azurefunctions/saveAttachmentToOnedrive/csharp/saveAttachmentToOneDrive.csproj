@@ -4,8 +4,8 @@
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Azure.Connectors.OneDrive" Version="0.0.2-alpha" />
-    <PackageReference Include="Azure.Connectors.Outlook" Version="0.0.2-alpha" />
+    <PackageReference Include="Azure.Connectors.OneDrive" Version="0.0.4-alpha" />
+    <PackageReference Include="Azure.Connectors.Outlook" Version="0.0.4-alpha" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.7" />
   </ItemGroup>
   <ItemGroup>

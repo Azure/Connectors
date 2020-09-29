@@ -4,8 +4,8 @@
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Azure.Connectors.TextAnalytics" Version="0.0.3-alpha" />
-    <PackageReference Include="Azure.Connectors.MicrosoftTeams" Version="0.0.3-alpha" />
+    <PackageReference Include="Azure.Connectors.TextAnalytics" Version="0.0.4-alpha" />
+    <PackageReference Include="Azure.Connectors.MicrosoftTeams" Version="0.0.4-alpha" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.36" />
   </ItemGroup>
   <ItemGroup>

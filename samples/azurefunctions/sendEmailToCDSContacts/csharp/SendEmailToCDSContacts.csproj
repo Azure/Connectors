@@ -4,8 +4,8 @@
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Azure.Connectors.CommonDataService" Version="0.0.1-alpha" />
-    <PackageReference Include="Azure.Connectors.Outlook" Version="0.0.1-alpha" />
+    <PackageReference Include="Azure.Connectors.CommonDataService" Version="0.0.4-alpha" />
+    <PackageReference Include="Azure.Connectors.Outlook" Version="0.0.4-alpha" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.7" />
   </ItemGroup>
   <ItemGroup>
