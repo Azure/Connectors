@@ -53,7 +53,7 @@ jobs:
             if((($connectorEntry.friendlyName -eq $null) -or ($connectorEntry.friendlyName -eq "")))
             {
                 $body = "{
-                    `"ref`": `"private-preview`",
+                    `"ref`": `"preview`",
                     `"inputs`": {
                         `"connectorName`": `"$($connectorEntry.name)`",
                         `"versionName`": `"$($connectorEntry.version)`",
@@ -74,7 +74,7 @@ jobs:
             else
             {
                 $body = "{
-                    `"ref`": `"private-preview`",
+                    `"ref`": `"preview`",
                     `"inputs`": {
                         `"connectorName`": `"$($connectorEntry.name)`",
                         `"versionName`": `"$($connectorEntry.version)`",
