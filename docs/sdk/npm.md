@@ -4,7 +4,7 @@
 A one-time setup must be performed to store the Azure GitHub npm package registry as source.
 
 1. [Create GitHub Personal Access Token(PAT)](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
-    - enable **read:packages** permission
+    - enable **read:packages** and **repo** permission
 2. Authenticate by logging in to npm using the `npm login` command. When prompted, enter your GitHub username for `Username`, your personal access token for `Password`, and your public email address for `Email`:
 ```
 $ npm login --registry=https://npm.pkg.github.com

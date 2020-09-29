@@ -9,9 +9,8 @@ Follow these instructions to create Azure API Connections and use the appropriat
 ## Prerequisites
 - [Visual Studio Code](https://code.visualstudio.com/Download)
 - Azure account
-  - [Create a free Azure account here](https://azure.microsoft.com/free/)
+  - [Create a free Azure account here](https://azure.microsoft.com/free/) or
   - [Login with GitHub and a free trial here](https://azure.microsoft.com/products/github/)
-- [Request early access](https://aka.ms/apiconnpreview)
 - [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) (_temporary requirement_)
   - After installing the Azure CLI, sign in by running `az login`
 
@@ -25,14 +24,14 @@ For more information on the connector Actions that are available, see the [Conne
 ).
 
 ### Set up Azure GitHub package registry
-You will need to perform a **one-time setup** to store the Azure GitHub package registry as source. This is only a requirement while we are in private preview.
+**You will need to perform a one-time setup to store the Azure GitHub package registry as source.** This is only a requirement while we are in private preview.
 
 <details><summary>JavaScript / TypeScript npm instructions</summary>
 <p>
 
 To authenticate to GitHub Packages to use with npm:
 1. [Create GitHub Personal Access Token(PAT)](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
-    - enable **read:packages** permission
+    - enable **read:packages** and **repo** permission
 2. Authenticate by logging in to npm using the `npm login` command. When prompted, enter your GitHub username for `Username`, your personal access token for `Password`, and your public email address for `Email`:
 ```
 $ npm login --registry=https://npm.pkg.github.com
@@ -76,7 +75,7 @@ Then, install the connector you want to use. For example:
 <p>
 
 Install the connector you want to use. For example:
-> dotnet add package Azure.Connectors.MicrosoftTeams --version 0.0.2-alpha
+> dotnet add package Azure.Connectors.MicrosoftTeams --version 0.0.4-alpha
 
 </p>
 </details>
@@ -88,7 +87,7 @@ Right-click the subscription you want to use, click "Create API Connection...", 
 
 The gif below shows these steps in action.
 
-![Create Connection](docs/resources/createTwitterConnection.gif)
+![Create Connection](./vscode-extension/gifs/createTwitterConnection.gif)
 
 ## Use the SDK
 All connector SDK's follow a similar factory pattern to create the connector client object.
@@ -141,4 +140,8 @@ We also recommend that you do not hard-code the connection strings and reference
 
 The gif below shows these steps in action.
 
-![Generate Connection String](docs/resources/generateConnectionKey.gif)
+![Generate Connection String](./vscode-extension/gifs/generateConnectionKey.gif)
+
+## Next Steps...
+### Deploy
+To use API connections in your deployed code, follow along these instructions to [deploy to Azure.](./DEPLOY.md)
