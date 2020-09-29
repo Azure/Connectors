@@ -1,6 +1,6 @@
 # Azure Connectors Private Preview :rocket:
  
-The early release of **Azure API Connections** as a service opens up [Azure connectors](https://docs.microsoft.com/en-us/connectors/connector-reference/connector-reference-logicapps-connectors) to Azure Functions and Durable Functions(Imperative Workflows), which were limited to Azure Logic Apps(Declarative/Low-Code Workflows) until now. The ever growing collection of these connectors can now be used seamlessly and consistently across both Azure Functions and Azure Logic Apps.
+The early release of **Azure API Connections** as a service opens up [Azure connectors](https://docs.microsoft.com/en-us/connectors/connector-reference/connector-reference-logicapps-connectors) to Azure Functions and Durable Functions (Imperative Workflows), which were limited to Azure Logic Apps (Declarative/Low-Code Workflows) until now. The ever growing collection of these connectors can now be used seamlessly and consistently across both Azure Functions and Azure Logic Apps.
 
 Azure API Connections combined with Azure Connector sdk(s) assist Azure Application Developers by,
 - Drastically help **Reduce Development Cost** of integrating with multiple services. :moneybag::moneybag::moneybag:
@@ -8,13 +8,13 @@ Azure API Connections combined with Azure Connector sdk(s) assist Azure Applicat
 
 This release includes:
 - **[VSCode Extension](docs/vscode-extension/README.md)** to manage Azure API connections.
-- **[Azure Connectors SDK(s)](docs/sdk/README.md)** available to download as a single package or by connector. Supports C#(nuget) and TypeScript/JavaScript(npm).
+- **[Azure Connectors SDK(s)](docs/sdk/README.md)** available to download as a single package or by connector. Supports C#(NuGet) and TypeScript/JavaScript (npm).
 - Ability to invoke API connections Locally or Remote from Azure Functions using Managed Identity or Connection Key.
 
 ## Get Started!
 Follow along our **[QUICKSTART GUIDE](docs/QUICKSTART.md)** for step by step instructions.
 
-Check out the [**SAMPLES**](https://github.com/Azure/Connectors/tree/main/samples) folder on how to leverage the supported connectors sdk(s) in Azure Functions and WebApps. 
+Check out the [**SAMPLES**](https://github.com/Azure/Connectors/tree/preview/samples) folder on how to leverage the supported connectors sdk(s) in Azure Functions and WebApps. 
 
 Do check out the [**FAQs**](docs/FAQ.md) for more details.
 

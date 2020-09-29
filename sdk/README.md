@@ -11,7 +11,7 @@ Compile
 ### Generate TypeScript Example
 Generate
 ```
-.\sdk\Typescript\Scripts\RunAutoRestTypescript.ps1 -connectorName "onedriveforbusiness" -config '.\sdk\autorest\readme.md' -friendlyName "OneDriveForBusiness" -version 0.0.2-alpha -orgName "azure" -npmProjectSuffix "-connector" -isLocal $True
+.\sdk\Typescript\Scripts\RunAutoRestTypescript.ps1 -connectorName "onedriveforbusiness" -config '.\sdk\autorest\readme.md' -friendlyName "OneDriveForBusiness" -version 0.0.4-alpha -orgName "azure" -npmProjectSuffix "-connector" -isLocal $True
 ```
 Compile
 ```
