@@ -5,8 +5,16 @@ Param(
 
 # Install azure identity npm
 Write-Output "importing azure identity"
-$IdentityCommand = "npm i @azure/identity --prefix ./ScriptGenerated/$($connectorName)/typescript"
+$IdentityCommand = "npm i @azure/identity --prefix ./ScriptGenerated/$($connectorName)/typescript --save-bundle"
 Invoke-Expression $IdentityCommand
+# Install ms-rest-js library as bundledDependencies
+Write-Output "saving azure ms-rest-js as bundle"
+$BundleMsRestCommand = "npm i @azure/ms-rest-js --prefix ./ScriptGenerated/$($connectorName)/typescript --save-bundle"
+Invoke-Expression $BundleMsRestCommand
+# Install ms-rest-azure-js library as bundledDependencies
+Write-Output "saving azure ms-rest-azure-js as bundle"
+$BundleAzureMsRestCommand = "npm i @azure/ms-rest-azure-js --prefix ./ScriptGenerated/$($connectorName)/typescript --save-bundle"
+Invoke-Expression $BundleAzureMsRestCommand
 
 # Install 
 $rollupConfigFile = "./ScriptGenerated/$($connectorName)/typescript/rollup.config.js"
