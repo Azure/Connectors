@@ -23,7 +23,7 @@ You can explore all currently available connector SDK's [on this repo itself](ht
 For more information on the connector Actions that are available, see the [Connectors reference documentation](https://docs.microsoft.com/connectors/connector-reference/). You can also explore [in depth how-to guides for some connectors like Bing Search](https://docs.microsoft.com/en-us/azure/connectors/connectors-create-api-bingsearch
 ).
 
-### Set up Azure GitHub package registry
+### Set up authentication to Azure GitHub package registry
 **You will need to perform a one-time setup to store the Azure GitHub package registry as source.** This is only a requirement while we are in private preview.
 
 <details><summary>JavaScript / TypeScript npm instructions</summary>
@@ -55,18 +55,15 @@ To authenticate to GitHub Packages to use with NuGet:
 </p>
 </details>
 
-### Install an SDK
+### Install an SDK from GitHub Packages
 
 <details><summary>JavaScript / TypeScript install instructions</summary>
 <p>
 
-First, create an `.npmrc` file in the same directory as your `package.json`. This file should contain the following contents:
-```
-registry=https://npm.pkg.github.com/Azure
-```
+Install the connector SDK you want to use. For example:
+> npm install @azure/microsoftteams-connector --registry https://npm.pkg.github.com/Azure
 
-Then, install the connector you want to use. For example:
-> npm install @azure/microsoftteams-connector
+**You must specify the registry on install for each of our private packages!** This is a limitation during private preview.
 
 </p>
 </details>
@@ -81,6 +78,8 @@ Install the connector you want to use. For example:
 </details>
 
 ## Create a connection
+> IMPORTANT: Connection creation is currently supported in West Central US only. Fix ETA: 10/5/20
+
 Navigate to the "Azure" extension and find the "API CONNECTIONS" tab. Sign in using your Azure Credentials, if necessary.
 
 Right-click the subscription you want to use, click "Create API Connection...", and follow creation prompts from here.

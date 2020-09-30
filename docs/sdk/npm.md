@@ -15,14 +15,10 @@ Email: <PUBLIC-EMAIL-ADDRESS>
 
 ### Install package
 
-First, create an `.npmrc` file in the same directory as your `package.json`. This file should contain the following contents:
-```
-registry=https://npm.pkg.github.com/Azure
-```
+Install the connector you want to use. For example:
+> npm install @azure/microsoftteams-connector --registry https://npm.pkg.github.com/Azure
 
-Then, install connector:
-
-> npm install @azure/microsoftteams-connector
+**You must specify `--registry https://npm.pkg.github.com/Azure` on install for each of our private packages!** This is a limitation during private preview.
 
 ### Usage
 ```typescript
