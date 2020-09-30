@@ -22,4 +22,4 @@ Currently there is no billing for private preview but it is heavily throttled to
 
 **Where do i report issues?**
 
-Please use this repo for issues. Create a github issue.
+Please first check our [**KNOWN ISSUES**](docs/KNOWN_ISSUES.md) for more details. Otherwise, please use this repo for issues. Create a github issue.
