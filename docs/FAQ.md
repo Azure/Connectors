@@ -1,4 +1,5 @@
 **Are all Azure regions supported for the connectors?**
+
 Here is the list of supported [regions](https://github.com/Azure/logicapps/blob/master/articles/logic-apps-public-preview-known-issues.md#available-regions). Please ensure that you create and deploy connections in the supported regions.
 
 **Are ALL Logic Apps Connectors supported?**
