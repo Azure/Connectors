@@ -64,7 +64,8 @@ To authenticate to GitHub Packages to use with NuGet:
 To install a connector SDK from our private GitHub package repository, you must make some changes to your `package.json`. These steps are all due to limitations during private preview. See a complete example [here](https://github.com/Azure/Connectors/blob/preview/samples/azuredurablefunctions/bedTimeReminder/typescript/package.json).
 
 #### 1. Add @azure dependencies to package.json
-In the folder containing your project package.json, run `npm install @azure/identity @azure/ms-rest-js @azure/ms-rest-azure-js` to install required @azure dependencies.
+In the folder containing your project package.json, run the following command to install required @azure dependencies:
+> npm install @azure/identity @azure/ms-rest-js @azure/ms-rest-azure-js
 
 #### 2. Install connector via `postinstall` script
 Add a postinstall script that will install the connector package whenever you run `npm install` on your project ([learn about postinstall scripts here](https://docs.npmjs.com/misc/scripts)).
