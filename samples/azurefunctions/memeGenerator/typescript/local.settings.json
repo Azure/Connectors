@@ -3,7 +3,7 @@
   "Values": {
     "AzureWebJobsStorage": "",
     "FUNCTIONS_WORKER_RUNTIME": "node",
-    "TEAMS_TEAM_NAME": "Marie's Team",
+    "TEAMS_TEAM_NAME": "Jack's Team",
     "TEAMS_CHANNEL_NAME": "Reminders",
     "TEAMS_CONNECTION": "",
     "ONEDRIVE_CONNECTION": ""
