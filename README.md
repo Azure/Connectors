@@ -16,7 +16,7 @@ Follow along our **[QUICKSTART GUIDE](docs/QUICKSTART.md)** for step by step ins
 
 Check out the [**SAMPLES**](https://github.com/Azure/Connectors/tree/preview/samples) folder on how to leverage the supported connectors sdk(s) in Azure Functions and WebApps. 
 
-Do check out the [**FAQs**](docs/FAQ.md) for more details.
+Do check out the [**FAQs**](docs/FAQ.md) for more details and [**KNOWN ISSUES**](docs/KNOWN_ISSUES.md) if you run into any limitations or errors.
 
 ## Contributing
 
