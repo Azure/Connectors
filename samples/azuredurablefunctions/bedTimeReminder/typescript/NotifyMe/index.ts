@@ -3,6 +3,9 @@ import { createMicrosoftTeamsConnector } from "@azure/microsoftteams-connector"
 import { EarliestEvents, toLocalTime } from "../common"
 
 const activityFunction: AzureFunction = async function (context: Context): Promise<void> {
+    validateEnvironment("TEAMS_CONNECTION");
+    validateEnvironment("TEAMS_TEAM");
+    validateEnvironment("TEAMS_CHANNEL");
     const { earliestEvent, earliestAcceptedEvent }: EarliestEvents = context.bindings.events;
         // Post message to teams
         const teamsClient = await createMicrosoftTeamsConnector(process.env.TEAMS_CONNECTION);
@@ -20,5 +23,11 @@ const activityFunction: AzureFunction = async function (context: Context): Promi
             subject: `Go to sleep! (Schedule for ${toLocalTime(earliestEvent.start).format('dddd')})`
         })
 };
+
+const validateEnvironment = function (variableName) {
+    if (!process.env[variableName]) {
+        throw new Error(`The environment variable '${variableName}' is missing or empty. Add to local.settings.json or App Settings.`);
+    }
+}
 
 export default activityFunction;

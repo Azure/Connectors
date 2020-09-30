@@ -1,0 +1,12 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "OUTLOOK_CONNECTION": "",
+    "TEAMS_CONNECTION": "",
+    "TIME_ZONE": "America/Los_Angeles",
+    "TEAMS_TEAM": "Marie's Team",
+    "TEAMS_CHANNEL": "Reminders"
+  }
+}

@@ -1,4 +1,4 @@
-import { ResponseType1 } from "@azure/connectors-office365outlook/esm/models"
+import { ResponseType1 } from "@azure/office365outlook-connector/esm/models"
 
 export interface EarliestEvents {
     earliestEvent: Event
