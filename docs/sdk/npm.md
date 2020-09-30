@@ -15,14 +15,29 @@ Email: <PUBLIC-EMAIL-ADDRESS>
 
 ### Install package
 
-First, create an `.npmrc` file in the same directory as your `package.json`. This file should contain the following contents:
-```
-registry=https://npm.pkg.github.com/Azure
+To install a connector SDK from our private GitHub package repository, you must make some changes to your `package.json`. These steps are all due to limitations during private preview. See a complete example [here](https://github.com/Azure/Connectors/blob/preview/samples/azuredurablefunctions/bedTimeReminder/typescript/package.json).
+
+#### 1. Add @azure dependencies to package.json
+Add the following @azure packages to your package.json as dependencies. 
+
+```json
+"dependencies": {
+  "@azure/identity": "^1.1.0",
+  "@azure/ms-rest-js": "^2.0.8",
+  "@azure/ms-rest-azure-js": "2.0.1"
+}
 ```
 
-Then, install connector:
+#### 2. Install connector via `postinstall` script
+Add a postinstall script that will install the connector package whenever you run `npm install` on your project ([learn about postinstall scripts here](https://docs.npmjs.com/misc/scripts)).
 
-> npm install @azure/microsoftteams-connector
+```json
+"scripts": {
+  "postinstall": "npm i @azure/microsoftteams-connector --registry https://npm.pkg.github.com/Azure --save-optional"
+}
+```
+
+#### 3. Run `npm install`
 
 ### Usage
 ```typescript

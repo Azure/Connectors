@@ -23,7 +23,7 @@ You can explore all currently available connector SDK's [on this repo itself](ht
 For more information on the connector Actions that are available, see the [Connectors reference documentation](https://docs.microsoft.com/connectors/connector-reference/). You can also explore [in depth how-to guides for some connectors like Bing Search](https://docs.microsoft.com/en-us/azure/connectors/connectors-create-api-bingsearch
 ).
 
-### Set up Azure GitHub package registry
+### Set up authentication to Azure GitHub package registry
 **You will need to perform a one-time setup to store the Azure GitHub package registry as source.** This is only a requirement while we are in private preview.
 
 <details><summary>JavaScript / TypeScript npm instructions</summary>
@@ -32,11 +32,12 @@ For more information on the connector Actions that are available, see the [Conne
 To authenticate to GitHub Packages to use with npm:
 1. [Create GitHub Personal Access Token(PAT)](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
     - enable **read:packages** and **repo** permission
-2. Authenticate by logging in to npm using the `npm login` command. When prompted, enter your GitHub username for `Username`, your personal access token for `Password`, and your public email address for `Email`:
+2. Authenticate by logging in to npm using the `npm login` command. When prompted, enter your GitHub username for `Username`, your personal access token(PAT) for `Password`, and your public email address for `Email`:
+
 ```
 $ npm login --registry=https://npm.pkg.github.com
 Username: <USERNAME>
-Password: <TOKEN>
+Password: <PAT>
 Email: <PUBLIC-EMAIL-ADDRESS>
 ```
 
@@ -55,18 +56,34 @@ To authenticate to GitHub Packages to use with NuGet:
 </p>
 </details>
 
-### Install an SDK
+### Install an SDK from GitHub Packages
 
 <details><summary>JavaScript / TypeScript install instructions</summary>
 <p>
 
-First, create an `.npmrc` file in the same directory as your `package.json`. This file should contain the following contents:
-```
-registry=https://npm.pkg.github.com/Azure
+To install a connector SDK from our private GitHub package repository, you must make some changes to your `package.json`. These steps are all due to limitations during private preview. See a complete example [here](https://github.com/Azure/Connectors/blob/preview/samples/azuredurablefunctions/bedTimeReminder/typescript/package.json).
+
+#### 1. Add @azure dependencies to package.json
+Add the following @azure packages to your package.json as dependencies. 
+
+```json
+"dependencies": {
+  "@azure/identity": "^1.1.0",
+  "@azure/ms-rest-js": "^2.0.8",
+  "@azure/ms-rest-azure-js": "2.0.1"
+}
 ```
 
-Then, install the connector you want to use. For example:
-> npm install @azure/microsoftteams-connector
+#### 2. Install connector via `postinstall` script
+Add a postinstall script that will install the connector package whenever you run `npm install` on your project ([learn about postinstall scripts here](https://docs.npmjs.com/misc/scripts)).
+
+```json
+"scripts": {
+  "postinstall": "npm i @azure/microsoftteams-connector --registry https://npm.pkg.github.com/Azure --save-optional"
+}
+```
+
+#### 3. Run `npm install`
 
 </p>
 </details>
@@ -81,6 +98,8 @@ Install the connector you want to use. For example:
 </details>
 
 ## Create a connection
+> IMPORTANT: Connection creation is currently supported in **West Central US** only. Fix ETA: 10/5/20
+
 Navigate to the "Azure" extension and find the "API CONNECTIONS" tab. Sign in using your Azure Credentials, if necessary.
 
 Right-click the subscription you want to use, click "Create API Connection...", and follow creation prompts from here.
