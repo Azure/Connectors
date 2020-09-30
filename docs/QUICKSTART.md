@@ -11,6 +11,8 @@ Follow these instructions to create Azure API Connections and use the appropriat
 - Azure account
   - [Create a free Azure account here](https://azure.microsoft.com/free/) or
   - [Login with GitHub and a free trial here](https://azure.microsoft.com/products/github/)
+- [VS Code Functions Extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions)
+    - [See Develop Azure Functions by using VS Code](https://docs.microsoft.com/en-us/azure/azure-functions/functions-develop-vs-code?tabs=csharp)
 - [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest) (_temporary requirement_)
   - After installing the Azure CLI, sign in by running `az login`
 
@@ -18,12 +20,13 @@ Follow these instructions to create Azure API Connections and use the appropriat
 Download extension .vsix from [Here](https://aka.ms/vscode-azcon-ext). Install the VS Code Extension following these short [instructions to install an extension from a VSIX](https://code.visualstudio.com/docs/editor/extension-gallery#_install-from-a-vsix)
 
 ## Install a connectors SDK
-You can explore all currently available connector SDK's [on this repo itself](https://github.com/Azure/Connectors/packages). Note that we have not generated SDK's for all connectors while we are in private preview. Please file or upvote an issue to see your favorite connector.
+You can explore all currently available connector SDK's [on this repo itself](sdk/README.md). Note that we have not generated SDK's for all connectors while we are in private preview. Please file or upvote an issue to see your favorite connector.
 
-For more information on the connector Actions that are available, see the [Connectors reference documentation](https://docs.microsoft.com/connectors/connector-reference/). You can also explore [in depth how-to guides for some connectors like Bing Search](https://docs.microsoft.com/en-us/azure/connectors/connectors-create-api-bingsearch
+For more information on the connector Actions that are available, see the [Connectors reference documentation](https://docs.microsoft.com/connectors/connector-reference/). You can also explore [in depth how-to guides for some connectors like Microsoft Teams Search](https://docs.microsoft.com/en-us/connectors/teams/
 ).
 
 ### Set up authentication to Azure GitHub package registry
+
 **You will need to perform a one-time setup to store the Azure GitHub package registry as source.** This is only a requirement while we are in private preview.
 
 <details><summary>JavaScript / TypeScript npm instructions</summary>
@@ -51,7 +54,7 @@ To authenticate to GitHub Packages to use with NuGet:
 - [Create GitHub Personal Access Token(PAT)](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
     - enable **read:packages** permission
 - Locally run command 
-    > dotnet nuget add source https://nuget.pkg.github.com/Azure/index.json --name AzureGPR --username **<GitHubUserName>** --password **<PAT>** --store-password-in-clear-text
+    > dotnet nuget add source https://nuget.pkg.github.com/Azure/index.json --name AzureGPR --username **GitHubUserName** --password **PAT** --store-password-in-clear-text
 
 </p>
 </details>
@@ -63,11 +66,11 @@ To authenticate to GitHub Packages to use with NuGet:
 
 To install a connector SDK from our private GitHub package repository, you must make some changes to your `package.json`. These steps are all due to limitations during private preview. See a complete example [here](https://github.com/Azure/Connectors/blob/preview/samples/azuredurablefunctions/bedTimeReminder/typescript/package.json).
 
-#### 1. Add @azure dependencies to package.json
+#### Step 1. Add @azure dependencies to package.json
 In the folder containing your project package.json, run the following command to install required @azure dependencies:
 > npm install @azure/identity @azure/ms-rest-js @azure/ms-rest-azure-js
 
-#### 2. Install connector via `postinstall` script
+#### Step 2. Install connector npm package via `postinstall` script
 Add a postinstall script that will install the connector package whenever you run `npm install` on your project ([learn about postinstall scripts here](https://docs.npmjs.com/misc/scripts)).
 
 ```json
@@ -76,7 +79,7 @@ Add a postinstall script that will install the connector package whenever you ru
 }
 ```
 
-#### 3. Run `npm install`
+#### Step 3. Run `npm install`
 
 </p>
 </details>
@@ -125,20 +128,10 @@ const getTeams = async function (): Promise<void> {
 
 ```csharp
 using Azure.Connectors.MicrosoftTeams;
-using Azure.Connectors.TextAnalytics;
 
-var teamsConnector = MicrosoftTeamsConnector.Create("");
+var teamsConnector = MicrosoftTeamsConnector.Create("<ConnectionStringFromVSCodeExtension>");
 var teams = await teamsConnector.GetAllTeamsAsync();
-var team = teams.Value.FirstOrDefault(t => t.DisplayName.Equals("My Group Name"));
-var channels = await teamsConnector.GetChannelsForGroupAsync(team.Id);
-var channel = channels.Value.FirstOrDefault(c => c.DisplayName.Equals("Channel Name"));
 
-var messages = await teamsConnector.GetMessagesFromChannelAsync(team.Id, channel.Id);
-var lastMessage = messages.Value.First();
-
-var cognitiveTextAnalyticsService = TextAnalyticsConnector.Create("");
-var sentimentScore = await cognitiveTextAnalyticsService.Sentiment.DetectSentimentV2Async(new MultiLanguageInput { Language = "en", Text = lastMessage.Body.Content });
-Console.WriteLine(sentimentScore)
 ```
 
 </p>
@@ -146,7 +139,7 @@ Console.WriteLine(sentimentScore)
 
 To run the code from each example, replace `<ConnectionStringFromVSCodeExtension>` with a generated connection string. To generate a connection string, go back to the connector connection you made through the VS Code Extension. Right click that connection and click "Generate Connection String". We recommend that you choose `Managed Identity` for your authentication type. You may have to choose `Key` if the environment you are deploying to does not support [Managed Identity](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview). 
 
-If you generate using `Key`, please be very careful to not expose this connection string to anyone. Access to this connection string gives anyone access to your resources.
+If you generate using `Key`, please **be very careful** to not expose this connection string to anyone. Access to this connection string gives anyone access to your resources.
 
 We also recommend that you do not hard-code the connection strings and reference them as environment variables instead.
 
