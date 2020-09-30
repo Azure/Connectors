@@ -5,7 +5,7 @@
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "TEAMS_TEAM_NAME": "Marie's Team",
     "TEAMS_CHANNEL_NAME": "Reminders",
-    "TEAMS_CONNECTION": "endpoint=https://41b5f8c83532a1df.12.common.logic-westcentralus.azure-apihub.net/apim/teams/8fea853315c24b32993929e13a6f5fdd;auth=managed",
-    "ONEDRIVE_CONNECTION": "endpoint=https://41b5f8c83532a1df.12.common.logic-westcentralus.azure-apihub.net/apim/onedrive/d4ffa692c4e845b9bb7fffbebd29e8f3;auth=managed"
+    "TEAMS_CONNECTION": "",
+    "ONEDRIVE_CONNECTION": ""
   }
 }
