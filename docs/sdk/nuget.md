@@ -5,7 +5,7 @@ A one-time setup must be performed to store the Azure GitHub nuget package regis
 - [Create GitHub Personal Access Token(PAT)](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
     - enable **read:packages** permission
 - Locally run command 
-    > dotnet nuget add source https://nuget.pkg.github.com/Azure/index.json --name AzureGPR --username **<GitHubUserName>** --password **<GitHubPAT>** --store-password-in-clear-text
+    > dotnet nuget add source https://nuget.pkg.github.com/Azure/index.json --name AzureGPR --username **GitHubUserName** --password **PAT** --store-password-in-clear-text
 
 ### Install package
 install single connector
