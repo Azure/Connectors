@@ -1,0 +1,8 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "ONEDRIVE_CONNECTION": "",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+  }
+}
