@@ -36,11 +36,11 @@ namespace Company.Function
             var oneDriveConnectionString = System.Environment.GetEnvironmentVariable("ONEDRIVE_CONNECTION", EnvironmentVariableTarget.Process);
             var oneDriveConnector = OneDriveConnector.Create(oneDriveConnectionString);
 
-            // get reference to large file and download it
+            // get reference to large file and download it, for download in chunks see https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-handle-large-messages#download-content-in-chunks for more info
             var bigFileMetadata = await oneDriveConnector.OneDriveFileData.GetFileMetadataByPathAsync("Documents/largefile.zip");
             var bigFile = await oneDriveConnector.OneDriveFileData.GetFileContentAsync(bigFileMetadata.Id);
 
-            // make initial call to find chunk size
+            // make initial call to find chunk size, see https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-handle-large-messages#upload-content-in-chunks for info
             var customHeaders = new Dictionary<string, List<string>>();
             var chunkingHeader = new List<string>();
             chunkingHeader.Add("chunked");
