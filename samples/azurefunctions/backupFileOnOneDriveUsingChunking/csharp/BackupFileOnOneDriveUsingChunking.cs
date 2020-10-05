@@ -1,7 +1,9 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Web.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -16,7 +18,7 @@ using System.Threading;
 // Add Azure GitHub Organization as a source to nuget.config by following instructions below:
 // Follow instructions here to genereate GitHub personal access token with "read:packages" permissions
 // https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
-// Once you have the PAT handy, run command "dotnet nuget add source https://nuget.pkg.github.com/Azure/index.json --name AzureGPR --username --password <PAT> --store-password-in-clear-text"
+// Once you have the PAT handy, run command "dotnet nuget add source https://nuget.pkg.github.com/Azure/index.json --name AzureGPR --username <GitHubUserName> --password <PAT> --store-password-in-clear-text"
 // At this point you can start adding connectors packages by running "dotnet add package Azure.Connectors.OneDrive --version 0.0.4-alpha"
 // For complete list of nuget packages available see https://github.com/Azure/Connectors/packages?ecosystem=nuget
 //*******************************
@@ -40,6 +42,32 @@ namespace Company.Function
             var bigFileMetadata = await oneDriveConnector.OneDriveFileData.GetFileMetadataByPathAsync("Documents/largefile.zip");
             var bigFile = await oneDriveConnector.OneDriveFileData.GetFileContentAsync(bigFileMetadata.Id);
 
+            var chunkingSuggestion = await GetChunkingSuggestion(oneDriveConnector, "DocumentsBackup/", "largefile.zip", bigFileMetadata.Size.ToString());
+            var chunkSize = chunkingSuggestion.Item1;
+            var location = chunkingSuggestion.Item2;
+            // depending on the upload speed, you may want to change the chunk size and not use the one suggested
+            chunkSize = "1000000";
+
+            try
+            {
+                await ConvertToChunks(bigFile, (int)bigFileMetadata.Size, int.Parse(chunkSize), oneDriveConnector.HttpClient, oneDriveConnector.Credentials, location);
+            }
+            catch(Exception exception)
+            {
+                var resultObject = new ObjectResult(exception.ToString());
+                resultObject.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return resultObject;
+            }
+
+            log.LogInformation("C# HTTP trigger function processed a request.");
+
+            string responseMessage =  "This HTTP triggered function executed and upload has completed successfully";
+
+            return new OkObjectResult(responseMessage);
+        }
+
+        private static async Task<Tuple<string, string>> GetChunkingSuggestion(OneDriveConnector oneDriveConnector, string folderPath, string fileName, string fileSize)
+        {
             // make initial call to find chunk size, see https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-handle-large-messages#upload-content-in-chunks for info
             var customHeaders = new Dictionary<string, List<string>>();
             var chunkingHeader = new List<string>();
@@ -47,13 +75,13 @@ namespace Company.Function
             customHeaders.Add("x-ms-transfer-mode", chunkingHeader);
 
             var contentLengthHeader = new List<string>();
-            contentLengthHeader.Add(bigFileMetadata.Size.ToString());
+            contentLengthHeader.Add(fileSize);
             customHeaders.Add("x-ms-content-length", contentLengthHeader);
 
             // pass in empty body and the correct headers to get chunking suggestions from service
             var response = await oneDriveConnector.OneDriveFileData.CreateFileWithHttpMessagesAsync(
-                folderPath: "DocumentsBackup/", 
-                name: "largefile.zip", 
+                folderPath: folderPath, 
+                name: fileName, 
                 body: new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes("")),
                 customHeaders: customHeaders);
 
@@ -61,22 +89,14 @@ namespace Company.Function
             var chunkSize = response.Response.Headers.GetValues("x-ms-chunk-size").First();
             var location = response.Response.Headers.GetValues("Location").First();
 
-            // depending on the upload speed, you may want to change the chunk size and not use the one suggested
-            chunkSize = "1000000";
-
-            await ConvertToChunks(bigFile, (int)bigFileMetadata.Size, int.Parse(chunkSize), oneDriveConnector.HttpClient, oneDriveConnector.Credentials, location);
-
-            log.LogInformation("C# HTTP trigger function processed a request.");
-
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-
-            string responseMessage =  "This HTTP triggered function executed successfully.";
-
-            return new OkObjectResult(responseMessage);
+            return new Tuple<string, string>(chunkSize, location);
         }
 
         private static async Task ConvertToChunks(Stream fileStream, int fileSize, int chunkSize, HttpClient httpClient, ServiceClientCredentials credentials, string location)  
         {   
+            // note: not all connectors support chunking, this is only enable on the connector side. Usually the swagger will denote his by having "chunkTransfer": true in "x-ms-capabilities". 
+            // currently, we have azureblob, azuredatalake, azurefile, ftp, onedrive, onedriveforbussiness, sftpwithssh and sharepoint online as of writing.
+
             int totalChunks = (int)Math.Ceiling((double)fileSize / chunkSize);  
             // Loop through the whole stream and send it chunk by chunk;  
             for (int i = 0; i < totalChunks; i++)  
@@ -102,7 +122,12 @@ namespace Company.Function
                 // set up credentials for the http request
                 await credentials.ProcessHttpRequestAsync(httpRequest, default(CancellationToken));
 
-                var response = await httpClient.SendAsync(httpRequest);  
+                var response = await httpClient.SendAsync(httpRequest);
+
+                if(!response.IsSuccessStatusCode)
+                {
+                    throw new Exception($"response failed with status code {response.StatusCode} with error {response.Content.ReadAsAsync<HttpError>().Result.Message}");
+                }
             }  
         }       
     }
