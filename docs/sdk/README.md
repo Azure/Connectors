@@ -1,6 +1,6 @@
 # Azure Connectors SDK(s) :loudspeaker:
 
-## CSharp
+## C#
 
 List of **[C# connectors](https://github.com/Azure/Connectors/packages?ecosystem=nuget)**
 

@@ -4,4 +4,4 @@
 
 For TypeScript/JavaScript samples, follow instructions here to use our [Azure GitHub package registry as source with npm.](../docs/sdk/npm.md)
 
-For C# samples, follow instructions here to use our [Azure GitHub package registry as source with NuGet.](../docs/sdk/npm.md)
+For C# samples, follow instructions here to use our [Azure GitHub package registry as source with NuGet.](../docs/sdk/nuget.md)
