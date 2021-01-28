@@ -11,16 +11,13 @@ azure-arm: true
 ```yaml
 directive:
   #############################
-  # Remove underscore from _V# and _Old suffixes for all operationId's
-  # (Makes compatible with method naming logic from autorest)
+  # Remove underscore from operationId's
+  # (Removes grouping from autorest)
   #############################
   - from: swagger-document
     where: $..[?(@.operationId)]
     transform: >-
-      const versionSuffix = $.operationId.match(/(_(v|V)\d+)|(_Old|_old)/g);
-      if (versionSuffix && versionSuffix[0]) {
-        $.operationId = $.operationId.replace(versionSuffix[0], versionSuffix[0].substring(1));
-      }
+      $.operationId = $.operationId.replace("_", "");
   #############################
   # Remove irrelevant operations (trigger, deprecated, or internal and not referenced)
   #############################
@@ -70,8 +67,7 @@ directive:
         }
         if (operationId && parameterName) {
           dynamicInputOperations[operationId] = true;
-          let friendlyOperationId = operationId.replace("_", ".");
-          parameter.description = (parameter.description || "") + `\nYou can get this value by calling '${friendlyOperationId}' and using the '${parameterName}' value).`;
+          parameter.description = (parameter.description || "") + `\nYou can get this value by calling '${operationId}' and using the '${parameterName}' value).`;
         }
       }
       /* Iterate again to alter x-ms-visibility on operations themselves */
@@ -90,45 +86,6 @@ directive:
       if ($["x-ms-visibility"] === "internal") {
         return;
       }
-  #############################
-  # Group operations by tag and operationId
-  #############################
-  # If swagger title == tag name, don't let it become a group name
-  - from: swagger-document
-    where: $
-    transform: >-
-      for (const path in $.paths) {
-        const pathObject = $.paths[path];
-        for (const method in pathObject) {
-          const methodObject = pathObject[method];
-          const primaryTag = methodObject.tags && methodObject.tags[0].toLowerCase();
-          const title = $.info.title.toLowerCase().replace(/\s/g, "");
-          if (primaryTag === title || primaryTag === (title + "connector")) {
-            methodObject.tags[0] = "";
-          }
-        }
-      }
-  # Group in user-friendly way 
-  - from: swagger-document
-    where: $.paths.*.*
-    transform: >-
-      let methodName = $.operationId || "";
-      /* Find group name (first look at tags then operationId with underscores) */
-      const splitName = methodName.split("_");
-      let groupName = ($.tags || (splitName.length > 1 && splitName) || [""])[0] || "";
-      /* Remove whitespace from group name */
-      groupName = groupName.replace(/\s/g, "");
-      /* If group name is already in operationId, don't duplicate in the method name */
-      if (methodName.substring(0, groupName.length) === groupName) {
-        methodName = methodName.replace(groupName + "_", "")
-      }
-      /* Remove underscores from method name */
-      methodName = methodName.replace("_", "");
-      /* Add group name and method name together if exists. No group name is ok too */
-      if (groupName) {
-        groupName = groupName + "_";
-      }
-      $.operationId = `${groupName}${methodName}`;
   #############################
   # Make connectionId and x-ms-api-version only global params
   #############################
@@ -197,7 +154,7 @@ directive:
             /* Response schema is not a definition */
             if (responseDefinition && responseDefinition.schema && !responseDefinition.schema["$ref"]) {
               const responseDescription = responseDefinition.description.charAt(0).toUpperCase() + responseDefinition.description.slice(1);
-              const definitionName = `${ operationId.split("_")[1] || operationId }${ responseDescription }Result`;
+              const definitionName = `${operationId}${ responseDescription }Result`;
               if ($.definitions == undefined ) {
                 $.definitions = {};
               }
@@ -216,7 +173,7 @@ directive:
             /* Parameter schema is not a definition */
             if (parameterDefinition && parameterDefinition.schema && !parameterDefinition.schema["$ref"]) {
               const parameterName = parameterDefinition.name.charAt(0).toUpperCase() + parameterDefinition.name.slice(1);
-              const parameterDefinitionName = `${ operationId.split("_")[1] || operationId }${ parameterName}`;
+              const parameterDefinitionName = `${ operationId }${ parameterName}`;
               if ($.definitions == undefined ) {
                 $.definitions = {};
               }
