@@ -66,16 +66,23 @@ directive:
           parameterName = v1Dynamic["value-path"];
         }
         if (operationId && parameterName) {
-          dynamicInputOperations[operationId] = true;
-          parameter.description = (parameter.description || "") + `\nYou can get this value by calling '${operationId}' and using the '${parameterName}' value).`;
+          dynamicInputOperations[operationId] = { 
+            parameter,
+            parameterName
+          };
         }
       }
       /* Iterate again to alter x-ms-visibility on operations themselves */
       for (const pathName in $.paths) {
         for (const methodName in $.paths[pathName]) {
           const action = $.paths[pathName][methodName];
-          if (dynamicInputOperations[action.operationId]) {
-            action["x-ms-visibility"] = action["x-ms-visibility"] + "-dynamic"
+          let dynamicInput = dynamicInputOperations[action.operationId];
+          if (dynamicInput && dynamicInput.parameter) {
+            action["x-ms-visibility"] = action["x-ms-visibility"] + "-dynamic";
+            /* Use x-ms-client-name if it's there */
+            let modifiedOperationId = action["x-ms-client-name"] || action.operationId;
+            /* Change description */
+            dynamicInput.parameter.description = (dynamicInput.parameter.description || "") + `\nYou can get this value by calling '${modifiedOperationId}' and using the '${dynamicInput.parameterName}' value).`;
           }
         }
       }
@@ -86,6 +93,12 @@ directive:
       if ($["x-ms-visibility"] === "internal") {
         return;
       }
+  # Use "x-ms-client-name" instead of "operationId" if it's there. 
+  # Note that references to "operationId" for dynamic values has been fixed above.
+  - from: swagger-document
+    where: $..[?(@.operationId)]
+    transform: >-
+      $.operationId = $["x-ms-client-name"] || $.operationId;
   #############################
   # Make connectionId and x-ms-api-version only global params
   #############################

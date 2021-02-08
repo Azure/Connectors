@@ -1567,6 +1567,7 @@
           "url": "https://docs.microsoft.com/connectors/aci/#list-subscriptions"
         },
         "operationId": "Subscriptions_List",
+        "x-ms-client-name": "ListSubscriptions",
         "parameters": [
           {
             "in": "path",
@@ -1611,6 +1612,7 @@
           "url": "https://docs.microsoft.com/connectors/aci/#get-a-list-of-container-groups-in-a-subscription"
         },
         "operationId": "ContainerGroups_List",
+        "x-ms-client-name": "ListContainerGroups",
         "parameters": [
           {
             "in": "path",
@@ -1655,6 +1657,7 @@
           "url": "https://docs.microsoft.com/connectors/aci/#get-cached-images"
         },
         "operationId": "Location_ListCachedImages",
+        "x-ms-client-name": "GetCachedImages",
         "parameters": [
           {
             "in": "path",
@@ -1702,6 +1705,7 @@
           "url": "https://docs.microsoft.com/connectors/aci/#get-capabilities"
         },
         "operationId": "Location_ListCapabilities",
+        "x-ms-client-name": "GetCapabilities",
         "parameters": [
           {
             "in": "path",
@@ -1864,6 +1868,7 @@
           "url": "https://docs.microsoft.com/connectors/aci/#get-current-usage"
         },
         "operationId": "Location_ListUsage",
+        "x-ms-client-name": "GetCurrentUsage",
         "parameters": [
           {
             "in": "path",
@@ -1908,6 +1913,7 @@
           "url": "https://docs.microsoft.com/connectors/aci/#get-a-list-of-container-groups-in-a-resource-group"
         },
         "operationId": "ContainerGroups_ListByResourceGroup",
+        "x-ms-client-name": "ListContainerGroupsByResourceGroup",
         "parameters": [
           {
             "in": "path",
@@ -1955,6 +1961,7 @@
           "url": "https://docs.microsoft.com/connectors/aci/#delete-a-container-group"
         },
         "operationId": "ContainerGroups_Delete",
+        "x-ms-client-name": "DeleteContainerGroup",
         "parameters": [
           {
             "in": "path",
@@ -2005,6 +2012,7 @@
           "url": "https://docs.microsoft.com/connectors/aci/#get-properties-of-a-container-group"
         },
         "operationId": "ContainerGroups_Get",
+        "x-ms-client-name": "GetContainerGroup",
         "parameters": [
           {
             "in": "path",
@@ -2050,6 +2058,7 @@
           "url": "https://docs.microsoft.com/connectors/aci/#update-a-container-group-location-or-tags"
         },
         "operationId": "ContainerGroups_Update",
+        "x-ms-client-name": "UpdateContainerGroup",
         "parameters": [
           {
             "in": "path",
@@ -2103,6 +2112,7 @@
           "url": "https://docs.microsoft.com/connectors/aci/#create-or-update-a-container-group"
         },
         "operationId": "ContainerGroups_CreateOrUpdate",
+        "x-ms-client-name": "CreateOrUpdateContainerGroup",
         "parameters": [
           {
             "in": "path",
@@ -2164,6 +2174,7 @@
           "url": "https://docs.microsoft.com/connectors/aci/#get-logs-from-a-container-instance"
         },
         "operationId": "ContainerLogs_List",
+        "x-ms-client-name": "GetContainerLogs",
         "parameters": [
           {
             "in": "path",
@@ -2226,6 +2237,7 @@
           "url": "https://docs.microsoft.com/connectors/aci/#restart-containers-in-a-container-group"
         },
         "operationId": "ContainerGroups_Restart",
+        "x-ms-client-name": "RestartContainers",
         "parameters": [
           {
             "in": "path",
@@ -2269,6 +2281,7 @@
           "url": "https://docs.microsoft.com/connectors/aci/#start-containers-in-a-container-group"
         },
         "operationId": "ContainerGroups_Start",
+        "x-ms-client-name": "StartContainers",
         "parameters": [
           {
             "in": "path",
@@ -2312,6 +2325,7 @@
           "url": "https://docs.microsoft.com/connectors/aci/#stop-containers-in-a-container-group"
         },
         "operationId": "ContainerGroups_Stop",
+        "x-ms-client-name": "StopContainers",
         "parameters": [
           {
             "in": "path",
@@ -2352,6 +2366,7 @@
           "url": "https://docs.microsoft.com/connectors/aci/#list-resource-groups"
         },
         "operationId": "ResourceGroups_List",
+        "x-ms-client-name": "ListResourceGroups",
         "parameters": [
           {
             "in": "path",
