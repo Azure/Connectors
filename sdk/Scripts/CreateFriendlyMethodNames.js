@@ -87,7 +87,7 @@ async function run() {
         }
 
         // Confirm one last time with the user that everything looks good
-        console.log("\n\nMaking the following changes:")
+        console.warn("\nMaking the following changes:")
         for (let oldName in changes) {
             console.log(`\t${oldName} => ${changes[oldName]}`);
         }
