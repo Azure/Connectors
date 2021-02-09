@@ -32,8 +32,8 @@ function askQuestion(query) {
 async function getName() {
     let ans = await askQuestion("Please enter a friendly name or press enter to skip...\n");
     if (ans) {
-        let confirm = await askQuestion(`Confirm '${ans}'? (y/n)`);
-        if (confirm == "y") {
+        let confirm = await askQuestion(`Confirm '${ans}'? ("y" or enter to accept)`);
+        if (confirm == "y" || confirm == "") {
             return ans;
         } else {
             console.log("Trying again...");
@@ -58,7 +58,7 @@ async function run() {
             console.log(`Writing swagger to: '${outputSwaggerFile}'`)
             await continueOrTerminate();
         } else {
-            console.log(`IMPORTANT: this script will overwrite the existing contents of ${swaggerFile}`);
+            console.warn(`IMPORTANT: this script will overwrite the existing contents of ${swaggerFile}`);
             await continueOrTerminate();
         }
         // Loop through API's and optionally rename operationId's
