@@ -1,0 +1,474 @@
+{
+  "basePath": "/apim/azurequeues",
+  "definitions": {
+    "MessagePost": {
+      "properties": {
+        "Message": {
+          "description": "The message to put in the queue.",
+          "type": "string",
+          "x-ms-summary": "Message"
+        }
+      },
+      "required": [
+        "Message"
+      ],
+      "type": "object"
+    },
+    "Messages": {
+      "properties": {
+        "QueueMessagesList": {
+          "properties": {
+            "QueueMessage": {
+              "items": {
+                "properties": {
+                  "ExpirationTime": {
+                    "description": "The time the message will expire from the queue.",
+                    "type": "string",
+                    "x-ms-summary": "Expiration Time"
+                  },
+                  "InsertionTime": {
+                    "description": "The time the message was inserted into the queue.",
+                    "type": "string",
+                    "x-ms-summary": "Insertion Time"
+                  },
+                  "MessageId": {
+                    "description": "The unique identifier of the message.",
+                    "type": "string",
+                    "x-ms-summary": "Message ID"
+                  },
+                  "MessageText": {
+                    "description": "The text of the message.",
+                    "type": "string",
+                    "x-ms-summary": "Message Text"
+                  },
+                  "PopReceipt": {
+                    "description": "Used to delete the message after popping it off the queue.",
+                    "type": "string",
+                    "x-ms-summary": "Pop Receipt"
+                  },
+                  "TimeNextVisible": {
+                    "description": "The time the message will be visible to other consumers.",
+                    "type": "string",
+                    "x-ms-summary": "Next Visible Time"
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "Queue": {
+      "properties": {
+        "Name": {
+          "description": "The name of the queue.",
+          "type": "string",
+          "x-ms-summary": "Name"
+        }
+      },
+      "type": "object"
+    },
+    "QueueArray": {
+      "items": {
+        "$ref": "#/definitions/Queue"
+      },
+      "type": "array"
+    }
+  },
+  "externalDocs": {
+    "url": "https://docs.microsoft.com/connectors/azurequeues"
+  },
+  "host": "logic-apis-westcentralus.azure-apim.net",
+  "info": {
+    "description": "Azure Queue storage provides cloud messaging between application components. Queue storage also supports managing asynchronous tasks and building process work flows.",
+    "title": "Azure Queues",
+    "version": "1.0.0",
+    "x-ms-api-annotation": {
+      "status": "Production"
+    },
+    "x-ms-deployment-version": "1.0.0"
+  },
+  "paths": {
+    "/{connectionId}/list": {
+      "get": {
+        "deprecated": false,
+        "description": "List all the queues for your storage account.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurequeues/#list-queues"
+        },
+        "operationId": "ListQueues",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/QueueArray"
+            }
+          }
+        },
+        "summary": "List queues",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/putQueue": {
+      "put": {
+        "deprecated": false,
+        "description": "Adds a queue to your account.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurequeues/#create-a-new-queue"
+        },
+        "operationId": "PutQueue",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The name of the queue to create.",
+            "in": "query",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Queue Name",
+            "x-ms-test-value": "testdonotdelete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "default": {
+            "description": "default"
+          }
+        },
+        "summary": "Create a new queue",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/{queueName}/count_trigger": {
+      "get": {
+        "deprecated": false,
+        "description": "Triggers when a specified number of messages are in the given queue.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurequeues/#when-a-specified-number-of-messages-are-in-a-given-queue"
+        },
+        "operationId": "OnMessageThresholdReached",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The queue to check for messages.",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListQueues",
+              "value-path": "Name",
+              "value-title": "Name"
+            },
+            "x-ms-summary": "Queue Name",
+            "x-ms-test-value": "testdonotdelete",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "The number of messages to wait for to fire the trigger.",
+            "format": "int32",
+            "in": "query",
+            "name": "threshold",
+            "required": true,
+            "type": "integer",
+            "x-ms-summary": "Threshold",
+            "x-ms-test-value": 1,
+            "x-ms-visibility": "important"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            }
+          }
+        },
+        "summary": "When a specified number of messages are in a given queue",
+        "x-ms-trigger": "single",
+        "x-ms-trigger-hint": "To see ths trigger in action, fill a queue to the desired number of messages.",
+        "x-ms-visibility": "advanced"
+      }
+    },
+    "/{connectionId}/{queueName}/message_trigger": {
+      "get": {
+        "deprecated": false,
+        "description": "Triggers any time there are messages in the queue, returning up to 32 messages. The messages will be hidden but remain on the queue until the delete action is used.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurequeues/#when-there-are-messages-in-a-queue"
+        },
+        "operationId": "OnMessages",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The queue to check for messages",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListQueues",
+              "value-path": "Name",
+              "value-title": "Name"
+            },
+            "x-ms-summary": "Queue Name",
+            "x-ms-test-value": "testdonotdelete",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "The time in seconds that messages will be invisible to other consumers (default 30)",
+            "in": "query",
+            "name": "visibilitytimeout",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Visibility Timeout",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Messages"
+            }
+          }
+        },
+        "summary": "When there are messages in a queue",
+        "x-ms-trigger": "batch",
+        "x-ms-trigger-hint": "To see it work now, put messages in the queue.",
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/{queueName}/messages": {
+      "get": {
+        "deprecated": false,
+        "description": "Get a specific set of messages from the queue. The messages will be hidden but remain on the queue until the delete action is used.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurequeues/#get-messages"
+        },
+        "operationId": "GetMessages",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The queue to get Messages from.",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListQueues",
+              "value-path": "Name",
+              "value-title": "Name"
+            },
+            "x-ms-summary": "Queue Name",
+            "x-ms-test-value": "testdonotdelete",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "The number of messages to grab from the queue (default 1).",
+            "in": "query",
+            "name": "numofmessages",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Number of Messages",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "The time in seconds that messages will be invisible to other consumers (default 30).",
+            "in": "query",
+            "name": "visibilitytimeout",
+            "required": false,
+            "type": "string",
+            "x-ms-summary": "Visibility Timeout",
+            "x-ms-visibility": "advanced"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Messages"
+            }
+          }
+        },
+        "summary": "Get messages",
+        "x-ms-visibility": "important"
+      },
+      "post": {
+        "deprecated": false,
+        "description": "Adds a message to the given queue.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurequeues/#put-a-message-on-a-queue"
+        },
+        "operationId": "PutMessage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The queue to put a message to.",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListQueues",
+              "value-path": "Name",
+              "value-title": "Name"
+            },
+            "x-ms-summary": "Queue Name",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "The message content to post to the queue.",
+            "in": "body",
+            "name": "message",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-ms-summary": "Message"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "OK"
+          }
+        },
+        "summary": "Put a message on a queue",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "important"
+      }
+    },
+    "/{connectionId}/{queueName}/messages/{messageId}": {
+      "delete": {
+        "deprecated": false,
+        "description": "Delete a specific message from the queue.",
+        "externalDocs": {
+          "url": "https://docs.microsoft.com/connectors/azurequeues/#delete-message"
+        },
+        "operationId": "DeleteMessage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "connectionId",
+            "required": true,
+            "type": "string",
+            "x-ms-visibility": "internal"
+          },
+          {
+            "description": "The queue to delete a message from.",
+            "in": "path",
+            "name": "queueName",
+            "required": true,
+            "type": "string",
+            "x-ms-dynamic-values": {
+              "operationId": "ListQueues",
+              "value-path": "Name",
+              "value-title": "Name"
+            },
+            "x-ms-summary": "Queue Name",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "The ID of the message to delete.",
+            "in": "path",
+            "name": "messageId",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Message ID",
+            "x-ms-visibility": "important"
+          },
+          {
+            "description": "A valid pop receipt value returned from an earlier call to the Get Messages.",
+            "in": "query",
+            "name": "popreceipt",
+            "required": true,
+            "type": "string",
+            "x-ms-summary": "Pop Receipt",
+            "x-ms-visibility": "important"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "OK"
+          }
+        },
+        "summary": "Delete message",
+        "x-ms-no-generic-test": true,
+        "x-ms-visibility": "advanced"
+      }
+    }
+  },
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "x-ms-capabilities": {
+    "testConnection": {
+      "operationId": "ListQueues",
+      "parameters": {}
+    }
+  },
+  "x-ms-connector-metadata": [
+    {
+      "propertyName": "Website",
+      "propertyValue": "https://azure.microsoft.com/services/storage/queues/"
+    }
+  ]
+}
