@@ -74,6 +74,7 @@ async function run() {
                 console.log("=====================");
                 console.log(`Operation ID: \t\t${action.operationId}`);
                 console.log(`Visibility: \t\t${action["x-ms-visibility"]}`);
+                console.log(`Summary: \t\t${action.summary}`);
                 console.log(`Description: \t\t${action.description}`);
                 console.log(`URL: \t\t\t${action.externalDocs.url}`);
                 console.log(`x-ms-client-name: \t${action["x-ms-client-name"]}`);
