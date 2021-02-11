@@ -225,6 +225,10 @@ directive:
     where: $..[?(@["x-ms-test-value"])]
     transform: >-
       return Object.assign($, { "description": `${$.description} (Example: ${JSON.stringify($["x-ms-test-value"])})` })
+  # TODO(seaki): move to a custom config
+  - rename-model: 
+      from: Queue
+      to: AzureQueue
 ```
 
 ```yaml $(csharp-only)
