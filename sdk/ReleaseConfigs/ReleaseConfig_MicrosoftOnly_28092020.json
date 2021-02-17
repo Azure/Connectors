@@ -330,5 +330,10 @@
 		"name": "cognitiveservicestextanalytics" ,
 		"friendlyName": "TextAnalytics",
 		"version": "0.0.4-alpha"
+	},
+	{
+		"name": "azurequeues" ,
+		"friendlyName": "AzureQueues",
+		"version": "0.0.4-alpha"
 	}
 ]
