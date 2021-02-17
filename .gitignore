@@ -352,3 +352,4 @@ MigrationBackup/
 
 
 **/sample.dat
+*.tgz
