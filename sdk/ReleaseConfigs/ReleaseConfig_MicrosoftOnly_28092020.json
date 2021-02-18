@@ -334,6 +334,7 @@
 	{
 		"name": "azurequeues" ,
 		"friendlyName": "AzureQueues",
-		"version": "0.0.4-alpha"
+		"version": "0.0.4-alpha",
+		"autoRestConfigFile": ".\\sdk\\autorest\\readme.md"
 	}
 ]
