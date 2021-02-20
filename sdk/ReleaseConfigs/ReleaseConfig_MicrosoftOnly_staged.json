@@ -1,0 +1,8 @@
+[
+  {
+		"name": "azurequeues" ,
+		"friendlyName": "AzureQueues",
+		"version": "0.0.4-alpha",
+		"autoRestConfigFile": ".\\sdk\\autorest\\customConfigs\\azurequeues.md"
+	}
+]
