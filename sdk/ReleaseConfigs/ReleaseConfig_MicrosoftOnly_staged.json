@@ -2,7 +2,13 @@
   {
 		"name": "azurequeues" ,
 		"friendlyName": "AzureQueues",
-		"version": "0.0.4-alpha",
+		"version": "0.0.5-alpha",
 		"autoRestConfigFile": ".\\sdk\\autorest\\customConfigs\\azurequeues.md"
+	},
+	{
+		"name": "aci" ,
+		"friendlyName": "AzureContainerInstance",
+		"version": "0.0.5-alpha",
+		"autoRestConfigFile": ".\\sdk\\autorest\\customConfigs\\aci.md"
 	}
 ]

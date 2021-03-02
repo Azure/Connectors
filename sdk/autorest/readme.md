@@ -9,6 +9,17 @@ azure-arm: true
 ```
 
 ```yaml
+declare-directive:
+  # TODO: 
+  # - Migrate other directive using x-ms-client-name and completely remove the property
+  # - merge with existing `rename-operation` once we completely migrate off of x-ms-client-name
+  rename-operation-extended: >-
+    [{
+      from: 'swagger-document',
+      where: `$.parameters[?(@["x-ms-dynamic-values"].operationId == ${JSON.stringify($.from)})]`,
+      transform: `$.description = ($.description || "") + \`\nYou can get this value by calling '${$.to}' and using the '\` + $.name + "' value."`
+    }]
+
 directive:
   #############################
   # Remove underscore from operationId's
@@ -79,10 +90,6 @@ directive:
           let dynamicInput = dynamicInputOperations[action.operationId];
           if (dynamicInput && dynamicInput.parameter) {
             action["x-ms-visibility"] = action["x-ms-visibility"] + "-dynamic";
-            /* Use x-ms-client-name if it's there */
-            let modifiedOperationId = action["x-ms-client-name"] || action.operationId;
-            /* Change description */
-            dynamicInput.parameter.description = (dynamicInput.parameter.description || "") + `\nYou can get this value by calling '${modifiedOperationId}' and using the '${dynamicInput.parameterName}' value).`;
           }
         }
       }
