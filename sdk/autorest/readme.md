@@ -18,6 +18,21 @@ declare-directive:
       from: 'swagger-document',
       where: `$.parameters[?(@["x-ms-dynamic-values"].operationId == ${JSON.stringify($.from)})]`,
       transform: `$.description = ($.description || "") + \`\nYou can get this value by calling '${$.to}' and using the '\` + $["x-ms-dynamic-values"]["value-path"] + "' value."`
+    },
+    {
+      from: 'swagger-document',
+      where: `$.parameters[?(@["x-ms-dynamic-schema"].operationId == ${JSON.stringify($.from)})]`,
+      transform: `$.description = ($.description || "") + \`\nYou can get this value by calling '${$.to}' and using the '\` + $["x-ms-dynamic-schema"]["value-path"] + "' value."`
+    },
+    {
+      from: 'swagger-document',
+      where: `$.parameters[?(@["x-ms-dynamic-list"].operationId == ${JSON.stringify($.from)})]`,
+      transform: `$.description = ($.description || "") + \`\nYou can get this value by calling '${$.to}' and using the '\` + $["x-ms-dynamic-list"]["ItemValuePath"] + "' value."`
+    },
+    {
+      from: 'swagger-document',
+      where: `$.parameters[?(@["x-ms-dynamic-values"].operationId == ${JSON.stringify($.from)})]`,
+      transform: `$.description = ($.description || "") + \`\nYou can get this value by calling '${$.to}' and using the '\` + $["x-ms-dynamic-values"]["ItemValuePath"] + "' value."`
     }]
 
 directive:
