@@ -90,6 +90,10 @@ directive:
           let dynamicInput = dynamicInputOperations[action.operationId];
           if (dynamicInput && dynamicInput.parameter) {
             action["x-ms-visibility"] = action["x-ms-visibility"] + "-dynamic";
+            /* Use x-ms-client-name if it's there */
+            let modifiedOperationId = action["x-ms-client-name"] || action.operationId;
+            /* Change description */
+            dynamicInput.parameter.description = (dynamicInput.parameter.description || "") + `\nYou can get this value by calling '${modifiedOperationId}' and using the '${dynamicInput.parameterName}' value).`;
           }
         }
       }
