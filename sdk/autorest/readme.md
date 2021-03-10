@@ -17,24 +17,13 @@ declare-directive:
     [{
       from: 'swagger-document',
       where: `$.parameters[?(@["x-ms-dynamic-values"].operationId == ${JSON.stringify($.from)})]`,
-      transform: `$.description = ($.description || "") + \`\nYou can get this value by calling '${$.to}' and using the '\` + $["x-ms-dynamic-values"]["value-path"] + "' value."`
+      transform: `$["x-ms-dynamic-values"].operationId = ${JSON.stringify($.to)}`
     },
     {
       from: 'swagger-document',
-      where: `$.parameters[?(@["x-ms-dynamic-schema"].operationId == ${JSON.stringify($.from)})]`,
-      transform: `$.description = ($.description || "") + \`\nYou can get this value by calling '${$.to}' and using the '\` + $["x-ms-dynamic-schema"]["value-path"] + "' value."`
-    },
-    {
-      from: 'swagger-document',
-      where: `$.parameters[?(@["x-ms-dynamic-list"].operationId == ${JSON.stringify($.from)})]`,
-      transform: `$.description = ($.description || "") + \`\nYou can get this value by calling '${$.to}' and using the '\` + $["x-ms-dynamic-list"]["ItemValuePath"] + "' value."`
-    },
-    {
-      from: 'swagger-document',
-      where: `$.parameters[?(@["x-ms-dynamic-values"].operationId == ${JSON.stringify($.from)})]`,
-      transform: `$.description = ($.description || "") + \`\nYou can get this value by calling '${$.to}' and using the '\` + $["x-ms-dynamic-values"]["ItemValuePath"] + "' value."`
+      where: `$.paths.*[?(@.operationId == ${JSON.stringify($.from)})]`,
+      transform: `$.operationId = ${JSON.stringify($.to)}`
     }]
-
 directive:
   #############################
   # Remove underscore from operationId's
@@ -119,7 +108,7 @@ directive:
       if ($["x-ms-visibility"] === "internal") {
         return;
       }
-  # Use "x-ms-client-name" instead of "operationId" if it's there. 
+  # Use "x-ms-client-name" instead of "operationId" if it's there.
   # Note that references to "operationId" for dynamic values has been fixed above.
   - from: swagger-document
     where: $..[?(@.operationId)]
