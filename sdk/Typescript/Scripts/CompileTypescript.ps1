@@ -6,23 +6,6 @@ Param(
 $root = Get-Location
 Set-Location ScriptGenerated/$($connectorName)/typescript
 
-# Install azure identity npm
-Write-Output "importing azure identity"
-$IdentityCommand = "npm i @azure/identity --save-bundle"
-Invoke-Expression $IdentityCommand
-# Install ms-rest-js library as bundledDependencies
-Write-Output "saving azure ms-rest-js as bundle"
-$BundleMsRestCommand = "npm i @azure/ms-rest-js --save-bundle"
-Invoke-Expression $BundleMsRestCommand
-# Install ms-rest-azure-js library as bundledDependencies
-Write-Output "saving azure ms-rest-azure-js as bundle"
-$BundleAzureMsRestCommand = "npm i @azure/ms-rest-azure-js --save-bundle"
-Invoke-Expression $BundleAzureMsRestCommand
-
-# Install 
-$rollupConfigFile = "./rollup.config.js"
-(Get-Content $rollupConfigFile ).Replace('"@azure/ms-rest-js",', '"@azure/ms-rest-js", "@azure/identity",') | Out-File $rollupConfigFile -Encoding "UTF8"
-
 # Fix package.json
 $packageJsonFile = "./package.json"
 $packageJson = (Get-Content $packageJsonFile)

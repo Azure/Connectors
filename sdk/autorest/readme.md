@@ -390,84 +390,8 @@ typescript:
  generate-metadata: true
  output-folder: $(output-folder)/typescript
  directive:
-  # 1. Update constructor to accept connection string
-  # 2. Make context parameters private
-  - from: source-file-typescript
-    where: $
-    transform: >-
-      const connectorClassDeclarationRegex = /(class ).*(Connector extends ).*(ConnectorContext \{)/g;
-      const connectorContextDeclarationRegex = /(export class ).*(ConnectorContext extends ).*(msRestAzure.AzureServiceClient \{)/g;
-      /* Target connector class file and modify constructor */
-      if ($.search(connectorClassDeclarationRegex) >= 0) {
-        const constructorRegex = /(constructor\(credentials: msRest.ServiceClientCredentials, connectionId: string, options\?: Models.).*(ConnectorOptions\) {\n.   super\(credentials, connectionId, options\);)/g;
-        const classDeclaration = $.match(connectorClassDeclarationRegex)[0];
-        const connectorName = classDeclaration.match(/ \w*Connector /g)[0].replace(" ", "");
-        const newImports = `import { DefaultAzureCredential } from "@azure/identity"`;
-        const options = $.match(/(options\?: Models).*(Options)/g)[0];
-        const connectorFactory = `
-      let _connectorClient: ${connectorName} | undefined;\n
-      export const create${connectorName} = async function(connectionString: string, ${options}): Promise<${connectorName}> {
-        const creds = await getCredentials(connectionString);
-        if (!_connectorClient) {
-          _connectorClient = new ${connectorName}(...creds);
-        } 
-        return _connectorClient;
-      }
-        `;
-        const getCredentialsFunction = `
-      const getCredentials = async function (connectionString: string, userOptions?: any): Promise<[msRest.TokenCredentials, string, any]> {
-        if (!connectionString) {
-          throw new Error("Input 'connectionString' is missing");
-        }
-        /* Read and parse endpoint */
-        const connectionPieces = connectionString.split(";").map((segment) => { return segment.split("=") });
-        const endpointPair = connectionPieces.find((segment) => { return segment[0].toLowerCase() == "endpoint"});
-        const endpoint = endpointPair && endpointPair[1];
-        if (!endpoint) {
-          throw new Error("Property 'endpoint' is missing from connection string");
-        }
-        const endpointComponents = endpoint.split("/").filter((value: string) => { return value; });
-        const connectionId = endpointComponents[endpointComponents.length - 1];
-        const baseUri = (endpoint.match(/(https:\\/\\/|http:\\/\\/).*(\\.net|\\.com)/g)|| [""])[0];
-        /* Read and parse auth */
-        const authPair = connectionPieces.find((segment) => { return segment[0].toLowerCase() == "auth"});
-        const auth = authPair && authPair[0];
-        const authValue = authPair && authPair[1];
-        if (!(auth && authValue)) {
-          throw new Error("Property 'auth' (or value) is missing from connection string");
-        }
-        let tokenCredential: msRest.TokenCredentials;
-        if (authValue.toLowerCase() === "key") {
-          const keyPair = connectionPieces.find((segment) => { return segment[0].toLowerCase() == "key"});
-          const key = keyPair && keyPair[1];
-          if (!key) {
-            throw new Error("Property 'key' missing from connection string");
-          }
-          tokenCredential = new msRest.TokenCredentials(key, "Key");
-        } else if (authValue.toLowerCase() === "managed") {
-          const creds = new DefaultAzureCredential();
-          const accessToken = await creds.getToken("https://management.core.windows.net//.default"); 
-          tokenCredential = new msRest.TokenCredentials((accessToken && accessToken.token) || "", "Bearer");
-        } else {
-          throw new Error("Auth value is " + authValue + " instead of 'key' or 'managed'");
-        }
-        return [ tokenCredential, connectionId, Object.assign({ baseUri }, userOptions) ];
-      }
-        `;
-        const finalClassDeclaration = `${newImports} \n ${getCredentialsFunction} \n ${connectorFactory}`;
-        $ = $.replace(`import * as msRest from "@azure/ms-rest-js";`, `import * as msRest from "@azure/ms-rest-js"; \n${finalClassDeclaration}`);
-        return $;
-      /* Target connector context class file and make properties private */
-      } else if ($.search(connectorContextDeclarationRegex) >= 0) {
-          const declarationRegex = /\w*\??: (\w|\.|\d)*;/g;
-          const properties = $.match(declarationRegex);
-          for (let property of properties) {
-            $ = $.replace(property, `private ${property}`);
-          }
-          return $;
-      } else {
-        return $;
-      }
+  # This cleans up the methods that the user sees to not include internal methods like "sendOperationRequest"
+  # Part 1: Modify from inheritance to reference of "Client" object
   - from: source-file-typescript
     where: $
     transform: >-
@@ -481,10 +405,11 @@ typescript:
         $ = $.split("(this)").join("(this._client)");
         return $;
       }
+  # Part 2: Change references from "this" to "this._client"
   - from: source-file-typescript
     where: $
     transform: >-
-      const connectorClassRegex = /const connectionPieces = connectionString\.split\(/g;
+      const connectorClassRegex = /(this._client = new ).*(Context\(credentials, connectionId, options\);)/g;
       if ($.search(connectorClassRegex) >= 0) {
         const matches = $.match(/this.\w*\(/g);
         for (const m of matches) {
