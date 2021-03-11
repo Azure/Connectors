@@ -10,18 +10,11 @@ azure-arm: true
 
 ```yaml
 declare-directive:
-  # TODO: 
-  # - Migrate other directive using x-ms-client-name and completely remove the property
-  # - merge with existing `rename-operation` once we completely migrate off of x-ms-client-name
+  # rename operationId at any level
   rename-operation-extended: >-
     [{
       from: 'swagger-document',
-      where: `$.parameters[?(@["x-ms-dynamic-values"].operationId == ${JSON.stringify($.from)})]`,
-      transform: `$["x-ms-dynamic-values"].operationId = ${JSON.stringify($.to)}`
-    },
-    {
-      from: 'swagger-document',
-      where: `$.paths.*[?(@.operationId == ${JSON.stringify($.from)})]`,
+      where: `$..[?(@["operationId"] == ${JSON.stringify($.from)})]`,
       transform: `$.operationId = ${JSON.stringify($.to)}`
     }]
 directive:
@@ -97,7 +90,7 @@ directive:
             /* Use x-ms-client-name if it's there */
             let modifiedOperationId = action["x-ms-client-name"] || action.operationId;
             /* Change description */
-            dynamicInput.parameter.description = (dynamicInput.parameter.description || "") + `\nYou can get this value by calling '${modifiedOperationId}' and using the '${dynamicInput.parameterName}' value).`;
+            dynamicInput.parameter.description = (dynamicInput.parameter.description || "") + `\nYou can get this value by calling '${modifiedOperationId}' and using the '${dynamicInput.parameterName}' value.`;
           }
         }
       }
