@@ -9,6 +9,14 @@ azure-arm: true
 ```
 
 ```yaml
+declare-directive:
+  # rename operationId at any level
+  rename-operation-extended: >-
+    [{
+      from: 'swagger-document',
+      where: `$..[?(@["operationId"] == ${JSON.stringify($.from)})]`,
+      transform: `$.operationId = ${JSON.stringify($.to)}`
+    }]
 directive:
   #############################
   # Remove underscore from operationId's
@@ -82,7 +90,7 @@ directive:
             /* Use x-ms-client-name if it's there */
             let modifiedOperationId = action["x-ms-client-name"] || action.operationId;
             /* Change description */
-            dynamicInput.parameter.description = (dynamicInput.parameter.description || "") + `\nYou can get this value by calling '${modifiedOperationId}' and using the '${dynamicInput.parameterName}' value).`;
+            dynamicInput.parameter.description = (dynamicInput.parameter.description || "") + `\nYou can get this value by calling '${modifiedOperationId}' and using the '${dynamicInput.parameterName}' value.`;
           }
         }
       }
@@ -93,7 +101,7 @@ directive:
       if ($["x-ms-visibility"] === "internal") {
         return;
       }
-  # Use "x-ms-client-name" instead of "operationId" if it's there. 
+  # Use "x-ms-client-name" instead of "operationId" if it's there.
   # Note that references to "operationId" for dynamic values has been fixed above.
   - from: swagger-document
     where: $..[?(@.operationId)]
