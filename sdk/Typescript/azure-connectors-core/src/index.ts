@@ -51,28 +51,3 @@ export const getConnectorArgs = async function (connectionString: string, userOp
     }
     return [ tokenCredential, connectionId, Object.assign({ baseUri }, userOptions) ];
 }
-
-interface AciConnectorOptions extends AzureServiceClientOptions {
-    /**
-     * Client API version (Example: "2019-12-01"). Default value: '2019-12-01'.
-     */
-    xMsApiVersion?: string;
-    baseUri?: string;
-}
-
-class AciConnector { 
-    /**
-     * Initializes a new instance of the AciConnector class.
-     * @param credentials Credentials needed for the client to connect to Azure.
-     * @param connectionId Unique identifier of the connection instance
-     * @param [options] The parameter options
-     */
-    constructor(credentials: msRest.ServiceClientCredentials, connectionId: string, options?: AciConnectorOptions) {
-      //this._client = new AciConnectorContext(credentials, connectionId, options);
-    }
-}
-
-const run = async function() {
-    const args = await getConnectorArgs(process.env.ACI_CONNECTION || "");
-    const connector = new AciConnector(args[0], args[1], args[2]);
-}
