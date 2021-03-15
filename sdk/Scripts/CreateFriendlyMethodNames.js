@@ -26,20 +26,21 @@ const swaggerFile = myArgs[1];
 const outputFile = myArgs[2];
 const readFileAsync = util.promisify(fs.readFile);
 
-const customConfig = "\
-# {connectorName\} Custom Config\
-\
-> see https://aka.ms/autorest\
-\
-## Configuration\
-\
-```yaml\
-# https://github.com/Azure/autorest/blob/master/Samples/openapi-v2/3h-try-require/readme.md\
-require: ../readme.md\
-\
-# Add your own config below\
-{directives\}\
-```\
+const customConfigTemplate = "\
+# {friendlyConnectorName\} Custom Config\r\n\
+\r\n\
+> see https://aka.ms/autorest\r\n\
+\r\n\
+## Configuration\r\n\
+\r\n\
+```yaml\r\n\
+# https://github.com/Azure/autorest/blob/master/Samples/openapi-v2/3h-try-require/readme.md\r\n\
+require: ../readme.md\r\n\
+\r\n\
+# Add your own config below\r\n\
+directives:\r\n\
+{directives\}\r\n\
+```\r\n\
 "
 
 function askQuestion(query) {
@@ -127,8 +128,14 @@ async function createNewSwagger(swagger, newNames, outputSwaggerFile) {
     fs.writeFileSync(outputSwaggerFile, JSON.stringify(swagger, null, JSON_SPACING));
 }
 
-async function createNewCustomConfig(swagger, newNames, outputFile) {
-    // TODO(sean)
+async function createNewCustomConfig(newNames, friendlyConnectorName, outputConfigFile) {
+    let directives = "";
+    for (let oldName in newNames) {
+        directives += `\t- rename-operation-extended:\r\n\t\tfrom: ${oldName}\r\n\t\tto: ${newNames[oldName]}`;
+    }
+
+    var customConfig = customConfigTemplate.replace("{friendlyConnectorName}", friendlyConnectorName).replace("{directives}", directives);
+    fs.writeFileSync(outputConfigFile, customConfig);
 }
 
 async function run() {
@@ -138,18 +145,33 @@ async function run() {
         exit(1);
     } 
 
+    // Read swagger
     console.log(`Reading swagger from: '${swaggerFile}'`)
     const swaggerData = await readFileAsync(swaggerFile, 'utf8');
     const swagger = JSON.parse(swaggerData);
 
     if (changeMode == "config") {
+        var filename = swaggerFile.split("/").pop();
+        var friendlyConnectorName = filename.substring(0, filename.indexOf("."));
+        if (friendlyConnectorName) {
+            console.log(`Using this friendly name for the config file: ${friendlyConnectorName}`);
+        } else {
+            console.error("could not get friendly connector name from the swaggerFilePath");
+            exit(1);
+        }
+
         const newNames = await getNewNamesFromUser(swagger);
-        createNewCustomConfig(swagger, newNames, outputFile)
+        let outputConfigFile = outputFile;
+        if (!outputFile) {
+            outputConfigFile = `sdk/autorest/customConfigs/${friendlyConnectorName}.md`;
+        } 
+        console.log(`Writing a custom config file to: '${outputConfigFile}'`)
+        createNewCustomConfig(newNames, friendlyConnectorName, outputConfigFile)
     }
     if (changeMode == "swagger") {
         // Prompts to make sure the user knows what they're doing
         if (outputFile) {
-            console.log(`Writing swagger to: '${outputFile}'`)
+            console.log(`Writing a swagger to: '${outputFile}'`)
             await continueOrTerminate();
         } else {
             console.warn(`IMPORTANT: this script will overwrite the existing contents of ${swaggerFile}`);
