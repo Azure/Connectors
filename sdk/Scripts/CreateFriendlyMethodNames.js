@@ -38,9 +38,9 @@ const customConfigTemplate = "\
 require: ../readme.md\r\n\
 \r\n\
 # Add your own config below\r\n\
-directives:\r\n\
+directive:\r\n\
 {directives\}\r\n\
-```\r\n\
+```\
 "
 
 function askQuestion(query) {
@@ -131,7 +131,7 @@ async function createNewSwagger(swagger, newNames, outputSwaggerFile) {
 async function createNewCustomConfig(newNames, friendlyConnectorName, outputConfigFile) {
     let directives = "";
     for (let oldName in newNames) {
-        directives += `\t- rename-operation-extended:\r\n\t\tfrom: ${oldName}\r\n\t\tto: ${newNames[oldName]}`;
+        directives += `  - rename-operation-extended:\r\n      from: ${oldName}\r\n      to: ${newNames[oldName]}`;
     }
 
     var customConfig = customConfigTemplate.replace("{friendlyConnectorName}", friendlyConnectorName).replace("{directives}", directives);
