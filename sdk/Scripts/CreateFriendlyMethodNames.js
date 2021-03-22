@@ -161,14 +161,14 @@ async function run() {
             exit(1);
         }
 
-        console.log(`Writing a custom config file to: '${outputConfigFile}'`)
-        await continueOrTerminate();
-
-        const renameMapping = await getRenameMappingFromUser(swagger);
         let outputConfigFile = outputFile;
         if (!outputFile) {
             outputConfigFile = `sdk/autorest/customConfigs/${connectorName}.md`;
         } 
+        console.log(`Writing a custom config file to: '${outputConfigFile}'`)
+        await continueOrTerminate();
+
+        const renameMapping = await getRenameMappingFromUser(swagger);
         createNewCustomConfig(renameMapping, connectorName, outputConfigFile)
     }
     if (changeMode == SWAGGER_MODE) {
