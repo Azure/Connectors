@@ -52,4 +52,40 @@ directive:
   - rename-operation-extended:
       from: ReplyToV3
       to: ReplyToEmailV3
+  - rename-operation-extended:
+      from: ReceiveResponseGet
+      to: GetRecordResponse
+  - rename-operation-extended:
+      from: ReceiveResponsePost
+      to: PostRecordResponse
+  - rename-operation-extended:
+      from: CalendarGetTable
+      to: GetCalendarTable
+  - rename-operation-extended:
+      from: ContactGetTable
+      to: GetContactTable
+  - rename-operation-extended:
+      from: CreateOnFlaggedEmailPokeSubscription
+      to: CreateOnFlaggedEmailSubscription
+  - rename-operation-extended:
+      from: CreateGraphOnFlaggedEmailPokeSubscription
+      to: CreateOnFlaggedEmailGraphSubscription
+  - rename-operation-extended:
+      from: CreateGraphOnNewEmailPokeSubscription
+      to: CreateOnNewEmailGraphSubscription
+  - rename-operation-extended:
+      from: CreateGraphOnNewMentionMeEmailPokeSubscription
+      to: CreateOnNewMentionMeEmailGraphSubscription
+  - rename-operation-extended:
+      from: CreateOnNewEmailPokeSubscription
+      to: CreateOnNewEmailSubscription
+  - rename-operation-extended:
+      from: CreateOnNewMentionMeEmailPokeSubscription
+      to: CreateOnNewMentionMeEmailSubscription
+  - rename-operation-extended:
+      from: CreateOnChangedEventPokeSubscription
+      to: CreateOnChangedEventSubscription
+  - rename-operation-extended:
+      from: CreateGraphOnChangedEventPokeSubscription
+      to: CreateOnChangedEventGraphSubscription
 ```
