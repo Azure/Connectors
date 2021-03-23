@@ -94,6 +94,7 @@ async function getRenameMappingFromUser(swagger) {
                 }
                 console.log("=====================");
                 console.log(`Operation ID: \t\t${action.operationId}`);
+                console.log(`Path: \t\t\t${method.toUpperCase()} ${path}`);
                 console.log(`Visibility: \t\t${action["x-ms-visibility"]}`);
                 console.log(`Summary: \t\t${action.summary}`);
                 console.log(`Description: \t\t${action.description}`);
