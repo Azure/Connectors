@@ -83,6 +83,11 @@ async function getRenameMappingFromUser(swagger) {
         const renameMapping = {};
         for (let path in swagger.paths) {
             for (let method in swagger.paths[path]) {
+                // Exclude non-method
+                if (['x-ms-notification-content'].includes(method)) {
+                    continue;
+                }
+
                 let action = swagger.paths[path][method];
                 if (action["x-ms-trigger"] || action.deprecated) {
                     continue;
@@ -92,7 +97,7 @@ async function getRenameMappingFromUser(swagger) {
                 console.log(`Visibility: \t\t${action["x-ms-visibility"]}`);
                 console.log(`Summary: \t\t${action.summary}`);
                 console.log(`Description: \t\t${action.description}`);
-                console.log(`URL: \t\t\t${action.externalDocs.url}`);
+                console.log(`URL: \t\t\t${action.externalDocs && action.externalDocs.url}`);
                 console.log(`x-ms-client-name: \t${action["x-ms-client-name"]}`);
                 let newName = await getName();
                 if (newName) {
@@ -132,7 +137,7 @@ async function createNewSwagger(swagger, renameMapping, outputSwaggerFile) {
 async function createNewCustomConfig(renameMapping, connectorName, outputConfigFile) {
     let directives = "";
     for (let oldName in renameMapping) {
-        directives += `  - rename-operation-extended:\r\n      from: ${oldName}\r\n      to: ${renameMapping[oldName]}`;
+        directives += `  - rename-operation-extended:\r\n      from: ${oldName}\r\n      to: ${renameMapping[oldName]}\r\n`;
     }
 
     var customConfig = customConfigTemplate.replace("{connectorName}", connectorName).replace("{directives}", directives);

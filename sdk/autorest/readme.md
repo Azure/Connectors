@@ -225,7 +225,7 @@ directive:
   - from: swagger-document
     where: $.paths.*.*
     transform: >-
-      if ($.externalDocs.url) {
+      if ($.externalDocs && $.externalDocs.url) {
         $.description = ($.description || "") + `\nSee docs: ${$.externalDocs.url}`;
       }
   # Add examples to description
