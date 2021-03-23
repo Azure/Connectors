@@ -10,5 +10,11 @@
 		"friendlyName": "AzureContainerInstance",
 		"version": "0.0.5-alpha",
 		"autoRestConfigFile": ".\\sdk\\autorest\\customConfigs\\aci.md"
+	},
+	{
+		"name": "office365" ,
+		"friendlyName": "Office365Outlook",
+		"version": "0.0.5-alpha",
+		"autoRestConfigFile": ".\\sdk\\autorest\\customConfigs\\office365.md"
 	}
 ]
