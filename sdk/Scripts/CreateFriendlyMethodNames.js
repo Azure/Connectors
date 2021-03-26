@@ -100,6 +100,11 @@ async function getRenameMappingFromUser(swagger) {
                     continue;
                 }
 
+                if (action["x-ms-visibility"] == "internal") {
+                    // TODO: do not skip if referenced by one of the dynamic properties e.g. x-ms-dynamic-values
+                    continue;
+                }
+                
                 let action = swagger.paths[path][method];
                 if (action["x-ms-trigger"] || action.deprecated) {
                     continue;
