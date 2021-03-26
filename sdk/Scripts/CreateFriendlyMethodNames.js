@@ -13,6 +13,18 @@
 // > node sdk/Scripts/CreateFriendlyMethodNames.js config sdk/swaggers/ms-services/released/aci.json
 // > node sdk/Scripts/CreateFriendlyMethodNames.js swagger sdk/swaggers/ms-services/released/aci.json aci2.json
 
+// General Rules for renaming
+// 1. Place verb first.
+//      e.g. ContactDeleteItem_V2 => DeleteContact_V2
+// 2. Patch => Update.
+//      e.g. ContactPatchItem_V2 => UpdateContact_V2
+// 3. Version comes at the end with an underscore.
+//      e.g. V4CalendarGetItems => GetCalendarEvents_V4.
+// 4. Remove "Item" or replace it with more specific entity
+//      e.g. ContactGetItems_V2 => GetContacts_V2
+// 5. Derive clearer name from the operation description when possible
+//      e.g. CalendarGetTable => GetCalendarMetadata
+
 const readline = require('readline');
 const util = require('util');
 const fs = require('fs');

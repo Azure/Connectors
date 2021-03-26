@@ -12,43 +12,43 @@ require: ../readme.md
 directive:
   - rename-operation-extended:
       from: CalendarGetTables_V2
-      to: GetCalendarTables_V2
+      to: GetCalendars_V2
   - rename-operation-extended:
       from: CalendarDeleteItem_V2
-      to: DeleteCalendarItem_V2
+      to: DeleteCalendarEvent_V2
   - rename-operation-extended:
       from: ContactGetItems_V2
-      to: GetContactItems_V2
+      to: GetContacts_V2
   - rename-operation-extended:
       from: ContactPostItem_V2
-      to: PostContactItem_V2
+      to: CreateContact_V2
   - rename-operation-extended:
       from: ContactDeleteItem_V2
-      to: DeleteContactItem_V2
+      to: DeleteContact_V2
   - rename-operation-extended:
       from: ContactGetItem_V2
-      to: GetContactItem_V2
+      to: GetContact_V2
   - rename-operation-extended:
       from: ContactPatchItem_V2
-      to: PatchContactItem_V2
+      to: UpdateContact_V2
   - rename-operation-extended:
       from: V3CalendarGetItem
-      to: GetCalendarItemV3
+      to: GetCalendarEvent_V3
   - rename-operation-extended:
       from: V4CalendarGetItems
-      to: GetCalendarItemsV4
+      to: GetCalendarEvents_V4
   - rename-operation-extended:
       from: V4CalendarPostItem
-      to: PostCalendarItemV4
+      to: CreateCalendarEvent_V4
   - rename-operation-extended:
       from: V4CalendarPatchItem
-      to: PatchCalendarItemV4
+      to: UpdateCalendarEvent_V4
   - rename-operation-extended:
       from: SharedMailboxSendEmailV2
       to: SendEmailFromSharedMailboxV2
   - rename-operation-extended:
       from: ContactGetTablesV2
-      to: GetContactTablesV2
+      to: GetContactFolders_V2
   - rename-operation-extended:
       from: ReplyToV3
       to: ReplyToEmailV3
@@ -60,10 +60,10 @@ directive:
       to: PostRecordResponse
   - rename-operation-extended:
       from: CalendarGetTable
-      to: GetCalendarTable
+      to: GetCalendarMetadata
   - rename-operation-extended:
       from: ContactGetTable
-      to: GetContactTable
+      to: GetFolderMetadata
   - rename-operation-extended:
       from: CreateOnFlaggedEmailPokeSubscription
       to: CreateOnFlaggedEmailSubscription
