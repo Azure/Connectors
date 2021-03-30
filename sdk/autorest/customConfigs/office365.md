@@ -51,5 +51,5 @@ directive:
       to: GetContactFolders_V2
   - rename-operation-extended:
       from: ReplyToV3
-      to: ReplyToEmailV3
+      to: ReplyToEmail_V3
 ```

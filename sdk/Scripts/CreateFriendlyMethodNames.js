@@ -1,6 +1,7 @@
 // This script is a helper to quickly create friendly swagger names
 // Ignore trigger and deprecated API's
 //
+// # Arguments
 // First argument: change mode.
 //   - 'config': create a custom autorest config file with rename-operation
 //   - 'swagger': create/update a swagger file with 'x-ms-client-name' field
@@ -9,21 +10,31 @@
 //   - 'config': sdk/autorest/customConfigs/${friendlyName}
 //   - 'swagger': {same as second argument (overwrite the existing one)}
 
-// example:
+// # Example:
 // > node sdk/Scripts/CreateFriendlyMethodNames.js config sdk/swaggers/ms-services/released/aci.json
 // > node sdk/Scripts/CreateFriendlyMethodNames.js swagger sdk/swaggers/ms-services/released/aci.json aci2.json
 
-// General Rules for renaming
-// 1. Place verb first.
+// # General Rules for renaming
+// 1. Append the following preferred verbs in the front if applicable. If another significant verb is present, keep it.
+//      | Method Verb | Applicable cases |
+//      | ----------- | ---------------- |
+//      | Create      | Creating a new resource |
+//      | Get         | Fetching data or metadata |
+//      | Update      | Modifying an existing resource |
+//      | Delete      | Removing / deleting an existing resource |
+// 
 //      e.g. ContactDeleteItem_V2 => DeleteContact_V2
+//      e.g. ReplyToV3 => ReplyToEmail_V3 (more "significant" verb is present)
+//
 // 2. Patch => Update.
 //      e.g. ContactPatchItem_V2 => UpdateContact_V2
 // 3. Version comes at the end with an underscore.
 //      e.g. V4CalendarGetItems => GetCalendarEvents_V4.
 // 4. Remove "Item" or replace it with more specific entity
 //      e.g. ContactGetItems_V2 => GetContacts_V2
-// 5. Derive clearer name from the operation description when possible
+// 5. Derive a clearer name from the operation summary and description when possible
 //      e.g. CalendarGetTable => GetCalendarMetadata
+//      e.g. ContactGetItems_V2 => GetContacts_V2
 
 const readline = require('readline');
 const util = require('util');
