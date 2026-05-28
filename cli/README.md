@@ -3,9 +3,10 @@
 > Manage **`Microsoft.Web/connectorGateways`** Connector Namespaces and
 > their children from the Azure CLI.
 
-The wheel in [`dist/`](./dist/) is the official preview release of the
-`az connector` extension. See [`docs/`](./docs/) for usage, and
-[`examples/`](./examples/) for copy-runnable scripts.
+This directory ships the **preview release** of the `az connector`
+extension as documentation, runnable examples, and an AI-agent guide.
+The wheel itself is hosted on Microsoft-managed Azure Storage — see
+[Install](#install) below.
 
 > ⚠️ **Preview.** Command names, arguments, and behaviors may change
 > before general availability.
@@ -15,15 +16,11 @@ The wheel in [`dist/`](./dist/) is the official preview release of the
 ## Install
 
 ```bash
-az extension add --source \
-    https://github.com/Azure/Connectors/raw/main/cli/dist/connector-1.0.0b1-py3-none-any.whl
+az extension add --source https://<TBD>/connector-1.0.0b1-py3-none-any.whl
 ```
 
-Or grab the wheel locally:
-
-```bash
-az extension add --source ./cli/dist/connector-1.0.0b1-py3-none-any.whl
-```
+> Replace the placeholder above with the official wheel URL announced
+> on the release page once available.
 
 Verify:
 
@@ -32,11 +29,25 @@ az extension show --name connector --query "{name:name, version:version, preview
 az connector --help
 ```
 
-Uninstall when done:
+Uninstall:
 
 ```bash
 az extension remove --name connector
 ```
+
+### Why is the wheel not in this repo?
+
+The official wheel is hosted on a Microsoft-managed Azure Storage
+account behind JIT-controlled write access. This gives stronger
+supply-chain guarantees than committing the binary to a public repo:
+
+- Only approved Microsoft employees with active JIT can publish a wheel
+- Storage diagnostic logs record every upload (who, when, from where)
+- Immutability policies prevent silent replacement of published versions
+- The blob can be CDN-fronted with a Microsoft-owned custom domain
+
+To verify a downloaded wheel matches the published one, compare the
+SHA-256 against the hash listed on the release page.
 
 ---
 

@@ -14,9 +14,11 @@ tools that AI agents can call.
 ## 1 — Install the extension
 
 ```bash
-az extension add --source \
-    https://github.com/Azure/Connectors/raw/main/cli/dist/connector-1.0.0b1-py3-none-any.whl
+az extension add --source https://<TBD>/connector-1.0.0b1-py3-none-any.whl
 ```
+
+> The wheel is hosted on Microsoft-managed Azure Storage. Get the
+> current URL from the [release page](../README.md#install).
 
 Verify:
 
