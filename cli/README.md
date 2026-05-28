@@ -16,11 +16,8 @@ The wheel itself is hosted on Microsoft-managed Azure Storage — see
 ## Install
 
 ```bash
-az extension add --source https://<TBD>/connector-1.0.0b1-py3-none-any.whl
+az extension add --source https://connectorscli.blob.core.windows.net/pipeline/connector-1.0.0b1-py3-none-any.whl
 ```
-
-> Replace the placeholder above with the official wheel URL announced
-> on the release page once available.
 
 Verify:
 

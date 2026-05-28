@@ -14,11 +14,13 @@ tools that AI agents can call.
 ## 1 — Install the extension
 
 ```bash
-az extension add --source https://<TBD>/connector-1.0.0b1-py3-none-any.whl
+az extension add --source https://connectorscli.blob.core.windows.net/pipeline/connector-1.0.0b1-py3-none-any.whl
 ```
 
-> The wheel is hosted on Microsoft-managed Azure Storage. Get the
-> current URL from the [release page](../README.md#install).
+> The wheel is hosted on a Microsoft-managed Azure Storage account
+> behind JIT-controlled write access. Uploads are gated by an Azure
+> DevOps pipeline approval — only release managers + security can
+> publish a new version.
 
 Verify:
 
