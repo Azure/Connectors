@@ -14,13 +14,15 @@ tools that AI agents can call.
 ## 1 — Install the extension
 
 ```bash
-az extension add --source https://connectorscli.blob.core.windows.net/pipeline/connector-1.0.0b1-py3-none-any.whl
+az extension add --source https://connectorscli.blob.core.windows.net/manual/connector-1.0.0b1-py3-none-any.whl
 ```
 
-> The wheel is hosted on a Microsoft-managed Azure Storage account
-> behind JIT-controlled write access. Uploads are gated by an Azure
-> DevOps pipeline approval — only release managers + security can
-> publish a new version.
+> ⚠️ **Preview wheel — unsigned.** Verify SHA-256 matches
+> `3156afc17848594eddf20962f616ebae8ae3aaafe2004061b9eb13078726d2f4`
+> before installing. Signed wheels (via an approval-gated ADO pipeline)
+> will be published at `https://connectorscli.blob.core.windows.net/pipeline/`
+> once the release pipeline is operational. See
+> [`README.md`](../README.md#install) for the verification command.
 
 Verify:
 
