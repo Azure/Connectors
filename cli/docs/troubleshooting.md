@@ -146,9 +146,9 @@ after consent. The hex string after `code=` is what
 
 ---
 
-## `connector update` ignores my `--set properties.foo=bar`
+## `connector-namespace update` ignores my `--set properties.foo=bar`
 
-By design. `connector update` only honors:
+By design. `connector-namespace update` only honors:
 - `--tags`
 - `--api-hub-environment-id`
 

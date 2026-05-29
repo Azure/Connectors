@@ -114,9 +114,10 @@ az connector-namespace mcp-connector access-policy create \
 ## Recipe 5 — On-behalf-of-user (OBO) MCP connector
 
 Run all tool calls as the **calling user** — per-user dynamic API Hub
-connections, no shared credentials. With OBO, `connectionName` on each
-connector entry is optional; the gateway provisions a per-caller
-connection automatically.
+connections, no shared credentials. With `OnBehalfOfUser`, each
+connector entry uses the **`connectorName`** key (not `connectionName`) —
+the gateway provisions a per-caller connection automatically, so there
+is no specific connection name to point at.
 
 ```bash
 az connector-namespace mcp-connector create -g $RG --namespace $NS -n obo-mcp \

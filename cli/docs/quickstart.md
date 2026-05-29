@@ -18,7 +18,7 @@ az extension add --source https://connectorscli.blob.core.windows.net/manual/con
 ```
 
 > ⚠️ **Preview wheel — unsigned.** Verify SHA-256 matches
-> `3156afc17848594eddf20962f616ebae8ae3aaafe2004061b9eb13078726d2f4`
+> `30b7e8e0273ee11c582d9d1fad1c734937d30e322b2dc6dbc1598df909183724`
 > before installing. Signed wheels (via an approval-gated ADO pipeline)
 > will be published at `https://connectorscli.blob.core.windows.net/pipeline/`
 > once the release pipeline is operational. See
