@@ -20,4 +20,6 @@ echo
 echo ">>> OBO MCP connector $MCP created."
 echo ">>> Tool calls will execute under each caller's identity."
 echo ">>> Grant teammates access:"
-echo ">>>   ./04-grant-mcp-access.sh   (or see cookbook.md Recipe 4)"
+echo ">>>   See cookbook.md Recipe 4 for MCP-connector access policies."
+echo ">>>   (Note: MCP-connector access policies use a different principal"
+echo ">>>    schema than connection access policies — see docs/authentication.md.)"

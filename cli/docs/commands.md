@@ -93,10 +93,8 @@ az <command> --help
 
 | Command | Purpose |
 |---|---|
-| `az connector-namespace managed-api list` | List managed connectors available in the namespace. |
-| `az connector-namespace managed-api show` | Inspect one managed connector. |
-| `az connector-namespace managed-hosted-mcp-connector list` | List hosted-MCP-server images. Use `id` in `--hosted-mcp-server`. |
-| `az connector-namespace managed-hosted-mcp-connector show` | Inspect one hosted-MCP-server image. |
+| `az connector-namespace connector list` | List managed connectors available in the namespace. |
+| `az connector-namespace connector show` | Inspect one managed connector. |
 | `az connector-namespace managed-mcp-operation list` | List MCP-aware operations a managed connector exposes. |
 
 ---
@@ -118,7 +116,7 @@ These accept the same shape on every command:
 | `--query` | | JMESPath query — extract specific fields. |
 | `--subscription` | | Override the active subscription. |
 
-## Total command count: 37
+## Total command count: 45
 
 - 7 namespace-level commands
 - 3 identity commands
@@ -127,4 +125,4 @@ These accept the same shape on every command:
 - 5 mcp-connector commands
 - 5 mcp-connector access-policy commands
 - 8 trigger / trigger-run / trigger-status commands
-- 5 managed-catalog commands (read-only)
+- 3 managed-catalog commands (read-only)

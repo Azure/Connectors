@@ -133,8 +133,9 @@ an entry from the catalog, an admin app registration for the federated
 identity credential (FIC), and a target downstream resource.
 
 ```bash
-# Discover available hosted-MCP-server ids
-az connector-namespace managed-hosted-mcp-connector list -g $RG --namespace $NS -o table
+# Hosted-MCP-server discovery is not yet exposed in the CLI for v1.
+# Get valid `--hosted-mcp-server` ids from the
+# https://connectors.azure.com portal.
 
 ADMIN_APP=33333333-3333-3333-3333-333333333333   # client_id of admin app reg
 
@@ -195,7 +196,9 @@ az connector-namespace trigger status show -g $RG --namespace $NS --trigger-name
 ## Recipe 9 — Mint a runtime API key for clients
 
 ```bash
-# 90-day primary key scoped to one MCP connector
+# 90-day primary key scoped to one MCP connector.
+# Note: `date -u -d '90 days' ...` is GNU coreutils syntax (Linux + WSL).
+# On macOS / BSD, use:   NOT_AFTER=$(date -u -v+90d +'%Y-%m-%dT%H:%M:%SZ')
 NOT_AFTER=$(date -u -d '90 days' +'%Y-%m-%dT%H:%M:%SZ')
 
 az connector-namespace list-api-key -g $RG --namespace $NS \
@@ -220,13 +223,13 @@ The namespace publishes three read-only catalogs that drive what
 
 ```bash
 # All managed API connectors available for this namespace
-az connector-namespace managed-api list -g $RG --namespace $NS -o table
+az connector-namespace connector list -g $RG --namespace $NS -o table
 
 # Inspect one
-az connector-namespace managed-api show -g $RG --namespace $NS -n office365
+az connector-namespace connector show -g $RG --namespace $NS -n office365
 
-# Hosted MCP server images (ids go into `--hosted-mcp-server`)
-az connector-namespace managed-hosted-mcp-connector list -g $RG --namespace $NS -o table
+# Hosted MCP server image discovery is not yet exposed in the CLI for v1.
+# Get valid ids from the https://connectors.azure.com portal.
 
 # MCP-aware operations a managed connector exposes
 az connector-namespace managed-mcp-operation list -g $RG --namespace $NS

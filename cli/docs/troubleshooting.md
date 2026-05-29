@@ -97,11 +97,8 @@ top-level arg.
 --hosted-mcp-server hosted-mcp-server-id=<id-from-catalog>
 ```
 
-Discover valid ids from the catalog:
-
-```bash
-az connector-namespace managed-hosted-mcp-connector list -g $RG --namespace $NS -o table
-```
+Discover valid ids from the [Connectors portal](https://connectors.azure.com) —
+hosted-MCP-server-image discovery is not yet exposed in the CLI for v1.
 
 ---
 

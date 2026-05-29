@@ -13,7 +13,7 @@ same content in a friendlier shape.
 
 `Microsoft.Web/connectorGateways` resources (**Connector Namespaces**)
 and their children: API Connections, MCP Connectors, Triggers, and
-Entra ID Access Policies. 37 commands, organized under
+Entra ID Access Policies. 45 commands, organized under
 `az connector-namespace ...`. Full command tree in [`docs/commands.md`](./docs/commands.md).
 
 ---
@@ -37,9 +37,12 @@ User wants to …
 ├─ Call a connector operation directly          → az connector-namespace connection invoke
 ├─ Issue runtime API key for clients            → az connector-namespace list-api-key      (data plane)
 ├─ Rotate the ARM-level admin key               → az connector-namespace regenerate-access-key (control plane)
-└─ Browse what's available                      → az connector-namespace managed-api list
-                                                  az connector-namespace managed-hosted-mcp-connector list
+└─ Browse what's available                      → az connector-namespace connector list
                                                   az connector-namespace managed-mcp-operation list
+
+   Hosted MCP server image discovery is not yet exposed in the CLI for
+   v1. Get valid `--hosted-mcp-server` ids from the
+   https://connectors.azure.com portal.
 ```
 
 ---
@@ -103,10 +106,9 @@ User wants to …
 - `--authentication-mode OnBehalfOfUserWithApp` or `AppOnly`
 - `--resource-auth …`
 
-Catalog of valid `hosted-mcp-server-id` values:
-```bash
-az connector-namespace managed-hosted-mcp-connector list -g $RG --namespace $NS -o table
-```
+Catalog of valid `hosted-mcp-server-id` values is not yet exposed in the
+CLI for v1 — get ids from the [Connectors portal](https://connectors.azure.com)
+or service team.
 
 ---
 
@@ -121,7 +123,7 @@ az connector-namespace managed-hosted-mcp-connector list -g $RG --namespace $NS 
 | `--hosted-mcp-server` | `'{"hostedMcpServerId":"my-mcp"}'` | `hosted-mcp-server-id=my-mcp` |
 | `--resource-auth` | `'{"targetResource":"https://graph.microsoft.com","adminAppRegistration":{"clientId":"…"}}'` | `target-resource=https://graph.microsoft.com admin-app-registration.client-id=…` |
 | `--request` (invoke) | `'{"method":"GET","path":"/v1.0/me"}'` | `method=GET path=/v1.0/me` |
-| `--connection-details` (trigger) | `'{"connectionName":"m1","connectorName":"office365"}'` | `connection-name=m1 connector-name=office365` |
+| `--connection-details` (trigger) | `'{"connectionName":"m1","connectorName":"office365"}'` | `connectionName=m1 connectorName=office365` |
 | `--notification-details` (trigger) | `'{"callbackUrl":"https://…"}'` | `callback-url=https://…` |
 
 ### Enum values
@@ -173,7 +175,7 @@ error like `unrecognized value 'ActiveDirectory' from choices ['Group', 'User']`
 - **`-o tsv` for scripts**, `-o json` for follow-up parsing,
   `-o table` for human display only.
 - **Bind variables before calling.** Save `connectionId=$(az connector-namespace connection show ... --query id -o tsv)`, then reuse.
-- **Cache the catalog.** `az connector-namespace managed-api list` rarely
+- **Cache the catalog.** `az connector-namespace connector list` rarely
   changes — pull once per session.
 
 ---

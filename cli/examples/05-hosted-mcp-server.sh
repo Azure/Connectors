@@ -9,14 +9,13 @@ set -euo pipefail
 : "${RG:?Set RG=<resource-group-name>}"
 : "${NS:?Set NS=<connector-namespace-name>}"
 : "${MCP:?Set MCP=<mcp-connector-name>}"
-: "${HOSTED_MCP_ID:?Set HOSTED_MCP_ID=<id-from-managed-hosted-mcp-connector-list>}"
+: "${HOSTED_MCP_ID:?Set HOSTED_MCP_ID=<id-from-connectors-portal-at-connectors.azure.com>}"
 : "${ADMIN_APP:?Set ADMIN_APP=<entra-app-client-id-of-admin-app-reg>}"
 : "${TARGET_RESOURCE:?Set TARGET_RESOURCE=<downstream-resource-eg-https://graph.microsoft.com>}"
 AUTH_MODE="${AUTH_MODE:-OnBehalfOfUserWithApp}"
 
-echo ">>> Available hosted-MCP-server ids in this namespace:"
-az connector-namespace managed-hosted-mcp-connector list -g "$RG" --namespace "$NS" -o table || true
-echo
+# Hosted MCP server image discovery is not yet exposed in the CLI for v1.
+# Get HOSTED_MCP_ID from the https://connectors.azure.com portal.
 
 az connector-namespace mcp-connector create -g "$RG" --namespace "$NS" -n "$MCP" \
     --kind HostedMcpServer \
