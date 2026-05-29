@@ -15,7 +15,7 @@ set -euo pipefail
 
 if [[ -z "${CODE:-}" ]]; then
     echo "STEP 1: Generating consent URL..."
-    az connector connection list-consent-links \
+    az connector-namespace connection list-consent-links \
         -g "$RG" --namespace "$NS" --connection-name "$CONN" \
         --parameters "[{
             \"objectId\":      \"$USER_OID\",
@@ -29,11 +29,11 @@ if [[ -z "${CODE:-}" ]]; then
     echo ">>> and re-run with CODE=<value> $0"
 else
     echo "STEP 2: Exchanging consent code for stored credentials..."
-    az connector connection confirm-consent-code \
+    az connector-namespace connection confirm-consent-code \
         -g "$RG" --namespace "$NS" --connection-name "$CONN" \
         --code "$CODE" \
         --object-id "$USER_OID" \
         --tenant-id "$TENANT"
     echo
-    echo ">>> Consent complete. Try: az connector connection invoke -g $RG --namespace $NS --connection-name $CONN --request method=GET path=/v1.0/me"
+    echo ">>> Consent complete. Try: az connector-namespace connection invoke -g $RG --namespace $NS --connection-name $CONN --request method=GET path=/v1.0/me"
 fi

@@ -12,7 +12,7 @@ set -euo pipefail
 : "${MCP:?Set MCP=<mcp-connector-name>}"
 : "${CONNECTOR_NAME:?Set CONNECTOR_NAME=<connector-id-eg-sql>}"
 
-az connector mcp-connector create -g "$RG" --namespace "$NS" -n "$MCP" \
+az connector-namespace mcp-connector create -g "$RG" --namespace "$NS" -n "$MCP" \
     --authentication-mode OnBehalfOfUser \
     --connectors "[{\"connectorName\":\"$CONNECTOR_NAME\"}]"
 

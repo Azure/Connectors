@@ -10,13 +10,13 @@ set -euo pipefail
 : "${LOC:?Set LOC=<region>}"
 
 az group create -n "$RG" -l "$LOC"
-az connector create -g "$RG" -n "$NS" --location "$LOC"
+az connector-namespace create -g "$RG" -n "$NS" --location "$LOC"
 
-az connector connection create -g "$RG" --namespace "$NS" -n office365Conn \
+az connector-namespace connection create -g "$RG" --namespace "$NS" -n office365Conn \
     --connector-name office365 --display-name "Office 365"
 
 echo
 echo ">>> office365Conn created. Complete OAuth consent with 02-consent-flow.sh,"
 echo ">>> then run:"
-echo ">>>   az connector mcp-connector create -g $RG --namespace $NS -n office365Mcp \\"
+echo ">>>   az connector-namespace mcp-connector create -g $RG --namespace $NS -n office365Mcp \\"
 echo ">>>       --connectors '[{\"connectionName\":\"office365Conn\"}]'"

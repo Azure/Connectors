@@ -13,7 +13,7 @@ set -euo pipefail
 : "${OPERATION:?Set OPERATION=<operation-id-eg-OnNewEmail>}"
 : "${CALLBACK_URL:?Set CALLBACK_URL=<https-callback-endpoint>}"
 
-az connector trigger create -g "$RG" --namespace "$NS" -n "$TRIGGER" \
+az connector-namespace trigger create -g "$RG" --namespace "$NS" -n "$TRIGGER" \
     --connection-details "{\"connectionName\":\"$CONN\",\"connectorName\":\"$CONNECTOR_NAME\"}" \
     --operation-name "$OPERATION" \
     --notification-details "{\"callbackUrl\":\"$CALLBACK_URL\"}"
@@ -21,5 +21,5 @@ az connector trigger create -g "$RG" --namespace "$NS" -n "$TRIGGER" \
 echo
 echo ">>> Trigger $TRIGGER created."
 echo ">>> Inspect runs:"
-echo ">>>   az connector trigger run    list -g $RG --namespace $NS --trigger-name $TRIGGER -o table"
-echo ">>>   az connector trigger status show -g $RG --namespace $NS --trigger-name $TRIGGER -n primary"
+echo ">>>   az connector-namespace trigger run    list -g $RG --namespace $NS --trigger-name $TRIGGER -o table"
+echo ">>>   az connector-namespace trigger status show -g $RG --namespace $NS --trigger-name $TRIGGER -n primary"

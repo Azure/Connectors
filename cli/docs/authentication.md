@@ -32,11 +32,11 @@ gateway's MCP endpoint.
 ```bash
 # Whole-namespace, 90 days, primary
 NOT_AFTER=$(date -u -d '90 days' +'%Y-%m-%dT%H:%M:%SZ')
-az connector list-api-key -g $RG --namespace $NS \
+az connector-namespace list-api-key -g $RG --namespace $NS \
     --key-type Primary --not-after $NOT_AFTER
 
 # Or never-expire, scoped to one MCP connector
-az connector list-api-key -g $RG --namespace $NS \
+az connector-namespace list-api-key -g $RG --namespace $NS \
     --key-type Primary --never-expire \
     --scope '{"mcpServerConfigName":"office365Mcp"}'
 ```
@@ -50,10 +50,10 @@ For ARM/RP-level admin only — clients **must not** see these.
 
 ```bash
 # Rotate primary
-az connector regenerate-access-key -g $RG --namespace $NS --key-type Primary
+az connector-namespace regenerate-access-key -g $RG --namespace $NS --key-type Primary
 
 # Rotate secondary
-az connector regenerate-access-key -g $RG --namespace $NS --key-type Secondary
+az connector-namespace regenerate-access-key -g $RG --namespace $NS --key-type Secondary
 ```
 
 Rotating invalidates existing tooling that authenticates with that key.
@@ -68,17 +68,17 @@ Graph from a hosted MCP server) using a **system-assigned** or
 
 ```bash
 # Enable system-assigned identity
-az connector identity assign -g $RG -n $NS --system-assigned
+az connector-namespace identity assign -g $RG -n $NS --system-assigned
 
 # Add a user-assigned identity
-az connector identity assign -g $RG -n $NS \
+az connector-namespace identity assign -g $RG -n $NS \
     --user-assigned /subscriptions/<sub>/resourceGroups/<rg>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<name>
 
 # Inspect
-az connector identity show -g $RG -n $NS
+az connector-namespace identity show -g $RG -n $NS
 
 # Remove
-az connector identity remove -g $RG -n $NS --system-assigned
+az connector-namespace identity remove -g $RG -n $NS --system-assigned
 ```
 
 ### Connection credentials (OAuth)
@@ -130,7 +130,7 @@ use it. Grant access to additional Entra ID principals with
 ### Connection access-policy (nested principal, async)
 
 ```bash
-az connector connection access-policy create \
+az connector-namespace connection access-policy create \
     -g $RG --namespace $NS --connection-name $CONN -n grant-bob \
     --principal identity.object-id=$BOB_OID identity.tenant-id=$TENANT type=ActiveDirectory
 ```
@@ -144,7 +144,7 @@ az connector connection access-policy create \
 ### MCP Connector access-policy (flat principal, sync)
 
 ```bash
-az connector mcp-connector access-policy create \
+az connector-namespace mcp-connector access-policy create \
     -g $RG --namespace $NS --mcp-connector-name $MCP -n grant-bob \
     --principal object-id=$BOB_OID tenant-id=$TENANT \
     --principal-type User

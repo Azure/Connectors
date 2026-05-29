@@ -15,10 +15,10 @@ set -euo pipefail
 AUTH_MODE="${AUTH_MODE:-OnBehalfOfUserWithApp}"
 
 echo ">>> Available hosted-MCP-server ids in this namespace:"
-az connector managed-hosted-mcp-connector list -g "$RG" --namespace "$NS" -o table || true
+az connector-namespace managed-hosted-mcp-connector list -g "$RG" --namespace "$NS" -o table || true
 echo
 
-az connector mcp-connector create -g "$RG" --namespace "$NS" -n "$MCP" \
+az connector-namespace mcp-connector create -g "$RG" --namespace "$NS" -n "$MCP" \
     --kind HostedMcpServer \
     --authentication-mode "$AUTH_MODE" \
     --hosted-mcp-server hosted-mcp-server-id="$HOSTED_MCP_ID" \

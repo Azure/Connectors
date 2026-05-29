@@ -1,6 +1,6 @@
 # Troubleshooting
 
-Common errors with the `az connector` extension, in approximate order of
+Common errors with the `az connector-namespace` extension, in approximate order of
 frequency.
 
 ---
@@ -45,10 +45,10 @@ arguments. Workarounds:
 
 ```bash
 # To leave tags unchanged: omit --tags entirely
-az connector update -g $RG -n $NS --api-hub-environment-id <uuid>
+az connector-namespace update -g $RG -n $NS --api-hub-environment-id <uuid>
 
 # To replace tags: pass new key=value pairs
-az connector update -g $RG -n $NS --tags env=prod team=ai
+az connector-namespace update -g $RG -n $NS --tags env=prod team=ai
 ```
 
 There's no first-class "clear all tags" gesture in this extension.
@@ -100,7 +100,7 @@ top-level arg.
 Discover valid ids from the catalog:
 
 ```bash
-az connector managed-hosted-mcp-connector list -g $RG --namespace $NS -o table
+az connector-namespace managed-hosted-mcp-connector list -g $RG --namespace $NS -o table
 ```
 
 ---
@@ -110,9 +110,9 @@ az connector managed-hosted-mcp-connector list -g $RG --namespace $NS -o table
 You haven't completed the OAuth consent flow. After
 `connection create`, you must:
 
-1. `az connector connection list-consent-links` — get the browser URL
+1. `az connector-namespace connection list-consent-links` — get the browser URL
 2. Browser: user clicks the URL and authorizes
-3. `az connector connection confirm-consent-code` — exchange the code
+3. `az connector-namespace connection confirm-consent-code` — exchange the code
 
 Until step 3 completes, no operations will succeed. See
 [`cookbook.md` Recipe 2](./cookbook.md#recipe-2--oauth-consent-flow-for-a-connection).
@@ -126,7 +126,7 @@ return 401, not a more descriptive error.
 
 ```bash
 # Mint a fresh key
-az connector list-api-key -g $RG --namespace $NS \
+az connector-namespace list-api-key -g $RG --namespace $NS \
     --key-type Primary --never-expire \
     --scope '{"mcpServerConfigName":"<your-mcp>"}'
 ```
@@ -182,6 +182,6 @@ If your problem isn't above, file an issue at
 <https://github.com/Azure/Connectors/issues> with:
 
 1. Output of `az --version`
-2. Output of `az extension show --name connector`
+2. Output of `az extension show --name connector-namespace`
 3. The full command you ran (redact secrets)
 4. The full error message (run with `--debug` if helpful)

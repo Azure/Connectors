@@ -1,7 +1,7 @@
-# AI Agent Guide — `az connector`
+# AI Agent Guide — `az connector-namespace`
 
 This file tells AI assistants (Copilot, Claude, Cursor, Aider, etc.) how
-to drive the **`az connector`** Azure CLI extension efficiently. It
+to drive the **`az connector-namespace`** Azure CLI extension efficiently. It
 follows the [AGENTS.md](https://agents.md/) convention.
 
 If you're a human, read [`README.md`](./README.md) instead — it has the
@@ -14,7 +14,7 @@ same content in a friendlier shape.
 `Microsoft.Web/connectorGateways` resources (**Connector Namespaces**)
 and their children: API Connections, MCP Connectors, Triggers, and
 Entra ID Access Policies. 37 commands, organized under
-`az connector ...`. Full command tree in [`docs/commands.md`](./docs/commands.md).
+`az connector-namespace ...`. Full command tree in [`docs/commands.md`](./docs/commands.md).
 
 ---
 
@@ -22,24 +22,24 @@ Entra ID Access Policies. 37 commands, organized under
 
 ```
 User wants to …
-├─ Set up a new namespace                       → az connector create
-├─ Add a managed-connector connection           → az connector connection create
-├─ Authenticate the connection (OAuth)          → az connector connection list-consent-links
+├─ Set up a new namespace                       → az connector-namespace create
+├─ Add a managed-connector connection           → az connector-namespace connection create
+├─ Authenticate the connection (OAuth)          → az connector-namespace connection list-consent-links
 │                                                 (browser step)
-│                                                 az connector connection confirm-consent-code
-├─ Authorize another user on the connection     → az connector connection access-policy create
-├─ Expose connector ops as MCP tools            → az connector mcp-connector create
-├─ Run all calls as the calling user (OBO)      → az connector mcp-connector create
+│                                                 az connector-namespace connection confirm-consent-code
+├─ Authorize another user on the connection     → az connector-namespace connection access-policy create
+├─ Expose connector ops as MCP tools            → az connector-namespace mcp-connector create
+├─ Run all calls as the calling user (OBO)      → az connector-namespace mcp-connector create
 │                                                 --authentication-mode OnBehalfOfUser
-├─ Use a hosted MCP server image                → az connector mcp-connector create --kind HostedMcpServer
-├─ Authorize a user on the MCP connector        → az connector mcp-connector access-policy create
-├─ Set up a webhook trigger                     → az connector trigger create
-├─ Call a connector operation directly          → az connector connection invoke
-├─ Issue runtime API key for clients            → az connector list-api-key      (data plane)
-├─ Rotate the ARM-level admin key               → az connector regenerate-access-key (control plane)
-└─ Browse what's available                      → az connector managed-api list
-                                                  az connector managed-hosted-mcp-connector list
-                                                  az connector managed-mcp-operation list
+├─ Use a hosted MCP server image                → az connector-namespace mcp-connector create --kind HostedMcpServer
+├─ Authorize a user on the MCP connector        → az connector-namespace mcp-connector access-policy create
+├─ Set up a webhook trigger                     → az connector-namespace trigger create
+├─ Call a connector operation directly          → az connector-namespace connection invoke
+├─ Issue runtime API key for clients            → az connector-namespace list-api-key      (data plane)
+├─ Rotate the ARM-level admin key               → az connector-namespace regenerate-access-key (control plane)
+└─ Browse what's available                      → az connector-namespace managed-api list
+                                                  az connector-namespace managed-hosted-mcp-connector list
+                                                  az connector-namespace managed-mcp-operation list
 ```
 
 ---
@@ -58,7 +58,7 @@ User wants to …
   `key.subkey=value` (no quoting). Both are accepted.
 - **Set `az account set --subscription <id>`** before any command that
   hits ARM.
-- **Prefer `az connector <group> show -o json | jq`** over parsing raw
+- **Prefer `az connector-namespace <group> show -o json | jq`** over parsing raw
   ARM IDs.
 
 ### Never
@@ -105,7 +105,7 @@ User wants to …
 
 Catalog of valid `hosted-mcp-server-id` values:
 ```bash
-az connector managed-hosted-mcp-connector list -g $RG --namespace $NS -o table
+az connector-namespace managed-hosted-mcp-connector list -g $RG --namespace $NS -o table
 ```
 
 ---
@@ -169,11 +169,11 @@ error like `unrecognized value 'ActiveDirectory' from choices ['Group', 'User']`
 ## Performance tips for agents
 
 - **One round-trip is faster than five.** Combine `--query` JMESPath
-  expressions to extract just what you need: `az connector show ... --query "{id:id, key:properties.primaryAccessKey}"`.
+  expressions to extract just what you need: `az connector-namespace show ... --query "{id:id, key:properties.primaryAccessKey}"`.
 - **`-o tsv` for scripts**, `-o json` for follow-up parsing,
   `-o table` for human display only.
-- **Bind variables before calling.** Save `connectionId=$(az connector connection show ... --query id -o tsv)`, then reuse.
-- **Cache the catalog.** `az connector managed-api list` rarely
+- **Bind variables before calling.** Save `connectionId=$(az connector-namespace connection show ... --query id -o tsv)`, then reuse.
+- **Cache the catalog.** `az connector-namespace managed-api list` rarely
   changes — pull once per session.
 
 ---

@@ -18,20 +18,20 @@ Set those, then run any recipe top-to-bottom.
 
 ```bash
 # 1. Create the namespace
-az connector create -g $RG -n $NS --location $LOC
+az connector-namespace create -g $RG -n $NS --location $LOC
 
 # 2. Add a managed connection to Office 365
-az connector connection create -g $RG --namespace $NS -n office365Conn \
+az connector-namespace connection create -g $RG --namespace $NS -n office365Conn \
     --connector-name office365 --display-name "Office 365"
 
 # 3. (Complete OAuth consent — see Recipe 2)
 
 # 4. Wrap the connection's operations as an MCP connector
-az connector mcp-connector create -g $RG --namespace $NS -n office365Mcp \
+az connector-namespace mcp-connector create -g $RG --namespace $NS -n office365Mcp \
     --connectors '[{"connectionName":"office365Conn"}]'
 
 # 5. Verify
-az connector mcp-connector show -g $RG --namespace $NS -n office365Mcp
+az connector-namespace mcp-connector show -g $RG --namespace $NS -n office365Mcp
 ```
 
 ---
@@ -43,7 +43,7 @@ before any operation will run.
 
 ```bash
 # Step 1: generate a consent URL
-az connector connection list-consent-links \
+az connector-namespace connection list-consent-links \
     -g $RG --namespace $NS --connection-name office365Conn \
     --parameters '[{
         "objectId": "'$USER_OID'",
@@ -58,7 +58,7 @@ az connector connection list-consent-links \
 # Copy the `code` query parameter.
 
 # Step 3: exchange the consent code for stored credentials
-az connector connection confirm-consent-code \
+az connector-namespace connection confirm-consent-code \
     -g $RG --namespace $NS --connection-name office365Conn \
     --code <consentCode-from-redirect-url> \
     --object-id $USER_OID \
@@ -72,7 +72,7 @@ az connector connection confirm-consent-code \
 ```bash
 TEAMMATE_OID=22222222-2222-2222-2222-222222222222
 
-az connector connection access-policy create \
+az connector-namespace connection access-policy create \
     -g $RG --namespace $NS --connection-name office365Conn -n grant-bob \
     --principal '{
         "identity": {"objectId": "'$TEAMMATE_OID'", "tenantId": "'$TENANT'"},
@@ -83,7 +83,7 @@ az connector connection access-policy create \
 Shorthand (no JSON quoting):
 
 ```bash
-az connector connection access-policy create \
+az connector-namespace connection access-policy create \
     -g $RG --namespace $NS --connection-name office365Conn -n grant-bob \
     --principal identity.object-id=$TEAMMATE_OID identity.tenant-id=$TENANT type=ActiveDirectory
 ```
@@ -91,8 +91,8 @@ az connector connection access-policy create \
 List + cleanup:
 
 ```bash
-az connector connection access-policy list   -g $RG --namespace $NS --connection-name office365Conn
-az connector connection access-policy delete -g $RG --namespace $NS --connection-name office365Conn -n grant-bob
+az connector-namespace connection access-policy list   -g $RG --namespace $NS --connection-name office365Conn
+az connector-namespace connection access-policy delete -g $RG --namespace $NS --connection-name office365Conn -n grant-bob
 ```
 
 ---
@@ -103,7 +103,7 @@ az connector connection access-policy delete -g $RG --namespace $NS --connection
 > `--principal` + separate `--principal-type` (`User` or `Group`).
 
 ```bash
-az connector mcp-connector access-policy create \
+az connector-namespace mcp-connector access-policy create \
     -g $RG --namespace $NS --mcp-connector-name office365Mcp -n grant-bob \
     --principal '{"objectId":"'$TEAMMATE_OID'","tenantId":"'$TENANT'"}' \
     --principal-type User
@@ -119,7 +119,7 @@ connector entry is optional; the gateway provisions a per-caller
 connection automatically.
 
 ```bash
-az connector mcp-connector create -g $RG --namespace $NS -n obo-mcp \
+az connector-namespace mcp-connector create -g $RG --namespace $NS -n obo-mcp \
     --authentication-mode OnBehalfOfUser \
     --connectors '[{"connectorName":"sql"}]'
 ```
@@ -134,11 +134,11 @@ identity credential (FIC), and a target downstream resource.
 
 ```bash
 # Discover available hosted-MCP-server ids
-az connector managed-hosted-mcp-connector list -g $RG --namespace $NS -o table
+az connector-namespace managed-hosted-mcp-connector list -g $RG --namespace $NS -o table
 
 ADMIN_APP=33333333-3333-3333-3333-333333333333   # client_id of admin app reg
 
-az connector mcp-connector create -g $RG --namespace $NS -n hosted-mcp \
+az connector-namespace mcp-connector create -g $RG --namespace $NS -n hosted-mcp \
     --kind HostedMcpServer \
     --authentication-mode OnBehalfOfUserWithApp \
     --hosted-mcp-server hosted-mcp-server-id=my-hosted-mcp-id \
@@ -160,12 +160,12 @@ auth from the stored connection credentials.
 
 ```bash
 # GET /v1.0/me on the Microsoft Graph connector
-az connector connection invoke \
+az connector-namespace connection invoke \
     -g $RG --namespace $NS --connection-name office365Conn \
     --request method=GET path=/v1.0/me
 
 # POST with a JSON body + query parameter
-az connector connection invoke \
+az connector-namespace connection invoke \
     -g $RG --namespace $NS --connection-name office365Conn \
     --request '{
         "method":  "POST",
@@ -180,14 +180,14 @@ az connector connection invoke \
 ## Recipe 8 — Webhook trigger on new email
 
 ```bash
-az connector trigger create -g $RG --namespace $NS -n onNewEmail \
+az connector-namespace trigger create -g $RG --namespace $NS -n onNewEmail \
     --connection-details '{"connectionName":"office365Conn","connectorName":"office365"}' \
     --operation-name OnNewEmail \
     --notification-details '{"callbackUrl":"https://contoso.example/callbacks/email"}'
 
 # Watch executions
-az connector trigger run    list -g $RG --namespace $NS --trigger-name onNewEmail
-az connector trigger status show -g $RG --namespace $NS --trigger-name onNewEmail -n primary
+az connector-namespace trigger run    list -g $RG --namespace $NS --trigger-name onNewEmail
+az connector-namespace trigger status show -g $RG --namespace $NS --trigger-name onNewEmail -n primary
 ```
 
 ---
@@ -198,13 +198,13 @@ az connector trigger status show -g $RG --namespace $NS --trigger-name onNewEmai
 # 90-day primary key scoped to one MCP connector
 NOT_AFTER=$(date -u -d '90 days' +'%Y-%m-%dT%H:%M:%SZ')
 
-az connector list-api-key -g $RG --namespace $NS \
+az connector-namespace list-api-key -g $RG --namespace $NS \
     --key-type Primary \
     --not-after $NOT_AFTER \
     --scope '{"mcpServerConfigName":"office365Mcp"}'
 
 # Or a never-expiring key scoped to the whole namespace
-az connector list-api-key -g $RG --namespace $NS \
+az connector-namespace list-api-key -g $RG --namespace $NS \
     --key-type Primary --never-expire
 ```
 
@@ -220,14 +220,14 @@ The namespace publishes three read-only catalogs that drive what
 
 ```bash
 # All managed API connectors available for this namespace
-az connector managed-api list -g $RG --namespace $NS -o table
+az connector-namespace managed-api list -g $RG --namespace $NS -o table
 
 # Inspect one
-az connector managed-api show -g $RG --namespace $NS -n office365
+az connector-namespace managed-api show -g $RG --namespace $NS -n office365
 
 # Hosted MCP server images (ids go into `--hosted-mcp-server`)
-az connector managed-hosted-mcp-connector list -g $RG --namespace $NS -o table
+az connector-namespace managed-hosted-mcp-connector list -g $RG --namespace $NS -o table
 
 # MCP-aware operations a managed connector exposes
-az connector managed-mcp-operation list -g $RG --namespace $NS
+az connector-namespace managed-mcp-operation list -g $RG --namespace $NS
 ```

@@ -3,7 +3,7 @@
 > Manage **`Microsoft.Web/connectorGateways`** Connector Namespaces and
 > their children from the Azure CLI.
 
-This directory ships the **preview release** of the `az connector`
+This directory ships the **preview release** of the `az connector-namespace`
 extension as documentation, runnable examples, and an AI-agent guide.
 The wheel itself is hosted on Microsoft-managed Azure Storage — see
 [Install](#install) below.
@@ -26,14 +26,14 @@ az extension add --source https://connectorscli.blob.core.windows.net/manual/con
 Verify install:
 
 ```bash
-az extension show --name connector --query "{name:name, version:version, preview:preview}" -o table
-az connector --help
+az extension show --name connector-namespace --query "{name:name, version:version, preview:preview}" -o table
+az connector-namespace --help
 ```
 
 Uninstall:
 
 ```bash
-az extension remove --name connector
+az extension remove --name connector-namespace
 ```
 
 ## Wheel provenance & integrity
@@ -55,8 +55,8 @@ installing in any environment you care about.
 | Content-Type | `application/octet-stream` |
 | Blob type | `BlockBlob` |
 | Source repo | <https://github.com/Azure/azure-cli-extensions> |
-| Source path | `src/connector/` |
-| Built with | `azdev extension build connector` (aaz-dev-tools generated) |
+| Source path | `src/connector-namespace/` |
+| Built with | `azdev extension build connector-namespace` (aaz-dev-tools generated) |
 | Signing | ❌ Not signed (preview-only — see [Signing roadmap](#signing-roadmap)) |
 
 ### Verify SHA-256 locally
@@ -147,20 +147,20 @@ NS=myConnectorNamespace
 LOC=westus2
 
 # Create a Connector Namespace
-az connector create -g $RG -n $NS --location $LOC
+az connector-namespace create -g $RG -n $NS --location $LOC
 
 # Add an Office 365 connection
-az connector connection create -g $RG --namespace $NS -n office365Conn \
+az connector-namespace connection create -g $RG --namespace $NS -n office365Conn \
     --connector-name office365 --display-name "Office 365"
 
 # Complete OAuth consent (see docs/cookbook.md Recipe 2)
 
 # Wrap operations as an MCP connector
-az connector mcp-connector create -g $RG --namespace $NS -n office365Mcp \
+az connector-namespace mcp-connector create -g $RG --namespace $NS -n office365Mcp \
     --connectors '[{"connectionName":"office365Conn"}]'
 
 # Mint a runtime API key
-az connector list-api-key -g $RG --namespace $NS --key-type Primary --never-expire
+az connector-namespace list-api-key -g $RG --namespace $NS --key-type Primary --never-expire
 ```
 
 ---

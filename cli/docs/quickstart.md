@@ -27,7 +27,7 @@ az extension add --source https://connectorscli.blob.core.windows.net/manual/con
 Verify:
 
 ```bash
-az connector --help
+az connector-namespace --help
 ```
 
 ## 2 — Pick a subscription + create a resource group
@@ -40,19 +40,19 @@ az group create -n myRG -l westus2
 ## 3 — Create the Connector Namespace
 
 ```bash
-az connector create -g myRG -n myConnectorNamespace --location westus2
+az connector-namespace create -g myRG -n myConnectorNamespace --location westus2
 ```
 
 Takes ~30 seconds. When it returns, you have an empty namespace.
 
 ```bash
-az connector show -g myRG -n myConnectorNamespace -o table
+az connector-namespace show -g myRG -n myConnectorNamespace -o table
 ```
 
 ## 4 — Add an Office 365 connection
 
 ```bash
-az connector connection create \
+az connector-namespace connection create \
     -g myRG --namespace myConnectorNamespace -n office365Conn \
     --connector-name office365 --display-name "Office 365"
 ```
@@ -65,7 +65,7 @@ will succeed.
 Generate a consent URL:
 
 ```bash
-az connector connection list-consent-links \
+az connector-namespace connection list-consent-links \
     -g myRG --namespace myConnectorNamespace --connection-name office365Conn \
     --parameters '[{
         "objectId": "<your-entra-object-id>",
@@ -81,7 +81,7 @@ the browser is redirected to your `redirectUrl?code=<consentCode>`.
 Exchange the code:
 
 ```bash
-az connector connection confirm-consent-code \
+az connector-namespace connection confirm-consent-code \
     -g myRG --namespace myConnectorNamespace --connection-name office365Conn \
     --code <consentCode-from-redirect-url> \
     --object-id <your-entra-object-id> \
@@ -91,7 +91,7 @@ az connector connection confirm-consent-code \
 ## 6 — Try the connection
 
 ```bash
-az connector connection invoke \
+az connector-namespace connection invoke \
     -g myRG --namespace myConnectorNamespace --connection-name office365Conn \
     --request method=GET path=/v1.0/me
 ```
@@ -101,7 +101,7 @@ You should get back your Microsoft Graph user profile.
 ## 7 — Expose it as an MCP connector for agents
 
 ```bash
-az connector mcp-connector create \
+az connector-namespace mcp-connector create \
     -g myRG --namespace myConnectorNamespace -n office365Mcp \
     --connectors '[{"connectionName":"office365Conn"}]'
 ```
@@ -109,7 +109,7 @@ az connector mcp-connector create \
 ## 8 — Mint a runtime API key clients can use
 
 ```bash
-az connector list-api-key \
+az connector-namespace list-api-key \
     -g myRG --namespace myConnectorNamespace \
     --key-type Primary --never-expire \
     --scope '{"mcpServerConfigName":"office365Mcp"}'
