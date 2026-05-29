@@ -20,7 +20,7 @@ The wheel itself is hosted on Microsoft-managed Azure Storage — see
 ## Install
 
 ```bash
-az extension add --source https://connectorscli.blob.core.windows.net/manual/connector_namespace-1.0.0b9-py3-none-any.whl
+az extension add --source https://github.com/Azure/Connectors/releases/download/v1.0.0b9/connector_namespace-1.0.0b9-py3-none-any.whl
 ```
 
 Verify install:
@@ -45,18 +45,15 @@ installing in any environment you care about.
 
 | Field | Value |
 |---|---|
-| URL | `https://connectorscli.blob.core.windows.net/manual/connector_namespace-1.0.0b9-py3-none-any.whl` |
+| URL | `https://github.com/Azure/Connectors/releases/download/v1.0.0b9/connector_namespace-1.0.0b9-py3-none-any.whl` |
 | Size | **146,361 bytes** |
 | SHA-256 | `30b7e8e0273ee11c582d9d1fad1c734937d30e322b2dc6dbc1598df909183724` |
 | MD5 (hex) | `d3777a14b1511accd00fcf876efb0292` |
-| MD5 (base64, matches blob `Content-MD5`) | `03d6FLFRGszQD8+HbvsCkg==` |
-| ETag | _populated by Azure Storage on upload_ |
-| Last-Modified | _populated by Azure Storage on upload_ |
-| Content-Type | `application/octet-stream` |
-| Blob type | `BlockBlob` |
+| MD5 (base64) | `03d6FLFRGszQD8+HbvsCkg==` |
 | Source repo | <https://github.com/Azure/azure-cli-extensions> |
 | Source path | `src/connector-namespace/` |
 | Built with | OneBranch `python-official-connector` pipeline ([build 166088375](https://msazure.visualstudio.com/One/_build/results?buildId=166088375)) |
+| Published via | GitHub Release [`v1.0.0b9`](https://github.com/Azure/Connectors/releases/tag/v1.0.0b9) |
 | Signing | ❌ Not signed (preview-only — see [Signing roadmap](#signing-roadmap)) |
 
 ### Verify SHA-256 locally
@@ -65,30 +62,27 @@ After downloading the wheel, compare its SHA-256 with the value above:
 
 ```bash
 # Linux / macOS
-curl -O https://connectorscli.blob.core.windows.net/manual/connector_namespace-1.0.0b9-py3-none-any.whl
+curl -O https://github.com/Azure/Connectors/releases/download/v1.0.0b9/connector_namespace-1.0.0b9-py3-none-any.whl
 sha256sum connector_namespace-1.0.0b9-py3-none-any.whl
 # Expect: 30b7e8e0273ee11c582d9d1fad1c734937d30e322b2dc6dbc1598df909183724
 ```
 
 ```powershell
 # Windows PowerShell
-Invoke-WebRequest https://connectorscli.blob.core.windows.net/manual/connector_namespace-1.0.0b9-py3-none-any.whl -OutFile .\connector_namespace-1.0.0b9-py3-none-any.whl
+Invoke-WebRequest https://github.com/Azure/Connectors/releases/download/v1.0.0b9/connector_namespace-1.0.0b9-py3-none-any.whl -OutFile .\connector_namespace-1.0.0b9-py3-none-any.whl
 Get-FileHash -Algorithm SHA256 .\connector_namespace-1.0.0b9-py3-none-any.whl
 # Expect:  30B7E8E0273EE11C582D9D1FAD1C734937D30E322B2DC6DBC1598DF909183724
 ```
 
-### Verify ETag / Content-MD5 server-side
+### Verify download integrity server-side
 
-The Azure Storage HEAD response carries `ETag` and `Content-MD5`. If
-the values above don't match what the storage account returns, the
-blob has been overwritten:
+The GitHub Release page records the asset's content length. If the size
+or SHA-256 don't match the values above, the asset has been replaced —
+re-fetch and re-verify, or report a security issue.
 
 ```bash
-curl --head https://connectorscli.blob.core.windows.net/manual/connector_namespace-1.0.0b9-py3-none-any.whl
-# Look for:
-#   ETag: <value reported on upload>
-#   Content-MD5: 03d6FLFRGszQD8+HbvsCkg==
-#   Content-Length: 146361
+curl -sIL https://github.com/Azure/Connectors/releases/download/v1.0.0b9/connector_namespace-1.0.0b9-py3-none-any.whl | grep -i 'content-length\|etag'
+# Expect Content-Length: 146361 on the final 200 response.
 ```
 
 ### Signing roadmap
@@ -116,18 +110,21 @@ verification steps.
 
 ### Wheel distribution
 
-For convenience during the preview phase, the wheel is checked into
-this repository under [`cli/dist/`](./dist/) AND uploaded to
-Microsoft-managed Azure Storage. The two should be byte-identical (use
-the SHA-256 above to confirm). Storage hosting carries the controls
-needed for broader distribution:
+For the preview phase, the wheel is published as a **[GitHub
+Release](https://github.com/Azure/Connectors/releases)** on this
+repository. Each release tag corresponds to the wheel's PEP-440 version
+(e.g. tag `v1.0.0b9` ↔ `connector_namespace-1.0.0b9-py3-none-any.whl`).
+The wheel is built by the OneBranch
+[`python-official-connector`](https://msazure.visualstudio.com/One/_build?definitionId=462678)
+pipeline and attached to the release as a binary asset.
 
-- Only approved Microsoft employees with active JIT can publish a wheel
-- Storage diagnostic logs record every upload (who, when, from where)
-- Container public access is set to **Blob** (anonymous read of
-  individual blobs by URL is allowed; anonymous list is blocked)
-- Immutability policies prevent silent replacement of published versions
-- Blob can be CDN-fronted with a Microsoft-owned custom domain
+The release page is the canonical install source — the wheel is **not**
+committed to this repository tree, so checkouts stay lightweight and
+every release is auditable through GitHub's release UI.
+
+Once the signed-wheel pipeline is operational, signed wheels will be
+mirrored to Microsoft-managed Azure Storage at the URL noted in the
+Signing roadmap, and this section will be updated.
 
 ---
 
