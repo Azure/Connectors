@@ -20,7 +20,7 @@ The wheel itself is hosted on Microsoft-managed Azure Storage — see
 ## Install
 
 ```bash
-az extension add --source https://connectorscli.blob.core.windows.net/manual/connector-1.0.0b1-py3-none-any.whl
+az extension add --source https://connectorscli.blob.core.windows.net/manual/connector_namespace-1.0.0b9-py3-none-any.whl
 ```
 
 Verify install:
@@ -41,22 +41,22 @@ az extension remove --name connector-namespace
 Verify the downloaded wheel matches the published artifact before
 installing in any environment you care about.
 
-### Published artifact metadata (v1.0.0b1)
+### Published artifact metadata (v1.0.0b9)
 
 | Field | Value |
 |---|---|
-| URL | `https://connectorscli.blob.core.windows.net/manual/connector-1.0.0b1-py3-none-any.whl` |
-| Size | **153,001 bytes** |
-| SHA-256 | `3156afc17848594eddf20962f616ebae8ae3aaafe2004061b9eb13078726d2f4` |
-| MD5 (hex) | `a668dee284bfeee009b53b2eb8783d6f` |
-| MD5 (base64, matches blob `Content-MD5`) | `pmje4oS/7uAJtTsuuHg9bw==` |
-| ETag | `0x8DEBD04C1B992E8` |
-| Last-Modified | `Thu, 28 May 2026 22:02:06 GMT` |
+| URL | `https://connectorscli.blob.core.windows.net/manual/connector_namespace-1.0.0b9-py3-none-any.whl` |
+| Size | **146,361 bytes** |
+| SHA-256 | `30b7e8e0273ee11c582d9d1fad1c734937d30e322b2dc6dbc1598df909183724` |
+| MD5 (hex) | `d3777a14b1511accd00fcf876efb0292` |
+| MD5 (base64, matches blob `Content-MD5`) | `03d6FLFRGszQD8+HbvsCkg==` |
+| ETag | _populated by Azure Storage on upload_ |
+| Last-Modified | _populated by Azure Storage on upload_ |
 | Content-Type | `application/octet-stream` |
 | Blob type | `BlockBlob` |
 | Source repo | <https://github.com/Azure/azure-cli-extensions> |
 | Source path | `src/connector-namespace/` |
-| Built with | `azdev extension build connector-namespace` (aaz-dev-tools generated) |
+| Built with | OneBranch `python-official-connector` pipeline ([build 166088375](https://msazure.visualstudio.com/One/_build/results?buildId=166088375)) |
 | Signing | ❌ Not signed (preview-only — see [Signing roadmap](#signing-roadmap)) |
 
 ### Verify SHA-256 locally
@@ -65,16 +65,16 @@ After downloading the wheel, compare its SHA-256 with the value above:
 
 ```bash
 # Linux / macOS
-curl -O https://connectorscli.blob.core.windows.net/manual/connector-1.0.0b1-py3-none-any.whl
-sha256sum connector-1.0.0b1-py3-none-any.whl
-# Expect: 3156afc17848594eddf20962f616ebae8ae3aaafe2004061b9eb13078726d2f4
+curl -O https://connectorscli.blob.core.windows.net/manual/connector_namespace-1.0.0b9-py3-none-any.whl
+sha256sum connector_namespace-1.0.0b9-py3-none-any.whl
+# Expect: 30b7e8e0273ee11c582d9d1fad1c734937d30e322b2dc6dbc1598df909183724
 ```
 
 ```powershell
 # Windows PowerShell
-Invoke-WebRequest https://connectorscli.blob.core.windows.net/manual/connector-1.0.0b1-py3-none-any.whl -OutFile .\connector-1.0.0b1-py3-none-any.whl
-Get-FileHash -Algorithm SHA256 .\connector-1.0.0b1-py3-none-any.whl
-# Expect:  3156AFC17848594EDDF20962F616EBAE8AE3AAAFE2004061B9EB13078726D2F4
+Invoke-WebRequest https://connectorscli.blob.core.windows.net/manual/connector_namespace-1.0.0b9-py3-none-any.whl -OutFile .\connector_namespace-1.0.0b9-py3-none-any.whl
+Get-FileHash -Algorithm SHA256 .\connector_namespace-1.0.0b9-py3-none-any.whl
+# Expect:  30B7E8E0273EE11C582D9D1FAD1C734937D30E322B2DC6DBC1598DF909183724
 ```
 
 ### Verify ETag / Content-MD5 server-side
@@ -84,21 +84,24 @@ the values above don't match what the storage account returns, the
 blob has been overwritten:
 
 ```bash
-curl --head https://connectorscli.blob.core.windows.net/manual/connector-1.0.0b1-py3-none-any.whl
+curl --head https://connectorscli.blob.core.windows.net/manual/connector_namespace-1.0.0b9-py3-none-any.whl
 # Look for:
-#   ETag: 0x8DEBD04C1B992E8
-#   Content-MD5: pmje4oS/7uAJtTsuuHg9bw==
-#   Content-Length: 153001
+#   ETag: <value reported on upload>
+#   Content-MD5: 03d6FLFRGszQD8+HbvsCkg==
+#   Content-Length: 146361
 ```
 
 ### Signing roadmap
 
 The preview wheel is not code-signed. Signed wheels will be published
-once the release pipeline lands:
+once the release pipeline lands end-to-end:
 
-- **Build:** Wheel is built locally via `azdev extension build` from
-  `Azure/azure-cli-extensions`, then committed to an internal release
-  repo for review.
+- **Build:** Wheel is built by the OneBranch
+  [`python-official-connector`](https://msazure.visualstudio.com/One/_build?definitionId=462678)
+  pipeline from `coreai-microsoft/adc-devx`, which mirrors source from
+  `Azure/azure-cli-extensions src/connector-namespace/`. Each pipeline
+  run auto-bumps the trailing beta serial (1.0.0bN) via an ADO
+  counter() expression — no commits-back to the repo.
 - **Sign:** An Azure DevOps pipeline calls the OneBranch
   `external_distribution` signing service (same profile used for
   Microsoft NuGet package publishing) and produces a sidecar `.sig` or
@@ -111,10 +114,13 @@ When that goes live, this section will be updated to point at the
 `pipeline/` container and include the cosign / Authenticode
 verification steps.
 
-### Why is the wheel not in this repo?
+### Wheel distribution
 
-The wheel lives on Microsoft-managed Azure Storage behind
-JIT-controlled write access:
+For convenience during the preview phase, the wheel is checked into
+this repository under [`cli/dist/`](./dist/) AND uploaded to
+Microsoft-managed Azure Storage. The two should be byte-identical (use
+the SHA-256 above to confirm). Storage hosting carries the controls
+needed for broader distribution:
 
 - Only approved Microsoft employees with active JIT can publish a wheel
 - Storage diagnostic logs record every upload (who, when, from where)

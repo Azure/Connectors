@@ -14,7 +14,7 @@ tools that AI agents can call.
 ## 1 — Install the extension
 
 ```bash
-az extension add --source https://connectorscli.blob.core.windows.net/manual/connector-1.0.0b1-py3-none-any.whl
+az extension add --source https://connectorscli.blob.core.windows.net/manual/connector_namespace-1.0.0b9-py3-none-any.whl
 ```
 
 > ⚠️ **Preview wheel — unsigned.** Verify SHA-256 matches
