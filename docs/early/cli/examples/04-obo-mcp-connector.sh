@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # 04-obo-mcp-connector.sh — Create an On-Behalf-Of-User MCP connector.
-# See cookbook.md Recipe 5.
+# See ../README.md#mcp-connectors and ../README.md#authentication-modes.
 #
 # All tool calls run as the calling user via per-user dynamic API Hub connections.
 #
@@ -20,6 +20,7 @@ echo
 echo ">>> OBO MCP connector $MCP created."
 echo ">>> Tool calls will execute under each caller's identity."
 echo ">>> Grant teammates access:"
-echo ">>>   See cookbook.md Recipe 4 for MCP-connector access policies."
+echo ">>>   See ../README.md#access-policies for MCP-connector access policies."
 echo ">>>   (Note: MCP-connector access policies use a different principal"
-echo ">>>    schema than connection access policies — see docs/authentication.md.)"
+echo ">>>    schema than connection access policies — see"
+echo ">>>    ../complete-reference.md#authentication.)"

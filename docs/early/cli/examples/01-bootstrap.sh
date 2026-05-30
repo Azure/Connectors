@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # 01-bootstrap.sh — Create a Connector Namespace, a connection, and an MCP connector.
-# See cookbook.md Recipe 1.
+# See ../README.md#deep-dive (Namespace lifecycle, Connections, MCP connectors).
 #
 # Required env: RG, NS, LOC
 

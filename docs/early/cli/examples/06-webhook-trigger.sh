@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # 06-webhook-trigger.sh — Create a webhook-style trigger and inspect runs.
-# See cookbook.md Recipe 8.
+# See ../README.md#triggers.
 #
 # Required env: RG, NS, TRIGGER, CONN, CONNECTOR_NAME, OPERATION, CALLBACK_URL
 

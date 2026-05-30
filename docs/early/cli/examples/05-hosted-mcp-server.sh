@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # 05-hosted-mcp-server.sh — Provision a hosted MCP server (FIC + admin app reg).
-# See cookbook.md Recipe 6.
+# See ../README.md#hosted-mcp-servers.
 #
 # Required env: RG, NS, MCP, HOSTED_MCP_ID, ADMIN_APP, TARGET_RESOURCE
 # Optional env: AUTH_MODE (default: OnBehalfOfUserWithApp; alt: AppOnly)

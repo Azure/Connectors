@@ -14,7 +14,7 @@ same content in a friendlier shape.
 `Microsoft.Web/connectorGateways` resources (**Connector Namespaces**)
 and their children: API Connections, MCP Connectors, Triggers, and
 Entra ID Access Policies. 45 commands, organized under
-`az connector-namespace ...`. Full command tree in [`docs/commands.md`](./docs/commands.md).
+`az connector-namespace ...`. Full command tree in [`complete-reference.md`](./complete-reference.md#command-tree).
 
 ---
 
@@ -194,9 +194,6 @@ error like `unrecognized value 'ActiveDirectory' from choices ['Group', 'User']`
 
 ## Where to look next
 
-- [`README.md`](./README.md) — human-facing landing
-- [`docs/commands.md`](./docs/commands.md) — full command reference
-- [`docs/cookbook.md`](./docs/cookbook.md) — 10 end-to-end recipes
-- [`docs/authentication.md`](./docs/authentication.md) — auth model deep dive
-- [`docs/troubleshooting.md`](./docs/troubleshooting.md) — known issues
-- [`examples/`](./examples/) — runnable bash scripts
+- [`README.md`](./README.md) — human-facing landing (install, quickstart, deep dive)
+- [`complete-reference.md`](./complete-reference.md) — full command reference, authentication, argument shapes, tips & gotchas
+- [`examples/`](./examples/) — runnable bash scripts for end-to-end scenarios

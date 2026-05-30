@@ -2,9 +2,10 @@
 # Install (or uninstall) the `az connector-namespace` Azure CLI extension.
 #
 # Usage:
+#   # Default: install latest (resolves https://aka.ms/connector-namespace-whl)
 #   curl -fsSL https://raw.githubusercontent.com/Azure/Connectors/main/docs/early/cli/install.sh | sh
 #
-#   # Pin a specific version:
+#   # Pin a specific version (downloads from the matching GitHub Release):
 #   curl -fsSL https://raw.githubusercontent.com/Azure/Connectors/main/docs/early/cli/install.sh \
 #     | CONNECTOR_NAMESPACE_VERSION=1.0.0b9 sh
 #
@@ -17,16 +18,12 @@ set -eu
 REPO="Azure/Connectors"
 EXT_NAME="connector-namespace"
 PKG_NAME="connector_namespace"
-LATEST_URL="https://raw.githubusercontent.com/${REPO}/main/docs/early/cli/latest-version.txt"
+LATEST_URL="https://aka.ms/connector-namespace-whl"
 
 UNINSTALL=0
 for arg in "$@"; do
   case "$arg" in
     --uninstall|-u) UNINSTALL=1 ;;
-    -h|--help)
-      sed -n '2,16p' "$0"
-      exit 0
-      ;;
   esac
 done
 
@@ -46,23 +43,17 @@ if [ "$UNINSTALL" -eq 1 ]; then
   exit 0
 fi
 
-# Resolve version: env var overrides latest-version.txt.
+# Resolve wheel URL.
+# - Default: a stable aka.ms shortlink that always points at the latest wheel.
+# - If CONNECTOR_NAMESPACE_VERSION is set, pin to the matching GitHub Release.
 if [ -n "${CONNECTOR_NAMESPACE_VERSION:-}" ]; then
   VERSION="$CONNECTOR_NAMESPACE_VERSION"
-  echo "Using pinned version: $VERSION (from \$CONNECTOR_NAMESPACE_VERSION)"
+  WHEEL_URL="https://github.com/${REPO}/releases/download/v${VERSION}/${PKG_NAME}-${VERSION}-py3-none-any.whl"
+  echo "Installing '$EXT_NAME' v$VERSION (pinned via \$CONNECTOR_NAMESPACE_VERSION)"
 else
-  VERSION=$(curl -fsSL "$LATEST_URL" | tr -d '[:space:]')
-  if [ -z "$VERSION" ]; then
-    echo "ERROR: Could not resolve latest version from $LATEST_URL" >&2
-    exit 1
-  fi
-  echo "Resolved latest version: $VERSION"
+  WHEEL_URL="$LATEST_URL"
+  echo "Installing '$EXT_NAME' (latest, via aka.ms shortlink)"
 fi
-
-WHEEL="${PKG_NAME}-${VERSION}-py3-none-any.whl"
-WHEEL_URL="https://github.com/${REPO}/releases/download/v${VERSION}/${WHEEL}"
-
-echo "Installing '$EXT_NAME' v$VERSION ..."
 echo "  Wheel: $WHEEL_URL"
 echo ""
 

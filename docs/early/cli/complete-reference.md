@@ -46,7 +46,7 @@ irm https://raw.githubusercontent.com/Azure/Connectors/main/docs/early/cli/insta
 
 ### Version pinning
 
-The installer reads [`latest-version.txt`](./latest-version.txt) for the default; override per-call:
+By default the installer uses [`https://aka.ms/connector-namespace-whl`](https://aka.ms/connector-namespace-whl) — a stable shortlink that always points at the latest published wheel. To pin a specific version, the installer instead resolves the matching GitHub Release asset URL:
 
 ```bash
 # Linux / macOS
@@ -57,6 +57,17 @@ curl -fsSL https://raw.githubusercontent.com/Azure/Connectors/main/docs/early/cl
 ```powershell
 # Windows
 & ([scriptblock]::Create((irm https://raw.githubusercontent.com/Azure/Connectors/main/docs/early/cli/install.ps1))) -Version 1.0.0b9
+```
+
+### Direct install (no scripts)
+
+```bash
+# Always-latest
+az extension add --upgrade --yes --source https://aka.ms/connector-namespace-whl
+
+# Specific version
+az extension add --upgrade --yes --source \
+    https://github.com/Azure/Connectors/releases/download/v1.0.0b9/connector_namespace-1.0.0b9-py3-none-any.whl
 ```
 
 ### Uninstall
@@ -284,7 +295,7 @@ NOT_AFTER=$(date -u -d '90 days' +'%Y-%m-%dT%H:%M:%SZ')
 
 az connector-namespace list-api-key -g $RG --namespace $NS \
     --key-type Primary --not-after $NOT_AFTER \
-    --scope '{"mcpServerConfigName":"office365Mcp"}'
+    --scope office365Mcp
 
 # Never-expiring primary key, namespace-wide
 az connector-namespace list-api-key -g $RG --namespace $NS \
@@ -328,7 +339,7 @@ Every nested argument accepts both JSON and shorthand. Prefer shorthand in bash 
 | `--notification-details` (trigger) | `'{"callbackUrl":"https://…"}'` | `callback-url=https://…` |
 | `--connectors` (mcp-connector) | `'[{"connectionName":"office365Conn"}]'` | (use JSON; arrays don't shorthand well) |
 | `--parameters` (list-consent-links) | `'[{"objectId":"...","tenantId":"...","parameterName":"token","redirectUrl":"..."}]'` | (use JSON) |
-| `--scope` (list-api-key) | `'{"mcpServerConfigName":"office365Mcp"}'` | (use JSON) |
+| `--scope` (list-api-key) | (plain string — the MCP server config name, e.g. `office365Mcp`) | n/a |
 | `--tags` | `'{"env":"prod","team":"ai"}'` | `env=prod team=ai` |
 
 ### Enum values
@@ -483,7 +494,7 @@ The `notAfter` time elapsed. Time-bound keys expire silently — they return 401
 # Mint a fresh key
 az connector-namespace list-api-key -g $RG --namespace $NS \
     --key-type Primary --never-expire \
-    --scope '{"mcpServerConfigName":"<your-mcp>"}'
+    --scope <your-mcp>
 ```
 
 If you rotated the access key (`regenerate-access-key`), API keys issued before the rotation may also be invalidated.

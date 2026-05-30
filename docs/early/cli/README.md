@@ -58,6 +58,21 @@ az extension show --name connector-namespace --query "{name:name, version:versio
 az connector-namespace --help
 ```
 
+### Direct install (no scripts)
+
+If you don't want to run a remote script, install the wheel directly from the canonical short URL:
+
+```bash
+az extension add --upgrade --yes --source https://aka.ms/connector-namespace-whl
+```
+
+`https://aka.ms/connector-namespace-whl` always points at the latest published wheel. For a specific version, use the GitHub Release asset URL directly:
+
+```bash
+az extension add --upgrade --yes --source \
+    https://github.com/Azure/Connectors/releases/download/v<VERSION>/connector_namespace-<VERSION>-py3-none-any.whl
+```
+
 ---
 
 ## Quick Start
@@ -119,7 +134,7 @@ az connector-namespace mcp-connector create \
 # 7. Mint a runtime API key for clients
 az connector-namespace list-api-key -g $RG --namespace $NS \
     --key-type Primary --never-expire \
-    --scope '{"mcpServerConfigName":"office365Mcp"}'
+    --scope office365Mcp
 # → Use the returned primaryAccessKey from your agent to call the gateway's MCP endpoint.
 
 # 8. Clean up
@@ -356,7 +371,7 @@ NOT_AFTER=$(date -u -d '90 days' +'%Y-%m-%dT%H:%M:%SZ')
 
 az connector-namespace list-api-key -g $RG --namespace $NS \
     --key-type Primary --not-after $NOT_AFTER \
-    --scope '{"mcpServerConfigName":"office365Mcp"}'
+    --scope office365Mcp
 
 # Or a never-expiring key (whole namespace scope)
 az connector-namespace list-api-key -g $RG --namespace $NS \

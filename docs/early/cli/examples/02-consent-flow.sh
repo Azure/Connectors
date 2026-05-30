@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # 02-consent-flow.sh — Complete OAuth consent for a connection.
-# See cookbook.md Recipe 2.
+# See ../README.md#oauth-consent-flow.
 #
 # Required env: RG, NS, CONN, USER_OID, TENANT, REDIRECT_URL
 # Optional env: CODE (when running step 3 after browser consent)

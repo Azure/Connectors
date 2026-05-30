@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # 03-grant-access.sh — Grant an Entra ID principal access to a connection.
-# See cookbook.md Recipe 3.
+# See ../README.md#access-policies.
 #
 # Required env: RG, NS, CONN, TEAMMATE_OID, TENANT, POLICY_NAME
 
