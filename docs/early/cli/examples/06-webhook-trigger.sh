@@ -21,5 +21,5 @@ az connector-namespace trigger create -g "$RG" --namespace "$NS" -n "$TRIGGER" \
 echo
 echo ">>> Trigger $TRIGGER created."
 echo ">>> Inspect runs:"
-echo ">>>   az connector-namespace trigger run    list -g $RG --namespace $NS --trigger-name $TRIGGER -o table"
-echo ">>>   az connector-namespace trigger status show -g $RG --namespace $NS --trigger-name $TRIGGER -n primary"
+echo ">>>   az connector-namespace trigger run    list -g $RG --namespace $NS --trigger-config-name $TRIGGER -o table"
+echo ">>>   az connector-namespace trigger status show -g $RG --namespace $NS --trigger-config-name $TRIGGER -n primary"

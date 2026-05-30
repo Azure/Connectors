@@ -144,7 +144,7 @@ Full annotated flow with cleanup is in the [README Quick Start](./README.md#quic
 | `az connector-namespace create` | Create a Connector Namespace. |
 | `az connector-namespace show` | Get a Connector Namespace. |
 | `az connector-namespace list` | List namespaces in the subscription / resource group. |
-| `az connector-namespace update` | Update tags or `--api-hub-environment-id` (other fields are immutable — see [Update semantics](#update-semantics)). |
+| `az connector-namespace update` | Update tags. **Tag-only by design** — see [Update semantics](#update-semantics). |
 | `az connector-namespace delete` | Delete a namespace and **all** of its child resources. |
 | `az connector-namespace list-api-key` | Issue a runtime API key for clients. **Data-plane.** |
 | `az connector-namespace regenerate-access-key` | Rotate the primary or secondary access key. **Control-plane.** |
@@ -164,7 +164,7 @@ Full annotated flow with cleanup is in the [README Quick Start](./README.md#quic
 | `az connector-namespace connection create` | Create a managed-connector connection. |
 | `az connector-namespace connection show` | Get a connection. |
 | `az connector-namespace connection list` | List connections in the namespace. |
-| `az connector-namespace connection update` | Update a connection's tags / display name. |
+| `az connector-namespace connection update` | Update a connection's connector binding or display name. |
 | `az connector-namespace connection delete` | Delete a connection. |
 | `az connector-namespace connection list-consent-links` | Step 1 of OAuth consent — returns a browser URL. |
 | `az connector-namespace connection confirm-consent-code` | Step 2 of OAuth consent — exchange the redirect code for stored credentials. |
@@ -256,9 +256,9 @@ Caller is …
 |---|---|---|---|
 | `NotSpecified` (default) | Connection owner | — | Quick start, single-tenant tools |
 | `DeveloperConnection` | Connection owner | `--connectors '[{"connectionName":"…"}]'` | Shared developer credentials |
-| `OnBehalfOfUser` | Calling user | `--connectors '[{"connectorName":"…"}]'` | Per-user OAuth, no shared creds |
-| `OnBehalfOfUserWithApp` | Calling user, via FIC | `--resource-auth …` + admin app | Enterprise OBO with admin-managed app |
-| `AppOnly` | Admin app | `--resource-auth …` | Service-to-service calls |
+| `OnBehalfOfUser` | Calling user | `--connectors '[{"name":"…"}]'` (managed connector id like `sql`) | Per-user OAuth, no shared creds |
+| `OnBehalfOfUserWithApp` | Calling user, via FIC | `--connectors '[{"connectionName":"…"}]'` + `--resource-auth …` + admin app | Enterprise OBO with admin-managed app |
+| `AppOnly` | Admin app | `--connectors '[{"connectionName":"…"}]'` + `--resource-auth …` | Service-to-service calls |
 
 `--kind HostedMcpServer` **always** requires `OnBehalfOfUserWithApp` or `AppOnly` plus `--resource-auth`.
 
@@ -390,13 +390,15 @@ az connector-namespace connection list -g $RG --namespace $NS \
 
 | Command | Mutable fields |
 |---|---|
-| `connector-namespace update` | `--tags`, `--api-hub-environment-id` |
-| `connection update` | `--tags`, `--display-name` |
+| `connector-namespace update` | `--tags` only (recipe-enforced — see below) |
+| `connection update` | `--connector-name`, `--display-name` |
 | `mcp-connector update` | `--tags`, `--state` (`Enabled`/`Disabled`), and a handful of behavior knobs |
 | `trigger update` | `--tags`, `--state`, `--notification-details` |
 | Identity / access-policy | full PATCH semantics — most fields editable |
 
 For everything else, **delete and recreate**. The extension intentionally narrows the update surface during preview to keep the contract small.
+
+> The namespace `update` command is wrapped by a recipe (`TagOnlyNamespaceUpdate`) that hides the aaz-generated `--api-hub-environment-id`, `--set`, `--add`, `--remove`, and `--force-string` flags. Only `--tags` reaches the wire. To roll an API Hub environment ID, delete and recreate the namespace.
 
 [↑ Back to top](#contents)
 
@@ -427,29 +429,35 @@ You used the **connection-shape** `--principal` on an **mcp-connector access-pol
 --principal-type User
 ```
 
-### `Model 'AAZObjectArg' has no field named 'connectorName'` (or `'connectionName'`)
+### `Model 'AAZObjectArg' has no field named 'connector_name'`
 
-You used the wrong key inside the `--connectors` list. Which key depends on `--authentication-mode`:
+You used `connectorName` (or `connector-name`) as a key inside the `--connectors` list. That field does not exist. The valid `--connectors[]` element keys are:
 
-| Authentication mode | Use this key |
+| Key | Meaning |
 |---|---|
-| Default / `DeveloperConnection` | `connectionName` |
-| `OnBehalfOfUser` | `connectorName` (no specific connection — gateway creates per-user) |
-| `OnBehalfOfUserWithApp` / `AppOnly` | `connectionName` |
+| `name` | Managed API connector id (e.g. `office365`, `sql`). Use this for `OnBehalfOfUser` mode. |
+| `connectionName` | Reference to an existing connection. Use this for shared-credential modes (`DeveloperConnection`, `OnBehalfOfUserWithApp`, `AppOnly`). |
+| `displayName` | Display label for the connector entry. |
+| `description` | Free-form description. |
+| `operations` | List of operations to expose. |
+
+```bash
+# OnBehalfOfUser — gateway provisions per-user connection from the managed connector
+--connectors '[{"name":"sql"}]'
+
+# DeveloperConnection — share an existing connection's credentials
+--connectors '[{"connectionName":"office365Conn"}]'
+```
 
 ### `argument value cannot be blank`
 
-You tried `--tags ""` to clear all tags. The CLI rejects blank strings. Workarounds:
+You tried `--tags ""` to clear all tags. The CLI rejects blank strings. There's no first-class "clear all tags" gesture today — the only way to shrink the tag map is to replace it with the new desired set:
 
 ```bash
-# Leave tags unchanged: omit --tags entirely.
-az connector-namespace update -g $RG -n $NS --api-hub-environment-id <uuid>
-
-# Replace tags with new ones (the only way to "shrink" the map):
 az connector-namespace update -g $RG -n $NS --tags env=prod
 ```
 
-There's no first-class "clear all tags" gesture today.
+(For non-tag fields, see [Update semantics](#update-semantics) — almost everything else is immutable on the namespace resource.)
 
 ### `Failed to parse '--request' argument`
 

@@ -98,9 +98,9 @@ User wants to …
 |---|---|---|
 | `NotSpecified` (default) | none | Treats connector ops as standard MCP tools. |
 | `DeveloperConnection` | `--connectors '[{"connectionName":"…"}]'` | All tool calls use this shared connection's credentials. |
-| `OnBehalfOfUser` | `--connectors '[{"connectorName":"…"}]'` (note: connectorName, not connectionName) | Per-user dynamic API Hub connections, calling user's identity. |
-| `OnBehalfOfUserWithApp` | `--resource-auth target-resource=… admin-app-registration.client-id=…` | FIC-backed OBO via an admin app registration. |
-| `AppOnly` | `--resource-auth …` | Client-credentials flow against the admin app. User token used for caller ACL only. |
+| `OnBehalfOfUser` | `--connectors '[{"name":"…"}]'` (managed connector id like `sql`/`office365` — **not** `connectionName`; there's no specific connection in OBO mode, the gateway provisions per-user) | Per-user dynamic API Hub connections, calling user's identity. |
+| `OnBehalfOfUserWithApp` | `--connectors '[{"connectionName":"…"}]'` + `--resource-auth target-resource=… admin-app-registration.client-id=…` | FIC-backed OBO via an admin app registration. |
+| `AppOnly` | `--connectors '[{"connectionName":"…"}]'` + `--resource-auth …` | Client-credentials flow against the admin app. User token used for caller ACL only. |
 
 **`--kind HostedMcpServer`** *always* requires:
 - `--hosted-mcp-server hosted-mcp-server-id=<id-from-catalog>`
@@ -162,7 +162,7 @@ error like `unrecognized value 'ActiveDirectory' from choices ['Group', 'User']`
 | `unrecognized value 'ActiveDirectory' from choices ['Group', 'User']` | Used connection-shape on mcp-connector access-policy | Use `--principal-type User` |
 | `option_length_too_long ... --connector-namespace-name` | aaz-only export missed the alias on a new command | Use `--namespace` (always works) |
 | `argument value cannot be blank` on `--tags` | Passed `--tags ""` | Omit `--tags` to preserve existing |
-| `Model 'AAZObjectArg' has no field named 'connectorName'` | Used `connectorName` instead of `connectionName` (or vice-versa) in `--connectors` | Check authentication-mode column above |
+| `Model 'AAZObjectArg' has no field named 'connector_name'` | Used `connectorName` instead of `name` or `connectionName` in `--connectors` | For OBO use `name=<connector-id>` (e.g. `sql`); for shared/AppOnly use `connectionName=<existing-connection>` |
 | `Failed to parse '--request' argument` | Missing `method` or `path` | At minimum: `method=GET path=/<route>` |
 | `Argument option 'name' duplicated` | Hit on a freshly generated extension | Report — swagger has a path-param naming collision |
 | `--hosted-mcp-server-id not recognized` | It's nested, not top-level | `--hosted-mcp-server hosted-mcp-server-id=<id>` |

@@ -207,7 +207,7 @@ az connector-namespace connection create \
 # Show / list / update / delete
 az connector-namespace connection show   -g $RG --namespace $NS -n office365Conn
 az connector-namespace connection list   -g $RG --namespace $NS
-az connector-namespace connection update -g $RG --namespace $NS -n office365Conn --tags env=prod
+az connector-namespace connection update -g $RG --namespace $NS -n office365Conn --display-name "Office 365 (prod)"
 az connector-namespace connection delete -g $RG --namespace $NS -n office365Conn
 
 # Generic authenticated HTTP relay (gateway injects auth from stored creds)
@@ -266,7 +266,7 @@ az connector-namespace mcp-connector create \
 az connector-namespace mcp-connector create \
     -g $RG --namespace $NS -n obo-mcp \
     --authentication-mode OnBehalfOfUser \
-    --connectors '[{"connectorName":"sql"}]'
+    --connectors '[{"name":"sql"}]'
 
 # Show / list / update / delete
 az connector-namespace mcp-connector show   -g $RG --namespace $NS -n office365Mcp
@@ -275,7 +275,7 @@ az connector-namespace mcp-connector update -g $RG --namespace $NS -n office365M
 az connector-namespace mcp-connector delete -g $RG --namespace $NS -n office365Mcp
 ```
 
-> For OBO mode use the **`connectorName`** key (not `connectionName`) inside each `--connectors` entry — the gateway provisions a per-user connection automatically.
+> For OBO mode use the **`name`** key (the managed API connector id, e.g. `office365`, `sql`) on each `--connectors` entry — there's no specific connection to reference; the gateway provisions a per-user connection automatically. Use `connectionName` only when you want to share an existing connection across callers (Default / `DeveloperConnection` / `AppOnly` modes).
 
 ### Hosted MCP servers
 
@@ -350,9 +350,9 @@ az connector-namespace trigger update -g $RG --namespace $NS -n onNewEmail --sta
 az connector-namespace trigger delete -g $RG --namespace $NS -n onNewEmail
 
 # Observe executions
-az connector-namespace trigger run    list -g $RG --namespace $NS --trigger-name onNewEmail
-az connector-namespace trigger run    show -g $RG --namespace $NS --trigger-name onNewEmail -n <run-id>
-az connector-namespace trigger status show -g $RG --namespace $NS --trigger-name onNewEmail -n primary
+az connector-namespace trigger run    list -g $RG --namespace $NS --trigger-config-name onNewEmail
+az connector-namespace trigger run    show -g $RG --namespace $NS --trigger-config-name onNewEmail -n <run-id>
+az connector-namespace trigger status show -g $RG --namespace $NS --trigger-config-name onNewEmail -n primary
 ```
 
 ### API keys & access keys
@@ -402,9 +402,9 @@ When creating an `mcp-connector`, `--authentication-mode` determines who the ups
 |---|---|---|---|
 | `NotSpecified` (default) | Connection owner | — | Quick start, single-tenant tools |
 | `DeveloperConnection` | Connection owner | `--connectors '[{"connectionName":"…"}]'` | Shared developer credentials |
-| `OnBehalfOfUser` | Calling user | `--connectors '[{"connectorName":"…"}]'` | Per-user OAuth, no shared creds |
-| `OnBehalfOfUserWithApp` | Calling user, via FIC | `--resource-auth …` + admin app | Enterprise OBO with admin-managed app |
-| `AppOnly` | Admin app | `--resource-auth …` | Service-to-service calls |
+| `OnBehalfOfUser` | Calling user | `--connectors '[{"name":"…"}]'` (managed connector id, e.g. `sql`) | Per-user OAuth, no shared creds |
+| `OnBehalfOfUserWithApp` | Calling user, via FIC | `--connectors '[{"connectionName":"…"}]'` + `--resource-auth …` + admin app | Enterprise OBO with admin-managed app |
+| `AppOnly` | Admin app | `--connectors '[{"connectionName":"…"}]'` + `--resource-auth …` | Service-to-service calls |
 
 `--kind HostedMcpServer` **always** requires `OnBehalfOfUserWithApp` or `AppOnly` plus `--resource-auth`.
 
@@ -478,7 +478,7 @@ Every nested arg accepts both shapes. Shorthand avoids quote-escaping in bash:
 |---|---|---|
 | `unrecognized arguments: --namespace` | `azure-cli` < 2.75.0 | `az upgrade` or use `--connector-namespace-name <name>` |
 | `unrecognized value 'ActiveDirectory' from choices ['Group','User']` | Used connection-shape `--principal` on mcp-connector access-policy (or vice-versa) | Use the correct shape — see [Access policies](#access-policies) |
-| `Model 'AAZObjectArg' has no field named 'connectorName'` | Wrong key for the auth mode | `connectionName` for Default/Developer/AppOnly; `connectorName` only for `OnBehalfOfUser` |
+| `Model 'AAZObjectArg' has no field named 'connector_name'` | Used `connectorName` key in `--connectors` (that field does not exist) | OBO: use `name=<connector-id>` (e.g. `sql`); shared/AppOnly: use `connectionName=<existing-connection>` |
 | `--hosted-mcp-server-id not recognized` | Tried it as a top-level arg | Nest it: `--hosted-mcp-server hosted-mcp-server-id=<id>` |
 | `connection invoke` returns 401 | OAuth consent flow not completed | Run the 3 steps in [OAuth consent flow](#oauth-consent-flow) |
 | Agent's API key suddenly returns 401 | Time-bound key expired (silent) | Mint a fresh key — see [API keys & access keys](#api-keys--access-keys) |

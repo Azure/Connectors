@@ -14,7 +14,7 @@ set -euo pipefail
 
 az connector-namespace mcp-connector create -g "$RG" --namespace "$NS" -n "$MCP" \
     --authentication-mode OnBehalfOfUser \
-    --connectors "[{\"connectorName\":\"$CONNECTOR_NAME\"}]"
+    --connectors "[{\"name\":\"$CONNECTOR_NAME\"}]"
 
 echo
 echo ">>> OBO MCP connector $MCP created."
