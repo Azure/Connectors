@@ -31,7 +31,7 @@ proxy mediates them independently of egress policy rules.
 | Type | `resourceId` contains | Runtime URL field | Purpose |
 |------|----------------------|-------------------|---------|
 | **API connection** | `/connections/` | `connectionRuntimeUrl` | Sandbox code calls connector REST operations directly |
-| **MCP server config** | `/mcpserverconfigs/` | `mcpRuntimeUrl` | Exposes connector operations as MCP tools |
+| **MCP server config** | `/mcpServerConfigs/` | `mcpRuntimeUrl` | Exposes connector operations as MCP tools |
 
 ### Wiring checklist
 
@@ -40,7 +40,7 @@ proxy mediates them independently of egress policy rules.
 | 1 | Connection | Create + consent OAuth → status `Connected` |
 | 2 | Connection ACL: `gateway-acl` | Grant gateway MI access (for event subscriptions) |
 | 3 | Connection ACL: `sandbox-acl` | Grant sandbox-group MI access (for token minting) |
-| 4 | Sandbox group | Enable SystemAssigned MI; PATCH `gatewayConnections[]` with `{resourceId, connectionRuntimeUrl, authentication}` |
+| 4 | Sandbox group | Enable SystemAssigned MI; PATCH `gatewayConnections[]` with `{resourceId, connectionRuntimeUrl or mcpRuntimeUrl, authentication}` |
 | 5 | Sandbox | Create with `gatewayConnections: [{resourceId}]` in the data-plane PUT body |
 
 Steps 2 and 3 can run in parallel. The sandbox group PATCH must use GET-merge-PATCH to avoid clobbering existing entries.
@@ -59,7 +59,7 @@ For API connections:
 For MCP server configs:
 ```json
 {
-  "resourceId": "/subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.Web/connectorGateways/{gw}/mcpserverconfigs/{name}",
+  "resourceId": "/subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.Web/connectorGateways/{gw}/mcpServerConfigs/{name}",
   "mcpRuntimeUrl": "https://{host}/.../mcp",
   "authentication": { "type": "SystemAssignedManagedIdentity" }
 }
@@ -68,19 +68,24 @@ For MCP server configs:
 ### CLI alternative (ACA CLI)
 
 ```bash
-# Add a gateway connection (creates ACLs automatically)
+# Add a gateway connection to a sandbox group (creates ACLs automatically)
 aca sandboxgroup connector add \
   --group {sg} \
   --connection-id {arm-resource-id} \
   --authorization system
 
-# List configured connections
+# List configured connections on a sandbox group
 aca sandboxgroup connector list --group {sg}
 
-# Create sandbox with gateway connections
+# Create sandbox with gateway connections (must already be configured on the group)
 aca sandbox create --disk copilot \
   --connection-id {resource-id-1} {resource-id-2}
 ```
+
+> **Note:** `aca sandbox create --connection-id` passes `gatewayConnections` in
+> the data-plane request. If the ACA CLI version does not support this flag,
+> use `az rest` with a data-plane PUT instead — see
+> [gateway-connections.md](../plugin/skills/aca-sandboxes/references/gateway-connections.md) Step 5.
 
 ### Validation rules
 
