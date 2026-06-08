@@ -13,11 +13,16 @@ authentication transparently.
 2. Connections and MCP server configs are wired to a **sandbox group** via its
    `gatewayConnections[]` property.
 3. Each **sandbox** references the same gateway connections at creation time.
-4. The platform generates `/connections/connections.json` inside the sandbox
-   with the connection names and runtime URLs.
+4. The platform writes connection metadata inside the sandbox at create time:
+   - **API connections** → `/connections/connections.json` at the sandbox
+     filesystem root — a JSON map of connection names to runtime URLs.
+   - **MCP server configs** → `/root/.copilot/mcp-config.json` — the MCP tools
+     manifest. Requires the sandbox to be booted with `--disk copilot` or
+     `--disk claude`; Copilot CLI and Claude pick it up automatically on next
+     run.
 5. The **egress proxy** intercepts outbound calls to runtime URL hosts and
    injects `Authorization: Bearer` tokens automatically using the sandbox
-   group's managed identity.
+   group's managed identity (system-assigned or user-assigned).
 
 Gateway connection calls work **even with `defaultAction=Deny`** — the egress
 proxy mediates them independently of egress policy rules.
@@ -40,7 +45,7 @@ proxy mediates them independently of egress policy rules.
 | 1 | Connection | Create + consent OAuth → status `Connected` |
 | 2 | Connection ACL: `gateway-acl` | Grant gateway MI access (for event subscriptions) |
 | 3 | Connection ACL: `sandbox-acl` | Grant sandbox-group MI access (for token minting) |
-| 4 | Sandbox group | Enable SystemAssigned MI; PATCH `gatewayConnections[]` with `{resourceId, connectionRuntimeUrl or mcpRuntimeUrl, authentication}` |
+| 4 | Sandbox group | Enable a managed identity (system-assigned or user-assigned); PATCH `gatewayConnections[]` with `{resourceId, connectionRuntimeUrl or mcpRuntimeUrl, authentication}` |
 | 5 | Sandbox | Create with `gatewayConnections: [{resourceId}]` in the data-plane PUT body |
 
 Steps 2 and 3 can run in parallel. The sandbox group PATCH must use GET-merge-PATCH to avoid clobbering existing entries.
@@ -65,7 +70,22 @@ For MCP server configs:
 }
 ```
 
-### CLI alternative (ACA CLI)
+The `authentication` block above uses the sandbox group's system-assigned MI.
+To use a user-assigned MI attached to the sandbox group instead, swap in:
+
+```json
+"authentication": {
+  "type": "UserAssignedManagedIdentity",
+  "identityResourceId": "/subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{name}"
+}
+```
+
+### ACA CLI
+
+The ACA CLI wraps the ARM PATCH shown above and also creates the required ACLs
+on the connection automatically (see [Access policies](#access-policies)).
+Prefer the CLI for routine wiring; fall back to direct ARM PATCH only when the
+CLI doesn't yet support a field you need.
 
 ```bash
 # Add a gateway connection to a sandbox group (creates ACLs automatically)
@@ -89,16 +109,38 @@ aca sandbox create --disk copilot \
 
 ### Validation rules
 
+The following are enforced by the sandbox-group control plane and the sandbox
+data plane at create/update time:
+
 - Maximum **10** gateway connections per sandbox.
-- All connections must reference the **same** connector gateway.
+- All connections must reference the **same** connector gateway (namespace).
 - All connections must use the **same** authentication type.
-- `SystemAssignedManagedIdentity` requires the sandbox group to have a system-assigned MI.
+- Two authentication types are supported on the `authentication` block:
+  - `SystemAssignedManagedIdentity` — requires the sandbox group to have a system-assigned MI; `identityResourceId` must not be specified.
+  - `UserAssignedManagedIdentity` — requires `identityResourceId` set to the ARM resource ID of a user-assigned MI attached to the sandbox group.
 - Gateway connections on sandboxes are **immutable** — set at creation, cannot be changed.
 - MCP server config connections are only supported with `copilot` or `claude` disk images, private disk images, or snapshots.
 
 → Full wiring details: [gateway-connections.md](../plugin/skills/aca-sandboxes/references/gateway-connections.md)
 → Connection CRUD: [connections.md](../plugin/skills/connectors/references/connections.md)
 → OAuth consent: [consent.md](../plugin/skills/aca-sandboxes/references/consent.md)
+
+---
+
+## Access policies
+
+Two access policies are required on each connection for gateway connection wiring:
+
+| Policy name | Principal | Purpose |
+|-------------|-----------|---------|
+| `gateway-acl` | Gateway (connector namespace) MI | Allows the gateway to subscribe to connector events |
+| `sandbox-acl` | Sandbox-group MI | Allows the egress proxy to mint Bearer tokens for runtime URL calls |
+
+Both use the same schema — `principal.type = "ActiveDirectory"` with the
+principal's `objectId` and `tenantId`.
+
+The ACA CLI commands above create both ACLs automatically. If you wire the
+gateway connection via direct ARM PATCH, you must create the ACLs yourself.
 
 ---
 
@@ -148,17 +190,6 @@ response = requests.get(f"{teams_url}/beta/me/joinedTeams")
 teams = response.json()["value"]
 ```
 
-### How the egress proxy handles auth
-
-When sandbox code makes an outbound HTTPS request whose host matches a declared `gatewayConnections[]` runtime URL:
-
-1. The egress proxy intercepts the connection (independent of egress policy rules)
-2. It mints a Bearer token using the sandbox-group's SystemAssigned MI
-3. It adds `Authorization: Bearer <token>` to the outbound request
-4. The connector authorizes the call, exchanges the token for stored OAuth credentials, and forwards to the downstream API
-
-This works **even with `defaultAction=Deny`** — gateway connection calls bypass egress host-allow rules entirely.
-
 ---
 
 ## Operation discovery from inside a sandbox
@@ -197,20 +228,6 @@ az rest --method GET \
 | `in: query` parameters | Append as `?key=value` |
 | `in: body` parameters | Send as JSON request body |
 | `in: header` parameters | Add as HTTP header (but **not** `Authorization`) |
-
----
-
-## Access policies
-
-Two access policies are required on each connection for gateway connection wiring:
-
-| Policy name | Principal | Purpose |
-|-------------|-----------|---------|
-| `gateway-acl` | Gateway (connector namespace) MI | Allows the gateway to subscribe to connector events |
-| `sandbox-acl` | Sandbox-group MI | Allows the egress proxy to mint Bearer tokens for runtime URL calls |
-
-Both use the same schema — `principal.type = "ActiveDirectory"` with the
-principal's `objectId` and `tenantId`.
 
 ---
 
