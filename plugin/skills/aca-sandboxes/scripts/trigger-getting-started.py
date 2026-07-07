@@ -254,6 +254,16 @@ print("Step 3: Create Trigger Config")
 print("=" * 60)
 config_name = f"{connector}-trigger"
 
+# Sandbox data-plane endpoints are regional (management.{region}.azuredevcompute.io),
+# NOT management.azuredevcompute.io — using the unregional host causes a 404
+# GlobalSandboxNotFound when the trigger fires. See gotchas.md and trigger-setup.md.
+sandbox_group_url = (
+    f"https://management.azure.com/subscriptions/{subscription_id}"
+    f"/resourceGroups/{rg}/providers/Microsoft.App/sandboxGroups/{sandbox_group}"
+    "?api-version=2026-02-01-preview"
+)
+sandbox_region = az_rest("GET", sandbox_group_url).get("location", location)
+
 # Build connector-aware default parameters
 DEFAULT_PARAMS = {
     "office365": [{"name": "folderPath", "value": "Inbox"}],
@@ -285,7 +295,7 @@ trigger_body = {
                 "command": f"echo 'Trigger {config_name} fired!' >> /tmp/trigger.log",
             },
             "callbackUrl": (
-                f"https://management.azuredevcompute.io/subscriptions/{subscription_id}"
+                f"https://management.{sandbox_region}.azuredevcompute.io/subscriptions/{subscription_id}"
                 f"/resourceGroups/{rg}/sandboxGroups/{sandbox_group}/sandboxes/{sandbox_id}"
                 "/executeShellCommand?api-version=2026-02-01-preview"
             ),
