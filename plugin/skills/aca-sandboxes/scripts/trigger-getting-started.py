@@ -36,7 +36,7 @@ parser.add_argument("--cleanup", action="store_true", help="Delete trigger after
 args = parser.parse_args()
 
 account = json.loads(subprocess.run(
-    ["az", "account", "show", "-o", "json"],
+    ["az", "account", "show", "-o", "json"],  # noqa: S607 -- fixed args, PATH-resolved az CLI
     capture_output=True, text=True, check=True).stdout)
 
 subscription_id = account["id"]
@@ -76,7 +76,9 @@ def az_rest(method, url, body=None, resource=None, ignore_errors=False):
         tmp.close()
         cmd += ["--body", f"@{tmp.name}"]
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+        # cmd is always a fixed "az ..." argument list built above -- never shell=True
+        # or untrusted input, so this is not a command-injection risk.
+        result = subprocess.run(cmd, capture_output=True, text=True, check=True)  # noqa: S603
         return json.loads(result.stdout) if result.stdout.strip() else {}
     except subprocess.CalledProcessError as e:
         if ignore_errors:
@@ -94,10 +96,10 @@ def ensure_user_acl(conn_arm_base, conn_location):
     Required to call the metadata URL with the API Hub audience.
     """
     user_oid = subprocess.run(
-        ["az", "ad", "signed-in-user", "show", "--query", "id", "-o", "tsv"],
+        ["az", "ad", "signed-in-user", "show", "--query", "id", "-o", "tsv"],  # noqa: S607
         capture_output=True, text=True, check=True).stdout.strip()
     tenant_id = subprocess.run(
-        ["az", "account", "show", "--query", "tenantId", "-o", "tsv"],
+        ["az", "account", "show", "--query", "tenantId", "-o", "tsv"],  # noqa: S607
         capture_output=True, text=True, check=True).stdout.strip()
     acl_url = f"{conn_arm_base}/accessPolicies/{user_oid}?{API_VERSION}"
     # GET first — only create if missing
@@ -191,9 +193,9 @@ if trigger_type.lower() in ("polling", "batch", "single"):
     # NOTE: To determine if this is a recurrence trigger, check the Swagger for
     # the operation. If it lacks both x-ms-notification and x-ms-notification-content,
     # it's a recurrence/polling trigger regardless of single/batch.
-    print(f"\n  ℹ️  Check Swagger for this operation to determine if it's a recurrence trigger.")
-    print(f"      If no x-ms-notification and no x-ms-notification-content → it's a polling trigger.")
-    print(f"      Default recurrence: every 3 minutes. Ask user if they want to change it.")
+    print("\n  ℹ️  Check Swagger for this operation to determine if it's a recurrence trigger.")
+    print("      If no x-ms-notification and no x-ms-notification-content → it's a polling trigger.")
+    print("      Default recurrence: every 3 minutes. Ask user if they want to change it.")
 
 # =========================================================================
 # Step 2: Create Access Policy + RBAC (required before trigger creation)
@@ -237,10 +239,10 @@ assignment_name = str(uuid.uuid5(uuid.NAMESPACE_URL, f"{gw_principal_id}-{sandbo
 role_url = f"https://management.azure.com{sg_scope}/providers/Microsoft.Authorization/roleAssignments/{assignment_name}?api-version=2022-04-01"
 try:
     az_rest("PUT", role_url, body=role_body)
-    print(f"  ✓ RBAC role assigned: gateway MI → sandbox group")
+    print("  ✓ RBAC role assigned: gateway MI → sandbox group")
 except subprocess.CalledProcessError as e:
     if "RoleAssignmentExists" in (e.stderr or ""):
-        print(f"  ✓ RBAC role already exists")
+        print("  ✓ RBAC role already exists")
     else:
         print(f"  ⚠️  RBAC assignment failed (trigger may 403): {e.stderr[:200] if e.stderr else 'unknown error'}")
 
@@ -282,7 +284,11 @@ trigger_body = {
                 "activationMode": "OnDemand",
                 "command": f"echo 'Trigger {config_name} fired!' >> /tmp/trigger.log",
             },
-            "callbackUrl": f"https://management.azuredevcompute.io/subscriptions/{subscription_id}/resourceGroups/{rg}/sandboxGroups/{sandbox_group}/sandboxes/{sandbox_id}/executeShellCommand?api-version=2026-02-01-preview",
+            "callbackUrl": (
+                f"https://management.azuredevcompute.io/subscriptions/{subscription_id}"
+                f"/resourceGroups/{rg}/sandboxGroups/{sandbox_group}/sandboxes/{sandbox_id}"
+                "/executeShellCommand?api-version=2026-02-01-preview"
+            ),
             "httpMethod": "Post",
         },
         "operationName": selected_name,
@@ -330,7 +336,7 @@ if args.cleanup:
     az_rest("DELETE", f"{ARM_BASE}/triggerConfigs/{config_name}?{API_VERSION}")
     print(f"  ✓ Deleted trigger config: {config_name}")
 else:
-    print(f"\n  Trigger left running. Pass --cleanup to delete.")
+    print("\n  Trigger left running. Pass --cleanup to delete.")
 
 print("\nDone!")
 
