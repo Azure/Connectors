@@ -36,9 +36,9 @@ jobs:
         language:
           # Languages will be auto-detected. To add manually, list here, e.g.:
           # - javascript-typescript
-          # - python
           # - csharp
           - actions
+          - python
 
     steps:
       - name: Checkout
