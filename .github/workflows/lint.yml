@@ -1,0 +1,81 @@
+# Static-analysis lint gates for shell, PowerShell, and Python sources.
+#
+# Complements codeql.yml (SAST). Uses only tools preinstalled on the
+# ubuntu-latest runner image (shellcheck, pwsh) or installed via pip
+# (ruff), so there is no third-party Action to SHA-pin for this workflow.
+#
+# Docs:
+#   https://www.shellcheck.net/
+#   https://github.com/PowerShell/PSScriptAnalyzer
+#   https://docs.astral.sh/ruff/
+
+name: Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+
+      - name: Run ShellCheck
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t scripts < <(git ls-files '*.sh')
+          if [ "${#scripts[@]}" -eq 0 ]; then
+            echo "No shell scripts found."
+            exit 0
+          fi
+          shellcheck "${scripts[@]}"
+
+  psscriptanalyzer:
+    name: PSScriptAnalyzer
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+
+      - name: Run PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+          $scripts = git ls-files '*.ps1'
+          if (-not $scripts) {
+            Write-Output "No PowerShell scripts found."
+            exit 0
+          }
+          $results = Invoke-ScriptAnalyzer -Path $scripts -Settings ./PSScriptAnalyzerSettings.psd1 -Severity Warning,Error
+          if ($results) {
+            $results | Format-Table -AutoSize
+            throw "PSScriptAnalyzer found $($results.Count) issue(s)."
+          }
+
+  ruff:
+    name: Ruff (Python)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+
+      - name: Install ruff
+        run: python3 -m pip install --user ruff
+
+      - name: Run ruff check
+        run: python3 -m ruff check .
