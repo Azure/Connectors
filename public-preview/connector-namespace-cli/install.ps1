@@ -1,4 +1,4 @@
-# Install (or uninstall) the `az connector-namespace` Azure CLI extension.
+﻿# Install (or uninstall) the `az connector-namespace` Azure CLI extension.
 #
 # Usage:
 #   # Default: install the latest published wheel (https://aka.ms/connector-namespace.whl)
