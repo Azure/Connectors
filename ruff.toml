@@ -5,7 +5,7 @@
 # hardcoded secrets, unsafe deserialization, etc.), since this repo's
 # security-baseline audit calls for both style and security coverage.
 line-length = 150
-target-version = "py311"
+target-version = "py310"
 
 [lint]
 select = ["E", "F", "S"]
