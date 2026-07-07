@@ -1,8 +1,10 @@
 # Static-analysis lint gates for shell, PowerShell, and Python sources.
 #
-# Complements codeql.yml (SAST). Uses only tools preinstalled on the
-# ubuntu-latest runner image (shellcheck, pwsh) or installed via pip
-# (ruff), so there is no third-party Action to SHA-pin for this workflow.
+# Complements codeql.yml (SAST). ShellCheck is preinstalled on the
+# ubuntu-latest runner image; PSScriptAnalyzer and ruff are installed at
+# pinned versions from their official registries (PowerShell Gallery, pip)
+# rather than via a third-party GitHub Action, so there is nothing here
+# that needs SHA-pinning.
 #
 # Docs:
 #   https://www.shellcheck.net/
