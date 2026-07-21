@@ -214,6 +214,23 @@ test("request bodies decode UTF-8 after all chunks are collected", async () => {
     assert.deepEqual(body, expected);
 });
 
+test("request body parsing rejects stream errors and aborts", async () => {
+    const erroredRequest = new EventEmitter();
+    const streamError = new Error("stream failed");
+    const errored = assert.rejects(
+        parseBody(erroredRequest),
+        (error) => error === streamError,
+    );
+    erroredRequest.emit("error", streamError);
+    await errored;
+
+    const abortedRequest = new EventEmitter();
+    const aborted = assert.rejects(parseBody(abortedRequest), /Request body aborted/);
+    abortedRequest.emit("aborted");
+    abortedRequest.emit("error", new Error("late stream error"));
+    await aborted;
+});
+
 test("saved namespace coordinates reject ARM path injection", () => {
     assert.equal(isValidConfig({
         subscriptionId: "f34b22a3-2202-4fb1-b040-1332bd928c84",

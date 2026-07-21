@@ -13,8 +13,10 @@ loadSavedConfig();
 async function openPlayground(server, instanceId) {
     const config = instanceId ? getServerConfig(instanceId) : getSavedConfig();
     if (!config) return { opened: false, reason: "no_namespace_configured" };
-    const catalog = await fetchCatalog(config.subscriptionId, config.resourceGroup, config.gatewayName);
-    const installedState = await getInstalledState(config);
+    const [catalog, installedState] = await Promise.all([
+        fetchCatalog(config.subscriptionId, config.resourceGroup, config.gatewayName),
+        getInstalledState(config),
+    ]);
     const resolved = resolveSandboxConnector(catalog, installedState, server);
     if (!resolved.connector) return { opened: false, ...resolved };
     const url = buildSandboxUrl(config, resolved.connector.id);

@@ -101,14 +101,18 @@ export function parseBody(req) {
         const chunks = [];
         let size = 0;
         let settled = false;
+        const fail = (error) => {
+            if (settled) return;
+            settled = true;
+            chunks.length = 0;
+            reject(error);
+        };
         req.on("data", (chunk) => {
             if (settled) return;
             const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
             size += buffer.length;
             if (size > MAX_REQUEST_BODY_BYTES) {
-                settled = true;
-                chunks.length = 0;
-                reject(new RequestBodyTooLargeError());
+                fail(new RequestBodyTooLargeError());
                 return;
             }
             chunks.push(buffer);
@@ -119,6 +123,8 @@ export function parseBody(req) {
             try { resolve(JSON.parse(Buffer.concat(chunks, size).toString("utf8"))); }
             catch { resolve({}); }
         });
+        req.on("error", fail);
+        req.on("aborted", () => fail(new Error("Request body aborted.")));
     });
 }
 
