@@ -9,7 +9,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { build } from "esbuild";
 
 const packageRoot = dirname(fileURLToPath(import.meta.url));
-const distributionRoot = join(packageRoot, "extensions", "connector-namespaces");
+const distributionRoot = join(packageRoot, "extensions");
 const hostSdk = "@github/copilot-sdk/extension";
 const expectedFiles = [
     "LICENSE",
@@ -18,6 +18,12 @@ const expectedFiles = [
     "extension.mjs",
     "package.json",
 ];
+
+test("plugin metadata exposes the direct external canvas entrypoint", async () => {
+    const plugin = JSON.parse(await readFile(join(packageRoot, ".github", "plugin", "plugin.json"), "utf8"));
+    assert.equal(plugin.extensions, "extensions");
+    assert.equal(existsSync(join(packageRoot, plugin.extensions, "extension.mjs")), true);
+});
 
 test("the source-free distribution registers without node_modules", async (t) => {
     const temporaryRoot = await mkdtemp(join(tmpdir(), "connector-namespaces-dist-"));

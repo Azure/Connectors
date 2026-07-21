@@ -161,7 +161,7 @@ jobs:
             "connector-namespaces/package.json",
             "connector-namespaces/package-lock.json",
             "connector-namespaces/.github/plugin/plugin.json",
-            "connector-namespaces/extensions/connector-namespaces/package.json",
+            "connector-namespaces/extensions/package.json",
           ];
 
           for (const path of manifests) {
@@ -179,7 +179,7 @@ jobs:
         run: npm run build --prefix connector-namespaces
 
       - name: Verify generated distribution is committed
-        run: git diff --exit-code -- connector-namespaces/extensions/connector-namespaces
+        run: git diff --exit-code -- connector-namespaces/extensions
 
       - name: Test source and distribution
         run: npm test --prefix connector-namespaces
@@ -245,11 +245,11 @@ jobs:
               prefix + "README.md",
               prefix + "LICENSE",
               prefix + "assets/preview.png",
-              prefix + "extensions/connector-namespaces/extension.mjs",
-              prefix + "extensions/connector-namespaces/package.json",
-              prefix + "extensions/connector-namespaces/copilot-extension.json",
-              prefix + "extensions/connector-namespaces/LICENSE",
-              prefix + "extensions/connector-namespaces/THIRD-PARTY-NOTICES.txt",
+              prefix + "extensions/extension.mjs",
+              prefix + "extensions/package.json",
+              prefix + "extensions/copilot-extension.json",
+              prefix + "extensions/LICENSE",
+              prefix + "extensions/THIRD-PARTY-NOTICES.txt",
           }
 
           with zipfile.ZipFile(archive_path) as archive:

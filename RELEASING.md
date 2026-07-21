@@ -71,8 +71,8 @@ Before running the workflow:
 
 Use the **Release MCP Connectors canvas** workflow for the standalone canvas.
 Run it from `main` only after the desired commit and generated
-`connector-namespaces/extensions/connector-namespaces/extension.mjs` have passed
-normal review and CI.
+`connector-namespaces/extensions/extension.mjs` have passed normal review and
+CI.
 
 The workflow:
 

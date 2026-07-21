@@ -82,7 +82,8 @@ configured HTTPS endpoint.
 The maintainable source, tests, and pinned build tooling live in this plugin
 folder. The private `package.json` is only a reproducible build workspace; this
 plugin is not published as an npm package. The installable extension is
-generated at `extensions/connector-namespaces/extension.mjs`.
+generated at `extensions/extension.mjs`, matching Awesome Copilot's external
+canvas intake convention.
 
 ```bash
 npm ci
