@@ -44,7 +44,7 @@ const session = await joinSession({
         createCanvas({
             id: "connector-namespaces",
             displayName: "MCP Connectors",
-            description: "Discover, connect, and manage hosted MCP servers from Azure Connector Namespace.",
+            description: "Discover, connect, and manage hosted MCP servers from an Azure Connector Namespace.",
             inputSchema: {
                 type: "object",
                 properties: {

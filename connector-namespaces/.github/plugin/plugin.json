@@ -1,6 +1,6 @@
 {
   "name": "connector-namespaces",
-  "description": "Interactive GitHub Copilot canvas for discovering, connecting, and managing hosted MCP servers from Azure Connector Namespace.",
+  "description": "Interactive GitHub Copilot canvas for discovering, connecting, and managing hosted MCP servers from an Azure Connector Namespace.",
   "version": "1.2.0",
   "author": {
     "name": "Microsoft",
