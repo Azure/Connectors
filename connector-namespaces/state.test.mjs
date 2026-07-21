@@ -20,6 +20,8 @@ test("saved namespace config uses private directory and file permissions", async
         resourceGroup: "example-rg",
         gatewayName: "example-gateway",
     };
+    assert.deepEqual(state.normalizeConfig({ ...config, ignored: true }), config);
+    assert.equal(state.normalizeConfig({ ...config, gatewayName: "bad/value" }), null);
     state.saveConfig(config);
 
     const storageDir = join(root, "extensions", "connector-namespaces", "artifacts");

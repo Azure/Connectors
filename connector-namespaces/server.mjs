@@ -4,7 +4,7 @@ import { createServer } from "node:http";
 import { randomBytes } from "node:crypto";
 import { renderCatalogHtml, renderErrorHtml, renderSetupHtml } from "./renderer.mjs";
 import { renderCreateNamespaceHtml } from "./createPage.mjs";
-import { addConnector, removeConnector, saveConfig, clearConfig } from "./state.mjs";
+import { addConnector, removeConnector, normalizeConfig, saveConfig, clearConfig } from "./state.mjs";
 import { fetchCatalog, invalidateCache } from "./catalog.mjs";
 import {
     listConnectorGateways,
@@ -98,24 +98,25 @@ let restartAcked = false;
 
 export function parseBody(req) {
     return new Promise((resolve, reject) => {
-        let data = "";
+        const chunks = [];
         let size = 0;
         let settled = false;
         req.on("data", (chunk) => {
             if (settled) return;
-            size += Buffer.byteLength(chunk);
+            const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+            size += buffer.length;
             if (size > MAX_REQUEST_BODY_BYTES) {
                 settled = true;
-                data = "";
+                chunks.length = 0;
                 reject(new RequestBodyTooLargeError());
                 return;
             }
-            data += chunk;
+            chunks.push(buffer);
         });
         req.on("end", () => {
             if (settled) return;
             settled = true;
-            try { resolve(JSON.parse(data)); }
+            try { resolve(JSON.parse(Buffer.concat(chunks, size).toString("utf8"))); }
             catch { resolve({}); }
         });
     });
@@ -221,14 +222,19 @@ async function handleRequest(req, res, instanceId, serverEntry) {
 
     if (req.method === "POST" && url.pathname === "/api/select-gateway") {
         const body = await parseBody(req);
-        const { subscriptionId, resourceGroup, gatewayName } = body;
-        if (!subscriptionId || !resourceGroup || !gatewayName) {
-            json(res, { error: "missing_fields" });
+        const config = normalizeConfig(body);
+        if (!config) {
+            json(res, { error: "invalid_config" });
             return;
         }
-        const config = { subscriptionId, resourceGroup, gatewayName };
+        try {
+            saveConfig(config);
+        } catch (error) {
+            console.error("Failed to save connector namespace configuration:", error);
+            json(res, { error: "config_save_failed" });
+            return;
+        }
         serverEntry.config = config;
-        saveConfig(config);
         invalidateCache();
         json(res, { ok: true });
         return;

@@ -40,6 +40,15 @@ export function isValidConfig(data) {
     }
 }
 
+export function normalizeConfig(data) {
+    if (!isValidConfig(data)) return null;
+    return {
+        subscriptionId: data.subscriptionId,
+        resourceGroup: data.resourceGroup,
+        gatewayName: data.gatewayName,
+    };
+}
+
 export function loadSavedConfig() {
     try {
         if (existsSync(CONFIG_FILE)) {
@@ -63,9 +72,9 @@ export function saveConfig(config) {
         throw new Error("Invalid connector namespace configuration.");
     }
     ensureStorageDir();
-    savedConfig = config;
     writeFileSync(CONFIG_FILE, JSON.stringify(config, null, 2), { encoding: "utf-8", mode: 0o600 });
     chmodSync(CONFIG_FILE, 0o600);
+    savedConfig = config;
 }
 
 export function clearConfig() {

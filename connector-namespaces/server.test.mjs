@@ -203,6 +203,17 @@ test("request bodies larger than 64 KiB are rejected", async () => {
     );
 });
 
+test("request bodies decode UTF-8 after all chunks are collected", async () => {
+    const expected = { gatewayName: "caf\u00e9" };
+    const encoded = Buffer.from(JSON.stringify(expected));
+    const multibyteStart = encoded.indexOf(Buffer.from("\u00e9"));
+    const body = await parseBody(Readable.from([
+        encoded.subarray(0, multibyteStart + 1),
+        encoded.subarray(multibyteStart + 1),
+    ]));
+    assert.deepEqual(body, expected);
+});
+
 test("saved namespace coordinates reject ARM path injection", () => {
     assert.equal(isValidConfig({
         subscriptionId: "f34b22a3-2202-4fb1-b040-1332bd928c84",
@@ -271,6 +282,29 @@ test("canvas servers keep independent active namespace configs", async (t) => {
     // panel A must retain its own active namespace.
     await startServer(a, { defaultConfig: configB });
     assert.deepEqual(getServerConfig(a), configA);
+});
+
+test("gateway selection rejects invalid config without changing panel state", async (t) => {
+    const instanceId = `invalid-selection-${Date.now()}`;
+    t.after(() => stopServer(instanceId));
+    const original = { subscriptionId: "sub", resourceGroup: "rg", gatewayName: "gw" };
+    const entry = await startServer(instanceId, { config: original });
+
+    const response = await fetch(`${entry.url}api/select-gateway`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "x-connector-namespace-token": entry.token,
+        },
+        body: JSON.stringify({
+            subscriptionId: "sub",
+            resourceGroup: "rg",
+            gatewayName: "bad/value",
+        }),
+    });
+
+    assert.deepEqual(await response.json(), { error: "invalid_config" });
+    assert.deepEqual(getServerConfig(instanceId), original);
 });
 
 test("loopback listen rejects bind errors", async () => {

@@ -2,7 +2,7 @@
 
 import { joinSession, createCanvas } from "@github/copilot-sdk/extension";
 import { getServerConfig, startServer, stopServer } from "./server.mjs";
-import { getSavedConfig, loadSavedConfig, saveConfig } from "./state.mjs";
+import { getSavedConfig, loadSavedConfig, normalizeConfig, saveConfig } from "./state.mjs";
 import { fetchCatalog } from "./catalog.mjs";
 import { getInstalledState, openInBrowser, setWorkspaceRoot } from "./install.mjs";
 import { buildSandboxUrl, resolveSandboxConnector } from "./sandbox.mjs";
@@ -71,14 +71,10 @@ const session = await joinSession({
                 },
             ],
             open: async (ctx) => {
-                let config;
-                // If explicit input provided, use it and save for future
-                if (ctx.input && ctx.input.subscriptionId && ctx.input.resourceGroup && ctx.input.gatewayName) {
-                    config = {
-                        subscriptionId: ctx.input.subscriptionId,
-                        resourceGroup: ctx.input.resourceGroup,
-                        gatewayName: ctx.input.gatewayName,
-                    };
+                const config = normalizeConfig(ctx.input);
+                // Valid explicit input becomes the default for future panels.
+                // Malformed host input is ignored in favor of saved state/picker.
+                if (config) {
                     saveConfig(config);
                 }
                 // A saved config seeds a new panel only. Rehydrating an existing
