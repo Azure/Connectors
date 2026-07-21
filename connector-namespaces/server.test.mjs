@@ -23,12 +23,14 @@ process.env.COPILOT_HOME = TEST_COPILOT_HOME;
 after(() => rmSync(TEST_COPILOT_HOME, { recursive: true, force: true }));
 
 const {
+    consumeOAuthCallback,
     getServerConfig,
     hasCapabilityToken,
     isCanonicalHost,
     isCrossSiteRequest,
     listenOnLoopback,
     parseBody,
+    registerOAuthCallback,
     requiresCapabilityToken,
     runIdempotentOperation,
     startServer,
@@ -110,7 +112,7 @@ test("state-changing and OAuth status routes require a capability token", () => 
     assert.equal(requiresCapabilityToken("/api/signin/status"), true);
     assert.equal(requiresCapabilityToken("/api/signin/cancel"), true);
     assert.equal(requiresCapabilityToken("/oauth-status"), true);
-    assert.equal(requiresCapabilityToken("/auth/callback/conn"), true);
+    assert.equal(requiresCapabilityToken("/auth/callback/conn"), false);
     assert.equal(requiresCapabilityToken("/setup"), false);
 });
 
@@ -120,17 +122,17 @@ test("subscription and sign-in status endpoints expose the unauthenticated state
     const entry = await startServer(instanceId);
     const headers = { "x-connector-namespace-token": entry.token };
 
-    const subscriptions = await fetch(`${entry.url}api/subscriptions`, { headers });
+    const subscriptions = await fetch(`${entry.origin}/api/subscriptions`, { headers });
     assert.deepEqual(await subscriptions.json(), {
         ok: false,
         reason: "not_signed_in",
         subscriptions: [],
     });
 
-    const status = await fetch(`${entry.url}api/signin/status?sessionId=missing`, { headers });
+    const status = await fetch(`${entry.origin}/api/signin/status?sessionId=missing`, { headers });
     assert.deepEqual(await status.json(), { ok: false, status: "unknown" });
 
-    const cancelled = await fetch(`${entry.url}api/signin/cancel`, {
+    const cancelled = await fetch(`${entry.origin}/api/signin/cancel`, {
         method: "POST",
         headers: { ...headers, "Content-Type": "application/json" },
         body: JSON.stringify({ sessionId: "missing" }),
@@ -148,6 +150,32 @@ test("unauthenticated setup renders browser sign-in instead of an az login dead 
     assert.match(html, /id="signin-btn"/);
     assert.match(html, /Sign in to Azure/);
     assert.doesNotMatch(html, /az login|Azure CLI authentication failed/);
+});
+
+test("token-bearing pages require an unguessable per-instance path", async (t) => {
+    const instanceId = `page-capability-${Date.now()}`;
+    t.after(() => stopServer(instanceId));
+    const entry = await startServer(instanceId);
+
+    assert.notEqual(new URL(entry.url).pathname, "/");
+    assert.equal(entry.url.includes(entry.token), false, "the page URL must not reuse the API token");
+
+    const bareRoot = await fetch(`${entry.origin}/`);
+    assert.equal(bareRoot.status, 404);
+    assert.equal((await bareRoot.text()).includes(entry.token), false);
+
+    const bareSetup = await fetch(`${entry.origin}/setup`);
+    assert.equal(bareSetup.status, 404);
+
+    const protectedPage = await fetch(entry.url);
+    const html = await protectedPage.text();
+    assert.equal(protectedPage.status, 200);
+    assert.equal(protectedPage.headers.get("cache-control"), "no-store");
+    assert.equal(protectedPage.headers.get("referrer-policy"), "no-referrer");
+    assert.equal(html.includes(entry.token), true, "the protected page needs the header-only API capability");
+
+    const protectedSetup = await fetch(new URL("setup", entry.url));
+    assert.equal(protectedSetup.status, 200);
 });
 
 test("saved namespace prompts for sign-in after the extension credential is reset", async (t) => {
@@ -170,30 +198,68 @@ test("saved namespace prompts for sign-in after the extension credential is rese
     assert.doesNotMatch(html, /Couldn't load the saved namespace|couldn't open namespace/i);
 });
 
-test("capability token accepts the private header or OAuth callback query", () => {
+test("API capability token accepts only the private header", () => {
     const token = "secret-token";
     assert.equal(
-        hasCapabilityToken(req({ "x-connector-namespace-token": token }), new URL("http://127.0.0.1/api/state"), token),
+        hasCapabilityToken(req({ "x-connector-namespace-token": token }), token),
         true,
     );
     assert.equal(
-        hasCapabilityToken(req({}), new URL(`http://127.0.0.1/auth/callback/conn?cn_token=${token}`), token),
-        true,
-    );
-    assert.equal(
-        hasCapabilityToken(req({ "x-connector-namespace-token": "wrong" }), new URL("http://127.0.0.1/api/state"), token),
+        hasCapabilityToken(req({ "x-connector-namespace-token": "wrong" }), token),
         false,
     );
     assert.equal(
-        hasCapabilityToken(req({}), new URL(`http://127.0.0.1/api/state?cn_token=${token}`), token),
+        hasCapabilityToken(req({}), token),
         false,
-        "callback query tokens must not authorize API routes",
     );
-    assert.equal(
-        hasCapabilityToken(req({}), new URL(`http://127.0.0.1/oauth-status?cn_token=${token}`), token),
-        false,
-        "callback query tokens must not authorize OAuth polling",
+});
+
+test("OAuth callback nonces are connection-bound, expiring, and single-use", () => {
+    const callbacks = new Map();
+    const nonce = registerOAuthCallback(callbacks, "conn-a", 100);
+    assert.equal(consumeOAuthCallback(callbacks, "conn-b", nonce, 101), false);
+    assert.equal(consumeOAuthCallback(callbacks, "conn-a", nonce, 101), false, "a mismatched attempt consumes the nonce");
+
+    const expired = registerOAuthCallback(callbacks, "conn-a", 200);
+    assert.equal(consumeOAuthCallback(callbacks, "conn-a", expired, 200 + 15 * 60 * 1000), false);
+
+    const valid = registerOAuthCallback(callbacks, "conn-a", 300);
+    assert.equal(consumeOAuthCallback(callbacks, "conn-a", valid, 301), true);
+    assert.equal(consumeOAuthCallback(callbacks, "conn-a", valid, 302), false);
+});
+
+test("OAuth callbacks use a one-time nonce instead of the API capability", async (t) => {
+    const instanceId = `oauth-nonce-${Date.now()}`;
+    t.after(() => stopServer(instanceId));
+    const entry = await startServer(instanceId);
+    const connName = "connection-name";
+    const nonce = registerOAuthCallback(entry.oauthCallbacks, connName);
+    const callbackUrl = `${entry.origin}/auth/callback/${encodeURIComponent(connName)}?cn_nonce=${nonce}`;
+
+    const callback = await fetch(callbackUrl);
+    assert.equal(callback.status, 200);
+    assert.equal(callback.headers.get("cache-control"), "no-store");
+    assert.equal(callback.headers.get("referrer-policy"), "no-referrer");
+
+    const replay = await fetch(callbackUrl);
+    assert.equal(replay.status, 403);
+
+    const masterToken = await fetch(
+        `${entry.origin}/auth/callback/${encodeURIComponent(connName)}?cn_nonce=${entry.token}`,
     );
+    assert.equal(masterToken.status, 403);
+
+    const headers = { "x-connector-namespace-token": entry.token };
+    const status = await fetch(
+        `${entry.origin}/oauth-status?connectionName=${encodeURIComponent(connName)}`,
+        { headers },
+    );
+    assert.deepEqual(await status.json(), { done: true });
+    const consumed = await fetch(
+        `${entry.origin}/oauth-status?connectionName=${encodeURIComponent(connName)}`,
+        { headers },
+    );
+    assert.deepEqual(await consumed.json(), { done: false });
 });
 
 test("request bodies larger than 64 KiB are rejected", async () => {
@@ -269,7 +335,7 @@ test("install rejects missing idempotency request ids before ARM work", async (t
     const entry = await startServer(instanceId, {
         config: { subscriptionId: "sub", resourceGroup: "rg", gatewayName: "gw" },
     });
-    const response = await fetch(`${entry.url}api/install`, {
+    const response = await fetch(`${entry.origin}/api/install`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -307,7 +373,7 @@ test("gateway selection rejects invalid config without changing panel state", as
     const original = { subscriptionId: "sub", resourceGroup: "rg", gatewayName: "gw" };
     const entry = await startServer(instanceId, { config: original });
 
-    const response = await fetch(`${entry.url}api/select-gateway`, {
+    const response = await fetch(`${entry.origin}/api/select-gateway`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

@@ -31,10 +31,12 @@ const REGIONS = [
 
 const DEFAULT_REGION = "eastus";
 
-export function renderCreateNamespaceHtml(subscriptions, preselectedSub = "", capabilityToken = "") {
+export function renderCreateNamespaceHtml(subscriptions, preselectedSub = "", capabilityToken = "", pageBasePath = "") {
     const subOptions = subscriptions.map((s) =>
         `<option value="${esc(s.id)}"${s.id === preselectedSub ? " selected" : ""}>${esc(s.name)} (${esc(s.id.slice(0, 8))}\u2026)</option>`
     ).join("");
+    const pageHomePath = `${pageBasePath}/`;
+    const pageSetupPath = `${pageBasePath}/setup`;
 
     const regionOptions = REGIONS.map(([v, l]) =>
         `<option value="${v}"${v === DEFAULT_REGION ? " selected" : ""}>${l}</option>`
@@ -135,6 +137,8 @@ export function renderCreateNamespaceHtml(subscriptions, preselectedSub = "", ca
 
 <script>
 const connectorNamespaceToken = ${JSON.stringify(capabilityToken)};
+const pageHomePath = ${JSON.stringify(pageHomePath)};
+const pageSetupPath = ${JSON.stringify(pageSetupPath)};
 const rawFetch = window.fetch.bind(window);
 window.fetch = (input, init = {}) => {
     const url = typeof input === "string" ? input : input && input.url;
@@ -172,8 +176,8 @@ let checkSeq = 0;
 let resourceGroupsSeq = 0;
 let identitiesSeq = 0;
 
-backBtn.onclick = () => { if (!creating) window.location.href = "/setup"; };
-cancelBtn.onclick = () => { if (!creating) window.location.href = "/setup"; };
+backBtn.onclick = () => { if (!creating) window.location.href = pageSetupPath; };
+cancelBtn.onclick = () => { if (!creating) window.location.href = pageSetupPath; };
 
 function setFormLocked(locked) {
     for (const control of document.querySelectorAll("button, input, select")) {
@@ -381,7 +385,7 @@ createBtn.onclick = async () => {
         if (data.ok) {
             progress.className = "progress success";
             progress.textContent = "\u2713 Created \u201c" + request.name + "\u201d. Opening\u2026";
-            window.location.href = "/";
+            window.location.href = pageHomePath;
             return;
         }
         progress.className = "progress error";

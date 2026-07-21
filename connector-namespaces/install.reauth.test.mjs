@@ -80,7 +80,7 @@ test("re-authenticate re-consents the existing connection and mints no new resou
     globalThis.fetch = async (urlArg, opts = {}) => {
         const url = String(urlArg);
         const method = (opts.method || "GET").toUpperCase();
-        calls.push({ method, url });
+        calls.push({ method, url, body: opts.body });
         const ok = (body) => ({ ok: true, status: 200, text: async () => JSON.stringify(body) });
 
         if (method === "POST" && url.includes("/listConsentLinks")) return ok({ value: [{ link: "https://consent.example/redir" }] });
@@ -96,7 +96,18 @@ test("re-authenticate re-consents the existing connection and mints no new resou
         globalThis.fetch = realFetch;
     });
 
-    const result = await reauthConnector(config, "docusign", "DocuSign", "https://cb/?c=");
+    let callbackConnection;
+    const result = await reauthConnector(
+        config,
+        "docusign",
+        "DocuSign",
+        "https://cb/?c=",
+        "profile",
+        (connName) => {
+            callbackConnection = connName;
+            return "one-time-callback-nonce";
+        },
+    );
     assert.equal(existsSync(legacyAuthCache), false, "the legacy refresh-token cache must be removed without reading it");
 
     // Adopts the existing connection, stops at consent, carries the selected config
@@ -115,6 +126,10 @@ test("re-authenticate re-consents the existing connection and mints no new resou
     // And it re-consented the SELECTED connection, not the portal sibling.
     const consent = calls.find((c) => c.url.includes("/listConsentLinks"));
     assert.ok(consent && consent.url.includes("/connections/conn-b/"), "consent must target conn-b");
+    const redirectUrl = JSON.parse(consent.body).parameters[0].redirectUrl;
+    assert.equal(callbackConnection, "conn-b");
+    assert.equal(new URL(redirectUrl).searchParams.get("cn_nonce"), "one-time-callback-nonce");
+    assert.equal(new URL(redirectUrl).searchParams.has("cn_token"), false);
     assert.ok(
         !calls.some((c) => c.url.includes("/connections/conn-a/listConsentLinks")),
         "must not touch the sibling connection conn-a",

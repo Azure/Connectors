@@ -42,12 +42,13 @@ function reducedMotionBlock(css) {
     return null;
 }
 
-function catalogHtml() {
+function catalogHtml(overrides = {}) {
     return renderCatalogHtml("test-instance", [], {
         filter: "",
         category: "all",
         source: "",
         config: { subscriptionId: "sub", gatewayName: "ns", resourceGroup: "rg" },
+        ...overrides,
     });
 }
 
@@ -73,8 +74,21 @@ test("a linked namespace gets a focused sign-in state and returns to its catalog
     assert.match(html, /Connector namespace <code>saved-gateway<\/code> is already linked\./);
     assert.match(html, /Sign in to Azure to view and manage its connectors\./);
     assert.match(html, /const hasLinkedNamespace = true/);
-    assert.match(html, /window\.location\.replace\("\/"\)/);
+    assert.match(html, /window\.location\.replace\(pageHomePath\)/);
     assert.match(html, /<div id="setup-content" hidden>/);
+});
+
+test("page navigation preserves the unguessable canvas path", () => {
+    const pageBasePath = "/canvas/page-capability";
+    const setup = renderSetupHtml([], "", "token", { pageBasePath });
+    const create = renderCreateNamespaceHtml([], "", "token", pageBasePath);
+    const catalog = catalogHtml({ pageBasePath });
+
+    assert.match(setup, /const pageHomePath = "\/canvas\/page-capability\/"/);
+    assert.match(setup, /const pageCreatePath = "\/canvas\/page-capability\/create"/);
+    assert.match(create, /const pageSetupPath = "\/canvas\/page-capability\/setup"/);
+    assert.match(create, /const pageHomePath = "\/canvas\/page-capability\/"/);
+    assert.match(catalog, /window\.location\.href='\/canvas\/page-capability\/setup'/);
 });
 
 test("linked namespace sign-in escapes saved names and produces valid client JavaScript", () => {
@@ -253,7 +267,7 @@ test("create form locks navigation and fields while provisioning", () => {
     assert.match(html, /control\.disabled = true/);
     assert.match(html, /document\.body\.setAttribute\("aria-busy"/);
     assert.match(html, /finally \{\s*if \(creating\) setFormLocked\(true\)/);
-    assert.match(html, /if \(!creating\) window\.location\.href = "\/setup"/);
+    assert.match(html, /if \(!creating\) window\.location\.href = pageSetupPath/);
     assert.match(html, /progress\.textContent = [^;]*request\.name/);
 });
 

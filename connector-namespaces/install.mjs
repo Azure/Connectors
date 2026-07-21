@@ -652,15 +652,15 @@ async function throwAfterCleanup(error, cleanups) {
 // Full install pipeline
 // ---------------------------------------------------------------------------
 
-function oauthCallbackUrl(callbackBase, connName, capabilityToken = "") {
+function oauthCallbackUrl(callbackBase, connName, callbackNonce = "") {
     const url = new URL(`${callbackBase}${encodeURIComponent(connName)}`);
-    if (capabilityToken) {
-        url.searchParams.set("cn_token", capabilityToken);
+    if (callbackNonce) {
+        url.searchParams.set("cn_nonce", callbackNonce);
     }
     return url.toString();
 }
 
-export async function installConnector(config, apiName, displayName, callbackBase, scope = "profile", capabilityToken = "") {
+export async function installConnector(config, apiName, displayName, callbackBase, scope = "profile", createCallbackNonce = () => "") {
     const pending = await getPendingCleanup(gatewayId(config), apiName);
     if (pending) {
         await cleanupConnectorResources(
@@ -678,10 +678,6 @@ export async function installConnector(config, apiName, displayName, callbackBas
     const connName = await createConnection(config, apiName, displayName, location);
     let finishStarted = false;
     try {
-        // The OAuth redirect must carry the connName so the loopback callback keys
-        // pendingOAuth by the same value the client polls on.
-        const callbackUrl = oauthCallbackUrl(callbackBase, connName, capabilityToken);
-
         // 2. Quick wait for the connection to converge — some connectors come up
         //    Connected without any OAuth (e.g. service principal / key based).
         await sleep(800);
@@ -692,6 +688,7 @@ export async function installConnector(config, apiName, displayName, callbackBas
         }
 
         // 3. Needs OAuth — derive the correct consent parameter from metadata.
+        const callbackUrl = oauthCallbackUrl(callbackBase, connName, createCallbackNonce(connName));
         const oauthParam = findOAuthParam(meta, callbackUrl);
         const consentUrl = await getConsentUrl(config, connName, callbackUrl, oauthParam);
         if (consentUrl) {
@@ -766,11 +763,11 @@ export async function finishInstall(config, apiName, displayName, connName, loca
 // re-auth against: no known connection, or the stored connection was deleted
 // server-side (listConsentLinks 404s). In the 404 case we drop the orphaned
 // config + local entry first so the fallback install can't leave a duplicate.
-export async function reauthConnector(config, apiName, displayName, callbackBase, scope = "profile", capabilityToken = "") {
-    return reauthConnectorWithAttempts(config, apiName, displayName, callbackBase, scope, capabilityToken, new Set());
+export async function reauthConnector(config, apiName, displayName, callbackBase, scope = "profile", createCallbackNonce = () => "") {
+    return reauthConnectorWithAttempts(config, apiName, displayName, callbackBase, scope, createCallbackNonce, new Set());
 }
 
-async function reauthConnectorWithAttempts(config, apiName, displayName, callbackBase, scope, capabilityToken, attemptedConfigNames) {
+async function reauthConnectorWithAttempts(config, apiName, displayName, callbackBase, scope, createCallbackNonce, attemptedConfigNames) {
     const state = await getInstalledState(config);
     const selected = state[apiName];
     const candidates = selected?._candidates ?? (selected ? [selected] : []);
@@ -779,12 +776,12 @@ async function reauthConnectorWithAttempts(config, apiName, displayName, callbac
 
     // Nothing installed to re-auth against — treat it as a first-time Connect.
     if (!connName) {
-        return installConnector(config, apiName, displayName, callbackBase, scope, capabilityToken);
+        return installConnector(config, apiName, displayName, callbackBase, scope, createCallbackNonce);
     }
 
     const location = await getGatewayLocation(config);
     const meta = await loadConnectorMeta(config, apiName, location, false);
-    const callbackUrl = oauthCallbackUrl(callbackBase, connName, capabilityToken);
+    const callbackUrl = oauthCallbackUrl(callbackBase, connName, createCallbackNonce(connName));
     const oauthParam = findOAuthParam(meta, callbackUrl);
 
     let consentUrl;
@@ -811,7 +808,7 @@ async function reauthConnectorWithAttempts(config, apiName, displayName, callbac
                 displayName,
                 callbackBase,
                 scope,
-                capabilityToken,
+                createCallbackNonce,
                 attemptedConfigNames,
             );
         }

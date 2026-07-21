@@ -28,9 +28,9 @@ import { installConnector, finishInstall, reauthConnector, finishReauth, openInB
 const servers = new Map();
 const starting = new Map(); // instanceId → Promise<entry> while a server is binding
 const gatewayCache = new Map();
-const pendingOAuth = new Map(); // connName → timestamp
 
 const PENDING_OAUTH_TTL_MS = 15 * 60 * 1000;
+const OAUTH_CALLBACK_TTL_MS = 15 * 60 * 1000;
 const MUTATION_REPLAY_TTL_MS = 15 * 60 * 1000;
 const CAPABILITY_TOKEN_HEADER = "x-connector-namespace-token";
 const MAX_REQUEST_BODY_BYTES = 64 * 1024;
@@ -47,19 +47,16 @@ export function isCanonicalHost(req, canonicalHost) {
 }
 
 export function requiresCapabilityToken(pathname) {
-    return pathname.startsWith("/api/") || pathname === "/oauth-status" || pathname.startsWith("/auth/callback/");
+    return pathname.startsWith("/api/") || pathname === "/oauth-status";
 }
 
-export function hasCapabilityToken(req, url, expectedToken) {
+export function hasCapabilityToken(req, expectedToken) {
     if (!expectedToken) {
         return false;
     }
     const header = req.headers[CAPABILITY_TOKEN_HEADER];
     const headerToken = Array.isArray(header) ? header[0] : header;
-    const callbackToken = url.pathname.startsWith("/auth/callback/")
-        ? url.searchParams.get("cn_token")
-        : null;
-    return headerToken === expectedToken || callbackToken === expectedToken;
+    return headerToken === expectedToken;
 }
 
 function rejectForbidden(res, error) {
@@ -68,12 +65,61 @@ function rejectForbidden(res, error) {
     res.end(JSON.stringify({ error }));
 }
 
+function rejectNotFound(res) {
+    res.statusCode = 404;
+    res.setHeader("Cache-Control", "no-store");
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ error: "not_found" }));
+}
+
+function html(res, body) {
+    res.setHeader("Cache-Control", "no-store");
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.setHeader("Referrer-Policy", "no-referrer");
+    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.end(body);
+}
+
+function pageRoute(pathname, pagePath) {
+    if (pathname === pagePath || pathname === `${pagePath}/`) return "/";
+    if (pathname === `${pagePath}/setup`) return "/setup";
+    if (pathname === `${pagePath}/create`) return "/create";
+    return null;
+}
+
+function pruneOAuthCallbacks(callbacks, now = Date.now()) {
+    for (const [nonce, callback] of callbacks) {
+        if (callback.expiresAt <= now) callbacks.delete(nonce);
+    }
+}
+
+export function registerOAuthCallback(callbacks, connName, now = Date.now()) {
+    if (typeof connName !== "string" || !connName) {
+        throw new Error("OAuth callback connection name is required.");
+    }
+    pruneOAuthCallbacks(callbacks, now);
+    const nonce = createCapabilityToken();
+    callbacks.set(nonce, {
+        connName,
+        expiresAt: now + OAUTH_CALLBACK_TTL_MS,
+    });
+    return nonce;
+}
+
+export function consumeOAuthCallback(callbacks, connName, nonce, now = Date.now()) {
+    pruneOAuthCallbacks(callbacks, now);
+    if (!nonce) return false;
+    const callback = callbacks.get(nonce);
+    if (!callback) return false;
+    callbacks.delete(nonce);
+    return callback.connName === connName;
+}
+
 // Drop stale/abandoned consent markers so the map can't grow unbounded and a
 // brand-new install of the same connection can't observe a stale "done".
-function prunePendingOAuth() {
-    const now = Date.now();
-    for (const [name, ts] of pendingOAuth) {
-        if (now - ts > PENDING_OAUTH_TTL_MS) pendingOAuth.delete(name);
+function prunePendingOAuth(pendingOAuth, now = Date.now()) {
+    for (const [name, expiresAt] of pendingOAuth) {
+        if (expiresAt <= now) pendingOAuth.delete(name);
     }
 }
 
@@ -157,7 +203,7 @@ async function handleRequest(req, res, instanceId, serverEntry) {
         return;
     }
 
-    if (requiresCapabilityToken(url.pathname) && !hasCapabilityToken(req, url, serverEntry.token)) {
+    if (requiresCapabilityToken(url.pathname) && !hasCapabilityToken(req, serverEntry.token)) {
         rejectForbidden(res, "missing_or_invalid_capability_token");
         return;
     }
@@ -349,13 +395,13 @@ async function handleRequest(req, res, instanceId, serverEntry) {
         const { apiName, displayName, requestId } = body;
         if (!apiName) { json(res, { error: "missing apiName" }); return; }
         if (!REQUEST_ID.test(requestId || "")) { json(res, { error: "invalid requestId" }); return; }
-        const port = new URL(serverEntry.url).port;
-        const callbackBase = `http://127.0.0.1:${port}/auth/callback/`;
+        const callbackBase = `${serverEntry.origin}/auth/callback/`;
+        const createCallbackNonce = (connName) => registerOAuthCallback(serverEntry.oauthCallbacks, connName);
         try {
             const result = await runIdempotentOperation(
                 serverEntry.operations,
                 `install:${requestId}`,
-                () => installConnector(config, apiName, displayName || apiName, callbackBase, "profile", serverEntry.token),
+                () => installConnector(config, apiName, displayName || apiName, callbackBase, "profile", createCallbackNonce),
             );
             if (result && !result.error && !result.needsConsent) { pendingRestart = true; restartAcked = false; }
             json(res, result);
@@ -372,13 +418,13 @@ async function handleRequest(req, res, instanceId, serverEntry) {
         const { apiName, displayName, requestId } = body;
         if (!apiName) { json(res, { error: "missing apiName" }); return; }
         if (!REQUEST_ID.test(requestId || "")) { json(res, { error: "invalid requestId" }); return; }
-        const port = new URL(serverEntry.url).port;
-        const callbackBase = `http://127.0.0.1:${port}/auth/callback/`;
+        const callbackBase = `${serverEntry.origin}/auth/callback/`;
+        const createCallbackNonce = (connName) => registerOAuthCallback(serverEntry.oauthCallbacks, connName);
         try {
             const result = await runIdempotentOperation(
                 serverEntry.operations,
                 `reauth:${requestId}`,
-                () => reauthConnector(config, apiName, displayName || apiName, callbackBase, "profile", serverEntry.token),
+                () => reauthConnector(config, apiName, displayName || apiName, callbackBase, "profile", createCallbackNonce),
             );
             if (result && !result.error && !result.needsConsent) { pendingRestart = true; restartAcked = false; }
             json(res, result);
@@ -445,12 +491,12 @@ async function handleRequest(req, res, instanceId, serverEntry) {
     }
 
     if (req.method === "GET" && url.pathname === "/oauth-status") {
-        prunePendingOAuth();
+        prunePendingOAuth(serverEntry.pendingOAuth);
         const connName = url.searchParams.get("connectionName") || "";
         // Consume the marker once observed so the map self-cleans on the happy
         // path instead of lingering until the TTL sweep. delete() returns true
         // iff the marker existed, which is exactly the "done" signal.
-        const done = connName ? pendingOAuth.delete(connName) : false;
+        const done = connName ? serverEntry.pendingOAuth.delete(connName) : false;
         json(res, { done });
         return;
     }
@@ -521,40 +567,56 @@ async function handleRequest(req, res, instanceId, serverEntry) {
     }
 
     if (req.method === "GET" && url.pathname.startsWith("/auth/callback/")) {
-        const connName = decodeURIComponent(url.pathname.slice("/auth/callback/".length));
-        prunePendingOAuth();
-        if (connName) pendingOAuth.set(connName, Date.now());
-        res.setHeader("Content-Type", "text/html; charset=utf-8");
-        res.end(`<!doctype html><html><head><meta charset="utf-8"><title>Sign-in complete</title></head><body style="font-family:system-ui;padding:2rem;"><h2>Sign-in complete</h2><p>You can close this tab and return to Copilot.</p></body></html>`);
+        let connName;
+        try {
+            connName = decodeURIComponent(url.pathname.slice("/auth/callback/".length));
+        } catch {
+            rejectForbidden(res, "invalid_oauth_callback");
+            return;
+        }
+        const nonce = url.searchParams.get("cn_nonce") || "";
+        if (!consumeOAuthCallback(serverEntry.oauthCallbacks, connName, nonce)) {
+            rejectForbidden(res, "invalid_oauth_callback");
+            return;
+        }
+        prunePendingOAuth(serverEntry.pendingOAuth);
+        serverEntry.pendingOAuth.set(connName, Date.now() + PENDING_OAUTH_TTL_MS);
+        html(res, `<!doctype html><html><head><meta charset="utf-8"><title>Sign-in complete</title></head><body style="font-family:system-ui;padding:2rem;"><h2>Sign-in complete</h2><p>You can close this tab and return to Copilot.</p></body></html>`);
         return;
     }
 
     // --- Page routes ---
 
+    const route = req.method === "GET" ? pageRoute(url.pathname, serverEntry.pagePath) : null;
+    if (!route) {
+        rejectNotFound(res);
+        return;
+    }
     const config = serverEntry.config;
 
     // Create connector namespace page (reachable with or without a saved config)
-    if (url.pathname === "/create") {
+    if (route === "/create") {
         try {
             const subs = await listSubscriptions();
             const preselected = url.searchParams.get("subscriptionId") || "";
-            res.setHeader("Content-Type", "text/html; charset=utf-8");
-            res.end(renderCreateNamespaceHtml(subs, preselected, serverEntry.token));
+            html(res, renderCreateNamespaceHtml(subs, preselected, serverEntry.token, serverEntry.pagePath));
         } catch (err) {
-            res.setHeader("Content-Type", "text/html; charset=utf-8");
             if (isAuthenticationRequiredError(err)) {
-                res.end(renderSetupHtml([], "Sign in to Azure before creating a connector namespace.", serverEntry.token));
+                html(res, renderSetupHtml([], "Sign in to Azure before creating a connector namespace.", serverEntry.token, {
+                    pageBasePath: serverEntry.pagePath,
+                }));
             } else {
-                res.end(renderErrorHtml(`Failed to load subscriptions.\n\n${err.message}`));
+                html(res, renderErrorHtml(`Failed to load subscriptions.\n\n${err.message}`));
             }
         }
         return;
     }
 
     // Setup page (no gateway configured)
-    if (!config || url.pathname === "/setup") {
-        res.setHeader("Content-Type", "text/html; charset=utf-8");
-        res.end(renderSetupHtml([], "", serverEntry.token));
+    if (!config || route === "/setup") {
+        html(res, renderSetupHtml([], "", serverEntry.token, {
+            pageBasePath: serverEntry.pagePath,
+        }));
         return;
     }
 
@@ -568,19 +630,25 @@ async function handleRequest(req, res, instanceId, serverEntry) {
         // Warm connector metadata (opId + connection params) in the background so
         // the Connect click doesn't pay for the slow swagger export.
         prewarmMeta(config, catalog.map((c) => c.apiName));
-        res.setHeader("Content-Type", "text/html; charset=utf-8");
-        res.end(renderCatalogHtml(instanceId, catalog, { filter, category, source, config }, serverEntry.token));
+        html(res, renderCatalogHtml(instanceId, catalog, {
+            filter,
+            category,
+            source,
+            config,
+            pageBasePath: serverEntry.pagePath,
+        }, serverEntry.token));
     } catch (err) {
-        res.setHeader("Content-Type", "text/html; charset=utf-8");
         if (isAuthenticationRequiredError(err)) {
-            res.end(renderSetupHtml([], "", serverEntry.token, {
+            html(res, renderSetupHtml([], "", serverEntry.token, {
                 linkedNamespace: config.gatewayName,
+                pageBasePath: serverEntry.pagePath,
             }));
         } else {
-            res.end(renderSetupHtml(
+            html(res, renderSetupHtml(
                 [],
                 `Couldn't load the saved namespace "${config.gatewayName}". Choose another namespace or try again.`,
                 serverEntry.token,
+                { pageBasePath: serverEntry.pagePath },
             ));
         }
     }
@@ -622,8 +690,11 @@ export function startServer(instanceId, { config, defaultConfig } = {}) {
             host: "",
             origin: "",
             token: createCapabilityToken(),
+            pagePath: `/canvas/${createCapabilityToken()}`,
             config: config ?? defaultConfig ?? null,
             operations: new Map(),
+            oauthCallbacks: new Map(),
+            pendingOAuth: new Map(),
         };
         const server = createServer((req, res) => {
             handleRequest(req, res, instanceId, entry).catch((err) => {
@@ -641,7 +712,7 @@ export function startServer(instanceId, { config, defaultConfig } = {}) {
         const port = typeof address === "object" && address ? address.port : 0;
         entry.host = `127.0.0.1:${port}`;
         entry.origin = `http://${entry.host}`;
-        entry.url = `${entry.origin}/`;
+        entry.url = `${entry.origin}${entry.pagePath}/`;
         servers.set(instanceId, entry);
         return entry;
     })();
@@ -660,6 +731,8 @@ export async function stopServer(instanceId) {
     const entry = servers.get(instanceId);
     if (entry) {
         servers.delete(instanceId);
+        entry.oauthCallbacks.clear();
+        entry.pendingOAuth.clear();
         // close() never resolves while the iframe holds a keep-alive socket —
         // drop live connections first so onClose can't hang and leak the process.
         if (typeof entry.server.closeAllConnections === "function") entry.server.closeAllConnections();

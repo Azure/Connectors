@@ -304,8 +304,10 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px s
 // Setup / Namespace Picker
 // ---------------------------------------------------------------------------
 
-export function renderSetupHtml(subscriptions = [], notice = "", capabilityToken = "", { linkedNamespace = "" } = {}) {
+export function renderSetupHtml(subscriptions = [], notice = "", capabilityToken = "", { linkedNamespace = "", pageBasePath = "" } = {}) {
     const hasLinkedNamespace = typeof linkedNamespace === "string" && linkedNamespace.length > 0;
+    const pageHomePath = `${pageBasePath}/`;
+    const pageCreatePath = `${pageBasePath}/create`;
     const pageTitle = hasLinkedNamespace ? "Sign in to MCP Connectors" : "Select Connector Namespace";
     const heading = hasLinkedNamespace ? "Sign in to see your connectors" : "Select a Connector Namespace";
     const subheading = hasLinkedNamespace
@@ -397,6 +399,8 @@ ${notice ? `<div class="setup-notice">${esc(notice)}</div>` : ""}
 const connectorNamespaceToken = ${JSON.stringify(capabilityToken)};
 const hasLinkedNamespace = ${hasLinkedNamespace};
 const defaultSigninMessage = ${JSON.stringify(defaultSigninMessage)};
+const pageHomePath = ${JSON.stringify(pageHomePath)};
+const pageCreatePath = ${JSON.stringify(pageCreatePath)};
 const rawFetch = window.fetch.bind(window);
 window.fetch = (input, init = {}) => {
     const url = typeof input === "string" ? input : input && input.url;
@@ -422,7 +426,7 @@ const cancelSigninButton = document.getElementById("cancel-signin-btn");
 const signin = { sessionId: null, timer: null, starting: false };
 
 createNamespaceButton.addEventListener("click", () => {
-    window.location.href = "/create" + (subSelect.value ? "?subscriptionId=" + encodeURIComponent(subSelect.value) : "");
+    window.location.href = pageCreatePath + (subSelect.value ? "?subscriptionId=" + encodeURIComponent(subSelect.value) : "");
 });
 let allGateways = [];
 let hasMoreGateways = false;
@@ -546,7 +550,7 @@ async function pollSignin() {
                 : "Signed in. Loading subscriptions\u2026";
             signinPanel.hidden = false;
             if (hasLinkedNamespace) {
-                window.location.replace("/");
+                window.location.replace(pageHomePath);
                 return;
             }
             await loadSubscriptions(true);
@@ -704,7 +708,7 @@ async function selectGateway(subscriptionId, resourceGroup, gatewayName) {
         body: JSON.stringify({ subscriptionId, resourceGroup, gatewayName })
     });
     const data = await res.json();
-    if (data.ok) { window.location.href = "/"; }
+    if (data.ok) { window.location.href = pageHomePath; }
     else { gatewayList.innerHTML = '<div class="empty" style="color:var(--danger);">Failed to save.</div>'; }
 }
 
@@ -725,7 +729,8 @@ function iconBackgroundStyle(brandColor) {
     return CSS_HEX_COLOR.test(color) ? ` style="background:${color}22"` : "";
 }
 
-export function renderCatalogHtml(instanceId, catalog, { filter, category, source, config }, capabilityToken = "") {
+export function renderCatalogHtml(instanceId, catalog, { filter, category, source, config, pageBasePath = "" }, capabilityToken = "") {
+    const setupPath = `${pageBasePath}/setup`;
     const renderItem = (c) => {
         // Items carry their home grid so hydrateState can move them into
         // "My MCPs" when added and back to Microsoft/Partner on remove.
@@ -865,7 +870,7 @@ export function renderCatalogHtml(instanceId, catalog, { filter, category, sourc
     </div>
     <div class="sub">Namespace <code class="cn-name">${esc(config.gatewayName)}</code> &middot; RG <code>${esc(config.resourceGroup)}</code></div>
     <div class="gw-actions">
-        <button type="button" id="switch-ns" class="change-btn gw-action" onclick="document.getElementById('nav-overlay').style.display='flex';window.location.href='/setup';" aria-label="Switch namespace. current namespace: ${esc(config.gatewayName)}">
+        <button type="button" id="switch-ns" class="change-btn gw-action" onclick="document.getElementById('nav-overlay').style.display='flex';window.location.href='${esc(setupPath)}';" aria-label="Switch namespace. current namespace: ${esc(config.gatewayName)}">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.5 5.5h9l-2.2-2.2"/><path d="M13.5 10.5h-9l2.2 2.2"/></svg>
             Switch namespace
         </button>

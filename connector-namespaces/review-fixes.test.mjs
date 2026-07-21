@@ -62,11 +62,11 @@ test("Azure authentication uses an interactive browser with process-memory token
     assert.doesNotMatch(armSource, /get-access-token|az login|resolvePosixAzureCli/);
 });
 
-test("installer preserves capability tokens and persists direct HTTP entries", async () => {
+test("installer preserves callback nonce factories and persists direct HTTP entries", async () => {
     const source = await readFile(new URL("install.mjs", here), "utf8");
-    const fallbacks = source.match(/installConnector\(config, apiName, displayName, callbackBase, scope, capabilityToken\)/g);
+    const fallbacks = source.match(/installConnector\(config, apiName, displayName, callbackBase, scope, createCallbackNonce\)/g);
     assert.equal(fallbacks?.length, 1);
-    assert.match(source, /reauthConnectorWithAttempts\([\s\S]*?capabilityToken,[\s\S]*?attemptedConfigNames/);
+    assert.match(source, /reauthConnectorWithAttempts\([\s\S]*?createCallbackNonce,[\s\S]*?attemptedConfigNames/);
     assert.match(source, /headers: \{ "X-API-Key": key \}/);
     assert.match(source, /const cacheKey = `\$\{sub\}:\$\{location\}:\$\{apiName\}:\$\{requireSwagger\}`/);
     assert.match(source, /throwAfterCleanup\(error, \[\(\) => deleteConnection\(config, connName\)\]\)/);
