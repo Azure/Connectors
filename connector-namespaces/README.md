@@ -95,6 +95,14 @@ Node built-ins and `@github/copilot-sdk/extension` remain external because the
 runtime supplies them. Do not edit the generated bundle or third-party notices
 directly.
 
+## Release
+
+The **Release MCP Connectors canvas** GitHub Actions workflow rebuilds and tests
+the extension from an exact `main` commit, then publishes a
+`connector-namespaces-v<version>` release. Its generated awesome-copilot
+descriptor pins this plugin directory to both the release tag and immutable
+commit SHA.
+
 ## License
 
 [MIT](./LICENSE) © Microsoft Corporation.
