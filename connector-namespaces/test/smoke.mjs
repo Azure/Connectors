@@ -189,7 +189,7 @@ async function main() {
                     writePendingConsents(PENDING_FILE, pending);
                 } else {
                     record.classification = "pending-consent";
-                    console.log(`  ${C.yellow}PENDING_CONSENT${C.reset} still ${status}. Consent: ${pend.consentUrl}`);
+                    console.log(`  ${C.yellow}PENDING_CONSENT${C.reset} still ${status}. Consent: ${logLine(pend.consentUrl)}`);
                     if (opts.openConsent) await openInBrowser(pend.consentUrl);
                     results.push(record);
                     continue;
@@ -216,7 +216,7 @@ async function main() {
                         displayName: label, consentUrl: res.consentUrl, savedAt: Date.now(),
                     };
                     writePendingConsents(PENDING_FILE, pending);
-                    console.log(`  ${C.yellow}NEEDS_CONSENT${C.reset} consent once, then re-run. URL:\n    ${res.consentUrl}`);
+                    console.log(`  ${C.yellow}NEEDS_CONSENT${C.reset} consent once, then re-run. URL: ${logLine(res.consentUrl)}`);
                     if (opts.openConsent) await openInBrowser(res.consentUrl);
                     results.push(record);
                     continue;

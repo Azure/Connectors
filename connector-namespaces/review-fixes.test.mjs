@@ -90,6 +90,9 @@ test("smoke cleanup runs from finally and reports cleanup failures", async () =>
     assert.match(source, /failed\.length > 0 \|\| orchestrationErrors\.length > 0/);
     assert.match(source, /probe\.status === "passed"/);
     assert.match(source, /probe\.status === "skipped"/);
+    assert.match(source, /logLine\(pend\.consentUrl\)/);
+    assert.match(source, /logLine\(res\.consentUrl\)/);
+    assert.doesNotMatch(source, /\$\{pend\.consentUrl\}|\$\{res\.consentUrl\}/);
     const pendingSource = await readFile(new URL("test/pending-consent.mjs", here), "utf8");
     assert.match(pendingSource, /mode: 0o700/);
     assert.match(pendingSource, /mode: 0o600/);
