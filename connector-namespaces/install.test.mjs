@@ -15,7 +15,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-import { deriveInstalledState, getConsentUrl, getConnectionStatus, getMcpEndpointUrl, waitForConnected } from "./install.mjs";
+import { assertSafeConsentUrl, deriveInstalledState, getConsentUrl, getConnectionStatus, getMcpEndpointUrl, waitForConnected } from "./install.mjs";
 
 // removeLocalEntry does file I/O (getInstalledState reads ARM + mcp configs,
 // removeMcpEntry edits them) and calls both as same-module functions, so there
@@ -56,6 +56,13 @@ function conns(...entries) {
     }
     return m;
 }
+
+test("consent URLs require credential-free HTTPS", () => {
+    assert.equal(assertSafeConsentUrl("https://login.example.test/consent?code=one"), "https://login.example.test/consent?code=one");
+    assert.throws(() => assertSafeConsentUrl("http://login.example.test/consent"), /must use https/);
+    assert.throws(() => assertSafeConsentUrl("https://user:pass@login.example.test/consent"), /must not embed credentials/);
+    assert.throws(() => assertSafeConsentUrl("not a URL"), /not a valid URL/);
+});
 
 test("picks inCli+Connected over a not-inCli sibling that appears LAST (not last-wins)", () => {
     // good config is FIRST; a broken sibling is LAST. Old last-wins would pick

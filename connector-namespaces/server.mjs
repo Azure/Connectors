@@ -23,7 +23,7 @@ import {
     isAuthenticationRequiredError,
     startSignIn,
 } from "./auth.mjs";
-import { installConnector, finishInstall, reauthConnector, finishReauth, openInBrowser, openMcpConfigFile, getInstalledState, uninstallConnector, removeLocalEntry, deleteConnection, prewarmMeta } from "./install.mjs";
+import { assertSafeConsentUrl, installConnector, finishInstall, reauthConnector, finishReauth, openInBrowser, openMcpConfigFile, getInstalledState, uninstallConnector, removeLocalEntry, deleteConnection, prewarmMeta } from "./install.mjs";
 
 const servers = new Map();
 const starting = new Map(); // instanceId → Promise<entry> while a server is binding
@@ -470,9 +470,8 @@ async function handleRequest(req, res, instanceId, serverEntry) {
 
     if (req.method === "POST" && url.pathname === "/api/open-url") {
         const body = await parseBody(req);
-        if (!body.url || !/^https?:\/\//.test(body.url)) { json(res, { error: "invalid url" }); return; }
         try {
-            await openInBrowser(body.url);
+            await openInBrowser(assertSafeConsentUrl(body.url));
             json(res, { ok: true });
         } catch (err) {
             json(res, { error: err.message });

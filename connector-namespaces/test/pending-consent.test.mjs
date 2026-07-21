@@ -40,6 +40,12 @@ test("pending consent reads prune expired and malformed URLs from disk", async (
             consentUrl: "javascript:alert(1)",
             savedAt: now - 1_000,
         },
+        insecureUrl: {
+            connName: "conn-insecure",
+            location: "eastus",
+            consentUrl: "http://login.example.test/consent",
+            savedAt: now - 1_000,
+        },
     }));
 
     const pending = readPendingConsents(path, now);

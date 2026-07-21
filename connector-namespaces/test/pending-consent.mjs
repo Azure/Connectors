@@ -8,6 +8,15 @@ function emptyMap() {
     return Object.create(null);
 }
 
+function isHttpsUrl(value) {
+    try {
+        const url = new URL(value);
+        return url.protocol === "https:" && !url.username && !url.password;
+    } catch {
+        return false;
+    }
+}
+
 function isPendingConsent(entry, now) {
     return entry
         && typeof entry === "object"
@@ -20,7 +29,7 @@ function isPendingConsent(entry, now) {
         && typeof entry.location === "string"
         && entry.location.length > 0
         && typeof entry.consentUrl === "string"
-        && /^https?:\/\//.test(entry.consentUrl);
+        && isHttpsUrl(entry.consentUrl);
 }
 
 export function writePendingConsents(path, pending) {

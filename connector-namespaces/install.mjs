@@ -208,6 +208,14 @@ export function assertSafeMcpTarget(rawUrl) {
     if (blocked) throw new Error(`MCP endpoint URL host is not allowed: ${host}`);
 }
 
+export function assertSafeConsentUrl(rawUrl) {
+    let url;
+    try { url = new URL(rawUrl); } catch { throw new Error("Consent URL is not a valid URL."); }
+    if (url.protocol !== "https:") throw new Error("Consent URL must use https.");
+    if (url.username || url.password) throw new Error("Consent URL must not embed credentials.");
+    return url.toString();
+}
+
 // ---------------------------------------------------------------------------
 // ARM helpers (using the shared token)
 // ---------------------------------------------------------------------------
@@ -422,7 +430,8 @@ export async function getConsentUrl(config, connName, callbackUrl, oauthParam) {
     const res = await arm("POST", `${gatewayId(config)}/connections/${armSegment(connName)}/listConsentLinks?api-version=${API_VERSION}`, {
         parameters: [{ parameterName: param.parameterName, redirectUrl: param.redirectUrl }],
     });
-    return res?.value?.[0]?.link || null;
+    const link = res?.value?.[0]?.link;
+    return link ? assertSafeConsentUrl(link) : null;
 }
 
 export async function getConnectionStatus(config, connName) {
