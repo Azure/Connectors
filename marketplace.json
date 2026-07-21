@@ -2,7 +2,7 @@
   "name": "Azure-Connectors",
   "metadata": {
     "description": "Azure Connectors skills marketplace — self-contained skills for coding agents (Copilot CLI, Claude Code).",
-    "version": "0.2.0"
+    "version": "0.1.0"
   },
   "owner": {
     "name": "Microsoft",
@@ -18,12 +18,7 @@
         "./skills/connectors",
         "./skills/aca-sandboxes"
       ]
-    },
-    {
-      "name": "connector-namespaces",
-      "source": "./connector-namespaces",
-      "description": "Interactive GitHub Copilot canvas for discovering, connecting, and managing hosted MCP servers from an Azure Connector Namespace.",
-      "version": "1.2.0"
     }
+
   ]
 }
