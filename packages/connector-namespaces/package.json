@@ -1,0 +1,31 @@
+{
+  "name": "connector-namespaces",
+  "version": "1.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Interactive GitHub Copilot canvas for discovering, connecting, and managing hosted MCP servers from Azure Connector Namespace.",
+  "keywords": [
+    "azure",
+    "connector-namespace",
+    "mcp",
+    "mcp-connectors",
+    "model-context-protocol",
+    "tool-discovery"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "check": "npm test && npm run check:bundle",
+    "check:bundle": "node build.mjs --check",
+    "test": "node --test auth.test.mjs install.reauth.test.mjs install.test.mjs mcp-http-probe.test.mjs renderer.test.mjs review-fixes.test.mjs sandbox.test.mjs server.test.mjs state.test.mjs test/safe-tools.test.mjs distribution.test.mjs"
+  },
+  "devDependencies": {
+    "@azure/identity": "4.13.1",
+    "@github/copilot-sdk": "1.0.6",
+    "esbuild": "0.28.1",
+    "supports-color": "8.1.1"
+  }
+}

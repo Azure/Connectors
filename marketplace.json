@@ -2,7 +2,7 @@
   "name": "Azure-Connectors",
   "metadata": {
     "description": "Azure Connectors skills marketplace — self-contained skills for coding agents (Copilot CLI, Claude Code).",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "owner": {
     "name": "Microsoft",
@@ -12,13 +12,13 @@
     {
       "name": "azure-connectornamespace",
       "source": "./plugin",
-      "description": "Azure Connector Namespace — manage connector namespaces, connections, triggers, MCP server configs, and ACA sandbox wiring. Bundles a generic (callback-to-any-HTTPS-endpoint) skill plus an ACA-sandbox edition that wires triggers and direct API calls into Azure Container Apps sandboxes.",
-      "version": "0.1.0",
+      "description": "Azure Connector Namespace — browse and connect hosted MCP servers in an interactive Copilot canvas, and manage connector namespaces, connections, triggers, MCP server configs, and ACA sandbox wiring with companion skills.",
+      "version": "0.2.0",
       "skills": [
         "./skills/connectors",
         "./skills/aca-sandboxes"
-      ]
+      ],
+      "extensions": "./extensions"
     }
   ]
 }
-

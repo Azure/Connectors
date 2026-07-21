@@ -13,8 +13,8 @@ Connector Namespaces is a Microsoft Azure service that lets you bring connectors
 ## Skills for Coding Agents
 
 This repo doubles as a plugin marketplace for GitHub Copilot CLI and Claude Code.
-Install the skills once and drive Azure Connectors from natural language inside
-your coding agent.
+Install the plugin once to drive Azure Connectors from natural language and,
+in GitHub Copilot, browse hosted MCP servers in an interactive canvas.
 
 ### GitHub Copilot CLI
 
@@ -39,6 +39,19 @@ claude plugin add Azure/Connectors
 | [azure-connectornamespace-aca-sandbox](plugin/skills/aca-sandboxes/SKILL.md) | ACA-sandbox edition — manage connector namespaces, connections, and triggers; wire external services (Office 365, Teams, Forms, SharePoint, OneDrive, GitHub, Azure Blob) to Azure Container Apps sandbox apps via event-driven triggers or direct API calls using connection runtime URLs. |
 
 See [`plugin/skills/connectors/README.md`](plugin/skills/connectors/README.md) for more detail.
+
+### MCP Connectors canvas
+
+The GitHub Copilot plugin also includes the **MCP Connectors** canvas for
+discovering, connecting, and managing hosted MCP servers from an Azure
+Connector Namespace. It keeps Azure access and refresh tokens in extension
+process memory only; the selected namespace is retained so a reload can prompt
+for sign-in and return directly to its connector catalog.
+
+The checked-in `extension.mjs` is a self-contained bundle: fresh plugin installs
+do not run `npm install` or require `node_modules`. See the
+[canvas documentation](packages/connector-namespaces/README.md) for usage,
+security details, and development commands.
 
 ## Resources
 

@@ -1,0 +1,2 @@
+plugin/extensions/connector-namespaces/extension.mjs text eol=lf -whitespace
+plugin/extensions/connector-namespaces/THIRD-PARTY-NOTICES.txt text eol=lf -whitespace
