@@ -101,5 +101,11 @@ jobs:
       - name: Install build dependencies
         run: npm ci --prefix connector-namespaces
 
-      - name: Test source and verify bundle
-        run: npm run check --prefix connector-namespaces
+      - name: Build extension distribution
+        run: npm run build --prefix connector-namespaces
+
+      - name: Verify generated distribution is committed
+        run: git diff --exit-code -- connector-namespaces/extensions/connector-namespaces
+
+      - name: Test source and distribution
+        run: npm test --prefix connector-namespaces
