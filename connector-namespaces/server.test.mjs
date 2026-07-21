@@ -19,8 +19,13 @@ import { join } from "node:path";
 import { Readable } from "node:stream";
 
 const TEST_COPILOT_HOME = mkdtempSync(join(tmpdir(), "connector-server-test-"));
+const PREVIOUS_COPILOT_HOME = process.env.COPILOT_HOME;
 process.env.COPILOT_HOME = TEST_COPILOT_HOME;
-after(() => rmSync(TEST_COPILOT_HOME, { recursive: true, force: true }));
+after(() => {
+    if (PREVIOUS_COPILOT_HOME === undefined) delete process.env.COPILOT_HOME;
+    else process.env.COPILOT_HOME = PREVIOUS_COPILOT_HOME;
+    rmSync(TEST_COPILOT_HOME, { recursive: true, force: true });
+});
 
 const {
     consumeOAuthCallback,

@@ -42,7 +42,7 @@ Options:
 
 | flag | effect |
 |---|---|
-| `--only=a,b` | only test these `apiName`s (comma-separated) |
+| `--only=a,b` | only test these exact catalog `apiName` values (comma-separated) |
 | `--limit=N` | stop after N connectable servers |
 | `--open-consent` | open consent URLs in the browser for OAuth servers that need it |
 | `--no-cleanup` | leave fresh keyless installs in place (default: uninstall them) |
@@ -50,8 +50,9 @@ Options:
 Examples:
 
 ```bash
-# just the three already-connected WorkIQ servers
-node connector-namespaces/test/smoke.mjs --only=WorkIQMail,WorkIQSharePoint,WorkIQTeams
+# test selected servers; copy their complete apiName values from the catalog,
+# including suffixes such as WorkIQTeamsMCP-1a81f9
+node connector-namespaces/test/smoke.mjs --only=EXACT_API_NAME_1,EXACT_API_NAME_2
 
 # first 5 connectable servers, open any consent prompts
 node connector-namespaces/test/smoke.mjs --limit=5 --open-consent
