@@ -1,7 +1,7 @@
 {
   "name": "azure-connectornamespace",
   "description": "Azure Connector Namespace — manage connector namespaces, connections, triggers, MCP server configs, and ACA sandbox wiring. Connects external services (Office 365, Teams, Microsoft Forms, SharePoint, OneDrive, GitHub, Azure Blob) to any HTTP(S) callback (Function App, Logic App, App Service, custom webhook) or to Azure Container Apps sandboxes via event-driven triggers or direct API calls using connection runtime URLs.",
-  "version": "0.2.0",
+  "version": "0.1.0",
   "author": {
     "name": "Microsoft",
     "url": "https://www.microsoft.com"

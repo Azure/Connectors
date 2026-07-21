@@ -9,7 +9,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { build } from "esbuild";
 
 const packageRoot = dirname(fileURLToPath(import.meta.url));
-const distributionRoot = join(packageRoot, "..", "..", "plugin", "extensions", "connector-namespaces");
+const distributionRoot = join(packageRoot, "extensions", "connector-namespaces");
 const hostSdk = "@github/copilot-sdk/extension";
 const expectedFiles = [
     "LICENSE",

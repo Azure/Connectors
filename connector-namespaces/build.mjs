@@ -5,8 +5,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const packageRoot = dirname(fileURLToPath(import.meta.url));
-const repositoryRoot = join(packageRoot, "..", "..");
-const distributionRoot = join(repositoryRoot, "plugin", "extensions", "connector-namespaces");
+const distributionRoot = join(packageRoot, "extensions", "connector-namespaces");
 const bundlePath = join(distributionRoot, "extension.mjs");
 const noticesPath = join(distributionRoot, "THIRD-PARTY-NOTICES.txt");
 const checkOnly = process.argv.includes("--check");

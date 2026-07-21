@@ -21,13 +21,12 @@ and connected-server management into the Copilot side panel.
 
 ## Install
 
-Install the `azure-connectornamespace` plugin from the Azure Connectors
-marketplace. The plugin includes this canvas and the companion Connector
-Namespace skills:
+Install the standalone `connector-namespaces` plugin from the Azure Connectors
+marketplace:
 
 ```bash
 /plugin marketplace add Azure/Connectors
-/plugin install azure-connectornamespace@Azure-Connectors
+/plugin install connector-namespaces@Azure-Connectors
 ```
 
 ## Requirements
@@ -80,9 +79,10 @@ configured HTTPS endpoint.
 
 ## Development
 
-The maintainable source and tests live in this package. The installable
-extension is generated at
-`../../plugin/extensions/connector-namespaces/extension.mjs`.
+The maintainable source, tests, and pinned build tooling live in this plugin
+folder. The private `package.json` is only a reproducible build workspace; this
+plugin is not published as an npm package. The installable extension is
+generated at `extensions/connector-namespaces/extension.mjs`.
 
 ```bash
 npm ci

@@ -1,6 +1,6 @@
 // Regression guards for the connector-catalog renderer.
 //
-// Run: node --test packages/connector-namespaces/renderer.test.mjs
+// Run: node --test connector-namespaces/renderer.test.mjs
 //
 // These tests exist because two UX bugs kept coming back:
 //   1. A `@media (prefers-reduced-motion: reduce)` rule froze functional

@@ -20,7 +20,7 @@ load a state in a browser, or capture screenshots with `agent-browser`.
 ## Run the preview server
 
 ```sh
-node packages/connector-namespaces/preview/server.mjs
+node connector-namespaces/preview/server.mjs
 ```
 
 It binds to `http://127.0.0.1:7331`. Open that URL in any browser. The server is
@@ -76,7 +76,7 @@ npm i -g agent-browser && agent-browser install
 Then, with the server running in another terminal:
 
 ```sh
-node packages/connector-namespaces/preview/shots.mjs
+node connector-namespaces/preview/shots.mjs
 ```
 
 Screenshots are written to `preview/shots/`:
@@ -106,7 +106,7 @@ regression gate that actually blocks the recurring bugs is the CSS-structure
 assertion in `../renderer.test.mjs`:
 
 ```sh
-node --test packages/connector-namespaces/renderer.test.mjs
+node --test connector-namespaces/renderer.test.mjs
 ```
 
 Keep that green; use this harness to eyeball changes.

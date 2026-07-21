@@ -96,10 +96,10 @@ jobs:
         with:
           node-version: 22.23.1
           cache: npm
-          cache-dependency-path: packages/connector-namespaces/package-lock.json
+          cache-dependency-path: connector-namespaces/package-lock.json
 
       - name: Install build dependencies
-        run: npm ci --prefix packages/connector-namespaces
+        run: npm ci --prefix connector-namespaces
 
       - name: Test source and verify bundle
-        run: npm run check --prefix packages/connector-namespaces
+        run: npm run check --prefix connector-namespaces
