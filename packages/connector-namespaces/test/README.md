@@ -29,13 +29,13 @@ MCP server issue locally.
 4. **Extension dependencies installed.** From the repository root, run:
 
    ```bash
-   npm install --prefix extensions/connector-namespaces
+   npm install --prefix packages/connector-namespaces
    ```
 
 ## Run it
 
 ```bash
-node extensions/connector-namespaces/test/smoke.mjs
+node packages/connector-namespaces/test/smoke.mjs
 ```
 
 Options:
@@ -51,10 +51,10 @@ Examples:
 
 ```bash
 # just the three already-connected WorkIQ servers
-node extensions/connector-namespaces/test/smoke.mjs --only=WorkIQMail,WorkIQSharePoint,WorkIQTeams
+node packages/connector-namespaces/test/smoke.mjs --only=WorkIQMail,WorkIQSharePoint,WorkIQTeams
 
 # first 5 connectable servers, open any consent prompts
-node extensions/connector-namespaces/test/smoke.mjs --limit=5 --open-consent
+node packages/connector-namespaces/test/smoke.mjs --limit=5 --open-consent
 ```
 
 ## One-time connector consent

@@ -1,6 +1,6 @@
 // Guards for the cross-site request gate on the loopback API server.
 //
-// Run: node --test extensions/connector-namespaces/server.test.mjs
+// Run: node --test packages/connector-namespaces/server.test.mjs
 //
 // The server binds an ephemeral 127.0.0.1 port and JSON-parses every POST body,
 // so without a check any web page the user visits could script-drive their ARM

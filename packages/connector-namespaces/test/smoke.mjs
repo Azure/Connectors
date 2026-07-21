@@ -10,7 +10,7 @@
 // — so it can be handed to someone else to reproduce MCP issues. See README.md.
 //
 // Usage:
-//   node extensions/connector-namespaces/test/smoke.mjs [options]
+//   node packages/connector-namespaces/test/smoke.mjs [options]
 //
 // Options:
 //   --only=a,b      only test these apiNames (comma-separated)
