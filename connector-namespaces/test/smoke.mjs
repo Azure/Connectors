@@ -40,6 +40,7 @@ import {
 } from "../install.mjs";
 import { fetchCatalog } from "../catalog.mjs";
 import { probe } from "./mcp-probe.mjs";
+import { readPendingConsents, writePendingConsents } from "./pending-consent.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPORTS_DIR = join(HERE, "reports");
@@ -63,21 +64,6 @@ function parseArgs(argv) {
         else if (a === "--no-cleanup") opts.cleanup = false;
     }
     return opts;
-}
-
-function readPending() {
-    try {
-        if (existsSync(PENDING_FILE)) return JSON.parse(readFileSync(PENDING_FILE, "utf-8"));
-    } catch { /* ignore corrupt */ }
-    return {};
-}
-
-function writePending(map) {
-    if (!existsSync(ARTIFACTS_DIR)) mkdirSync(ARTIFACTS_DIR, { recursive: true, mode: 0o700 });
-    chmodSync(ARTIFACTS_DIR, 0o700);
-    if (existsSync(PENDING_FILE)) chmodSync(PENDING_FILE, 0o600);
-    writeFileSync(PENDING_FILE, JSON.stringify(map, null, 2), { encoding: "utf-8", mode: 0o600 });
-    chmodSync(PENDING_FILE, 0o600);
 }
 
 // Read the native HTTP MCP credentials from the CLI config.
@@ -174,7 +160,7 @@ async function main() {
     console.log(`${C.dim}${servers.length} Microsoft servers in catalog${C.reset}\n`);
 
     const installedState = await getInstalledState(config);
-    const pending = readPending();
+    const pending = readPendingConsents(PENDING_FILE);
 
     const results = [];
     let connectable = 0;
@@ -200,7 +186,7 @@ async function main() {
                     creds = credsFromCli(fin.configName) || { url: fin.endpointUrl, key: null };
                     record.classification = "consented-now";
                     delete pending[server.apiName];
-                    writePending(pending);
+                    writePendingConsents(PENDING_FILE, pending);
                 } else {
                     record.classification = "pending-consent";
                     console.log(`  ${C.yellow}PENDING_CONSENT${C.reset} still ${status}. Consent: ${pend.consentUrl}`);
@@ -229,7 +215,7 @@ async function main() {
                         connName: res.connName, location: res.location,
                         displayName: label, consentUrl: res.consentUrl, savedAt: Date.now(),
                     };
-                    writePending(pending);
+                    writePendingConsents(PENDING_FILE, pending);
                     console.log(`  ${C.yellow}NEEDS_CONSENT${C.reset} consent once, then re-run. URL:\n    ${res.consentUrl}`);
                     if (opts.openConsent) await openInBrowser(res.consentUrl);
                     results.push(record);

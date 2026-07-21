@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
-import { armSegment, waitForProvisioning } from "./armClient.mjs";
+import { armSegment, buildGatewayIdentity, waitForProvisioning } from "./armClient.mjs";
 
 const here = new URL(".", import.meta.url);
 
@@ -10,6 +10,12 @@ test("ARM path segments reject traversal aliases", () => {
     assert.throws(() => armSegment("."), /Invalid ARM resource identifier/);
     assert.throws(() => armSegment(".."), /Invalid ARM resource identifier/);
     assert.equal(armSegment("valid.name"), "valid.name");
+});
+
+test("user-assigned identity maps cannot mutate object prototypes", () => {
+    const identities = buildGatewayIdentity(false, ["__proto__"]).userAssignedIdentities;
+    assert.equal(Object.getPrototypeOf(identities), null);
+    assert.equal(Object.hasOwn(identities, "__proto__"), true);
 });
 
 test("namespace creation is create-only and reports provisioning timeout", async () => {
@@ -84,9 +90,12 @@ test("smoke cleanup runs from finally and reports cleanup failures", async () =>
     assert.match(source, /failed\.length > 0 \|\| orchestrationErrors\.length > 0/);
     assert.match(source, /probe\.status === "passed"/);
     assert.match(source, /probe\.status === "skipped"/);
-    assert.match(source, /mode: 0o700/);
-    assert.match(source, /mode: 0o600/);
-    assert.match(source, /chmodSync\(PENDING_FILE, 0o600\)/);
+    const pendingSource = await readFile(new URL("test/pending-consent.mjs", here), "utf8");
+    assert.match(pendingSource, /mode: 0o700/);
+    assert.match(pendingSource, /mode: 0o600/);
+    assert.match(pendingSource, /chmodSync\(path, 0o600\)/);
+    assert.match(pendingSource, /PENDING_CONSENT_TTL_MS/);
+    assert.match(pendingSource, /MAX_PENDING_CONSENTS/);
 });
 
 test("test reports do not persist successful tool response content", async () => {

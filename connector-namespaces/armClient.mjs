@@ -305,7 +305,11 @@ export function buildGatewayIdentity(enableSystem, userAssignedIds = []) {
                 : "None";
     const identity = { type };
     if (hasUser) {
-        identity.userAssignedIdentities = Object.fromEntries(userAssignedIds.map((id) => [id, {}]));
+        const userAssignedIdentities = Object.create(null);
+        for (const id of userAssignedIds) {
+            userAssignedIdentities[id] = {};
+        }
+        identity.userAssignedIdentities = userAssignedIdentities;
     }
     return identity;
 }
