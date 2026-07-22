@@ -1,0 +1,740 @@
+// Loopback HTTP server — serves connector namespace picker + connector catalog UI.
+
+import { createServer } from "node:http";
+import { randomBytes } from "node:crypto";
+import { renderCatalogHtml, renderErrorHtml, renderSetupHtml } from "./renderer.mjs";
+import { renderCreateNamespaceHtml } from "./createPage.mjs";
+import { addConnector, removeConnector, normalizeConfig, saveConfig, clearConfig } from "./state.mjs";
+import { fetchCatalog, invalidateCache } from "./catalog.mjs";
+import {
+    listConnectorGateways,
+    listSubscriptions,
+    invalidateSubscriptionsCache,
+    listResourceGroups,
+    listUserAssignedIdentities,
+    checkConnectorGatewayNameAvailable,
+    createResourceGroup,
+    createConnectorGateway,
+    buildGatewayIdentity,
+} from "./armClient.mjs";
+import {
+    cancelSignIn,
+    getSignInStatus,
+    isAuthenticationRequiredError,
+    startSignIn,
+} from "./auth.mjs";
+import { assertSafeConsentUrl, installConnector, finishInstall, reauthConnector, finishReauth, openInBrowser, openMcpConfigFile, getInstalledState, uninstallConnector, removeLocalEntry, deleteConnection, prewarmMeta } from "./install.mjs";
+
+const servers = new Map();
+const starting = new Map(); // instanceId → Promise<entry> while a server is binding
+const gatewayCache = new Map();
+
+const PENDING_OAUTH_TTL_MS = 15 * 60 * 1000;
+const OAUTH_CALLBACK_TTL_MS = 15 * 60 * 1000;
+const MUTATION_REPLAY_TTL_MS = 15 * 60 * 1000;
+const CAPABILITY_TOKEN_HEADER = "x-connector-namespace-token";
+const MAX_REQUEST_BODY_BYTES = 64 * 1024;
+const REQUEST_ID = /^[0-9a-f]{32}$/;
+
+class RequestBodyTooLargeError extends Error {}
+
+function createCapabilityToken() {
+    return randomBytes(32).toString("base64url");
+}
+
+export function isCanonicalHost(req, canonicalHost) {
+    return String(req.headers.host || "").toLowerCase() === String(canonicalHost || "").toLowerCase();
+}
+
+export function requiresCapabilityToken(pathname) {
+    return pathname.startsWith("/api/") || pathname === "/oauth-status";
+}
+
+export function hasCapabilityToken(req, expectedToken) {
+    if (!expectedToken) {
+        return false;
+    }
+    const header = req.headers[CAPABILITY_TOKEN_HEADER];
+    const headerToken = Array.isArray(header) ? header[0] : header;
+    return headerToken === expectedToken;
+}
+
+function rejectForbidden(res, error) {
+    res.statusCode = 403;
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ error }));
+}
+
+function rejectNotFound(res) {
+    res.statusCode = 404;
+    res.setHeader("Cache-Control", "no-store");
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ error: "not_found" }));
+}
+
+function html(res, body) {
+    res.setHeader("Cache-Control", "no-store");
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.setHeader("Referrer-Policy", "no-referrer");
+    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.end(body);
+}
+
+function pageRoute(pathname, pagePath) {
+    if (pathname === pagePath || pathname === `${pagePath}/`) return "/";
+    if (pathname === `${pagePath}/setup`) return "/setup";
+    if (pathname === `${pagePath}/create`) return "/create";
+    return null;
+}
+
+function pruneOAuthCallbacks(callbacks, now = Date.now()) {
+    for (const [nonce, callback] of callbacks) {
+        if (callback.expiresAt <= now) callbacks.delete(nonce);
+    }
+}
+
+export function registerOAuthCallback(callbacks, connName, now = Date.now()) {
+    if (typeof connName !== "string" || !connName) {
+        throw new Error("OAuth callback connection name is required.");
+    }
+    pruneOAuthCallbacks(callbacks, now);
+    const nonce = createCapabilityToken();
+    callbacks.set(nonce, {
+        connName,
+        expiresAt: now + OAUTH_CALLBACK_TTL_MS,
+    });
+    return nonce;
+}
+
+export function consumeOAuthCallback(callbacks, connName, nonce, now = Date.now()) {
+    pruneOAuthCallbacks(callbacks, now);
+    if (!nonce) return false;
+    const callback = callbacks.get(nonce);
+    if (!callback) return false;
+    callbacks.delete(nonce);
+    return callback.connName === connName;
+}
+
+// Drop stale/abandoned consent markers so the map can't grow unbounded and a
+// brand-new install of the same connection can't observe a stale "done".
+function prunePendingOAuth(pendingOAuth, now = Date.now()) {
+    for (const [name, expiresAt] of pendingOAuth) {
+        if (expiresAt <= now) pendingOAuth.delete(name);
+    }
+}
+
+export function runIdempotentOperation(operations, key, start, now = Date.now()) {
+    for (const [id, operation] of operations) {
+        if (operation.expiresAt <= now) operations.delete(id);
+    }
+    const existing = operations.get(key);
+    if (existing) return existing.promise;
+    const promise = Promise.resolve().then(start);
+    operations.set(key, { promise, expiresAt: now + MUTATION_REPLAY_TTL_MS });
+    return promise;
+}
+
+// Whether a connector was added during the life of THIS extension process.
+// MCP tools are only loaded by the CLI at session start, so an install done
+// after the process started isn't usable until the app restarts. A full app
+// restart spawns a fresh process and resets this to false. `acked`
+// lets the user dismiss the reminder for the rest of the process.
+let pendingRestart = false;
+let restartAcked = false;
+
+export function parseBody(req) {
+    return new Promise((resolve, reject) => {
+        const chunks = [];
+        let size = 0;
+        let settled = false;
+        const fail = (error) => {
+            if (settled) return;
+            settled = true;
+            chunks.length = 0;
+            reject(error);
+        };
+        req.on("data", (chunk) => {
+            if (settled) return;
+            const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+            size += buffer.length;
+            if (size > MAX_REQUEST_BODY_BYTES) {
+                fail(new RequestBodyTooLargeError());
+                return;
+            }
+            chunks.push(buffer);
+        });
+        req.on("end", () => {
+            if (settled) return;
+            settled = true;
+            try { resolve(JSON.parse(Buffer.concat(chunks, size).toString("utf8"))); }
+            catch { resolve({}); }
+        });
+        req.on("error", fail);
+        req.on("aborted", () => fail(new Error("Request body aborted.")));
+    });
+}
+
+// Blocks cross-site POSTs to /api/* so a random web page can't drive the user's
+// ARM operations through this loopback server (CSRF). Returns true only when the
+// request carries an explicit foreign-origin signal: an Origin header from a
+// different http(s) origin than the canonical loopback URL, an opaque `null`
+// origin (sandboxed iframe / data: or blob: URI), or a Fetch-Metadata marker of
+// cross-site/same-site. The panel loads as a top-level http document, so its own
+// fetches are same-origin (Origin === our canonical loopback origin, never
+// "null"), and header-less callers (the node test harness, non-browser clients)
+// fall through as allowed, so nothing legit breaks.
+export function isCrossSiteRequest(req, canonicalOrigin) {
+    const origin = req.headers.origin;
+    if (origin) {
+        if (origin === canonicalOrigin) return false;              // our own loopback UI
+        if (origin === "null") return true;                        // opaque origin: sandboxed iframe / data: or blob: URI
+        if (/^https?:\/\//i.test(origin)) return true;             // a different web page
+        return false;                                              // non-web scheme (host webview)
+    }
+    const site = req.headers["sec-fetch-site"];
+    return site === "cross-site" || site === "same-site";
+}
+
+async function handleRequest(req, res, instanceId, serverEntry) {
+    const url = new URL(req.url, "http://localhost");
+
+    if (!isCanonicalHost(req, serverEntry.host)) {
+        rejectForbidden(res, "host_not_allowed");
+        return;
+    }
+
+    if (requiresCapabilityToken(url.pathname) && !hasCapabilityToken(req, serverEntry.token)) {
+        rejectForbidden(res, "missing_or_invalid_capability_token");
+        return;
+    }
+
+    // Reject cross-site attempts to invoke state-changing API routes (CSRF).
+    // Only POST /api/* is gated: GET navigations like the OAuth callback and the
+    // read routes are never blocked here.
+    if (req.method === "POST" && url.pathname.startsWith("/api/") && isCrossSiteRequest(req, serverEntry.origin)) {
+        rejectForbidden(res, "cross_site_blocked");
+        return;
+    }
+
+    // --- API routes ---
+
+    if (req.method === "POST" && url.pathname === "/api/signin") {
+        json(res, startSignIn());
+        return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/signin/status") {
+        const result = getSignInStatus(url.searchParams.get("sessionId") || "");
+        if (result.status === "done") {
+            invalidateSubscriptionsCache();
+            gatewayCache.clear();
+            invalidateCache();
+        }
+        json(res, result);
+        return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/signin/cancel") {
+        const body = await parseBody(req);
+        json(res, cancelSignIn(body.sessionId || ""));
+        return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/subscriptions") {
+        try {
+            const subscriptions = await listSubscriptions({
+                forceRefresh: url.searchParams.get("refresh") === "true",
+            });
+            json(res, { ok: true, subscriptions });
+        } catch (error) {
+            if (isAuthenticationRequiredError(error)) {
+                json(res, { ok: false, reason: "not_signed_in", subscriptions: [] });
+            } else {
+                json(res, { ok: false, error: error.message, subscriptions: [] });
+            }
+        }
+        return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/add") {
+        const body = await parseBody(req);
+        const config = serverEntry.config;
+        if (!config) { json(res, { added: false, reason: "no_config" }); return; }
+        const catalog = await fetchCatalog(config.subscriptionId, config.resourceGroup, config.gatewayName);
+        const connector = catalog.find((c) => c.id === body.id);
+        json(res, connector ? addConnector(connector) : { added: false, reason: "not_found" });
+        return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/remove") {
+        const body = await parseBody(req);
+        json(res, removeConnector(body.id));
+        return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/select-gateway") {
+        const body = await parseBody(req);
+        const config = normalizeConfig(body);
+        if (!config) {
+            json(res, { error: "invalid_config" });
+            return;
+        }
+        try {
+            saveConfig(config);
+        } catch (error) {
+            console.error("Failed to save connector namespace configuration:", error);
+            json(res, { error: "config_save_failed" });
+            return;
+        }
+        serverEntry.config = config;
+        invalidateCache();
+        json(res, { ok: true });
+        return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/change-gateway") {
+        try {
+            clearConfig();
+            serverEntry.config = null;
+            invalidateCache();
+            json(res, { ok: true });
+        } catch (err) {
+            json(res, { error: err.message });
+        }
+        return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/gateways") {
+        const subId = url.searchParams.get("subscriptionId");
+        const all = url.searchParams.get("all") === "true";
+        if (!subId) { json(res, { error: "missing subscriptionId" }); return; }
+        const cacheKey = `gw:${subId}:${all ? "all" : "top"}`;
+        if (gatewayCache.has(cacheKey)) {
+            const cached = gatewayCache.get(cacheKey);
+            json(res, { gateways: cached.items, hasMore: cached.hasMore, cached: true });
+            return;
+        }
+        try {
+            const result = await listConnectorGateways(subId, { fetchAll: all });
+            gatewayCache.set(cacheKey, result);
+            json(res, { gateways: result.items, hasMore: result.hasMore });
+        } catch (err) {
+            json(res, { error: err.message });
+        }
+        return;
+    }
+
+    // --- Create connector namespace routes ---
+
+    if (req.method === "GET" && url.pathname === "/api/resource-groups") {
+        const subId = url.searchParams.get("subscriptionId");
+        if (!subId) { json(res, { error: "missing subscriptionId" }); return; }
+        try {
+            json(res, { resourceGroups: await listResourceGroups(subId) });
+        } catch (err) {
+            json(res, { error: err.message });
+        }
+        return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/identities") {
+        const subId = url.searchParams.get("subscriptionId");
+        if (!subId) { json(res, { error: "missing subscriptionId" }); return; }
+        try {
+            json(res, { identities: await listUserAssignedIdentities(subId) });
+        } catch (err) {
+            json(res, { error: err.message });
+        }
+        return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/check-name") {
+        const subId = url.searchParams.get("subscriptionId");
+        const resourceGroup = url.searchParams.get("resourceGroup");
+        const name = url.searchParams.get("name");
+        if (!subId || !resourceGroup || !name) { json(res, { error: "missing_fields" }); return; }
+        try {
+            json(res, { available: await checkConnectorGatewayNameAvailable(subId, resourceGroup, name) });
+        } catch (err) {
+            json(res, { error: err.message });
+        }
+        return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/create-namespace") {
+        const body = await parseBody(req);
+        const { subscriptionId, resourceGroup, createNewResourceGroup, region, name, enableSystemIdentity, userAssignedIds } = body;
+        if (!subscriptionId || !resourceGroup || !region || !name) {
+            json(res, { error: "missing_fields" });
+            return;
+        }
+        try {
+            if (createNewResourceGroup) {
+                await createResourceGroup(subscriptionId, resourceGroup, region);
+            }
+            const identity = buildGatewayIdentity(!!enableSystemIdentity, Array.isArray(userAssignedIds) ? userAssignedIds : []);
+            await createConnectorGateway(subscriptionId, resourceGroup, name, { location: region, identity });
+            const config = { subscriptionId, resourceGroup, gatewayName: name };
+            serverEntry.config = config;
+            saveConfig(config);
+            invalidateCache();
+            gatewayCache.clear();
+            json(res, { ok: true });
+        } catch (err) {
+            json(res, { error: err.message });
+        }
+        return;
+    }
+
+    // --- Install flow routes ---
+
+    if (req.method === "POST" && url.pathname === "/api/install") {
+        const body = await parseBody(req);
+        const config = serverEntry.config;
+        if (!config) { json(res, { error: "no_config" }); return; }
+        const { apiName, displayName, requestId } = body;
+        if (!apiName) { json(res, { error: "missing apiName" }); return; }
+        if (!REQUEST_ID.test(requestId || "")) { json(res, { error: "invalid requestId" }); return; }
+        const callbackBase = `${serverEntry.origin}/auth/callback/`;
+        const createCallbackNonce = (connName) => registerOAuthCallback(serverEntry.oauthCallbacks, connName);
+        try {
+            const result = await runIdempotentOperation(
+                serverEntry.operations,
+                `install:${requestId}`,
+                () => installConnector(config, apiName, displayName || apiName, callbackBase, "profile", createCallbackNonce),
+            );
+            if (result && !result.error && !result.needsConsent) { pendingRestart = true; restartAcked = false; }
+            json(res, result);
+        } catch (err) {
+            json(res, { error: err.message });
+        }
+        return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/reauth") {
+        const body = await parseBody(req);
+        const config = serverEntry.config;
+        if (!config) { json(res, { error: "no_config" }); return; }
+        const { apiName, displayName, requestId } = body;
+        if (!apiName) { json(res, { error: "missing apiName" }); return; }
+        if (!REQUEST_ID.test(requestId || "")) { json(res, { error: "invalid requestId" }); return; }
+        const callbackBase = `${serverEntry.origin}/auth/callback/`;
+        const createCallbackNonce = (connName) => registerOAuthCallback(serverEntry.oauthCallbacks, connName);
+        try {
+            const result = await runIdempotentOperation(
+                serverEntry.operations,
+                `reauth:${requestId}`,
+                () => reauthConnector(config, apiName, displayName || apiName, callbackBase, "profile", createCallbackNonce),
+            );
+            if (result && !result.error && !result.needsConsent) { pendingRestart = true; restartAcked = false; }
+            json(res, result);
+        } catch (err) {
+            json(res, { error: err.message });
+        }
+        return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/finish-install") {
+        const body = await parseBody(req);
+        const config = serverEntry.config;
+        if (!config) { json(res, { error: "no_config" }); return; }
+        if (!body.apiName) { json(res, { error: "missing apiName" }); return; }
+        if (!body.connName) { json(res, { error: "missing connName" }); return; }
+        try {
+            const result = await finishInstall(config, body.apiName, body.displayName, body.connName, body.location, "profile");
+            if (result && !result.error) { pendingRestart = true; restartAcked = false; }
+            json(res, result);
+        } catch (err) {
+            json(res, { error: err.message });
+        }
+        return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/finish-reauth") {
+        const body = await parseBody(req);
+        const config = serverEntry.config;
+        if (!config) { json(res, { error: "no_config" }); return; }
+        if (!body.apiName) { json(res, { error: "missing apiName" }); return; }
+        if (!body.connName) { json(res, { error: "missing connName" }); return; }
+        try {
+            // configName may be absent when reauth fell back to a fresh install
+            // (stored connection was gone); finishReauth handles that defensively.
+            const result = await finishReauth(config, body.apiName, body.displayName, body.connName, body.configName, body.location, "profile");
+            if (result && !result.error) { pendingRestart = true; restartAcked = false; }
+            json(res, result);
+        } catch (err) {
+            json(res, { error: err.message });
+        }
+        return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/open-url") {
+        const body = await parseBody(req);
+        try {
+            await openInBrowser(assertSafeConsentUrl(body.url));
+            json(res, { ok: true });
+        } catch (err) {
+            json(res, { error: err.message });
+        }
+        return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/open-config") {
+        try {
+            const result = await openMcpConfigFile();
+            json(res, result);
+        } catch (err) {
+            json(res, { ok: false, error: err.message });
+        }
+        return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/oauth-status") {
+        prunePendingOAuth(serverEntry.pendingOAuth);
+        const connName = url.searchParams.get("connectionName") || "";
+        // Consume the marker once observed so the map self-cleans on the happy
+        // path instead of lingering until the TTL sweep. delete() returns true
+        // iff the marker existed, which is exactly the "done" signal.
+        const done = connName ? serverEntry.pendingOAuth.delete(connName) : false;
+        json(res, { done });
+        return;
+    }
+
+    if (req.method === "GET" && url.pathname === "/api/state") {
+        const config = serverEntry.config;
+        if (!config) { json(res, { error: "no_config" }); return; }
+        try {
+            const state = await getInstalledState(config);
+            json(res, { state, pendingRestart: pendingRestart && !restartAcked });
+        } catch (err) {
+            json(res, { error: err.message });
+        }
+        return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/ack-restart") {
+        restartAcked = true;
+        json(res, { ok: true });
+        return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/uninstall") {
+        const body = await parseBody(req);
+        const config = serverEntry.config;
+        if (!config) { json(res, { error: "no_config" }); return; }
+        if (!body.apiName) { json(res, { error: "missing apiName" }); return; }
+        try {
+            const result = await uninstallConnector(config, body.apiName);
+            json(res, result);
+        } catch (err) {
+            json(res, { error: err.message });
+        }
+        return;
+    }
+
+    // Local-only remove: unwire the connector from Copilot's mcp config without
+    // deleting anything on the namespace. Mirrors /api/uninstall but calls the
+    // local-only primitive.
+    if (req.method === "POST" && url.pathname === "/api/remove-local") {
+        const body = await parseBody(req);
+        const config = serverEntry.config;
+        if (!config) { json(res, { error: "no_config" }); return; }
+        if (!body.apiName) { json(res, { error: "missing apiName" }); return; }
+        try {
+            const result = await removeLocalEntry(config, body.apiName);
+            json(res, result);
+        } catch (err) {
+            json(res, { error: err.message });
+        }
+        return;
+    }
+
+    // Roll back a connection orphaned by a cancelled install (no config exists
+    // yet, so /api/uninstall can't find it — delete the connection directly).
+    if (req.method === "POST" && url.pathname === "/api/rollback-connection") {
+        const body = await parseBody(req);
+        const config = serverEntry.config;
+        if (!config) { json(res, { error: "no_config" }); return; }
+        if (!body.connName) { json(res, { error: "missing connName" }); return; }
+        try {
+            const result = await deleteConnection(config, body.connName);
+            json(res, result);
+        } catch (err) {
+            json(res, { error: err.message });
+        }
+        return;
+    }
+
+    if (req.method === "GET" && url.pathname.startsWith("/auth/callback/")) {
+        let connName;
+        try {
+            connName = decodeURIComponent(url.pathname.slice("/auth/callback/".length));
+        } catch {
+            rejectForbidden(res, "invalid_oauth_callback");
+            return;
+        }
+        const nonce = url.searchParams.get("cn_nonce") || "";
+        if (!consumeOAuthCallback(serverEntry.oauthCallbacks, connName, nonce)) {
+            rejectForbidden(res, "invalid_oauth_callback");
+            return;
+        }
+        prunePendingOAuth(serverEntry.pendingOAuth);
+        serverEntry.pendingOAuth.set(connName, Date.now() + PENDING_OAUTH_TTL_MS);
+        html(res, `<!doctype html><html><head><meta charset="utf-8"><title>Sign-in complete</title></head><body style="font-family:system-ui;padding:2rem;"><h2>Sign-in complete</h2><p>You can close this tab and return to Copilot.</p></body></html>`);
+        return;
+    }
+
+    // --- Page routes ---
+
+    const route = req.method === "GET" ? pageRoute(url.pathname, serverEntry.pagePath) : null;
+    if (!route) {
+        rejectNotFound(res);
+        return;
+    }
+    const config = serverEntry.config;
+
+    // Create connector namespace page (reachable with or without a saved config)
+    if (route === "/create") {
+        try {
+            const subs = await listSubscriptions();
+            const preselected = url.searchParams.get("subscriptionId") || "";
+            html(res, renderCreateNamespaceHtml(subs, preselected, serverEntry.token, serverEntry.pagePath));
+        } catch (err) {
+            if (isAuthenticationRequiredError(err)) {
+                html(res, renderSetupHtml([], "Sign in to Azure before creating a connector namespace.", serverEntry.token, {
+                    pageBasePath: serverEntry.pagePath,
+                }));
+            } else {
+                html(res, renderErrorHtml(`Failed to load subscriptions.\n\n${err.message}`));
+            }
+        }
+        return;
+    }
+
+    // Setup page (no gateway configured)
+    if (!config || route === "/setup") {
+        html(res, renderSetupHtml([], "", serverEntry.token, {
+            pageBasePath: serverEntry.pagePath,
+        }));
+        return;
+    }
+
+    // Catalog page
+    const filter = url.searchParams.get("filter") || "";
+    const category = url.searchParams.get("category") || "";
+    const source = url.searchParams.get("source") || "";
+
+    try {
+        const catalog = await fetchCatalog(config.subscriptionId, config.resourceGroup, config.gatewayName);
+        // Warm connector metadata (opId + connection params) in the background so
+        // the Connect click doesn't pay for the slow swagger export.
+        prewarmMeta(config, catalog.map((c) => c.apiName));
+        html(res, renderCatalogHtml(instanceId, catalog, {
+            filter,
+            category,
+            source,
+            config,
+            pageBasePath: serverEntry.pagePath,
+        }, serverEntry.token));
+    } catch (err) {
+        if (isAuthenticationRequiredError(err)) {
+            html(res, renderSetupHtml([], "", serverEntry.token, {
+                linkedNamespace: config.gatewayName,
+                pageBasePath: serverEntry.pagePath,
+            }));
+        } else {
+            html(res, renderSetupHtml(
+                [],
+                `Couldn't load the saved namespace "${config.gatewayName}". Choose another namespace or try again.`,
+                serverEntry.token,
+                { pageBasePath: serverEntry.pagePath },
+            ));
+        }
+    }
+}
+
+function json(res, data) {
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify(data));
+}
+
+export function getServerConfig(instanceId) {
+    return servers.get(instanceId)?.config ?? null;
+}
+
+export function listenOnLoopback(server) {
+    return new Promise((resolve, reject) => {
+        const onError = (error) => reject(error);
+        server.once("error", onError);
+        server.listen(0, "127.0.0.1", () => {
+            server.removeListener("error", onError);
+            resolve();
+        });
+    });
+}
+
+export function startServer(instanceId, { config, defaultConfig } = {}) {
+    const existing = servers.get(instanceId);
+    if (existing) {
+        if (config !== undefined) existing.config = config;
+        return Promise.resolve(existing);
+    }
+    const inflight = starting.get(instanceId);
+    if (inflight) return inflight;
+
+    const p = (async () => {
+        const entry = {
+            server: null,
+            url: "",
+            host: "",
+            origin: "",
+            token: createCapabilityToken(),
+            pagePath: `/canvas/${createCapabilityToken()}`,
+            config: config ?? defaultConfig ?? null,
+            operations: new Map(),
+            oauthCallbacks: new Map(),
+            pendingOAuth: new Map(),
+        };
+        const server = createServer((req, res) => {
+            handleRequest(req, res, instanceId, entry).catch((err) => {
+                if (res.writableEnded) return;
+                res.statusCode = err instanceof RequestBodyTooLargeError ? 413 : 500;
+                if (!(err instanceof RequestBodyTooLargeError)) {
+                    console.error("[connector-namespaces] request failed:", err);
+                }
+                json(res, { error: err instanceof RequestBodyTooLargeError ? "request_body_too_large" : "internal_error" });
+            });
+        });
+        entry.server = server;
+        await listenOnLoopback(server);
+        const address = server.address();
+        const port = typeof address === "object" && address ? address.port : 0;
+        entry.host = `127.0.0.1:${port}`;
+        entry.origin = `http://${entry.host}`;
+        entry.url = `${entry.origin}${entry.pagePath}/`;
+        servers.set(instanceId, entry);
+        return entry;
+    })();
+    // Record the in-flight start synchronously so a concurrent open() for the
+    // same instance awaits this server instead of binding a second one and
+    // leaking the first.
+    starting.set(instanceId, p);
+    const clearStarting = () => { if (starting.get(instanceId) === p) starting.delete(instanceId); };
+    p.then(clearStarting, clearStarting);
+    return p;
+}
+
+export async function stopServer(instanceId) {
+    const inflight = starting.get(instanceId);
+    if (inflight) { try { await inflight; } catch { /* start failed; nothing to close */ } }
+    const entry = servers.get(instanceId);
+    if (entry) {
+        servers.delete(instanceId);
+        entry.oauthCallbacks.clear();
+        entry.pendingOAuth.clear();
+        // close() never resolves while the iframe holds a keep-alive socket —
+        // drop live connections first so onClose can't hang and leak the process.
+        if (typeof entry.server.closeAllConnections === "function") entry.server.closeAllConnections();
+        await new Promise((resolve) => entry.server.close(() => resolve()));
+    }
+}

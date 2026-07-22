@@ -12,6 +12,11 @@ Releases are tag-based:
 
 Do not create disposable `v*` tags for testing. Release tags are protected and are expected to represent real preview artifacts.
 
+The standalone MCP Connectors canvas uses component-scoped tags named
+`connector-namespaces-v<version>`. Its release workflow publishes a deterministic
+archive of the root-level `connector-namespaces/` plugin, a checksum file, and an
+awesome-copilot external-plugin descriptor pinned to the exact release SHA.
+
 ## Security controls
 
 The repository has release-tag protection, release immutability, and a release approval environment:
@@ -61,6 +66,35 @@ Before running the workflow:
 2. Confirm `target_ref` points to the reviewed `main` commit that should own the release tag.
 3. Confirm the release environment approval is still configured.
 4. Run the workflow from the `main` branch.
+
+## MCP Connectors canvas releases
+
+Use the **Release MCP Connectors canvas** workflow for the standalone canvas.
+Run it from `main` only after the desired commit and generated
+`connector-namespaces/extensions/extension.mjs` have passed normal review and
+CI.
+
+The workflow:
+
+1. Verifies the requested commit is reachable from `main` and atomically creates
+   or verifies the component tag at that exact commit.
+2. Confirms the source package, lockfile, plugin manifest, and distribution
+   package all use the requested version.
+3. Rebuilds the extension and fails if the committed distribution is stale.
+4. Runs the complete source and clean-install test suite.
+5. Archives the complete `connector-namespaces/` plugin with no `node_modules`
+   or native `.node` sidecars.
+6. Attests the archive, publishes the immutable
+   `connector-namespaces-v<version>` release, and verifies its assets and tag.
+7. Generates an awesome-copilot external-plugin descriptor containing the
+   public repository, `connector-namespaces` path, release tag, and exact SHA.
+
+Before the first canvas release, extend the repository's tag ruleset to protect
+`refs/tags/connector-namespaces-v*` from deletion and non-fast-forward updates.
+After a release, use its generated descriptor when submitting the public
+awesome-copilot external-plugin review issue. Do not edit
+`github/awesome-copilot`'s `plugins/external.json` directly for the initial
+submission.
 
 ## Why the workflow is safer
 
