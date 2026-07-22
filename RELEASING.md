@@ -13,9 +13,10 @@ Releases are tag-based:
 Do not create disposable `v*` tags for testing. Release tags are protected and are expected to represent real preview artifacts.
 
 The standalone MCP Connectors canvas uses component-scoped tags named
-`connector-namespaces-v<version>`. Its release workflow publishes a deterministic
-archive of the root-level `connector-namespaces/` plugin, a checksum file, and an
-awesome-copilot external-plugin descriptor pinned to the exact release SHA.
+`connector-namespaces-canvas@<version>`. Its release workflow publishes a
+deterministic archive of the root-level `connector-namespaces/` plugin, a
+checksum file, and an awesome-copilot external-plugin descriptor pinned to the
+exact release SHA.
 
 ## Security controls
 
@@ -85,12 +86,14 @@ The workflow:
 5. Archives the complete `connector-namespaces/` plugin with no `node_modules`
    or native `.node` sidecars.
 6. Attests the archive, publishes the immutable
-   `connector-namespaces-v<version>` release, and verifies its assets and tag.
+   `connector-namespaces-canvas@<version>` release, and verifies its assets and
+   tag.
 7. Generates an awesome-copilot external-plugin descriptor containing the
    public repository, `connector-namespaces` path, release tag, and exact SHA.
 
-Before the first canvas release, extend the repository's tag ruleset to protect
-`refs/tags/connector-namespaces-v*` from deletion and non-fast-forward updates.
+The repository tag rulesets allow `connector-namespaces-canvas@<version>` and
+protect `refs/tags/connector-namespaces-canvas@*` from deletion and
+non-fast-forward updates.
 After a release, use its generated descriptor when submitting the public
 awesome-copilot external-plugin review issue. Do not edit
 `github/awesome-copilot`'s `plugins/external.json` directly for the initial
