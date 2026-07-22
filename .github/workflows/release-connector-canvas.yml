@@ -13,7 +13,7 @@ on:
         default: "main"
         type: string
       notes_start_tag:
-        description: "Previous canvas release tag, for example connector-namespaces-v1.1.0"
+        description: "Previous canvas release tag, for example connector-namespaces-canvas@1.1.0"
         required: false
         type: string
       prerelease:
@@ -65,22 +65,22 @@ jobs:
             exit 1
           fi
 
-          if [[ -n "${NOTES_START_TAG}" && ! "${NOTES_START_TAG}" =~ ^connector-namespaces-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
-            echo "notes_start_tag must look like connector-namespaces-v1.1.0" >&2
+          if [[ -n "${NOTES_START_TAG}" && ! "${NOTES_START_TAG}" =~ ^connector-namespaces-canvas@[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "notes_start_tag must look like connector-namespaces-canvas@1.1.0" >&2
             exit 1
           fi
 
-          tag="connector-namespaces-v${VERSION}"
-          archive_name="connector-namespaces-${VERSION}.zip"
-          checksum_name="connector-namespaces-${VERSION}.sha256"
-          descriptor_name="connector-namespaces-${VERSION}.awesome-copilot.json"
-          archive_prefix="connector-namespaces-${VERSION}/"
+          tag="connector-namespaces-canvas@${VERSION}"
+          archive_name="connector-namespaces-canvas-${VERSION}.zip"
+          checksum_name="connector-namespaces-canvas-${VERSION}.sha256"
+          descriptor_name="connector-namespaces-canvas-${VERSION}.awesome-copilot.json"
+          archive_prefix="connector-namespaces-canvas-${VERSION}/"
           if [[ "${PRERELEASE}" == "true" ]]; then
             prerelease_flag="--prerelease"
-            release_title="MCP Connectors ${VERSION} (preview)"
+            release_title="MCP Connectors Canvas ${VERSION} (preview)"
           else
             prerelease_flag=""
-            release_title="MCP Connectors ${VERSION}"
+            release_title="MCP Connectors Canvas ${VERSION}"
           fi
 
           {

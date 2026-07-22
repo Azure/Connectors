@@ -100,7 +100,7 @@ directly.
 
 The **Release MCP Connectors canvas** GitHub Actions workflow rebuilds and tests
 the extension from an exact `main` commit, then publishes a
-`connector-namespaces-v<version>` release. Its generated awesome-copilot
+`connector-namespaces-canvas@<version>` release. Its generated awesome-copilot
 descriptor pins this plugin directory to both the release tag and immutable
 commit SHA.
 
