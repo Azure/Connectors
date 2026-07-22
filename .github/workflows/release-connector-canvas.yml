@@ -1,0 +1,459 @@
+name: Release MCP Connectors canvas
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Canvas version without a leading v, for example 1.2.0"
+        required: true
+        type: string
+      target_ref:
+        description: "Azure/Connectors main ref or commit to release"
+        required: true
+        default: "main"
+        type: string
+      notes_start_tag:
+        description: "Previous canvas release tag, for example connector-namespaces-v1.1.0"
+        required: false
+        type: string
+      prerelease:
+        description: "Mark the GitHub Release as a prerelease"
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+concurrency:
+  group: release-connector-canvas-${{ inputs.version }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Publish MCP Connectors canvas release
+    runs-on: ubuntu-latest
+    environment: release
+    timeout-minutes: 30
+
+    steps:
+      - name: Validate release inputs
+        id: inputs
+        env:
+          VERSION: ${{ inputs.version }}
+          TARGET_REF: ${{ inputs.target_ref }}
+          NOTES_START_TAG: ${{ inputs.notes_start_tag }}
+          PRERELEASE: ${{ inputs.prerelease }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ "${GITHUB_REF}" != "refs/heads/main" ]]; then
+            echo "Run this release workflow from main so the workflow has passed normal review." >&2
+            exit 1
+          fi
+
+          if [[ ! "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "version must be a semantic version such as 1.2.0 and must not include a leading v" >&2
+            exit 1
+          fi
+
+          if [[ -z "${TARGET_REF}" || ! "${TARGET_REF}" =~ ^[A-Za-z0-9._/-]+$ || "${TARGET_REF}" == *..* || "${TARGET_REF}" == /* || "${TARGET_REF}" == */ || "${TARGET_REF}" == *//* ]]; then
+            echo "target_ref contains an invalid ref or commit value" >&2
+            exit 1
+          fi
+
+          if [[ -n "${NOTES_START_TAG}" && ! "${NOTES_START_TAG}" =~ ^connector-namespaces-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "notes_start_tag must look like connector-namespaces-v1.1.0" >&2
+            exit 1
+          fi
+
+          tag="connector-namespaces-v${VERSION}"
+          archive_name="connector-namespaces-${VERSION}.zip"
+          checksum_name="connector-namespaces-${VERSION}.sha256"
+          descriptor_name="connector-namespaces-${VERSION}.awesome-copilot.json"
+          archive_prefix="connector-namespaces-${VERSION}/"
+          if [[ "${PRERELEASE}" == "true" ]]; then
+            prerelease_flag="--prerelease"
+            release_title="MCP Connectors ${VERSION} (preview)"
+          else
+            prerelease_flag=""
+            release_title="MCP Connectors ${VERSION}"
+          fi
+
+          {
+            echo "version=${VERSION}"
+            echo "tag=${tag}"
+            echo "archive_name=${archive_name}"
+            echo "checksum_name=${checksum_name}"
+            echo "descriptor_name=${descriptor_name}"
+            echo "archive_prefix=${archive_prefix}"
+            echo "prerelease_flag=${prerelease_flag}"
+            echo "release_title=${release_title}"
+          } >> "${GITHUB_OUTPUT}"
+
+      - name: Ensure release does not already exist
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.inputs.outputs.tag }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if gh release view "${TAG}" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
+            echo "Release ${TAG} already exists. Refusing to replace an immutable release." >&2
+            exit 1
+          fi
+
+      - name: Verify target ref is on main
+        id: target
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_REF: ${{ inputs.target_ref }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          encoded_target_ref="$(jq -rn --arg ref "${TARGET_REF}" '$ref|@uri')"
+          target_json="$(gh api "repos/${GITHUB_REPOSITORY}/commits/${encoded_target_ref}")"
+          target_sha="$(echo "${target_json}" | jq -r '.sha')"
+          compare_json="$(gh api "repos/${GITHUB_REPOSITORY}/compare/${target_sha}...main")"
+          status="$(echo "${compare_json}" | jq -r '.status')"
+
+          if [[ "${status}" != "identical" && "${status}" != "ahead" ]]; then
+            echo "target_ref ${TARGET_REF} (${target_sha}) is not reachable from main" >&2
+            exit 1
+          fi
+
+          echo "target_sha=${target_sha}" >> "${GITHUB_OUTPUT}"
+
+      - name: Checkout target commit
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          ref: ${{ steps.target.outputs.target_sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22.23.1
+          cache: npm
+          cache-dependency-path: connector-namespaces/package-lock.json
+
+      - name: Install pinned build dependencies
+        run: npm ci --prefix connector-namespaces
+
+      - name: Validate component versions
+        env:
+          VERSION: ${{ steps.inputs.outputs.version }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          node --input-type=module <<'NODE'
+          import { readFileSync } from "node:fs";
+
+          const expected = process.env.VERSION;
+          const manifests = [
+            "connector-namespaces/package.json",
+            "connector-namespaces/package-lock.json",
+            "connector-namespaces/.github/plugin/plugin.json",
+            "connector-namespaces/extensions/package.json",
+          ];
+
+          for (const path of manifests) {
+            const manifest = JSON.parse(readFileSync(path, "utf8"));
+            if (manifest.version !== expected) {
+              throw new Error(`${path} has version ${manifest.version}; expected ${expected}`);
+            }
+            if (path.endsWith("package-lock.json") && manifest.packages?.[""]?.version !== expected) {
+              throw new Error(`${path} root package has version ${manifest.packages?.[""]?.version}; expected ${expected}`);
+            }
+          }
+          NODE
+
+      - name: Build extension distribution
+        run: npm run build --prefix connector-namespaces
+
+      - name: Verify generated distribution is committed
+        run: git diff --exit-code -- connector-namespaces/extensions
+
+      - name: Test source and distribution
+        run: npm test --prefix connector-namespaces
+
+      - name: Build release artifacts
+        id: artifacts
+        env:
+          VERSION: ${{ steps.inputs.outputs.version }}
+          TAG: ${{ steps.inputs.outputs.tag }}
+          TARGET_SHA: ${{ steps.target.outputs.target_sha }}
+          ARCHIVE_NAME: ${{ steps.inputs.outputs.archive_name }}
+          CHECKSUM_NAME: ${{ steps.inputs.outputs.checksum_name }}
+          DESCRIPTOR_NAME: ${{ steps.inputs.outputs.descriptor_name }}
+          ARCHIVE_PREFIX: ${{ steps.inputs.outputs.archive_prefix }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          actual_sha="$(git rev-parse HEAD)"
+          if [[ "${actual_sha}" != "${TARGET_SHA}" ]]; then
+            echo "Checked-out commit ${actual_sha} does not match target ${TARGET_SHA}" >&2
+            exit 1
+          fi
+
+          mkdir -p dist
+          git archive \
+            --format=zip \
+            --prefix="${ARCHIVE_PREFIX}" \
+            --output="dist/${ARCHIVE_NAME}" \
+            HEAD:connector-namespaces
+
+          jq -n \
+            --arg version "${VERSION}" \
+            --arg tag "${TAG}" \
+            --arg sha "${TARGET_SHA}" \
+            '{
+              name: "connector-namespaces",
+              description: "Interactive GitHub Copilot canvas for discovering, connecting, and managing hosted MCP servers from an Azure Connector Namespace.",
+              version: $version,
+              author: {name: "Microsoft", url: "https://www.microsoft.com"},
+              repository: "https://github.com/Azure/Connectors",
+              homepage: "https://github.com/Azure/Connectors/tree/main/connector-namespaces",
+              license: "MIT",
+              keywords: ["azure", "connector-namespace", "mcp", "mcp-connectors", "model-context-protocol", "tool-discovery", "canvas"],
+              source: {
+                source: "github",
+                repo: "Azure/Connectors",
+                path: "connector-namespaces",
+                ref: $tag,
+                sha: $sha
+              }
+            }' > "dist/${DESCRIPTOR_NAME}"
+
+          python3 - <<'PY'
+          import os
+          import pathlib
+          import zipfile
+
+          archive_path = pathlib.Path("dist") / os.environ["ARCHIVE_NAME"]
+          prefix = os.environ["ARCHIVE_PREFIX"]
+          required = {
+              prefix + ".github/plugin/plugin.json",
+              prefix + "README.md",
+              prefix + "LICENSE",
+              prefix + "assets/preview.png",
+              prefix + "extensions/extension.mjs",
+              prefix + "extensions/package.json",
+              prefix + "extensions/copilot-extension.json",
+              prefix + "extensions/LICENSE",
+              prefix + "extensions/THIRD-PARTY-NOTICES.txt",
+          }
+
+          with zipfile.ZipFile(archive_path) as archive:
+              names = set(archive.namelist())
+
+          missing = sorted(required - names)
+          if missing:
+              raise SystemExit("Archive is missing expected plugin entries: " + ", ".join(missing))
+
+          forbidden = sorted(
+              name for name in names
+              if "/node_modules/" in name or name.endswith(".node")
+          )
+          if forbidden:
+              raise SystemExit("Archive contains forbidden runtime dependencies: " + ", ".join(forbidden[:10]))
+
+          outside_prefix = sorted(name for name in names if not name.startswith(prefix))
+          if outside_prefix:
+              raise SystemExit("Archive contains entries outside expected prefix: " + ", ".join(outside_prefix[:10]))
+          PY
+
+          (
+            cd dist
+            sha256sum "${ARCHIVE_NAME}" "${DESCRIPTOR_NAME}" > "${CHECKSUM_NAME}"
+          )
+
+          {
+            echo "archive_path=dist/${ARCHIVE_NAME}"
+            echo "descriptor_path=dist/${DESCRIPTOR_NAME}"
+          } >> "${GITHUB_OUTPUT}"
+
+      - name: Attest plugin archive
+        uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373 # v4.1.1
+        with:
+          subject-path: ${{ steps.artifacts.outputs.archive_path }}
+
+      - name: Generate release notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.inputs.outputs.tag }}
+          TARGET_SHA: ${{ steps.target.outputs.target_sha }}
+          NOTES_START_TAG: ${{ inputs.notes_start_tag }}
+          ARCHIVE_NAME: ${{ steps.inputs.outputs.archive_name }}
+          CHECKSUM_NAME: ${{ steps.inputs.outputs.checksum_name }}
+          DESCRIPTOR_NAME: ${{ steps.inputs.outputs.descriptor_name }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          request_file="$(mktemp)"
+          if [[ -n "${NOTES_START_TAG}" ]]; then
+            jq -n --arg tag "${TAG}" --arg target "${TARGET_SHA}" --arg previous "${NOTES_START_TAG}" \
+              '{tag_name:$tag,target_commitish:$target,previous_tag_name:$previous}' > "${request_file}"
+          else
+            jq -n --arg tag "${TAG}" --arg target "${TARGET_SHA}" \
+              '{tag_name:$tag,target_commitish:$target}' > "${request_file}"
+          fi
+
+          gh api -X POST "repos/${GITHUB_REPOSITORY}/releases/generate-notes" \
+            --input "${request_file}" \
+            --jq '.body' > release-notes.generated.md
+
+          {
+            echo "Release artifact: ${ARCHIVE_NAME}"
+            echo
+            echo "Source commit: ${TARGET_SHA}"
+            echo
+            echo "The ${DESCRIPTOR_NAME} asset contains the immutable source coordinates for the awesome-copilot external-plugin submission."
+            echo
+            echo "SHA-256:"
+            echo
+            echo '```text'
+            cat "dist/${CHECKSUM_NAME}"
+            echo '```'
+            echo
+            cat release-notes.generated.md
+          } > release-notes.md
+
+      - name: Create or verify release tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.inputs.outputs.tag }}
+          TARGET_SHA: ${{ steps.target.outputs.target_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          error_log="${RUNNER_TEMP}/connector-namespaces-tag-create.log"
+          created=true
+          if ! gh api \
+            --method POST \
+            "repos/${GITHUB_REPOSITORY}/git/refs" \
+            -f ref="refs/tags/${TAG}" \
+            -f sha="${TARGET_SHA}" \
+            > /dev/null 2> "${error_log}"; then
+            created=false
+          fi
+
+          if ! tag_json="$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${TAG}" 2>/dev/null)"; then
+            if [[ -s "${error_log}" ]]; then
+              cat "${error_log}" >&2
+            fi
+            echo "Could not create or read release tag ${TAG}" >&2
+            exit 1
+          fi
+
+          tag_sha="$(echo "${tag_json}" | jq -r '.object.sha')"
+          tag_type="$(echo "${tag_json}" | jq -r '.object.type')"
+          tag_target_sha="${tag_sha}"
+
+          if [[ "${tag_type}" == "tag" ]]; then
+            tag_object_json="$(gh api "repos/${GITHUB_REPOSITORY}/git/tags/${tag_sha}")"
+            tag_target_sha="$(echo "${tag_object_json}" | jq -r '.object.sha')"
+          elif [[ "${tag_type}" != "commit" ]]; then
+            echo "Release tag object type is ${tag_type}, expected commit or annotated tag" >&2
+            exit 1
+          fi
+
+          if [[ "${tag_target_sha}" != "${TARGET_SHA}" ]]; then
+            echo "Release tag points to ${tag_target_sha}, expected ${TARGET_SHA}" >&2
+            exit 1
+          fi
+
+          tag_action="reused"
+          if [[ "${created}" == "true" ]]; then
+            tag_action="created"
+          fi
+          echo "Release tag ${TAG} ${tag_action} at ${TARGET_SHA}"
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.inputs.outputs.tag }}
+          ARCHIVE_NAME: ${{ steps.inputs.outputs.archive_name }}
+          CHECKSUM_NAME: ${{ steps.inputs.outputs.checksum_name }}
+          DESCRIPTOR_NAME: ${{ steps.inputs.outputs.descriptor_name }}
+          PRERELEASE_FLAG: ${{ steps.inputs.outputs.prerelease_flag }}
+          RELEASE_TITLE: ${{ steps.inputs.outputs.release_title }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          gh release create "${TAG}" \
+            "dist/${ARCHIVE_NAME}" \
+            "dist/${CHECKSUM_NAME}" \
+            "dist/${DESCRIPTOR_NAME}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --verify-tag \
+            --title "${RELEASE_TITLE}" \
+            --latest=false \
+            --notes-file release-notes.md \
+            ${PRERELEASE_FLAG}
+
+      - name: Read back release and source coordinates
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.inputs.outputs.tag }}
+          TARGET_SHA: ${{ steps.target.outputs.target_sha }}
+          ARCHIVE_NAME: ${{ steps.inputs.outputs.archive_name }}
+          CHECKSUM_NAME: ${{ steps.inputs.outputs.checksum_name }}
+          DESCRIPTOR_NAME: ${{ steps.inputs.outputs.descriptor_name }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          release_json="$(gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${TAG}")"
+          immutable="$(echo "${release_json}" | jq -r '.immutable')"
+          draft="$(echo "${release_json}" | jq -r '.draft')"
+          assets="$(echo "${release_json}" | jq -r '[.assets[].name] | join("\n")')"
+
+          if [[ "${draft}" != "false" || "${immutable}" != "true" ]]; then
+            echo "Release protection readback failed: draft=${draft}, immutable=${immutable}" >&2
+            exit 1
+          fi
+
+          for asset in "${ARCHIVE_NAME}" "${CHECKSUM_NAME}" "${DESCRIPTOR_NAME}"; do
+            if ! grep -Fxq "${asset}" <<< "${assets}"; then
+              echo "Published release is missing ${asset}" >&2
+              exit 1
+            fi
+          done
+
+          tag_json="$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${TAG}")"
+          tag_sha="$(echo "${tag_json}" | jq -r '.object.sha')"
+          tag_type="$(echo "${tag_json}" | jq -r '.object.type')"
+          tag_target_sha="${tag_sha}"
+
+          if [[ "${tag_type}" == "tag" ]]; then
+            tag_object_json="$(gh api "repos/${GITHUB_REPOSITORY}/git/tags/${tag_sha}")"
+            tag_target_sha="$(echo "${tag_object_json}" | jq -r '.object.sha')"
+          elif [[ "${tag_type}" != "commit" ]]; then
+            echo "Release tag object type is ${tag_type}, expected commit or annotated tag" >&2
+            exit 1
+          fi
+
+          if [[ "${tag_target_sha}" != "${TARGET_SHA}" ]]; then
+            echo "Release tag points to ${tag_target_sha}, expected ${TARGET_SHA}" >&2
+            exit 1
+          fi
+
+          {
+            echo "### awesome-copilot external source"
+            echo
+            echo '```json'
+            cat "dist/${DESCRIPTOR_NAME}"
+            echo '```'
+          } >> "${GITHUB_STEP_SUMMARY}"
