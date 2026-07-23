@@ -18,6 +18,12 @@
         "./skills/connectors",
         "./skills/aca-sandboxes"
       ]
+    },
+    {
+      "name": "connector-namespaces",
+      "source": "./connector-namespaces",
+      "description": "Interactive GitHub Copilot canvas for discovering, connecting, and managing hosted MCP servers from an Azure Connector Namespace.",
+      "version": "1.2.0"
     }
   ]
 }
