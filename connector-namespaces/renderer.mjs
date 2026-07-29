@@ -3,6 +3,12 @@
 
 import { CATEGORY } from "./categories.mjs";
 import { buildSandboxUrl } from "./sandbox.mjs";
+import {
+    createSubscriptionPicker,
+    filterSubscriptions,
+    renderSubscriptionPicker,
+    subscriptionPickerStyles,
+} from "./subscriptionPicker.mjs";
 
 const CONNECT_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2v3M10 2v3M4 5h8v1a4 4 0 0 1-4 4v4M6 14h4"/></svg>';
 
@@ -268,6 +274,8 @@ select {
     font-size: .9rem; font-family: inherit;
 }
 select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+select:disabled { opacity: .55; cursor: not-allowed; }
+${subscriptionPickerStyles()}
 label { font-size: .82rem; font-weight: 600; display: block; margin-bottom: .3rem; color: var(--fg-muted); }
 .brand-head h1 { display: flex; align-items: center; gap: .55rem; }
 .brand-mark { flex: none; display: block; }
@@ -316,9 +324,7 @@ export function renderSetupHtml(subscriptions = [], notice = "", capabilityToken
     const defaultSigninMessage = hasLinkedNamespace
         ? "Sign in to Azure to view and manage its connectors."
         : "Sign in to Azure to load your subscriptions and connector namespaces.";
-    const subOptions = subscriptions.map((s) =>
-        `<option value="${s.id}">${esc(s.name)} (${s.id.slice(0, 8)}\u2026)</option>`
-    ).join("");
+    const subscriptionPickerHtml = renderSubscriptionPicker(subscriptions);
 
     return `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -384,11 +390,7 @@ ${notice ? `<div class="setup-notice">${esc(notice)}</div>` : ""}
         <button id="create-ns-btn" class="create-link" type="button"${subscriptions.length ? "" : " disabled"}><span class="plus">+</span><span>New connector namespace</span></button>
     </div>
     <div style="margin-bottom: 1rem;">
-        <label for="sub-select">Subscription</label>
-        <select id="sub-select"${subscriptions.length ? "" : " disabled"}>
-            <option value="">-- Select subscription --</option>
-            ${subOptions}
-        </select>
+        ${subscriptionPickerHtml}
     </div>
     <input id="gw-filter" type="text" placeholder="Filter namespaces by name\u2026" autocomplete="off" spellcheck="false">
     <div id="gateway-list">
@@ -414,7 +416,11 @@ window.fetch = (input, init = {}) => {
     return rawFetch(input, init);
 };
 
+const filterSubscriptions = ${filterSubscriptions.toString()};
+const createSubscriptionPicker = ${createSubscriptionPicker.toString()};
+
 const subSelect = document.getElementById("sub-select");
+const subscriptionPicker = createSubscriptionPicker(subSelect, filterSubscriptions);
 const gatewayList = document.getElementById("gateway-list");
 const gwFilter = document.getElementById("gw-filter");
 const setupContent = document.getElementById("setup-content");
@@ -449,22 +455,28 @@ function setSetupReady() {
     signinPanel.dataset.state = "idle";
     signinPanel.setAttribute("aria-busy", "false");
     setupContent.hidden = false;
-    subSelect.disabled = false;
-    createNamespaceButton.disabled = false;
+    subSelect.disabled = subSelect.options.length <= 1;
+    createNamespaceButton.disabled = subscriptionPicker.refresh() === 0;
 }
 
 function replaceSubscriptions(subscriptions) {
-    subSelect.replaceChildren(new Option("-- Select subscription --", ""));
+    subSelect.replaceChildren(new Option("", ""));
     for (const subscription of subscriptions) {
         const id = String(subscription.id || "");
         if (!id) continue;
         const name = String(subscription.name || id);
-        subSelect.appendChild(new Option(name + " (" + id.slice(0, 8) + "\u2026)", id));
+        const option = new Option(name, id);
+        option.dataset.name = name;
+        option.dataset.search = (name + " " + id).toLowerCase();
+        subSelect.appendChild(option);
     }
+    subSelect.disabled = subSelect.options.length <= 1;
+    subscriptionPicker.refresh();
 }
 
 async function loadSubscriptions(force) {
     subSelect.disabled = true;
+    subscriptionPicker.refresh("Loading subscriptions\u2026");
     createNamespaceButton.disabled = true;
     gatewayList.innerHTML = '<div class="empty">Loading subscriptions\u2026</div>';
     try {
@@ -483,6 +495,8 @@ async function loadSubscriptions(force) {
     } catch (error) {
         setupContent.hidden = false;
         signinPanel.hidden = true;
+        subSelect.disabled = true;
+        subscriptionPicker.refresh("Could not load subscriptions");
         gatewayList.innerHTML = '<div class="empty" style="color:var(--danger);">Unable to load subscriptions: ' + escH(error.message) + '<br><button id="retry-subscriptions" class="change-btn" type="button" style="margin-top:.6rem;">Retry</button></div>';
         document.getElementById("retry-subscriptions").addEventListener("click", () => loadSubscriptions(true));
         return false;

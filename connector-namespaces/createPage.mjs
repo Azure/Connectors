@@ -4,6 +4,11 @@
 // (system + user-assigned) -> real ARM provisioning.
 
 import { baseStyles, brandMark } from "./renderer.mjs";
+import {
+    createSubscriptionPicker,
+    filterSubscriptions,
+    renderSubscriptionPicker,
+} from "./subscriptionPicker.mjs";
 
 function esc(s) {
     return String(s || "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -32,9 +37,7 @@ const REGIONS = [
 const DEFAULT_REGION = "eastus";
 
 export function renderCreateNamespaceHtml(subscriptions, preselectedSub = "", capabilityToken = "", pageBasePath = "") {
-    const subOptions = subscriptions.map((s) =>
-        `<option value="${esc(s.id)}"${s.id === preselectedSub ? " selected" : ""}>${esc(s.name)} (${esc(s.id.slice(0, 8))}\u2026)</option>`
-    ).join("");
+    const subscriptionPickerHtml = renderSubscriptionPicker(subscriptions, preselectedSub);
     const pageHomePath = `${pageBasePath}/`;
     const pageSetupPath = `${pageBasePath}/setup`;
 
@@ -86,11 +89,7 @@ export function renderCreateNamespaceHtml(subscriptions, preselectedSub = "", ca
 </div>
 
 <div class="field">
-    <label for="sub-select">Subscription</label>
-    <select id="sub-select" class="crt-input">
-        <option value="">-- Select subscription --</option>
-        ${subOptions}
-    </select>
+    ${subscriptionPickerHtml}
 </div>
 
 <div class="field">
@@ -152,7 +151,11 @@ window.fetch = (input, init = {}) => {
     return rawFetch(input, init);
 };
 
+const filterSubscriptions = ${filterSubscriptions.toString()};
+const createSubscriptionPicker = ${createSubscriptionPicker.toString()};
+
 const subSelect = document.getElementById("sub-select");
+const subscriptionPicker = createSubscriptionPicker(subSelect, filterSubscriptions);
 const rgModeWrap = document.getElementById("rg-mode");
 const rgSelect = document.getElementById("rg-select");
 const rgNew = document.getElementById("rg-new");
@@ -180,6 +183,7 @@ backBtn.onclick = () => { if (!creating) window.location.href = pageSetupPath; }
 cancelBtn.onclick = () => { if (!creating) window.location.href = pageSetupPath; };
 
 function setFormLocked(locked) {
+    if (locked) subscriptionPicker.close();
     for (const control of document.querySelectorAll("button, input, select")) {
         if (locked) {
             if (control.dataset.preCreateDisabled === undefined) {
@@ -401,6 +405,7 @@ createBtn.onclick = async () => {
 };
 
 // --- Init (subscription may be preselected from the setup page) ---
+subscriptionPicker.refresh();
 if (subSelect.value) { loadResourceGroups(); if (uamiToggle.checked) loadIdentities(); }
 scheduleNameCheck();
 </script></body></html>`;
