@@ -456,7 +456,7 @@ function setSetupReady() {
     signinPanel.setAttribute("aria-busy", "false");
     setupContent.hidden = false;
     subSelect.disabled = subSelect.options.length <= 1;
-    createNamespaceButton.disabled = subscriptionPicker.refresh() === 0;
+    createNamespaceButton.disabled = subscriptionPicker.count === 0;
 }
 
 function replaceSubscriptions(subscriptions) {

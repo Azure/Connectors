@@ -120,6 +120,7 @@ test("subscription combobox exposes expected keyboard and selection behavior", (
     assert.match(source, /select\.dispatchEvent\(new Event\("change", \{ bubbles: true \}\)\)/);
     assert.match(source, /input\.focus\(\)/);
     assert.match(source, /function restoreCommittedValue\(\)/);
+    assert.match(source, /event\.key === "Escape"\) \{\s*if \(open \|\| select\.value\) \{\s*event\.preventDefault\(\);\s*close\(\);\s*restoreCommittedValue\(\)/);
     assert.match(source, /event\.key === "Tab"\) \{\s*close\(\);\s*restoreCommittedValue\(\)/);
     assert.match(source, /if \(!root\.contains\(event\.target\)\) \{\s*close\(\);\s*restoreCommittedValue\(\)/);
     assert.match(source, /subscription-option-name/);
@@ -132,12 +133,14 @@ test("create preselection and setup reload use the shared combobox state", () =>
     const create = renderCreateNamespaceHtml([{ id, name: "Production West" }], id);
     assert.match(create, /value="Production West"/);
     assert.match(create, /value="00000000-0000-0000-0000-000000000001"[^>]+ selected/);
+    assert.doesNotMatch(create, /subscriptionPicker\.refresh\(\)/);
 
     const html = renderSetupHtml([], "", "token");
     assert.match(html, /option\.dataset\.name = name/);
     assert.match(html, /option\.dataset\.search = \(name \+ " " \+ id\)\.toLowerCase\(\)/);
     assert.match(html, /subscriptionPicker\.refresh\("Loading subscriptions\u2026"\)/);
     assert.match(html, /subscriptionPicker\.refresh\("Could not load subscriptions"\)/);
+    assert.match(html, /createNamespaceButton\.disabled = subscriptionPicker\.count === 0/);
 });
 
 test("setup prompts, polls, cancels, and reloads subscriptions after browser sign-in", () => {

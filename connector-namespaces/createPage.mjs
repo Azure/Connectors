@@ -405,7 +405,6 @@ createBtn.onclick = async () => {
 };
 
 // --- Init (subscription may be preselected from the setup page) ---
-subscriptionPicker.refresh();
 if (subSelect.value) { loadResourceGroups(); if (uamiToggle.checked) loadIdentities(); }
 scheduleNameCheck();
 </script></body></html>`;

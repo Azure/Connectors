@@ -275,7 +275,7 @@ export function createSubscriptionPicker(select, filterRecords) {
             return;
         }
         if (event.key === "Escape") {
-            if (open) {
+            if (open || select.value) {
                 event.preventDefault();
                 close();
                 restoreCommittedValue();
