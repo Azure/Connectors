@@ -1,21 +1,41 @@
-// Catalog — fetches MCP connectors from the gateway.
-//
-// The gateway exposes ~1600 managed APIs (the full Logic Apps connector
-// catalog). MCP servers are a small subset (~43) and there is no `kind` or
-// capability flag that distinguishes them. The only reliable signal is the
-// string "mcp" appearing in the API's name OR its display name — and those are
-// genuinely independent signals: `workiqsharepoint` has no "mcp" in its name
-// (display name "Work IQ SharePoint MCP"), while `hginsightsmcp` has "mcp" in
-// its name but a display name of "HG Insights Connect". Matching either keeps
-// the full set without an allowlist that has to be hand-maintained.
+// Catalog — fetches managed MCP connectors from the gateway.
 
 import { listManagedApis } from "./armClient.mjs";
 import { CATEGORY } from "./categories.mjs";
 
-function isMcpServer(api) {
-    const name = api.name || "";
-    const displayName = api.properties?.generalInformation?.displayName || "";
-    return /mcp/i.test(name) || /mcp/i.test(displayName);
+// Mirrors MANAGED_MCP_API_NAMES in Polaris
+// (src/Cascade.Portal.Client/src/constants.ts). The ARM catalog has no
+// capability flag that distinguishes managed MCP APIs from similarly named
+// connectors, so both experiences use this explicit product allowlist.
+export const MANAGED_MCP_API_NAMES = Object.freeze([
+    "a365outlookmailmcp",
+    "a365outlookcalendarmcp",
+    "a365teamsmcp",
+    "a365memcp",
+    "a365copilotchatmcp",
+    "a365wordmcp",
+    "a365adminmcp",
+    "workiqonedrive",
+    "workiqsharepoint",
+    "workiqmcp",
+    "office365",
+    "microsoftlearndocsmcpserver",
+    "kusto",
+    "jira",
+    "databricksinc",
+    "mondaycom",
+    "zapiermcp",
+    "boxmcpserver",
+    "cdataconnectai",
+    "tavilymcp",
+    "cronofymcp",
+]);
+
+const managedMcpApiAllowlist = new Set(MANAGED_MCP_API_NAMES);
+
+export function isManagedMcpApi(api) {
+    return managedMcpApiAllowlist.has(api.name) ||
+        managedMcpApiAllowlist.has(api.properties?.name);
 }
 
 // Microsoft first-party servers (a365*/d365*/workiq* names, or a Microsoft-
@@ -47,7 +67,7 @@ export async function fetchCatalog(subscriptionId, resourceGroup, gatewayName) {
     const apis = await listManagedApis(subscriptionId, resourceGroup, gatewayName);
 
     const catalog = apis
-        .filter(isMcpServer)
+        .filter(isManagedMcpApi)
         .map((a) => {
             const props = a.properties || {};
             const general = props.generalInformation || {};
