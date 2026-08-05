@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 import { armSegment, buildGatewayIdentity, waitForProvisioning } from "./armClient.mjs";
-import { isManagedMcpApi, MANAGED_MCP_API_NAMES } from "./catalog.mjs";
+import { categoryFor, isManagedMcpApi, MANAGED_MCP_API_NAMES } from "./catalog.mjs";
 
 const here = new URL(".", import.meta.url);
 
@@ -50,6 +50,12 @@ test("catalog rejects MCP-like APIs outside the managed allowlist", () => {
         properties: { generalInformation: { displayName: "Contoso MCP" } },
     }), false);
     assert.equal(isManagedMcpApi({ name: "playwrightmcp" }), false);
+});
+
+test("Microsoft-owned legacy APIs stay in the Microsoft catalog section", () => {
+    assert.equal(categoryFor("office365", "Office 365 Outlook"), "Microsoft");
+    assert.equal(categoryFor("kusto", "Azure Data Explorer"), "Microsoft");
+    assert.equal(categoryFor("jira", "Jira"), "Partners");
 });
 
 test("ARM path segments reject traversal aliases", () => {

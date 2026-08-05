@@ -38,13 +38,15 @@ export function isManagedMcpApi(api) {
         managedMcpApiAllowlist.has(api.properties?.name);
 }
 
-// Microsoft first-party servers (a365*/d365*/workiq* names, or a Microsoft-
-// branded display name) group under "Microsoft"; everything else is a partner
-// server. Derived rather than hardcoded so new servers categorize themselves.
-function categoryFor(name, displayName) {
+// Microsoft first-party servers group under "Microsoft"; everything else is
+// a partner server. Office 365 and Kusto use legacy API ids that do not carry
+// the newer Microsoft prefixes or branding.
+export function categoryFor(name, displayName) {
     const n = (name || "").toLowerCase();
     const d = (displayName || "").toLowerCase();
     const isMicrosoft =
+        n === "office365" ||
+        n === "kusto" ||
         /^(a365|d365|workiq)/.test(n) ||
         d.startsWith("microsoft") ||
         d.startsWith("work iq") ||
