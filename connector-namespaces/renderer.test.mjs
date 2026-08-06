@@ -23,6 +23,7 @@ import assert from "node:assert/strict";
 import { baseStyles, renderCatalogHtml, renderSetupHtml } from "./renderer.mjs";
 import { renderCreateNamespaceHtml } from "./createPage.mjs";
 import { CATEGORY } from "./categories.mjs";
+import { createSubscriptionPicker, filterSubscriptions } from "./subscriptionPicker.mjs";
 
 // Pull the balanced body of the prefers-reduced-motion media block out of a
 // stylesheet string (non-greedy regex can't handle the nested rule braces).
@@ -52,9 +53,94 @@ function catalogHtml(overrides = {}) {
     });
 }
 
-test("setup subscription label names its select", () => {
+test("setup and create use one accessible subscription combobox", () => {
+    const subscriptions = [{
+        id: "ABCDEF12-3456-7890-ABCD-EF1234567890",
+        name: "Production West",
+    }];
+    const pages = [
+        renderSetupHtml(subscriptions, "", "token"),
+        renderCreateNamespaceHtml(subscriptions),
+    ];
+
+    for (const html of pages) {
+        assert.match(html, /<label id="sub-label" for="sub-combobox">Subscription<\/label>/);
+        assert.match(html, /<input id="sub-combobox"[^>]+role="combobox"/);
+        assert.match(html, /aria-autocomplete="list"/);
+        assert.match(html, /aria-expanded="false"/);
+        assert.match(html, /aria-controls="sub-listbox"/);
+        assert.match(html, /aria-labelledby="sub-label"/);
+        assert.match(html, /aria-describedby="sub-status"/);
+        assert.match(html, /<ul id="sub-listbox"[^>]+role="listbox"/);
+        assert.match(html, /<div id="sub-status" class="sr-only" aria-live="polite"/);
+        assert.match(html, /<select id="sub-select" hidden aria-hidden="true"/);
+        assert.match(html, /data-search="production west abcdef12-3456-7890-abcd-ef1234567890"/);
+        assert.doesNotMatch(html, /id="sub-search"/);
+    }
+});
+
+test("inline picker helpers keep stable names when function names are bundled", () => {
+    const pages = [
+        renderSetupHtml([], "", "token"),
+        renderCreateNamespaceHtml([]),
+    ];
+
+    for (const html of pages) {
+        assert.match(html, /const filterSubscriptions = function filterSubscriptions\(/);
+        assert.match(html, /const createSubscriptionPicker = function createSubscriptionPicker\(/);
+    }
+});
+
+test("subscription matching uses name and full id case-insensitively", () => {
+    const subscriptions = [
+        {
+            id: "00000000-0000-0000-0000-000000000001",
+            name: "Production West",
+            search: "production west 00000000-0000-0000-0000-000000000001",
+        },
+        {
+            id: "11111111-1111-1111-1111-111111111111",
+            name: "Development",
+            search: "development 11111111-1111-1111-1111-111111111111",
+        },
+    ];
+
+    assert.deepEqual(filterSubscriptions(subscriptions, "PRODUCTION"), [subscriptions[0]]);
+    assert.deepEqual(filterSubscriptions(subscriptions, "0000-000000000001"), [subscriptions[0]]);
+    assert.deepEqual(filterSubscriptions(subscriptions, "missing"), []);
+    assert.deepEqual(filterSubscriptions(subscriptions, ""), subscriptions);
+});
+
+test("subscription combobox exposes expected keyboard and selection behavior", () => {
+    const source = createSubscriptionPicker.toString();
+    assert.match(source, /event\.key === "ArrowDown" \|\| event\.key === "ArrowUp"/);
+    assert.match(source, /event\.key === "Enter" && open/);
+    assert.match(source, /event\.key === "Escape"/);
+    assert.match(source, /aria-activedescendant/);
+    assert.match(source, /select\.dispatchEvent\(new Event\("change", \{ bubbles: true \}\)\)/);
+    assert.match(source, /input\.focus\(\)/);
+    assert.match(source, /function restoreCommittedValue\(\)/);
+    assert.match(source, /event\.key === "Escape"\) \{\s*if \(open \|\| select\.value\) \{\s*event\.preventDefault\(\);\s*close\(\);\s*restoreCommittedValue\(\)/);
+    assert.match(source, /event\.key === "Tab"\) \{\s*close\(\);\s*restoreCommittedValue\(\)/);
+    assert.match(source, /if \(!root\.contains\(event\.target\)\) \{\s*close\(\);\s*restoreCommittedValue\(\)/);
+    assert.match(source, /subscription-option-name/);
+    assert.match(source, /subscription-option-id/);
+    assert.match(source, /No subscriptions match your search\./);
+});
+
+test("create preselection and setup reload use the shared combobox state", () => {
+    const id = "00000000-0000-0000-0000-000000000001";
+    const create = renderCreateNamespaceHtml([{ id, name: "Production West" }], id);
+    assert.match(create, /value="Production West"/);
+    assert.match(create, /value="00000000-0000-0000-0000-000000000001"[^>]+ selected/);
+    assert.doesNotMatch(create, /subscriptionPicker\.refresh\(\)/);
+
     const html = renderSetupHtml([], "", "token");
-    assert.match(html, /<label for="sub-select">Subscription<\/label>/);
+    assert.match(html, /option\.dataset\.name = name/);
+    assert.match(html, /option\.dataset\.search = \(name \+ " " \+ id\)\.toLowerCase\(\)/);
+    assert.match(html, /subscriptionPicker\.refresh\("Loading subscriptions\u2026"\)/);
+    assert.match(html, /subscriptionPicker\.refresh\("Could not load subscriptions"\)/);
+    assert.match(html, /createNamespaceButton\.disabled = subscriptionPicker\.count === 0/);
 });
 
 test("setup prompts, polls, cancels, and reloads subscriptions after browser sign-in", () => {

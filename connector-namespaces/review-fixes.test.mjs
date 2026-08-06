@@ -3,8 +3,60 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
 import { armSegment, buildGatewayIdentity, waitForProvisioning } from "./armClient.mjs";
+import { categoryFor, isManagedMcpApi, MANAGED_MCP_API_NAMES } from "./catalog.mjs";
 
 const here = new URL(".", import.meta.url);
+
+test("catalog mirrors the Polaris managed MCP allowlist", () => {
+    assert.deepEqual(MANAGED_MCP_API_NAMES, [
+        "a365outlookmailmcp",
+        "a365outlookcalendarmcp",
+        "a365teamsmcp",
+        "a365memcp",
+        "a365copilotchatmcp",
+        "a365wordmcp",
+        "a365adminmcp",
+        "workiqonedrive",
+        "workiqsharepoint",
+        "workiqmcp",
+        "office365",
+        "microsoftlearndocsmcpserver",
+        "kusto",
+        "jira",
+        "databricksinc",
+        "mondaycom",
+        "zapiermcp",
+        "boxmcpserver",
+        "cdataconnectai",
+        "tavilymcp",
+        "cronofymcp",
+    ]);
+});
+
+test("catalog includes every supported managed MCP API", () => {
+    for (const name of MANAGED_MCP_API_NAMES) {
+        assert.equal(isManagedMcpApi({ name }), true, name);
+    }
+    assert.equal(
+        isManagedMcpApi({ name: "alias", properties: { name: "workiqsharepoint" } }),
+        true,
+    );
+});
+
+test("catalog rejects MCP-like APIs outside the managed allowlist", () => {
+    assert.equal(isManagedMcpApi({ name: "hginsightsmcp" }), false);
+    assert.equal(isManagedMcpApi({
+        name: "contoso",
+        properties: { generalInformation: { displayName: "Contoso MCP" } },
+    }), false);
+    assert.equal(isManagedMcpApi({ name: "playwrightmcp" }), false);
+});
+
+test("Microsoft-owned legacy APIs stay in the Microsoft catalog section", () => {
+    assert.equal(categoryFor("office365", "Office 365 Outlook"), "Microsoft");
+    assert.equal(categoryFor("kusto", "Azure Data Explorer"), "Microsoft");
+    assert.equal(categoryFor("jira", "Jira"), "Partners");
+});
 
 test("ARM path segments reject traversal aliases", () => {
     assert.throws(() => armSegment("."), /Invalid ARM resource identifier/);
