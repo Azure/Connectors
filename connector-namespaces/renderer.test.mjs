@@ -482,16 +482,28 @@ test("the catalog header shows the active namespace and a switch-namespace butto
         "the switch action must target the setup picker through a confirmation dialog",
     );
     assert.doesNotMatch(html, /id="switch-ns"[^>]*onclick=/, "the switch button must not navigate before confirmation");
-    assert.match(html, /id="switch-ns-dialog" class="cn-dialog"/, "switching namespaces needs a warning dialog");
-    assert.match(html, /MCPs already connected to Copilot stay in your MCP config\./, "the warning must explain what stays connected");
+    assert.match(html, /id="switch-ns-dialog" class="cn-dialog switch-ns-dialog"/, "switching namespaces needs a warning dialog");
+    assert.match(html, /aria-labelledby="switch-ns-title"/, "the warning dialog needs an accessible name");
+    assert.match(
+        html,
+        /aria-describedby="switch-ns-description switch-ns-note"/,
+        "the warning dialog needs an accessible description",
+    );
+    assert.match(html, /You are currently managing <code>ns<\/code>/, "the warning must identify the active namespace");
+    assert.match(html, /Connected MCPs stay in Copilot\./, "the warning must explain what stays connected");
     assert.match(html, /if \(switchNsDialog\.returnValue !== "confirm"\) return;/, "cancelling must preserve the active namespace");
     assert.match(html, /window\.location\.href = target;/, "confirming must navigate to the namespace picker");
 });
 
 test("the Connected badge exposes the exact MCP config name", () => {
     const html = catalogHtmlFull();
-    assert.match(html, /statusEl\.title = "MCP config: " \+ st\.configName;/);
-    assert.match(html, /statusEl\.setAttribute\("aria-label", "Connected\. MCP config: " \+ st\.configName\);/);
+    assert.match(html, /statusEl\.dataset\.configName = configLabel;/, "hover must expose the config name");
+    assert.match(html, /statusEl\.setAttribute\("aria-label", "Connected\. " \+ configLabel\);/);
+    assert.match(html, /statusEl\.tabIndex = 0;/, "the config tooltip must be keyboard reachable");
+    assert.match(html, /\.item-tag\[data-config-name\]:not\(\.tooltip-dismissed\):focus::after/);
+    assert.match(html, /\.item-tag\[data-config-name\]:not\(\.tooltip-dismissed\):focus-within::after/);
+    assert.match(html, /if \(event\.key !== "Escape"\) return;/, "Escape must dismiss the tooltip");
+    assert.doesNotMatch(html, /statusEl\.title =/, "the polished tooltip must not double-render a native title");
 });
 
 test("My MCP hydration adds a per-server Sandbox deep link", () => {
