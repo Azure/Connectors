@@ -928,16 +928,23 @@ function gwToast(msg, isErr) {
 var switchNsBtn = document.getElementById("switch-ns");
 var switchNsDialog = document.getElementById("switch-ns-dialog");
 if (switchNsBtn && switchNsDialog) {
+    function openNamespacePicker() {
+        var target = switchNsBtn.dataset.setupUrl;
+        if (!target) { gwToast("Couldn't open the namespace picker", true); return; }
+        document.getElementById("nav-overlay").style.display = "flex";
+        window.location.href = target;
+    }
     switchNsBtn.addEventListener("click", function () {
+        if (typeof switchNsDialog.showModal !== "function") {
+            if (window.confirm("Switch namespace? Connected MCPs stay in Copilot.")) openNamespacePicker();
+            return;
+        }
         switchNsDialog.returnValue = "";
         switchNsDialog.showModal();
     });
     switchNsDialog.addEventListener("close", function () {
         if (switchNsDialog.returnValue !== "confirm") return;
-        var target = switchNsBtn.dataset.setupUrl;
-        if (!target) { gwToast("Couldn't open the namespace picker", true); return; }
-        document.getElementById("nav-overlay").style.display = "flex";
-        window.location.href = target;
+        openNamespacePicker();
     });
 }
 var openPortalBtn = document.getElementById("open-portal");

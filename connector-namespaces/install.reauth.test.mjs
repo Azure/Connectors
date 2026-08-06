@@ -139,6 +139,7 @@ test("re-authenticate re-consents the existing connection and mints no new resou
 
 test("connected keyless configs are adopted without requesting consent", async (t) => {
     const configPath = join(TMP, "mcp-config.json");
+    const originalConfig = readFileSync(configPath, "utf8");
     writeFileSync(configPath, JSON.stringify({ mcpServers: {} }));
     const config = { subscriptionId: "sub1", resourceGroup: "rg1", gatewayName: "docs-gw" };
     const remoteConfig = {
@@ -175,10 +176,7 @@ test("connected keyless configs are adopted without requesting consent", async (
     };
     t.after(() => {
         globalThis.fetch = realFetch;
-        writeFileSync(
-            configPath,
-            JSON.stringify({ mcpServers: { "docusign-bbb": { type: "http", url: "https://example/mcp" } } }),
-        );
+        writeFileSync(configPath, originalConfig);
     });
 
     const result = await reauthConnector(

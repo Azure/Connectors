@@ -491,6 +491,16 @@ test("the catalog header shows the active namespace and a switch-namespace butto
     );
     assert.match(html, /You are currently managing <code>ns<\/code>/, "the warning must identify the active namespace");
     assert.match(html, /Connected MCPs stay in Copilot\./, "the warning must explain what stays connected");
+    assert.match(
+        html,
+        /typeof switchNsDialog\.showModal !== "function"/,
+        "switching must handle browsers without native dialog support",
+    );
+    assert.match(
+        html,
+        /window\.confirm\("Switch namespace\? Connected MCPs stay in Copilot\."\)/,
+        "the fallback must still warn before switching",
+    );
     assert.match(html, /if \(switchNsDialog\.returnValue !== "confirm"\) return;/, "cancelling must preserve the active namespace");
     assert.match(html, /window\.location\.href = target;/, "confirming must navigate to the namespace picker");
 });
