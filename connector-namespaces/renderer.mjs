@@ -863,6 +863,8 @@ export function renderCatalogHtml(instanceId, catalog, { filter, category, sourc
     border:1px solid var(--border-strong); background:var(--bg); color:var(--fg);
 }
 .cn-btn-cancel:hover, .cn-btn-cancel:focus-visible { border-color:var(--accent); color:var(--accent); }
+.cn-btn-primary { border-color:var(--accent); background:var(--accent); color:#fff; }
+.cn-btn-primary:hover, .cn-btn-primary:focus-visible { filter:brightness(1.07); }
 .cn-btn-danger { border-color:var(--danger); background:var(--danger); color:#fff; }
 .cn-btn-danger:hover, .cn-btn-danger:focus-visible { filter:brightness(1.07); }
 
@@ -878,13 +880,24 @@ export function renderCatalogHtml(instanceId, catalog, { filter, category, sourc
 <div id="nav-overlay" style="display:none;position:fixed;inset:0;z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;background:var(--bg);">
     <div class="brand-loading">${brandMark(46, "ovl")}</div>
 </div>
+<dialog id="switch-ns-dialog" class="cn-dialog">
+    <form method="dialog" class="cn-dialog-form">
+        <h2 class="cn-dialog-title">Switch namespace?</h2>
+        <p class="cn-dialog-body">This canvas will show and manage MCPs from a different Connector Namespace.</p>
+        <p class="cn-dialog-note">MCPs already connected to Copilot stay in your MCP config. Switch back to this namespace to manage or disconnect them.</p>
+        <div class="cn-dialog-actions">
+            <button value="cancel" class="cn-btn cn-btn-cancel">Cancel</button>
+            <button value="confirm" class="cn-btn cn-btn-primary">Switch namespace</button>
+        </div>
+    </form>
+</dialog>
 <div class="header brand-head">
     <div class="head-row">
         <h1>${brandMark(24, "cat")}<span>Connectors</span></h1>
     </div>
     <div class="sub">Namespace <code class="cn-name">${esc(config.gatewayName)}</code> &middot; RG <code>${esc(config.resourceGroup)}</code></div>
     <div class="gw-actions">
-        <button type="button" id="switch-ns" class="change-btn gw-action" onclick="document.getElementById('nav-overlay').style.display='flex';window.location.href='${esc(setupPath)}';" aria-label="Switch namespace. current namespace: ${esc(config.gatewayName)}">
+        <button type="button" id="switch-ns" class="change-btn gw-action" data-setup-url="${esc(setupPath)}" aria-haspopup="dialog" aria-controls="switch-ns-dialog" aria-label="Switch namespace. current namespace: ${esc(config.gatewayName)}">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.5 5.5h9l-2.2-2.2"/><path d="M13.5 10.5h-9l2.2 2.2"/></svg>
             Switch namespace
         </button>
@@ -941,6 +954,21 @@ function gwToast(msg, isErr) {
     t.className = isErr ? "err show" : "show";
     clearTimeout(gwToast._h);
     gwToast._h = setTimeout(function () { t.classList.remove("show"); }, 4500);
+}
+var switchNsBtn = document.getElementById("switch-ns");
+var switchNsDialog = document.getElementById("switch-ns-dialog");
+if (switchNsBtn && switchNsDialog) {
+    switchNsBtn.addEventListener("click", function () {
+        switchNsDialog.returnValue = "";
+        switchNsDialog.showModal();
+    });
+    switchNsDialog.addEventListener("close", function () {
+        if (switchNsDialog.returnValue !== "confirm") return;
+        var target = switchNsBtn.dataset.setupUrl;
+        if (!target) { gwToast("Couldn't open the namespace picker", true); return; }
+        document.getElementById("nav-overlay").style.display = "flex";
+        window.location.href = target;
+    });
 }
 var openPortalBtn = document.getElementById("open-portal");
 if (openPortalBtn) {
@@ -1527,7 +1555,8 @@ async function hydrateState() {
             statusEl = document.createElement("span");
             statusEl.className = "item-tag";
             statusEl.textContent = "Connected";
-            statusEl.title = st.cliPath ? st.cliPath : "Connected to " + (st.cliScope === "workspace" ? "this workspace (.mcp.json)" : "your profile (~/.copilot)");
+            statusEl.title = "MCP config: " + st.configName;
+            statusEl.setAttribute("aria-label", "Connected. MCP config: " + st.configName);
         } else {
             // Installed but not fully Connected. Two distinct situations, split
             // by inCli so the label matches what the click actually does:

@@ -788,6 +788,13 @@ async function reauthConnectorWithAttempts(config, apiName, displayName, callbac
         return installConnector(config, apiName, displayName, callbackBase, scope, createCallbackNonce);
     }
 
+    // A portal-created config can already have a healthy connection but no local
+    // Copilot entry. Adopt it directly: keyless connectors such as Microsoft
+    // Learn Docs reject listConsentLinks even though they are ready to use.
+    if (!entry.inCli && entry.connectionStatus === "Connected" && entry.configName) {
+        return finishReauth(config, apiName, displayName, connName, entry.configName, undefined, scope);
+    }
+
     const location = await getGatewayLocation(config);
     const meta = await loadConnectorMeta(config, apiName, location, false);
     const callbackUrl = oauthCallbackUrl(callbackBase, connName, createCallbackNonce(connName));

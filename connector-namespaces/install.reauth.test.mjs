@@ -137,7 +137,70 @@ test("re-authenticate re-consents the existing connection and mints no new resou
     assert.ok(!calls.some((c) => c.url.includes("export=true")), "reauth must not request unused swagger");
 });
 
-test("missing selected connection re-evaluates a valid duplicate before installing", async (t) => {
+test("connected keyless configs are adopted without requesting consent", async (t) => {
+    const configPath = join(TMP, "mcp-config.json");
+    writeFileSync(configPath, JSON.stringify({ mcpServers: {} }));
+    const config = { subscriptionId: "sub1", resourceGroup: "rg1", gatewayName: "docs-gw" };
+    const remoteConfig = {
+        name: "MicrosoftLearnDocsMCP-1070da",
+        properties: {
+            connectors: [{
+                name: "microsoftlearndocsmcpserver",
+                connectionName: "MicrosoftLearnDocsMCP-185e62",
+            }],
+        },
+    };
+    const connection = {
+        name: "MicrosoftLearnDocsMCP-185e62",
+        properties: { statuses: [{ status: "Connected" }] },
+    };
+    const calls = [];
+    const realFetch = globalThis.fetch;
+    globalThis.fetch = async (urlArg, opts = {}) => {
+        const url = String(urlArg);
+        const method = (opts.method || "GET").toUpperCase();
+        calls.push({ method, url });
+        const ok = (body) => ({ ok: true, status: 200, text: async () => JSON.stringify(body) });
+        if (method === "GET" && /\/mcpserverConfigs\?/.test(url)) return ok({ value: [remoteConfig] });
+        if (method === "GET" && /\/connections\?/.test(url)) return ok({ value: [connection] });
+        if (method === "GET" && url.includes("/connections/MicrosoftLearnDocsMCP-185e62?")) return ok(connection);
+        if (method === "GET" && url.includes("/mcpserverConfigs/MicrosoftLearnDocsMCP-1070da?")) {
+            return ok({ properties: { mcpEndpointUrl: "https://example.com/docs-mcp" } });
+        }
+        if (method === "POST" && url.includes("/listApiKey?")) return ok({ key: "docs-key" });
+        if (method === "POST" && url.includes("/listConsentLinks")) {
+            return { ok: false, status: 500, text: async () => "keyless connectors do not support consent" };
+        }
+        throw new Error(`unexpected ARM call: ${method} ${url}`);
+    };
+    t.after(() => {
+        globalThis.fetch = realFetch;
+        writeFileSync(
+            configPath,
+            JSON.stringify({ mcpServers: { "docusign-bbb": { type: "http", url: "https://example/mcp" } } }),
+        );
+    });
+
+    const result = await reauthConnector(
+        config,
+        "microsoftlearndocsmcpserver",
+        "Microsoft Learn Docs MCP",
+        "https://cb/?c=",
+    );
+
+    assert.equal(result.ok, true);
+    assert.equal(result.reauth, true);
+    assert.equal(result.configName, "MicrosoftLearnDocsMCP-1070da");
+    assert.equal(result.connName, "MicrosoftLearnDocsMCP-185e62");
+    assert.equal(calls.some((call) => call.url.includes("/listConsentLinks")), false);
+    assert.equal(calls.some((call) => call.url.includes("/managedApis/")), false);
+    const stored = JSON.parse(readFileSync(configPath, "utf8")).mcpServers[result.configName];
+    assert.equal(stored.url, "https://example.com/docs-mcp");
+    assert.equal(stored.headers["X-API-Key"], "docs-key");
+    assert.equal(stored._connectorNamespace.apiName, "microsoftlearndocsmcpserver");
+});
+
+test("missing selected connection adopts a valid duplicate before installing", async (t) => {
     const configPath = join(TMP, "mcp-config.json");
     writeFileSync(
         configPath,
@@ -160,15 +223,19 @@ test("missing selected connection re-evaluates a valid duplicate before installi
                 { name: "conn-live", properties: { statuses: [{ status: "Connected" }] } },
             ] });
         }
+        if (method === "GET" && url.includes("/connections/conn-live?")) {
+            return ok({ properties: { statuses: [{ status: "Connected" }] } });
+        }
+        if (method === "GET" && url.includes("/mcpserverConfigs/api-live?")) {
+            return ok({ properties: { mcpEndpointUrl: "https://example.com/live-mcp" } });
+        }
+        if (method === "POST" && url.includes("/listApiKey?")) return ok({ key: "live-key" });
         if (method === "GET" && /\/connectorGateways\/[^/?]+\?/.test(url)) return ok({ location: "eastus" });
         if (method === "GET" && url.includes("/managedApis/shared-api")) {
             return ok({ properties: { connectionParameters: { token: { type: "oauthSetting" } } } });
         }
         if (method === "POST" && url.includes("/connections/conn-dead/listConsentLinks")) {
             return { ok: false, status: 404, text: async () => "gone" };
-        }
-        if (method === "POST" && url.includes("/connections/conn-live/listConsentLinks")) {
-            return ok({ value: [{ link: "https://consent.example/live" }] });
         }
         if (method === "DELETE" && url.includes("/mcpserverConfigs/api-dead")) return ok({});
         if (method === "GET" && url.includes("/mcpserverConfigs/api-dead")) {
@@ -183,11 +250,12 @@ test("missing selected connection re-evaluates a valid duplicate before installi
     });
 
     const result = await reauthConnector(config, "shared-api", "Shared API", "https://cb/?c=");
-    assert.equal(result.needsConsent, true);
+    assert.equal(result.ok, true);
+    assert.equal(result.reauth, true);
     assert.equal(result.configName, "api-live");
     assert.equal(result.connName, "conn-live");
     assert.ok(calls.some((call) => call.url.includes("/connections/conn-dead/listConsentLinks")));
-    assert.ok(calls.some((call) => call.url.includes("/connections/conn-live/listConsentLinks")));
+    assert.equal(calls.some((call) => call.url.includes("/connections/conn-live/listConsentLinks")), false);
     assert.equal(calls.some((call) => call.method === "PUT"), false, "valid siblings must prevent a fresh install");
 });
 
