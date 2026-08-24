@@ -174,7 +174,7 @@ test("page navigation preserves the unguessable canvas path", () => {
     assert.match(setup, /const pageCreatePath = "\/canvas\/page-capability\/create"/);
     assert.match(create, /const pageSetupPath = "\/canvas\/page-capability\/setup"/);
     assert.match(create, /const pageHomePath = "\/canvas\/page-capability\/"/);
-    assert.match(catalog, /window\.location\.href='\/canvas\/page-capability\/setup'/);
+    assert.match(catalog, /data-setup-url="\/canvas\/page-capability\/setup"/);
 });
 
 test("linked namespace sign-in escapes saved names and produces valid client JavaScript", () => {
@@ -478,9 +478,42 @@ test("the catalog header shows the active namespace and a switch-namespace butto
     assert.match(html, /id="switch-ns"/, "the header must render the switch-namespace button");
     assert.match(
         html,
-        /id="switch-ns"[^>]*onclick="[^"]*window\.location\.href='\/setup'/,
-        "clicking switch namespace must navigate to the /setup picker",
+        /id="switch-ns"[^>]*data-setup-url="\/setup"[^>]*aria-haspopup="dialog"/,
+        "the switch action must target the setup picker through a confirmation dialog",
     );
+    assert.doesNotMatch(html, /id="switch-ns"[^>]*onclick=/, "the switch button must not navigate before confirmation");
+    assert.match(html, /id="switch-ns-dialog" class="cn-dialog switch-ns-dialog"/, "switching namespaces needs a warning dialog");
+    assert.match(html, /aria-labelledby="switch-ns-title"/, "the warning dialog needs an accessible name");
+    assert.match(
+        html,
+        /aria-describedby="switch-ns-description switch-ns-note"/,
+        "the warning dialog needs an accessible description",
+    );
+    assert.match(html, /You are currently managing <code>ns<\/code>/, "the warning must identify the active namespace");
+    assert.match(html, /Connected MCPs stay in Copilot\./, "the warning must explain what stays connected");
+    assert.match(
+        html,
+        /typeof switchNsDialog\.showModal !== "function"/,
+        "switching must handle browsers without native dialog support",
+    );
+    assert.match(
+        html,
+        /window\.confirm\("Switch namespace\? Connected MCPs stay in Copilot\."\)/,
+        "the fallback must still warn before switching",
+    );
+    assert.match(html, /if \(switchNsDialog\.returnValue !== "confirm"\) return;/, "cancelling must preserve the active namespace");
+    assert.match(html, /window\.location\.href = target;/, "confirming must navigate to the namespace picker");
+});
+
+test("the Connected badge exposes the exact MCP config name", () => {
+    const html = catalogHtmlFull();
+    assert.match(html, /statusEl\.dataset\.configName = configLabel;/, "hover must expose the config name");
+    assert.match(html, /statusEl\.setAttribute\("aria-label", "Connected\. " \+ configLabel\);/);
+    assert.match(html, /statusEl\.tabIndex = 0;/, "the config tooltip must be keyboard reachable");
+    assert.match(html, /\.item-tag\[data-config-name\]:not\(\.tooltip-dismissed\):focus::after/);
+    assert.match(html, /\.item-tag\[data-config-name\]:not\(\.tooltip-dismissed\):focus-within::after/);
+    assert.match(html, /if \(event\.key !== "Escape"\) return;/, "Escape must dismiss the tooltip");
+    assert.doesNotMatch(html, /statusEl\.title =/, "the polished tooltip must not double-render a native title");
 });
 
 test("My MCP hydration adds a per-server Sandbox deep link", () => {

@@ -220,6 +220,24 @@ h1 { font-size: 1.4rem; font-weight: 600; margin: 0; }
     white-space: nowrap; user-select: none; flex: none;
     color: var(--success); background: var(--success-bg);
 }
+.item-tag[data-config-name] { position: relative; cursor: help; }
+.item-tag[data-config-name]::after {
+    content: attr(data-config-name);
+    position: absolute; z-index: 100; top: calc(100% + .45rem); right: 0;
+    width: max-content; max-width: min(280px, calc(100vw - 2rem));
+    padding: .35rem .5rem; border-radius: 6px;
+    background: var(--fg); color: var(--bg);
+    box-shadow: 0 4px 14px rgba(0,0,0,.2);
+    font-size: .72rem; font-weight: 500; line-height: 1.35;
+    white-space: normal; overflow-wrap: anywhere;
+    opacity: 0; visibility: hidden; transform: translateY(-2px);
+    transition: opacity 90ms ease-out, transform 90ms ease-out, visibility 90ms;
+}
+.item-tag[data-config-name]:not(.tooltip-dismissed):hover::after,
+.item-tag[data-config-name]:not(.tooltip-dismissed):focus::after,
+.item-tag[data-config-name]:not(.tooltip-dismissed):focus-within::after {
+    opacity: 1; visibility: visible; transform: translateY(0);
+}
 
 .change-btn {
     display: inline-flex; align-items: center; gap: 4px;
@@ -858,11 +876,16 @@ export function renderCatalogHtml(instanceId, catalog, { filter, category, sourc
 .cn-dialog-body { margin:0; font-size:.85rem; line-height:1.5; color:var(--fg); }
 .cn-dialog-note { margin:0; font-size:.78rem; line-height:1.45; color:var(--fg-muted); }
 .cn-dialog-actions { display:flex; justify-content:flex-end; gap:.5rem; margin-top:.25rem; }
+.switch-ns-dialog code { color:var(--fg); font-family:inherit; font-weight:600; overflow-wrap:anywhere; }
+.switch-ns-note { padding:.6rem .7rem; border-radius:6px; background:var(--bg-pill); }
+.switch-ns-note strong { color:var(--fg); font-weight:600; }
 .cn-btn {
     padding:.4rem .8rem; border-radius:var(--btn-radius); font:inherit; font-size:.82rem; cursor:pointer;
     border:1px solid var(--border-strong); background:var(--bg); color:var(--fg);
 }
 .cn-btn-cancel:hover, .cn-btn-cancel:focus-visible { border-color:var(--accent); color:var(--accent); }
+.cn-btn-primary { border-color:var(--accent); background:var(--accent); color:var(--color-white, #fff); }
+.cn-btn-primary:hover, .cn-btn-primary:active { border-color:var(--accent-hover); background:var(--accent-hover); }
 .cn-btn-danger { border-color:var(--danger); background:var(--danger); color:#fff; }
 .cn-btn-danger:hover, .cn-btn-danger:focus-visible { filter:brightness(1.07); }
 
@@ -873,18 +896,30 @@ export function renderCatalogHtml(instanceId, catalog, { filter, category, sourc
 @media (prefers-reduced-motion: reduce) {
     .cn-dialog[open], .cn-dialog[open]::backdrop { animation:none; }
     .rm-menu { transition:none; }
+    .item-tag[data-config-name]::after { transition:none; }
 }
 </style></head><body>
 <div id="nav-overlay" style="display:none;position:fixed;inset:0;z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;background:var(--bg);">
     <div class="brand-loading">${brandMark(46, "ovl")}</div>
 </div>
+<dialog id="switch-ns-dialog" class="cn-dialog switch-ns-dialog" aria-labelledby="switch-ns-title" aria-describedby="switch-ns-description switch-ns-note">
+    <form method="dialog" class="cn-dialog-form">
+        <h2 id="switch-ns-title" class="cn-dialog-title">Switch namespace?</h2>
+        <p id="switch-ns-description" class="cn-dialog-body">You are currently managing <code>${esc(config.gatewayName)}</code>. Switching opens another Connector Namespace in this canvas.</p>
+        <p id="switch-ns-note" class="cn-dialog-note switch-ns-note"><strong>Connected MCPs stay in Copilot.</strong> Switch back to <code>${esc(config.gatewayName)}</code> to manage or disconnect them.</p>
+        <div class="cn-dialog-actions">
+            <button type="submit" value="cancel" class="cn-btn cn-btn-cancel">Cancel</button>
+            <button type="submit" value="confirm" class="cn-btn cn-btn-primary">Switch namespace</button>
+        </div>
+    </form>
+</dialog>
 <div class="header brand-head">
     <div class="head-row">
         <h1>${brandMark(24, "cat")}<span>Connectors</span></h1>
     </div>
     <div class="sub">Namespace <code class="cn-name">${esc(config.gatewayName)}</code> &middot; RG <code>${esc(config.resourceGroup)}</code></div>
     <div class="gw-actions">
-        <button type="button" id="switch-ns" class="change-btn gw-action" onclick="document.getElementById('nav-overlay').style.display='flex';window.location.href='${esc(setupPath)}';" aria-label="Switch namespace. current namespace: ${esc(config.gatewayName)}">
+        <button type="button" id="switch-ns" class="change-btn gw-action" data-setup-url="${esc(setupPath)}" aria-haspopup="dialog" aria-controls="switch-ns-dialog" aria-label="Switch namespace. Current namespace: ${esc(config.gatewayName)}">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.5 5.5h9l-2.2-2.2"/><path d="M13.5 10.5h-9l2.2 2.2"/></svg>
             Switch namespace
         </button>
@@ -941,6 +976,28 @@ function gwToast(msg, isErr) {
     t.className = isErr ? "err show" : "show";
     clearTimeout(gwToast._h);
     gwToast._h = setTimeout(function () { t.classList.remove("show"); }, 4500);
+}
+var switchNsBtn = document.getElementById("switch-ns");
+var switchNsDialog = document.getElementById("switch-ns-dialog");
+if (switchNsBtn && switchNsDialog) {
+    function openNamespacePicker() {
+        var target = switchNsBtn.dataset.setupUrl;
+        if (!target) { gwToast("Couldn't open the namespace picker", true); return; }
+        document.getElementById("nav-overlay").style.display = "flex";
+        window.location.href = target;
+    }
+    switchNsBtn.addEventListener("click", function () {
+        if (typeof switchNsDialog.showModal !== "function") {
+            if (window.confirm("Switch namespace? Connected MCPs stay in Copilot.")) openNamespacePicker();
+            return;
+        }
+        switchNsDialog.returnValue = "";
+        switchNsDialog.showModal();
+    });
+    switchNsDialog.addEventListener("close", function () {
+        if (switchNsDialog.returnValue !== "confirm") return;
+        openNamespacePicker();
+    });
 }
 var openPortalBtn = document.getElementById("open-portal");
 if (openPortalBtn) {
@@ -1527,7 +1584,22 @@ async function hydrateState() {
             statusEl = document.createElement("span");
             statusEl.className = "item-tag";
             statusEl.textContent = "Connected";
-            statusEl.title = st.cliPath ? st.cliPath : "Connected to " + (st.cliScope === "workspace" ? "this workspace (.mcp.json)" : "your profile (~/.copilot)");
+            const configName = String(st.configName || "").trim();
+            if (configName) {
+                const configLabel = "MCP config: " + configName;
+                statusEl.dataset.configName = configLabel;
+                statusEl.setAttribute("aria-label", "Connected. " + configLabel);
+                statusEl.tabIndex = 0;
+                statusEl.addEventListener("focus", () => statusEl.classList.remove("tooltip-dismissed"));
+                statusEl.addEventListener("mouseleave", () => statusEl.classList.remove("tooltip-dismissed"));
+                statusEl.addEventListener("keydown", event => {
+                    if (event.key !== "Escape") return;
+                    statusEl.classList.add("tooltip-dismissed");
+                    statusEl.blur();
+                });
+            } else {
+                statusEl.setAttribute("aria-label", "Connected");
+            }
         } else {
             // Installed but not fully Connected. Two distinct situations, split
             // by inCli so the label matches what the click actually does:
