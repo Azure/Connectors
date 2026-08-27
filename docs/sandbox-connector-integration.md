@@ -1,0 +1,282 @@
+# Gateway Connections — Integrating Connectors with ACA Sandboxes
+
+Gateway connections wire Connector Namespace resources (API connections and MCP
+server configs) into Azure Container Apps (ACA) sandbox groups and sandboxes.
+Once wired, sandbox code can call external services — Office 365, Teams,
+SharePoint, GitHub, and more — with plain HTTP requests. The platform handles
+authentication transparently.
+
+## How it works
+
+1. A **Connector Namespace** holds connections — stored OAuth credentials for
+   external services — and optional MCP server configs.
+2. Connections and MCP server configs are wired to a **sandbox group** via its
+   `gatewayConnections[]` property.
+3. Each **sandbox** references the same gateway connections at creation time.
+4. The platform writes connection metadata inside the sandbox at create time:
+   - **API connections** → `/connections/connections.json` at the sandbox
+     filesystem root — a JSON map of connection names to runtime URLs.
+   - **MCP server configs** → `/root/.copilot/mcp-config.json` — the MCP tools
+     manifest. Requires the sandbox to be booted with `--disk copilot` or
+     `--disk claude`; Copilot CLI and Claude pick it up automatically on next
+     run.
+5. The **egress proxy** intercepts outbound calls to runtime URL hosts and
+   injects `Authorization: Bearer` tokens automatically using the sandbox
+   group's managed identity (system-assigned or user-assigned).
+
+Gateway connection calls work **even with `defaultAction=Deny`** — the egress
+proxy mediates them independently of egress policy rules.
+
+---
+
+## Setting up gateway connections
+
+### Connection types
+
+| Type | `resourceId` contains | Runtime URL field | Purpose |
+|------|----------------------|-------------------|---------|
+| **API connection** | `/connections/` | `connectionRuntimeUrl` | Sandbox code calls connector REST operations directly |
+| **MCP server config** | `/mcpServerConfigs/` | `mcpRuntimeUrl` | Exposes connector operations as MCP tools |
+
+### Wiring checklist
+
+| Step | Resource | What to do |
+|------|----------|------------|
+| 1 | Connection | Create + consent OAuth → status `Connected` |
+| 2 | Connection ACL: `gateway-acl` | Grant gateway MI access (for event subscriptions) |
+| 3 | Connection ACL: `sandbox-acl` | Grant sandbox-group MI access (for token minting) |
+| 4 | Sandbox group | Enable a managed identity (system-assigned or user-assigned); PATCH `gatewayConnections[]` with `{resourceId, connectionRuntimeUrl or mcpRuntimeUrl, authentication}` |
+| 5 | Sandbox | Create with `gatewayConnections: [{resourceId}]` in the data-plane PUT body |
+
+Steps 2 and 3 can run in parallel. The sandbox group PATCH must use GET-merge-PATCH to avoid clobbering existing entries.
+
+### Sandbox group `gatewayConnections[]` entry shape
+
+For API connections:
+```json
+{
+  "resourceId": "/subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.Web/connectorGateways/{gw}/connections/{conn}",
+  "connectionRuntimeUrl": "https://{host}/apim/{connector}/{id}",
+  "authentication": { "type": "SystemAssignedManagedIdentity" }
+}
+```
+
+For MCP server configs:
+```json
+{
+  "resourceId": "/subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.Web/connectorGateways/{gw}/mcpServerConfigs/{name}",
+  "mcpRuntimeUrl": "https://{host}/.../mcp",
+  "authentication": { "type": "SystemAssignedManagedIdentity" }
+}
+```
+
+The `authentication` block above uses the sandbox group's system-assigned MI.
+To use a user-assigned MI attached to the sandbox group instead, swap in:
+
+```json
+"authentication": {
+  "type": "UserAssignedManagedIdentity",
+  "identityResourceId": "/subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{name}"
+}
+```
+
+### ACA CLI
+
+The ACA CLI wraps the ARM PATCH shown above and also creates the required ACLs
+on the connection automatically (see [Access policies](#access-policies)).
+Prefer the CLI for routine wiring; fall back to direct ARM PATCH only when the
+CLI doesn't yet support a field you need.
+
+```bash
+# Add a gateway connection to a sandbox group (creates ACLs automatically)
+aca sandboxgroup connector add \
+  --group {sg} \
+  --connection-id {arm-resource-id} \
+  --authorization system
+
+# List configured connections on a sandbox group
+aca sandboxgroup connector list --group {sg}
+
+# Create sandbox with gateway connections (must already be configured on the group)
+aca sandbox create --disk copilot \
+  --connection-id {resource-id-1} {resource-id-2}
+```
+
+> **Note:** `aca sandbox create --connection-id` passes `gatewayConnections` in
+> the data-plane request. If the ACA CLI version does not support this flag,
+> use `az rest` with a data-plane PUT instead — see
+> [gateway-connections.md](../plugin/skills/aca-sandboxes/references/gateway-connections.md) Step 5.
+
+### Validation rules
+
+The following are enforced by the sandbox-group control plane and the sandbox
+data plane at create/update time:
+
+- Maximum **10** gateway connections per sandbox.
+- All connections must reference the **same** connector gateway (namespace).
+- All connections must use the **same** authentication type.
+- Two authentication types are supported on the `authentication` block:
+  - `SystemAssignedManagedIdentity` — requires the sandbox group to have a system-assigned MI; `identityResourceId` must not be specified.
+  - `UserAssignedManagedIdentity` — requires `identityResourceId` set to the ARM resource ID of a user-assigned MI attached to the sandbox group.
+- Gateway connections on sandboxes are **immutable** — set at creation, cannot be changed.
+- MCP server config connections are only supported with `copilot` or `claude` disk images, private disk images, or snapshots.
+
+→ Full wiring details: [gateway-connections.md](../plugin/skills/aca-sandboxes/references/gateway-connections.md)
+→ Connection CRUD: [connections.md](../plugin/skills/connectors/references/connections.md)
+→ OAuth consent: [consent.md](../plugin/skills/aca-sandboxes/references/consent.md)
+
+---
+
+## Access policies
+
+Two access policies are required on each connection for gateway connection wiring:
+
+| Policy name | Principal | Purpose |
+|-------------|-----------|---------|
+| `gateway-acl` | Gateway (connector namespace) MI | Allows the gateway to subscribe to connector events |
+| `sandbox-acl` | Sandbox-group MI | Allows the egress proxy to mint Bearer tokens for runtime URL calls |
+
+Both use the same schema — `principal.type = "ActiveDirectory"` with the
+principal's `objectId` and `tenantId`.
+
+The ACA CLI commands above create both ACLs automatically. If you wire the
+gateway connection via direct ARM PATCH, you must create the ACLs yourself.
+
+---
+
+## Consumption: using connections from inside a sandbox
+
+### `/connections/connections.json`
+
+The platform automatically generates `/connections/connections.json` inside every sandbox that has gateway connections wired. This file maps connection names to their runtime URLs:
+
+```json
+{
+  "connections": {
+    "Teams-web-vet": {
+      "type": "http",
+      "url": "https://91a8e1cf...azure-apihub.net/apim/teams/fc52d411..."
+    },
+    "outlook-conn": {
+      "type": "http",
+      "url": "https://91a8e1cf...azure-apihub.net/apim/office365/971c415a..."
+    }
+  }
+}
+```
+
+### Reading and calling connections
+
+```bash
+# Get a connection URL by name
+URL=$(jq -r '.connections["Teams-web-vet"].url' /connections/connections.json)
+
+# Make an API call — authentication is automatic via egress proxy
+curl -s "$URL/beta/me/joinedTeams"
+```
+
+From Python:
+
+```python
+import json, requests
+
+with open("/connections/connections.json") as f:
+    connections = json.load(f)["connections"]
+
+teams_url = connections["Teams-web-vet"]["url"]
+
+# No auth header needed — egress proxy injects Bearer automatically
+response = requests.get(f"{teams_url}/beta/me/joinedTeams")
+teams = response.json()["value"]
+```
+
+---
+
+## Operation discovery from inside a sandbox
+
+### Swagger via metadata URL
+
+Derive the metadata URL from the connection URL by replacing `/apim/` with `/metadata/` and appending `?export=true`:
+
+```bash
+# Connection URL:  https://host/apim/teams/connectionId
+# Metadata URL:    https://host/metadata/teams/connectionId?export=true
+
+URL=$(jq -r '.connections["Teams-web-vet"].url' /connections/connections.json)
+METADATA_URL=$(echo "$URL" | sed 's|/apim/|/metadata/|')
+curl -s "$METADATA_URL?export=true" | jq '.paths | keys'
+```
+
+This returns the Swagger 2.0 spec with available operations, parameters, and `x-ms-dynamic-*` extensions. The response is raw Swagger at the top level — access paths directly via `data["paths"]`.
+
+### Operation listing via ARM (outside sandbox)
+
+For a lightweight operation summary (before sandbox creation), use the ARM catalog:
+
+```bash
+az rest --method GET \
+  --url ".../managedApis/{connector}/apiOperations?api-version=2016-06-01" \
+  --query "value[].{name:name, summary:properties.summary, trigger:properties.trigger}" -o table
+```
+
+### Mapping Swagger operations to runtime URL calls
+
+| Swagger field | Where it goes |
+|---------------|---------------|
+| `path` (strip `/{connectionId}` prefix) | Append to the connection URL |
+| `in: path` parameters | Substitute into URL path |
+| `in: query` parameters | Append as `?key=value` |
+| `in: body` parameters | Send as JSON request body |
+| `in: header` parameters | Add as HTTP header (but **not** `Authorization`) |
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause |
+|---------|-------------|
+| Runtime URL returns `401` / "AuthorizationToken required" | `gatewayConnections[]` entry missing on sandbox group or per-sandbox |
+| Runtime URL returns `403` | `sandbox-acl` missing on connection, or managed identity not yet propagated (wait 30s) |
+| Connection status not `Connected` | OAuth consent incomplete or expired |
+| `connections.json` empty or missing | Sandbox created without `gatewayConnections` in the data-plane PUT body |
+| DNS error or connection refused from sandbox | Connection not in per-sandbox `gatewayConnections`, or sandbox not running |
+
+---
+
+## Quick reference
+
+```bash
+# --- ARM endpoints ---
+
+# Connector namespace
+# https://management.azure.com/subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.Web/connectorGateways
+# api-version=2026-05-01-preview
+
+# Sandbox group
+# https://management.azure.com/subscriptions/{sub}/resourceGroups/{rg}/providers/Microsoft.App/sandboxGroups
+# api-version=2026-02-01-preview
+
+# Sandbox data plane (regional)
+# https://management.{region}.azuredevcompute.io/subscriptions/{sub}/resourceGroups/{rg}/sandboxGroups/{sg}/sandboxes
+
+# List connections on a namespace
+az rest --method GET --url ".../connectorGateways/{ns}/connections?api-version=2026-05-01-preview"
+
+# Get sandbox group gatewayConnections
+az rest --method GET --url ".../sandboxGroups/{sg}?api-version=2026-02-01-preview" \
+  --query "properties.gatewayConnections"
+
+# --- From inside a sandbox ---
+
+# View available gateway connections
+cat /connections/connections.json
+
+# Get a connection URL
+jq -r '.connections["name"].url' /connections/connections.json
+
+# Discover operations (metadata swagger)
+curl -s "$(jq -r '.connections["name"].url' /connections/connections.json | sed 's|/apim/|/metadata/|')?export=true"
+
+# Call a connector operation (auth is automatic)
+curl -s "$(jq -r '.connections["name"].url' /connections/connections.json)/beta/me/joinedTeams"
+```
